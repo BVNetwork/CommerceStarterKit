@@ -25,10 +25,11 @@ using OxxCommerceStarterKit.Web.Models.ViewModels;
 
 namespace OxxCommerceStarterKit.Web.Models.Catalog
 {
-     [CatalogContentType(GUID = "1F13773D-14B0-4F32-9E04-20BA9B2B29F1", MetaClassName = "GenericProductContent",
-       DisplayName = "Generic Product",
-       Description = "A generic product with generic fields",
-       GroupName = WebGlobal.GroupNames.Commerce
+     [CatalogContentType(GUID = "1F13773D-14B0-4F32-9E04-20BA9B2B29F1", 
+                        MetaClassName = "Product",
+                        DisplayName = "Generic Product",
+                        Description = "A generic product with generic fields",
+                        GroupName = WebGlobal.GroupNames.Commerce
        )]
     public class GenericProductContent : ProductBase, IIndexableContent, IProductListViewModelInitializer, IResourceable
     {

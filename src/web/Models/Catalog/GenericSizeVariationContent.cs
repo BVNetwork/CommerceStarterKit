@@ -23,8 +23,9 @@ using OxxCommerceStarterKit.Web.Models.ViewModels;
 namespace OxxCommerceStarterKit.Web.Models.Catalog
 {
     [CatalogContentType(DisplayName = "Generic size variation",
-      GUID = "6C00EADF-9246-42FF-8833-CB5FEA79B1C7",
-      MetaClassName = "GenericSizeVariationContent")]
+                        GUID = "6C00EADF-9246-42FF-8833-CB5FEA79B1C7",
+                        MetaClassName = "Item")
+    ]
     public class GenericSizeVariationContent : VariationContent, IIndexableContent, IProductListViewModelInitializer, IResourceable
     {
         // Same for all languages

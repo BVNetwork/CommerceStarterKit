@@ -18,10 +18,11 @@ using OxxCommerceStarterKit.Web.Business.Rendering;
 
 namespace OxxCommerceStarterKit.Web.Models.Catalog
 {
-    [CatalogContentType(GUID = "252BFD8F-EF0C-49FB-86D8-31E2436D1461", MetaClassName = "DigitalCameraSKU",
-       DisplayName = "Camera",
-       Description = "Digital Camera",
-       GroupName = "Camera"
+    [CatalogContentType(GUID = "252BFD8F-EF0C-49FB-86D8-31E2436D1461",
+                        MetaClassName = "Item_Camera",
+                        DisplayName = "Camera",
+                        Description = "Digital Camera",
+                        GroupName = "Camera"
        )]
     public class DigitalCameraVariationContent : VariationContent, IFacetBrand, IIndexableContent, IProductListViewModelInitializer, IResourceable
     {
@@ -30,7 +31,7 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
         [Display(Name = "Color", Order = 5)]
         [CultureSpecific]
         public virtual string Color { get; set; }
-        
+
         // Multi lang
         [Display(Name = "Description", Order = 10)]
         [CultureSpecific]
@@ -110,7 +111,7 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
             PriceAndMarket discountPrice = this.GetDiscountPrice(market);
             findProduct.DiscountedPriceAmount = GetPriceWithCheck(discountPrice);
             findProduct.DiscountedPrice = GetDisplayPriceWithCheck(discountPrice);
-            
+
             PriceAndMarket customerClubPrice = this.GetCustomerClubPrice(market);
             findProduct.CustomerClubPriceAmount = GetPriceWithCheck(customerClubPrice);
             findProduct.CustomerClubPrice = GetDisplayPriceWithCheck(customerClubPrice);

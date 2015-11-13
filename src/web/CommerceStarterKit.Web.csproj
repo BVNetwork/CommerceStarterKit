@@ -1154,6 +1154,14 @@
       <HintPath>..\..\packages\ImageResizer.Plugins.EPiServerBlobReader.2.0.1\lib\net452\ImageResizer.Plugins.EPiServerBlobReader.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="inRiver.EPiServerCommerce.Import, Version=6.1.8.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\inRiver.EPiServer.Commerce.6.1.8\lib\net45\inRiver.EPiServerCommerce.Import.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="inRiver.EPiServerCommerce.Interfaces, Version=6.1.8.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\inRiver.EPiServer.Commerce.6.1.8\lib\net45\inRiver.EPiServerCommerce.Interfaces.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Ionic.Zip">
       <HintPath>..\..\packages\DotNetZip.1.9.1.8\lib\net20\Ionic.Zip.dll</HintPath>
       <Private>True</Private>
@@ -1522,6 +1530,7 @@
     <Compile Include="Models\Catalog\GenericProductContent.cs" />
     <Compile Include="Models\Catalog\GenericSizeVariationContent.cs" />
     <Compile Include="Models\CustomProperties\PropertyStringList.cs" />
+    <Compile Include="Models\Files\InRiverMedia.cs" />
     <Compile Include="Models\Files\VideoFile.cs" />
     <Compile Include="Business\FacetRegistry\FilterAttribute.cs" />
     <Compile Include="Models\FindModels\GenericFindVariant.cs" />
