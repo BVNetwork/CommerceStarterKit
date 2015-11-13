@@ -200,7 +200,9 @@
     <Content Include="Content\js\libs\modernizr.custom.js" />
     <Content Include="Content\js\plugins\bootstrap.min.js" />
     <Content Include="Content\js\plugins\icheck.min.js" />
+    <Content Include="Content\js\plugins\inriver.imagemap.js" />
     <Content Include="Content\js\plugins\jquery.countdown.min.js" />
+    <Content Include="Content\js\plugins\jquery.imagemapster.js" />
     <Content Include="Content\js\plugins\jquery.nouislider.min.js" />
     <Content Include="Content\js\plugins\jquery.placeholder.js" />
     <Content Include="Content\js\plugins\jquery.shuffle.min.js" />

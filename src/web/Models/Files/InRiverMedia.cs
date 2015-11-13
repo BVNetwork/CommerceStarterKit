@@ -64,7 +64,6 @@ namespace OxxCommerceStarterKit.Web.Models.Files
                         ResourceDescriptionNO = resourceMetaField.Values.Find(d => d.languagecode == "no").value;
 
                         break;
-
                 }
             }
         }

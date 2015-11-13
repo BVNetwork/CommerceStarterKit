@@ -24,7 +24,7 @@
 
 @helper Image()
 {
-    <img src="@(ServiceLocator.Current.GetInstance<UrlResolver>().GetUrl(Model) + (ViewData["extraImageUrlParameters"]))" alt=""
+<img src="@(ServiceLocator.Current.GetInstance<UrlResolver>().GetUrl(Model) + (ViewData["extraImageUrlParameters"]))" alt=""
          @(ViewData.ContainsKey("Width") ? "width='" + @ViewData["Width"] + "'" : "")
          @(ViewData.ContainsKey("Height") ? "height='" + @ViewData["Height"] + "'" : "")
          @(ViewData.ContainsKey("CssClass") ? "class='" + @ViewData["CssClass"] + "'" : "")

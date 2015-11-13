@@ -32,7 +32,9 @@ namespace OxxCommerceStarterKit.Web
                 "~/Scripts/libraries/jquery.touchSwipe.min.js",
                 "~/Content/js/plugins/jquery.placeholder.js",
                 "~/Content/js/plugins/jquery.stellar.min.js",
-                "~/Content/js/plugins/jquery.shuffle.min.js"));
+                "~/Content/js/plugins/jquery.shuffle.min.js",
+                "~/Content/js/plugins/inriver.imagemap.js",
+                "~/Content/js/plugins/jquery.imagemapster.js"));
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

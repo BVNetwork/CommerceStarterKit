@@ -39,11 +39,15 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 				currentContent.ContentLink,
 				language,
 				new VirtualPathArguments(){ContextMode = ContextMode.Default});
-			
+
+		    UniqueId = currentContent.ContentGuid.ToString().Replace("-", "");
+
 			Name = currentContent.Name;
 			Description = currentContent.Description;
 			Copyright = currentContent.Copyright;
 			Language = language;
+		    MerchandiseImageMap = currentContent.ResourceImageMap;
+
 			if (currentContent.Link != null)
 			{
 				ExternalLink = currentContent.Link.ToString();
@@ -60,6 +64,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 		}
 
 
+        public string UniqueId { get; set; }
 		public string Tag { get; set; }
 		public bool IsMobile { get; set; }
 
@@ -95,7 +100,9 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 
 		public string Language { get; set; }
 
-		public IEnumerable<HotSpotContainer> HotSpots { get; set; }
+	    public string MerchandiseImageMap { get; set; }
+
+	    public IEnumerable<HotSpotContainer> HotSpots { get; set; }
 
 		public class HotSpotContainer
 		{

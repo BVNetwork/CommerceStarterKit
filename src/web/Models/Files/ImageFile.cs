@@ -99,7 +99,9 @@ namespace OxxCommerceStarterKit.Web.Models.Files
         public virtual string ResourceType { get; set; }
         public virtual string ResourceFileName { get; set; }
         public virtual string ResourceMimeType { get; set; }
-
+        [UIHint(UIHint.Textarea)]
+        public virtual string ResourceImageMap { get; set; }
+        
 
         public void HandleMetaData(List<ResourceMetaField> metaFields)
         {
@@ -133,7 +135,9 @@ namespace OxxCommerceStarterKit.Web.Models.Files
                         ResourceDescriptionNO = resourceMetaField.Values.Find(d => d.languagecode == "no").value;
 
                         break;
-
+                    case "ResourceImageMap":
+                        ResourceImageMap = resourceMetaField.Values.First().value;
+                        break;
                 }
 
             }
