@@ -39,6 +39,8 @@
 
     @* jQuery needs to run early, earlier than Bootstrap *@
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/imagemap")
+    
 
     <link media="print" href="@Url.Content("~/Content/css/print.css")" rel="stylesheet" type="text/css" />
 
@@ -111,7 +113,7 @@
     @Scripts.Render("~/bundles/jqueryui")
     @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/jqueryaddons")
-    <script src="@Url.Content("~/Content/js/scripts.js")"></script>
+    <script src='@Url.Content("~/Content/js/scripts.js")'></script>
 
     @Scripts.Render("~/bundles/general")
     @Scripts.Render("~/bundles/angular")

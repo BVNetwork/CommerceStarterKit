@@ -40,7 +40,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 				language,
 				new VirtualPathArguments(){ContextMode = ContextMode.Default});
 
-		    UniqueId = currentContent.ContentGuid.ToString().Replace("-", "");
+		    UniqueId = "id" + currentContent.ContentLink.ID.ToString();
 
 			Name = currentContent.Name;
 			Description = currentContent.Description;

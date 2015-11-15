@@ -18,7 +18,14 @@ namespace OxxCommerceStarterKit.Web
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/libraries/jquery-2.1.0.min.js"));
+                        "~/Scripts/libraries/jquery-2.1.0.min.js")
+                        );
+
+            // Note - these needs to be in header
+            bundles.Add(new ScriptBundle("~/bundles/imagemap").Include(
+                        "~/Content/js/plugins/jquery.imagemapster.js",
+                        "~/Content/js/plugins/inriver.imagemap.js")
+                        );
 
 			bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
 						"~/Scripts/libraries/jquery-ui-1.10.4.custom.min.js"));
@@ -32,9 +39,8 @@ namespace OxxCommerceStarterKit.Web
                 "~/Scripts/libraries/jquery.touchSwipe.min.js",
                 "~/Content/js/plugins/jquery.placeholder.js",
                 "~/Content/js/plugins/jquery.stellar.min.js",
-                "~/Content/js/plugins/jquery.shuffle.min.js",
-                "~/Content/js/plugins/inriver.imagemap.js",
-                "~/Content/js/plugins/jquery.imagemapster.js"));
+                "~/Content/js/plugins/jquery.shuffle.min.js")
+                );
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.

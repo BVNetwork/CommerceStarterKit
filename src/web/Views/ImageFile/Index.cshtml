@@ -11,23 +11,26 @@
 	{
 		Model.Url += Html.GetImageWidth(Model.Tag);
 	}
+
+    string imageMapOptionsVarName = "imOpt" + Model.UniqueId;
+    string imageMapDataVarName = "imData" + Model.UniqueId;
 }
 @if (!string.IsNullOrEmpty(Model.ExternalLink))
 {
 	<a href="@Model.ExternalLink" @(string.IsNullOrEmpty(Model.ExternalLinkTarget) ? "" : "target=" + Model.ExternalLinkTarget)>
-		@Image()
+        @Image(imageMapDataVarName, imageMapOptionsVarName)
 	</a>
 }
 else
 {
-	@Image()
+	@Image(imageMapDataVarName, imageMapOptionsVarName)
 }
 @if (!string.IsNullOrEmpty(Model.Description))
 {
 	<div class="image-description">@Model.Description</div>
 }
 
-@helper Image()
+@helper Image(string imageMapDataVarName, string imageMapOptionsVarName)
 {
 	if (Model.HotSpots != null && Model.HotSpots.Any())
 	{
@@ -59,38 +62,20 @@ else
 	}
     else if(string.IsNullOrEmpty(Model.MerchandiseImageMap) == false)
     {
-        
 <script language="javascript">
 
-    var imageMapData_@Model.UniqueId = @Html.Raw(Model.MerchandiseImageMap);
-
-    var inRiverImageMapOptions_@Model.UniqueId = {
-        imageMapData: imageMapData_@Model.UniqueId, // Required
+    var @imageMapDataVarName = @Html.Raw(Model.MerchandiseImageMap);
+    var @imageMapOptionsVarName = {
+        imageMapData: @imageMapDataVarName,
         spotBackgroundColor: "#333333",
         spotForegroundColor: "#ffffff",
-        onClick: function(area, e) {
-            console.log("onClick: " + area.entityId);
-        },
-        onMouseOver: function(area, e) {
-            console.log("onMouseOver: " + area.entityId);
-        },
-        onMouseOut: function(area, e) {
-            console.log("onMouseOut");
+        onClick: function (area, e) {
+            console.log("Clicked: " + area.entityId);
         }
     };
 
-    $(document).ready(function() {
-        console.log("Here");
-            // Initialize InRiverImageMap when the image is fully loaded in the browser
-            $("#@Model.UniqueId").load(function() {
-                InRiverImageMap.initImageMap($("#@Model.UniqueId"), inRiverImageMapOptions_@Model.UniqueId);
-            });
-        });
-
 </script>
-     
-<img  src="@Model.Url" id="@Model.UniqueId" data-src="@Model.Url" alt="@(string.IsNullOrEmpty(Model.Description) ? Model.Name : Model.Description)" title="@Model.Copyright" class="image-file img-responsive" />
-    
+<img src="@Model.Url" onload="InRiverImageMap.initImageMap($(this), @imageMapOptionsVarName)" alt="@(string.IsNullOrEmpty(Model.Description) ? Model.Name : Model.Description)" title="@Model.Copyright" class="image-file img-responsive" />    
 }
 	else
 	{
