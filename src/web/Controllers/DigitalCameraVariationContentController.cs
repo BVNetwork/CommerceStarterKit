@@ -63,7 +63,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
             if (viewModel.RelatedProductsContentArea == null)
             {
-                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(currentContent, Constants.AssociationTypes.Default);
+                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(currentContent, "ItemItem");
             }
             TrackAnalytics(viewModel);
 

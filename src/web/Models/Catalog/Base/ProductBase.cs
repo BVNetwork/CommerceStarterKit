@@ -29,6 +29,15 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog.Base
         [CultureSpecific]
         public virtual XhtmlString Description { get; set; }
 
+        [Display(
+            GroupName = SystemTabNames.Settings,
+            Order = 10000,
+            Name = "inRiver Entity Id")]
+        [CultureSpecific(true)]
+        public virtual int inRiverEntityId { get; set; }
+
+
+
         public override void SetDefaultValues(ContentType contentType)
         {
             PropertyInfo[] properties = GetType().BaseType.GetProperties();

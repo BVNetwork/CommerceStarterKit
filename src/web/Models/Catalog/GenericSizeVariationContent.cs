@@ -17,6 +17,7 @@ using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
+using OxxCommerceStarterKit.Web.Models.Catalog.Base;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 
@@ -26,7 +27,7 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
                         GUID = "6C00EADF-9246-42FF-8833-CB5FEA79B1C7",
                         MetaClassName = "Item")
     ]
-    public class GenericSizeVariationContent : VariationContent, IIndexableContent, IProductListViewModelInitializer, IResourceable
+    public class GenericSizeVariationContent : VariationContentBase, IIndexableContent, IProductListViewModelInitializer, IResourceable
     {
         // Same for all languages
         [Display(Name = "Facet Brand",

@@ -15,6 +15,7 @@ using System.ComponentModel.DataAnnotations;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.Business.Rendering;
+using OxxCommerceStarterKit.Web.Models.Catalog.Base;
 
 namespace OxxCommerceStarterKit.Web.Models.Catalog
 {
@@ -24,7 +25,7 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
                         Description = "Digital Camera",
                         GroupName = "Camera"
        )]
-    public class DigitalCameraVariationContent : VariationContent, IFacetBrand, IIndexableContent, IProductListViewModelInitializer, IResourceable
+    public class DigitalCameraVariationContent : VariationContentBase, IFacetBrand, IIndexableContent, IProductListViewModelInitializer, IResourceable
     {
 
         // Multi lang

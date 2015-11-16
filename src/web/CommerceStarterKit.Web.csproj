@@ -1529,6 +1529,7 @@
     <Compile Include="Models\Blocks\ProductFilters\StringFilterBlock.cs" />
     <Compile Include="Models\Blocks\TitleBlock.cs" />
     <Compile Include="Models\Blocks\ProductSearchBlock.cs" />
+    <Compile Include="Models\Catalog\Base\VariationContentBase.cs" />
     <Compile Include="Models\Catalog\DigitalCameraVariationContent.cs" />
     <Compile Include="Models\Catalog\GenericProductContent.cs" />
     <Compile Include="Models\Catalog\GenericSizeVariationContent.cs" />
