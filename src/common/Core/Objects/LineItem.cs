@@ -34,7 +34,6 @@ namespace OxxCommerceStarterKit.Core.Objects
         public decimal LineItemOrderLevelDiscount { get; set; }
 		public List<DiscountItem> Discounts { get; set; }
         public bool IsInventoryAllocated { get; set; }
-        public string WineRegion { get; set; }
 
         public LineItem() { }
 		public LineItem(Mediachase.Commerce.Orders.LineItem lineItem, string language)
@@ -47,7 +46,6 @@ namespace OxxCommerceStarterKit.Core.Objects
 			ColorImageUrl = lineItem.GetStringValue(Constants.Metadata.LineItem.ColorImageUrl);
 			Description = lineItem.GetStringValue(Constants.Metadata.LineItem.Description);
 			Size = lineItem.GetStringValue(Constants.Metadata.LineItem.Size);
-		    WineRegion = lineItem.GetStringValue(Constants.Metadata.LineItem.WineRegion);
 			PlacedPrice = lineItem.PlacedPrice;
 			LineItemTotal = lineItem.Quantity * lineItem.PlacedPrice;
 			LineItemDiscount = lineItem.LineItemDiscountAmount;

@@ -4,7 +4,7 @@
 }
 @if (Model.CanBuyEntry)
 {
-    <div ng-init="init('@chrome.Language','@Model.Code','@Model.Name.Replace("'", "")',1,'@Model.ImageUrl','@Model.ColorImageUrl', '@Model.Color','@Model.Size', '@Model.Description','@Model.ArticleNumber','@Model.WineRegion')">
+    <div ng-init="init('@chrome.Language','@Model.Code','@Model.Name.Replace("'", "")',1,'@Model.ImageUrl','@Model.ColorImageUrl', '@Model.Color','@Model.Size', '@Model.Description','@Model.ArticleNumber')">
         <div class="qnt-count">
             <a class="incr-btn" href="#">-</a>
             <input id="quantity" name="Quantity" ng-model="product.quantity" class="form-control" type="text">

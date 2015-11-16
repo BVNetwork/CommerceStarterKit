@@ -36,10 +36,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             CatalogContent = currentContent;
             Media = GetMedia(currentContent);
             CartItem = new CartItemModel(CatalogContent){CanBuyEntry = true};
-            if (currentContent["WineRegion"] != null)
-            {
-                CartItem.WineRegion = currentContent["WineRegion"].ToString();
-            }
         }
        
         private List<MediaData> GetMedia(WineSKUContent currentContent)

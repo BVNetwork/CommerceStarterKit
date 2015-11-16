@@ -64,7 +64,7 @@
 	        }
 	    }
 
-        $scope.init = function (language, code, name, quantity, imageUrl, colorImageUrl, color, size, description, articleNumber, wineregion) {
+        $scope.init = function (language, code, name, quantity, imageUrl, colorImageUrl, color, size, description, articleNumber) {
             $scope.initLanguage(language);
 			$scope.product = {
 				code: code,
@@ -75,8 +75,7 @@
 				color: color,
 				size: size,
 				description: description,
-				articleNumber: articleNumber,
-				wineregion: wineregion // TODO: Can we make it generic?
+				articleNumber: articleNumber
 			};
             console.log($scope.product);
         };

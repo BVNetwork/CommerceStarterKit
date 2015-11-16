@@ -41,7 +41,6 @@ namespace OxxCommerceStarterKit.Core
                 public const string ArticleNumber = "ArticleNumber";
                 public const string Quantity = "Quantity";
                 public const string DisplayName = "DisplayName";
-                public const string WineRegion = "WineRegion";
             }
 
             public static class Customer

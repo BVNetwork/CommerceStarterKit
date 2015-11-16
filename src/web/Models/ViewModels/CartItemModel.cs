@@ -119,6 +119,5 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 		public string Description { get; set; }
 		public string ArticleNumber { get; set; }
 		public string Size { get; set; }
-	    public string WineRegion { get; set; }
 	}
 }

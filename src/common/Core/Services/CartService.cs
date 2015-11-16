@@ -320,7 +320,6 @@ namespace OxxCommerceStarterKit.Core.Services
             item[Constants.Metadata.LineItem.Color] = lineItem.Color;
             item[Constants.Metadata.LineItem.ColorImageUrl] = lineItem.ColorImageUrl;
             item[Constants.Metadata.LineItem.ArticleNumber] = lineItem.ArticleNumber;
-            item[Constants.Metadata.LineItem.WineRegion] = lineItem.WineRegion;
 
             cart.AcceptChanges();
         }
