@@ -14,28 +14,14 @@ using OxxCommerceStarterKit.Web.Models.Catalog;
 
 namespace OxxCommerceStarterKit.Web.Business.UIDescriptor
 {
-
-    ///// <summary>
-    ///// We want all products to show in edit mode by default
-    ///// </summary>
-    //[UIDescriptorRegistration]
-    //public class CatalogEntryContentUIDescriptor : UIDescriptor<ProductContent>
-    //{
-    //    public CatalogEntryContentUIDescriptor()
-    //        : base()
-    //    {
-    //        DefaultView = CmsViewNames.OnPageEditView;
-    //    }
-    //}
-
-    //[UIDescriptorRegistration]
-    //public class GenericProductContentUIDescriptor : UIDescriptor<GenericProductContent>
-    //{
-    //    public GenericProductContentUIDescriptor()
-    //        : base()
-    //    {
-    //        DefaultView = CmsViewNames.OnPageEditView;
-    //    }
-    //}
+    [UIDescriptorRegistration]
+    public class CameraVariationDefaultViewUiDescriptor: UIDescriptor<DigitalCameraVariationContent>
+    {
+        public CameraVariationDefaultViewUiDescriptor()
+            : base()
+        {
+            DefaultView = CmsViewNames.OnPageEditView;
+        }
+    }
 
 }
