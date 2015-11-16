@@ -483,6 +483,7 @@
     <Content Include="modules\epicode.newsletter\content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="modules\epicode.newsletter\content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="modules\epicode.newsletter\content\css\newsletterstyle.less" />
+    <Compile Include="Business\Pim\PimPostImportHandler.cs" />
     <Compile Include="Business\Search\CatalogContentEventIndexer.cs" />
     <Compile Include="Controllers\NewsletterSignupController.cs" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
@@ -1757,10 +1758,15 @@
     <Compile Include="Services\Email\Models\SendEmailResponse.cs" />
     <Compile Include="Services\Email\Models\Welcome.cs" />
     <Compile Include="Models\ViewModels\Contracts\IProductListViewModelInitializer.cs" />
+    <Compile Include="Services\Inventory\IUpdateInventoryService.cs" />
+    <Compile Include="Services\Inventory\UpdateInventoryService.cs" />
     <Compile Include="Services\OrderSettingsFromSettingsBlock.cs" />
     <Compile Include="Services\PostNord\IPostNordClient.cs" />
     <Compile Include="Services\PostNord\PostNord.cs" />
     <Compile Include="Services\PostNord\PostNordClient.cs" />
+    <Compile Include="Services\Price\IUpdatePriceService.cs" />
+    <Compile Include="Services\Price\PriceInfo.cs" />
+    <Compile Include="Services\Price\UpdatePriceService.cs" />
     <Compile Include="Services\ProductService.cs" />
   </ItemGroup>
   <ItemGroup>
