@@ -14,23 +14,24 @@
 
     string imageMapOptionsVarName = "imOpt" + Model.UniqueId;
     string imageMapDataVarName = "imData" + Model.UniqueId;
+    string popupId = "imPopup" + Model.UniqueId;
 }
 @if (!string.IsNullOrEmpty(Model.ExternalLink))
 {
 	<a href="@Model.ExternalLink" @(string.IsNullOrEmpty(Model.ExternalLinkTarget) ? "" : "target=" + Model.ExternalLinkTarget)>
-        @Image(imageMapDataVarName, imageMapOptionsVarName)
+        @Image(imageMapDataVarName, imageMapOptionsVarName, popupId)
 	</a>
 }
 else
 {
-	@Image(imageMapDataVarName, imageMapOptionsVarName)
+	@Image(imageMapDataVarName, imageMapOptionsVarName, popupId)
 }
 @if (!string.IsNullOrEmpty(Model.Description))
 {
 	<div class="image-description">@Model.Description</div>
 }
 
-@helper Image(string imageMapDataVarName, string imageMapOptionsVarName)
+@helper Image(string imageMapDataVarName, string imageMapOptionsVarName, string popupId)
 {
 	if (Model.HotSpots != null && Model.HotSpots.Any())
 	{
@@ -69,13 +70,25 @@ else
         imageMapData: @imageMapDataVarName,
         spotBackgroundColor: "#333333",
         spotForegroundColor: "#ffffff",
-        onClick: function (area, e) {
-            console.log("Clicked: " + area.entityId);
+        onClick: function(area, e) {
+            $.get("/hotspot/index?id=" + area.entityId, function(data) {
+                var elem = $("#@popupId");
+                elem.append(data);
+                elem.show();
+                elem.css({ left: 0 + 'px', top: 0 + 'px' });
+                elem.mouseleave(function() {
+                    $("#@popupId").hide();
+                    $("#@popupId").html("");
+                });
+
+            });
         }
     };
 
 </script>
 <img src="@Model.Url" onload="InRiverImageMap.initImageMap($(this), @imageMapOptionsVarName)" alt="@(string.IsNullOrEmpty(Model.Description) ? Model.Name : Model.Description)" title="@Model.Copyright" class="image-file img-responsive" />    
+<div id="@popupId" style="background-color: #fff; border: 1px #999 solid; max-width: 300px;padding: 10px; display: none; position: absolute;">
+</div>
 }
 	else
 	{

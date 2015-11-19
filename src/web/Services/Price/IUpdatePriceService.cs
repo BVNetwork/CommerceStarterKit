@@ -9,4 +9,9 @@ namespace OxxCommerceStarterKit.Web.Services.Price
         void UpdatePrice(string code, IEnumerable<PriceInfo> prices);
 
     }
+
+    public interface IPriceLookupService
+    {
+        IEnumerable<PriceInfo> GetPricesForVariation(string code);
+    }
 }

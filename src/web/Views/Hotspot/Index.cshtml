@@ -1,0 +1,22 @@
+﻿@model HotspotViewModel
+
+@{
+    Layout = null;
+}
+
+<div class="hotspot hotspot-view-container">
+    <h2>@Model.Title</h2>
+    @if (string.IsNullOrEmpty(Model.ImageUrl) == false)
+    {
+        <div>
+            <img src="@Model.ImageUrl?preset=thumbnail"/>
+        </div>
+    }
+    @if (Model.Url != null && Model.Url.IsEmpty() == false)
+    {
+        <div>
+            <a href="@Model.Url">Read more</a>
+        </div>
+    }
+    
+</div>

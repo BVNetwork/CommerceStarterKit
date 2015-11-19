@@ -97,18 +97,16 @@ namespace OxxCommerceStarterKit.Web.Business.Pim
         private void UpdatePricesForVariations(List<string> variationCodes)
         {
             IUpdatePriceService priceService = ServiceLocator.Current.GetInstance<IUpdatePriceService>();
-            // TODO: Get real prices from ERP or other backend service
+            IPriceLookupService priceLookupService = ServiceLocator.Current.GetInstance<IPriceLookupService>();
 
             foreach (string code in variationCodes)
             {
                 List<PriceInfo> priceInfos = new List<PriceInfo>();
-                priceInfos.Add(new PriceInfo()
-                {
-                    MarketId = "default",
-                    Currency = "usd",
-                    Price = 199
-                });
-                priceService.UpdatePrice(code, priceInfos);
+
+                // Get from backend system
+                priceInfos.AddRange(priceLookupService.GetPricesForVariation(code));
+                if(priceInfos.Count > 0)
+                    if (priceService != null) priceService.UpdatePrice(code, priceInfos);
             }
         }
 

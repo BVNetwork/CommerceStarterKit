@@ -50,9 +50,9 @@ namespace OxxCommerceStarterKit.Web.Models.FindModels
             DefaultImageUrl = entryContentBase.GetDefaultImage();
             AverageRating = entryContentBase.GetAverageRating();
             DefaultInventory = entryContentBase.GetStock();
+            InRiverEntityId = entryContentBase.GetEntityId();
         }
-
-      
+     
 
         [Id]
         public string IndexId { get; set; }
@@ -147,6 +147,8 @@ namespace OxxCommerceStarterKit.Web.Models.FindModels
         public double Weight { get; set; }
         [NumericFilter(DisplayName = "Average Rating")]
         public double AverageRating { get; set; }
-       
+
+        public int InRiverEntityId { get; set; }
+
     }
 }

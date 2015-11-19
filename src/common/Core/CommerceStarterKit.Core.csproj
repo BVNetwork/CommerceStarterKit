@@ -288,6 +288,7 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\LineItemExtensions.cs" />
     <Compile Include="Extensions\MetaStorageExtensions.cs" />
+    <Compile Include="Extensions\PimExtensions.cs" />
     <Compile Include="Extensions\PriceExtensions.cs" />
     <Compile Include="Extensions\PurchaseOrderExtensions.cs" />
     <Compile Include="Extensions\ShippingExtensions.cs" />

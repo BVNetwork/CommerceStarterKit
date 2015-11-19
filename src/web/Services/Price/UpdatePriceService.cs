@@ -29,6 +29,8 @@ namespace OxxCommerceStarterKit.Web.Services.Price
             if (prices == null)
                 return;
 
+            _log.Debug("Saving {0} price(s) for {1}", prices.Count(), code);
+
             CatalogKey key = new CatalogKey(AppContext.Current.ApplicationId, code);
 
             var catalogEntryPrices = _priceService.GetCatalogEntryPrices(key); //.ToList();
@@ -56,6 +58,7 @@ namespace OxxCommerceStarterKit.Web.Services.Price
                 else
                 {
                     // We don't touch prices for the same market
+
                 }
             }
             _log.Debug("Saving {0} prices for {1}", priceValues.Count, code);
