@@ -1780,6 +1780,10 @@
     <Content Include="Views\_viewstart.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\github-bvn\sannsyn-episerver-connector\src\Sannsyn.Episerver.Commerce\Sannsyn.Episerver.Commerce.csproj">
+      <Project>{4bf3d566-bbc6-495a-957b-2e9cfa46c7bb}</Project>
+      <Name>Sannsyn.Episerver.Commerce</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommerceStarterKit.CatalogImporter\CommerceStarterKit.CatalogImporter.csproj">
       <Project>{b10cce50-1168-40f1-83c1-ffc343883c65}</Project>
       <Name>CommerceStarterKit.CatalogImporter</Name>
