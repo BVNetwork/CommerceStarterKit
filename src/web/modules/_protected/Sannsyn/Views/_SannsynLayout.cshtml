@@ -18,18 +18,23 @@
     <!-- LightTheme -->
     @Html.Raw(ClientResources.RenderResources("ShellCoreLightTheme"))
 
+    @Html.Raw(ClientResources.RenderResources("Style"))
     <!-- Navigation -->
     @Html.Raw(ClientResources.RenderResources("Navigation"))
 
     <!-- Dojo Dashboard -->
     @Html.Raw(ClientResources.RenderResources("DojoDashboardCompatibility", new[] { ClientResourceType.Style }))
 
+    @Html.Raw(ClientResources.RenderResources("epi.shell.ui", new[] { ClientResourceType.Style }))
+    @Html.Raw(ClientResources.RenderResources("epi-cms.widgets.base", new[] { ClientResourceType.Style }))
+    
+
     
 </head>
 <body class="Sleek">
     @Html.Raw(Html.ShellInitializationScript())
     @Html.Raw(Html.GlobalMenu())
-    <div>
+    <div class="grid__item">
         @RenderBody()
     </div>
 </body>
