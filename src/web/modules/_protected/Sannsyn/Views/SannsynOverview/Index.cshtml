@@ -1,38 +1,47 @@
 ﻿@using Sannsyn.Episerver.Commerce.Models.ViewModels
 @inherits System.Web.Mvc.WebViewPage
-@*@model Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel*@
+
 @{
-    ServiceStatusViewModel myModel = Model as ServiceStatusViewModel;
+    
+    var overviewModel = Model as SannsynOverviewViewModel;
+    var serviceStatus = overviewModel.ServiceStatus;;
     Layout = "../_SannsynLayout.cshtml";
 }
 
 <div>
     <h1><span class="dijitInline dijitIcon epi-iconInfo epi-icon--medium"></span> Sannsyn Overview</h1>
     <div>
-      <table>
-          <tr>
-              <td>Status</td>
-              <td>@myModel.status</td>
-          </tr>
-          <tr>
-              <td>
-                  Number of entities
-              </td>
-              <td>@myModel.numEntities</td>
-          </tr>
-          <tr>
-              <td>Service</td>
-              <td>@myModel.serviceName</td>
-          </tr>
-          <tr>
-              <td>Configuration</td>
-              <td>@myModel.configurationName</td>
-          </tr>
-          <tr>
-              <td>Service</td>
-              <td>@myModel.ServiceRunningSince</td>
-          </tr>
-      </table>
+        <table>
+            <tr>
+                <td>Status</td>
+                <td>@serviceStatus.status</td>
+            </tr>
+            <tr>
+                <td>
+                    Number of entities
+                </td>
+                <td>@serviceStatus.numEntities</td>
+            </tr>
+            <tr>
+                <td>Service</td>
+                <td>@serviceStatus.serviceName</td>
+            </tr>
+            <tr>
+                <td>Configuration</td>
+                <td>@serviceStatus.configurationName</td>
+            </tr>
+            <tr>
+                <td>Service</td>
+                <td>@serviceStatus.ServiceRunningSince</td>
+            </tr>
+        </table>
     </div>
+    <h2>Current User Recommendations</h2>
+    <ul>
+        @foreach (var code in overviewModel.CurrentUserRecommendations)
+        {
+            <li>@code</li>
+        }
+    </ul>
     
 </div>
