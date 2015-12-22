@@ -1,0 +1,23 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+@*@model Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel*@
+@{
+    Sannsyn.Episerver.Commerce.Admin.StatusObject myModel = Model as Sannsyn.Episerver.Commerce.Admin.StatusObject;
+    Layout = "../_SannsynLayout.cshtml";
+}
+
+<div>
+    <h1>Sannsyn Overview</h1>
+    <div>
+      <table>
+          <tr>
+              <td>Status</td>
+              <td>@myModel.status</td>
+          </tr>
+          <tr>
+              <td>Number of entities</td>
+              <td>@myModel.numEntities</td>
+          </tr>
+      </table>
+    </div>
+    
+</div>

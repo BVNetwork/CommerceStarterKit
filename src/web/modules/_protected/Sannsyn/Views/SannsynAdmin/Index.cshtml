@@ -1,0 +1,25 @@
+﻿@inherits System.Web.Mvc.WebViewPage
+@*@model Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel*@
+@{
+    Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel myModel = Model as Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel;
+    Layout = "../_SannsynLayout.cshtml";
+}
+
+<div>
+    <h1>Sannsyn Admin</h1>
+    <div>
+        <span class="epi-cmsButton">
+            <input type="button" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Add" value="Stop and Start Service"
+                   onclick="location.href='@Url.Action("StopAndStartSannsynService", "SannsynAdmin")'" />
+        </span>
+    </div>
+    <div>
+        <span class="epi-cmsButton">
+            <input type="button" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Add" value="Index Orders to Sannsyn"
+                   onclick="location.href='@Url.Action("RunIndexingTool", "SannsynAdmin")'" />
+        </span>
+    </div>
+    <div>
+        @myModel.StatusMessage
+    </div>
+</div>

@@ -49,6 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="modules\_protected\Sannsyn\Scripts\" />
     <Folder Include="Views\ImportEPiServerData\" />
     <Folder Include="Views\NodeContentPartial\" />
     <Folder Include="Views\PaymentBase\" />
@@ -492,6 +493,11 @@
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />
     <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
+    <Content Include="modules\_protected\Sannsyn\module.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="modules\_protected\Sannsyn\Views\web.config" />
+    <Content Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -652,6 +658,8 @@
     <Content Include="Scripts\app\shopping\HandleCartService.js" />
     <Content Include="Scripts\app\shopping\CartController.js" />
     <Content Include="Scripts\app\shopping\SimilarProductsController.js" />
+    <Content Include="modules\_protected\Sannsyn\Views\SannsynAdmin\Index.cshtml" />
+    <Content Include="modules\_protected\Sannsyn\Views\_SannsynLayout.cshtml" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
