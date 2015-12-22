@@ -1,0 +1,13 @@
+﻿.sannsynnContainer
+{
+    margin: 40px auto;
+    max-width: 1170px;    
+}
+
+.sannsynnContainer td {
+    padding: 0 4px;
+}
+
+.sannsynnContainer section {
+    padding-bottom: 1em;
+}

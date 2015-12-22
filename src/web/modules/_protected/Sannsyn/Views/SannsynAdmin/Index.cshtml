@@ -6,19 +6,23 @@
 }
 
 <div>
-    <h1>Sannsyn Admin</h1>
-    <div>
+    <h1>Sannsyn Administration</h1>
+    <section>
+        <h2>Index Existing Orders</h2>
+        <p>Loads existing orders into the Sannsyn service, connecting users and purchase.</p>
+        <span class="dijitButton">
+            <input type="button" class="dijitButtonNode" value="Index Orders"
+                   onclick="location.href='@Url.Action("RunIndexingTool", "SannsynAdmin" )'" />
+        </span>
+    </section>
+    <section>
+        <h2>Restart Service</h2>
+        <p>Stops the Sannsyn service, creating a new one using the Episerver standard configuration. <b>Note!</b> Data that has not been persisted will be lost.</p>
         <span class="epi-danger dijitButton ">
-            <input type="button" class="dijitButtonNode" value="Stop and Start Service"
-                   onclick="location.href='@Url.Action("StopAndStartSannsynService", "SannsynAdmin")'" />
+            <input type="button" class="dijitButtonNode" value="Restart Service"
+                   onclick="location.href = '@Url.Action("StopAndStartSannsynService", "SannsynAdmin")'" />
         </span>
-    </div>
-    <div>
-        <span class="epi-cmsButton">
-            <input type="button" class="epi-cmsButton-text epi-cmsButton-tools epi-cmsButton-Add" value="Index Orders to Sannsyn"
-                   onclick="location.href='@Url.Action("RunIndexingTool", "SannsynAdmin")'" />
-        </span>
-    </div>
+    </section>
     <div>
         @myModel.StatusMessage
     </div>

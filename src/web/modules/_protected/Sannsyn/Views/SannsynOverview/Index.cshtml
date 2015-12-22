@@ -1,12 +1,13 @@
-﻿@inherits System.Web.Mvc.WebViewPage
+﻿@using Sannsyn.Episerver.Commerce.Models.ViewModels
+@inherits System.Web.Mvc.WebViewPage
 @*@model Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel*@
 @{
-    Sannsyn.Episerver.Commerce.Admin.StatusObject myModel = Model as Sannsyn.Episerver.Commerce.Admin.StatusObject;
+    ServiceStatusViewModel myModel = Model as ServiceStatusViewModel;
     Layout = "../_SannsynLayout.cshtml";
 }
 
 <div>
-    <h1>Sannsyn Overview</h1>
+    <h1><span class="dijitInline dijitIcon epi-iconInfo epi-icon--medium"></span> Sannsyn Overview</h1>
     <div>
       <table>
           <tr>
@@ -14,8 +15,22 @@
               <td>@myModel.status</td>
           </tr>
           <tr>
-              <td>Number of entities</td>
+              <td>
+                  Number of entities
+              </td>
               <td>@myModel.numEntities</td>
+          </tr>
+          <tr>
+              <td>Service</td>
+              <td>@myModel.serviceName</td>
+          </tr>
+          <tr>
+              <td>Configuration</td>
+              <td>@myModel.configurationName</td>
+          </tr>
+          <tr>
+              <td>Service</td>
+              <td>@myModel.ServiceRunningSince</td>
           </tr>
       </table>
     </div>
