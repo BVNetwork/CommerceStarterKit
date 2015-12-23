@@ -348,8 +348,10 @@
     <Compile Include="Repositories\Interfaces\IRepository.cs" />
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Services\CartService.cs" />
+    <Compile Include="Services\CurrentCustomerService.cs" />
     <Compile Include="Services\ExportOrderService.cs" />
     <Compile Include="Services\ICartService.cs" />
+    <Compile Include="Services\ICurrentCustomerService.cs" />
     <Compile Include="Services\IEnumerableExtensions.cs" />
     <Compile Include="Services\IOrderService.cs" />
     <Compile Include="Services\IOrderSettings.cs" />

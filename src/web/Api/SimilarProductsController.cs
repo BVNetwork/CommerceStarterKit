@@ -21,103 +21,107 @@ using Mediachase.Commerce.Catalog;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using Sannsyn.Episerver.Commerce.Services;
 using EPiServer.Find.Commerce;
+using EPiServer.Web.Routing;
+using Mediachase.Commerce;
+using Mediachase.Commerce.Customers;
+using OxxCommerceStarterKit.Interfaces;
+using OxxCommerceStarterKit.Web.Models.ViewModels;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Api
 {
-    
-        public class SimilarProductObject
-        {
-            public string Name { get; set; }
-            public string Image { get; set; }
-            public string Url { get; set; }
-            public string DefaultPrice { get; set; }
-            public string DiscountedPrice { get; set; }
-        }
+
+    public class SimilarProductObject
+    {
+        public string Name { get; set; }
+        public string Image { get; set; }
+        public string Url { get; set; }
+        public string DefaultPrice { get; set; }
+        public string DiscountedPrice { get; set; }
+    }
 
     public class SimilarProductsController : BaseApiController
     {
-        private readonly IRecommendationService _recommendationService;
-        private readonly IContentLoader _contentLoader;
 
-        public SimilarProductsController(IRecommendationService recommendationService, IContentLoader contentLoader)
+        private readonly IRecommendedProductsService _recommendationService;
+        private readonly IContentLoader _contentLoader;
+        private readonly ReferenceConverter _referenceConverter;
+        private readonly ProductService _productService;
+        private readonly ICurrentCustomerService _currentCustomerService;
+
+        private readonly ICurrentMarket _currentMarket;
+
+        public SimilarProductsController(IRecommendedProductsService recommendationService,
+            IContentLoader contentLoader,
+            ICurrentCustomerService currentCustomerService,
+            ICurrentMarket currentMarket,
+            ReferenceConverter referenceConverter,
+            ProductService productService)
         {
             _recommendationService = recommendationService;
             _contentLoader = contentLoader;
+            _currentCustomerService = currentCustomerService;
+            _currentMarket = currentMarket;
+            _referenceConverter = referenceConverter;
+            _productService = productService;
         }
 
 
         [HttpGet]
-        public object GetSimilarProducts(string indexId)
+        public IEnumerable<ProductListViewModel> GetSimilarProducts(int contentId)
         {
-            try
+            const int maxRecommendedProducts = 10;
+            List<ProductListViewModel> models = new List<ProductListViewModel>();
+            SetLanguage();
+            string language = Language;
+            ContentReference contentLink = _referenceConverter.GetContentLink(contentId, CatalogContentType.CatalogEntry, 0);
+            IContent contentItem;
+
+            if (_contentLoader.TryGet(contentLink, out contentItem))
             {
-                SetLanguage();
-                string language = Language;
-                var client = SearchClient.Instance;
-                //Sannsyn test
-                FindProduct currentProduct = client.Search<FindProduct>()
-                    .Filter(x => x.IndexId.Match(indexId)).Take(1).StaticallyCacheFor(TimeSpan.FromMinutes(1)).GetResult().FirstOrDefault();
-                List<SimilarProductObject> similarProductObjects = new List<SimilarProductObject>();
-                if (currentProduct != null)
+                EntryContentBase entryContent = contentItem as EntryContentBase;
+                if (entryContent != null)
                 {
+                    var currentCustomer = CustomerContext.Current.CurrentContact;
+                    var recommendedProducts = _recommendationService.GetRecommendedProducts(entryContent,
+                        _currentCustomerService.GetCurrentUserId(), maxRecommendedProducts);
 
-                    List<string> productCodes = _recommendationService.GetRecommendationsForProduct(currentProduct.Code).ToList();
-                    if (productCodes.Any())
+
+                    foreach (var content in recommendedProducts)
                     {
-
-                        var result = client.Search<FindProduct>()
-                        .Filter(x => x.Code.In(productCodes))
-                        .Filter(x => x.Language.Match(language))
-                        .StaticallyCacheFor(TimeSpan.FromMinutes(1))
-                        .GetResult();
-                        similarProductObjects = result.Select(y => new SimilarProductObject
+                        ProductListViewModel model = null;
+                        VariationContent variation = content as VariationContent;
+                        if (variation != null)
                         {
-                            Name = y.DisplayName,
-                            Image = y.DefaultImageUrl,
-                            Url = y.ProductUrl,
-                            DefaultPrice = y.DefaultPrice,
-                            DiscountedPrice = y.DiscountedPrice
-                        }).ToList();
-                        return similarProductObjects;
+                            model = new ProductListViewModel(variation, _currentMarket.GetCurrentMarket(),
+                                currentCustomer);
+                        }
+                        else
+                        {
+                            ProductContent product = content as ProductContent;
+                            if (product != null)
+                            {
+                                model = _productService.GetProductListViewModel(product as IProductListViewModelInitializer);
+
+                                // Fallback
+                                if(model == null)
+                                {
+                                    model = new ProductListViewModel(product, _currentMarket.GetCurrentMarket(),
+                                        currentCustomer);
+                                }
+                            }
+                        }
+
+                        if (model != null)
+                        {
+                            models.Add(model);
+                        }
+
                     }
                 }
-
-
-                //var client = SearchClient.Instance;
-                //FindProduct currentProduct = client.Search<FindProduct>()
-                //    .Filter(x => x.IndexId.Match(indexId)).Take(1).StaticallyCacheFor(TimeSpan.FromMinutes(1)).GetResult().FirstOrDefault();
-                //if (currentProduct != null)
-                //{
-
-                //    List<SimilarProductObject> similarProductObjects = new List<SimilarProductObject>();
-
-                //    var result = client.Search<FindProduct>()
-                //        .Filter(x => x.CategoryName.Match(currentProduct.CategoryName))
-                //        .Filter(x => x.MainCategoryName.Match(currentProduct.MainCategoryName))
-                //        .Filter(x => !x.DisplayName.Match(currentProduct.DisplayName))
-                //        .Filter(x => x.Language.Match(language))
-                //        .StaticallyCacheFor(TimeSpan.FromMinutes(1))
-                //        .GetResult();
-
-                //    similarProductObjects = result.Select(y => new SimilarProductObject
-                //    {
-                //        Name = y.DisplayName,
-                //        Image = y.DefaultImageUrl,
-                //        Url = y.ProductUrl,
-                //        DefaultPrice = y.DefaultPrice,
-                //        DiscountedPrice = y.DiscountedPrice
-                //    }).ToList();
-
-
-                //    return similarProductObjects;
-                //}
-                return null;
-            }
-            catch (ServiceException)
-            {
-                return null;
             }
 
+            return models;
         }
     }
 }

@@ -55,6 +55,7 @@
     <Folder Include="Views\WineSKUPartial\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\RecommendedProductsService.cs" />
     <Content Include="ClientResources\Images\icons\layoutIcons24x24.png" />
     <Content Include="ClientResources\Scripts\editors\StringList.js" />
     <Content Include="ClientResources\Scripts\editors\TagSelector.js" />
@@ -1791,6 +1792,10 @@
     <ProjectReference Include="..\CommerceStarterKit.Interfaces\CommerceStarterKit.Interfaces.csproj">
       <Project>{3db4fc74-4a88-4a75-b272-ff5b6e6ab874}</Project>
       <Name>CommerceStarterKit.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CommerceStarterKit.Sannsyn\CommerceStarterKit.Sannsyn.csproj">
+      <Project>{e95ae6e5-6fbe-4456-a528-481350865e28}</Project>
+      <Name>CommerceStarterKit.Sannsyn</Name>
     </ProjectReference>
     <ProjectReference Include="..\common\Core\CommerceStarterKit.Core.csproj">
       <Project>{01a92f8f-e704-4f78-8dca-67e76b8a6ccf}</Project>
