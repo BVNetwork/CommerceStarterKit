@@ -10,7 +10,7 @@ Copyright (C) 2013-2014 BV Network AS
 
 using Mediachase.Commerce.Orders;
 
-namespace OxxCommerceStarterKit.Core.Services
+namespace OxxCommerceStarterKit.Interfaces
 {
 	public interface IExportOrderService
 	{

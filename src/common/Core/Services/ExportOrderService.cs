@@ -10,6 +10,7 @@ Copyright (C) 2013-2014 BV Network AS
 
 using System;
 using Mediachase.Commerce.Orders;
+using OxxCommerceStarterKit.Interfaces;
 
 namespace OxxCommerceStarterKit.Core.Services
 {

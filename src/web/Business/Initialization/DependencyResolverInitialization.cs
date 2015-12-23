@@ -17,6 +17,7 @@ using EPiServer.Web.Mvc.Html;
 using OxxCommerceStarterKit.Core.Repositories;
 using OxxCommerceStarterKit.Core.Repositories.Interfaces;
 using OxxCommerceStarterKit.Core.Services;
+using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Business.Rendering;
 using StructureMap;
 

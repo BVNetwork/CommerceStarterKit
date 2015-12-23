@@ -351,7 +351,6 @@
     <Compile Include="Services\ExportOrderService.cs" />
     <Compile Include="Services\ICartService.cs" />
     <Compile Include="Services\IEnumerableExtensions.cs" />
-    <Compile Include="Services\IExportOrderService.cs" />
     <Compile Include="Services\IOrderService.cs" />
     <Compile Include="Services\IOrderSettings.cs" />
     <Compile Include="Services\OrderService.cs" />
@@ -366,7 +365,12 @@
     <None Include="packages.config" />
     <None Include="Views\Emails\_ViewStart.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\..\CommerceStarterKit.Interfaces\CommerceStarterKit.Interfaces.csproj">
+      <Project>{3db4fc74-4a88-4a75-b272-ff5b6e6ab874}</Project>
+      <Name>CommerceStarterKit.Interfaces</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
