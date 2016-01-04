@@ -1,7 +1,13 @@
-﻿.sannsynnContainer
-{
-    margin: 40px auto;
-    max-width: 1170px;    
+﻿@media (min-width: 769px) {
+    .sannsynnContainer {
+        margin: 0 10em;
+        max-width: 1170px;
+    }
+}
+@media (max-width: 768px) {
+    .sannsynnContainer {
+        margin: 0 1em;
+    }
 }
 
 .sannsynnContainer td {

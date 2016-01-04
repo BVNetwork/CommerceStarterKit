@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
@@ -35,6 +36,19 @@ namespace OxxCommerceStarterKit.Sannsyn
             return _contentRepository.GetItems(links, catalogEntry.Language);
 
 
+        }
+
+        public IEnumerable<IContent> GetRecommendedProducts(string userId, int maxCount, CultureInfo cultureInfo)
+        {
+            var recommendationsForProduct = _recommendationService.GetRecommendationsForCustomer(userId, maxCount);
+
+            List<ContentReference> links = new List<ContentReference>();
+            foreach (string code in recommendationsForProduct)
+            {
+                links.Add(_referenceConverter.GetContentLink(code, CatalogContentType.CatalogEntry));
+            }
+
+            return _contentRepository.GetItems(links, cultureInfo);
         }
     }
 }

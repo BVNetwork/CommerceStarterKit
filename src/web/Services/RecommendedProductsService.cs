@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
 using System.Web;
@@ -57,6 +58,11 @@ namespace OxxCommerceStarterKit.Web.Services
             }
 
             return _contentRepository.GetItems(links, catalogEntry.Language);
+        }
+
+        public IEnumerable<IContent> GetRecommendedProducts(string userId, int maxCount, CultureInfo cultureInfo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

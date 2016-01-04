@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,5 +12,7 @@ namespace OxxCommerceStarterKit.Interfaces
     public interface IRecommendedProductsService
     {
         IEnumerable<IContent> GetRecommendedProducts(EntryContentBase catalogEntry, string userId, int maxCount);
+
+        IEnumerable<IContent> GetRecommendedProducts(string userId, int maxCount, CultureInfo cultureInfo);
     }
 }

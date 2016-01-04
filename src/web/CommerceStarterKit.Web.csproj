@@ -55,6 +55,8 @@
     <Folder Include="Views\WineSKUPartial\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
+    <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
     <Compile Include="Services\RecommendedProductsService.cs" />
     <Content Include="ClientResources\Images\icons\layoutIcons24x24.png" />
     <Content Include="ClientResources\Scripts\editors\StringList.js" />
@@ -880,6 +882,7 @@
     <Content Include="Views\Shared\_OpenGraphView.cshtml" />
     <Content Include="Views\Shared\Blocks\FormBlock.cshtml" />
     <Content Include="Views\NewsletterSignupBlock\Index.cshtml" />
+    <Content Include="Views\RecommendedProductsBlock\_recommendedProductsBlock.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
