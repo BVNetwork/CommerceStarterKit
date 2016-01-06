@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Globalization;
@@ -40,10 +38,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
             CultureInfo currentCulture = ContentLanguage.PreferredCulture;
             List<ProductListViewModel> models = new List<ProductListViewModel>();
             var currentCustomer = CustomerContext.Current.CurrentContact;
+            int maxCount = 6;
+            if (currentBlock.MaxCount > 0)
+                maxCount = currentBlock.MaxCount;
             try
             {
                 var recommendedProducts =
-                    _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), 10,
+                    _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), maxCount,
                         currentCulture);
                 foreach (var content in recommendedProducts)
                 {

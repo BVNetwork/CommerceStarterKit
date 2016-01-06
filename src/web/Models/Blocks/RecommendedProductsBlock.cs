@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using EPiServer.Core;
@@ -14,6 +15,10 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
        )]
     public class RecommendedProductsBlock : BlockData
     {
-
+        [Display(Name = "Number of products",
+               Description = "The number of products to show in the list. Default is 6.",
+               Order = 9)]
+        [CultureSpecific]
+        public virtual int MaxCount { get; set; }
     }
 }

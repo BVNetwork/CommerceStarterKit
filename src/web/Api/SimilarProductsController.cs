@@ -24,6 +24,7 @@ using EPiServer.Find.Commerce;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
+using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
