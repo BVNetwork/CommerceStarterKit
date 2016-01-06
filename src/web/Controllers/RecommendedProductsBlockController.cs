@@ -39,39 +39,48 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             CultureInfo currentCulture = ContentLanguage.PreferredCulture;
             List<ProductListViewModel> models = new List<ProductListViewModel>();
-            var recommendedProducts  = _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), 10, currentCulture);
             var currentCustomer = CustomerContext.Current.CurrentContact;
-            foreach (var content in recommendedProducts)
+            try
             {
-                ProductListViewModel model = null;
-                VariationContent variation = content as VariationContent;
-                if (variation != null)
+                var recommendedProducts =
+                    _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), 10,
+                        currentCulture);
+                foreach (var content in recommendedProducts)
                 {
-                    model = new ProductListViewModel(variation, _currentMarket.GetCurrentMarket(),
-                        currentCustomer);
-                }
-                else
-                {
-                    ProductContent product = content as ProductContent;
-                    if (product != null)
+                    ProductListViewModel model = null;
+                    VariationContent variation = content as VariationContent;
+                    if (variation != null)
                     {
-                        model = _productService.GetProductListViewModel(product as IProductListViewModelInitializer);
-
-                        // Fallback
-                        if (model == null)
+                        model = new ProductListViewModel(variation, _currentMarket.GetCurrentMarket(),
+                            currentCustomer);
+                    }
+                    else
+                    {
+                        ProductContent product = content as ProductContent;
+                        if (product != null)
                         {
-                            model = new ProductListViewModel(product, _currentMarket.GetCurrentMarket(),
-                                currentCustomer);
+                            model = _productService.GetProductListViewModel(product as IProductListViewModelInitializer);
+                            if (model == null)
+                            {
+                                model = new ProductListViewModel(product, _currentMarket.GetCurrentMarket(),
+                                    currentCustomer);
+                            }
                         }
                     }
-                }
 
-                if (model != null)
-                {
-                    models.Add(model);
-                }
+                    if (model != null)
+                    {
+                        models.Add(model);
+                    }
 
+                }
             }
+            catch (Exception e)
+            {
+                //TODO:Log
+            }
+            
+            
             return View("_recommendedProductsBlock", models);
         }
     }

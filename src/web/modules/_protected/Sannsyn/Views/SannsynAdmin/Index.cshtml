@@ -1,5 +1,5 @@
 ﻿@inherits System.Web.Mvc.WebViewPage
-@*@model Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel*@
+
 @{
     Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel myModel = Model as Sannsyn.Episerver.Commerce.Models.ViewModels.SannsynAdminViewModel;
     Layout = "../_SannsynLayout.cshtml";
@@ -17,10 +17,19 @@
     </section>
     <section>
         <h2>Restart Service</h2>
-        <p>Stops the Sannsyn service, creating a new one using the Episerver standard configuration. <b>Note!</b> Data that has not been persisted will be lost.</p>
+        <p>Stops the Sannsyn service, creating a new one using the Episerver standard configuration. <b>Note!</b> Data that has not been persisted will be lost.
+        </p>
         <span class="epi-danger dijitButton ">
-            <input type="button" class="dijitButtonNode" value="Restart Service"
+            <input type="button" class="dijitButtonNode" value="Restart Service(not impl.)"
                    onclick="location.href = '@Url.Action("StopAndStartSannsynService", "SannsynAdmin")'" />
+        </span>
+    </section>
+    <section>
+        <h2>Index products with categories</h2>
+        <p></p>
+        <span class="dijitButton">
+            <input type="button" class="dijitButtonNode" value="Index Products"
+                   onclick="location.href='@Url.Action("IndexProductsWithCategories", "SannsynAdmin" )'" />
         </span>
     </section>
     <div>
