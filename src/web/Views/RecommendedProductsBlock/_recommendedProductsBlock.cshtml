@@ -1,12 +1,12 @@
-﻿@model List<ProductListViewModel>
+﻿@model OxxCommerceStarterKit.Web.Controllers.RecommendedProductsBlockController.RecommendedResult
 @{
     Layout = null;
 }
-<h2>Recommended Products for You!</h2>
+<h2>@Model.Heading</h2>
 @if (Model != null)
 {
     <div class="row">
-        @foreach (var product in Model)
+        @foreach (var product in Model.Products)
         {
             <div class="col-md-4">
                 @Html.Partial("ProductPartials/_ProductListView", product)

@@ -15,10 +15,15 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
        )]
     public class RecommendedProductsBlock : BlockData
     {
+        [Display(Name = "Heading",
+               Description = "",
+               Order = 10)]
+        [CultureSpecific]
+        public virtual string Heading { get; set; }
+
         [Display(Name = "Number of products",
                Description = "The number of products to show in the list. Default is 6.",
-               Order = 9)]
-        [CultureSpecific]
+               Order = 30)]
         public virtual int MaxCount { get; set; }
     }
 }

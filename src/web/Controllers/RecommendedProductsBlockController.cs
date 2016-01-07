@@ -22,6 +22,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ICurrentMarket _currentMarket;
         private readonly ProductService _productService;
 
+        public class RecommendedResult
+        {
+            public string Heading { get; set; }
+            public List<ProductListViewModel> Products { get; set; }
+        }
+
         public RecommendedProductsBlockController(IRecommendedProductsService recommendationService, 
             ICurrentCustomerService currentCustomerService, 
             ICurrentMarket currentMarket,
@@ -37,6 +43,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             CultureInfo currentCulture = ContentLanguage.PreferredCulture;
             List<ProductListViewModel> models = new List<ProductListViewModel>();
+            RecommendedResult recommendedResult = new RecommendedResult();
             var currentCustomer = CustomerContext.Current.CurrentContact;
             int maxCount = 6;
             if (currentBlock.MaxCount > 0)
@@ -75,6 +82,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     }
 
                 }
+                recommendedResult.Heading = currentBlock.Heading;
+                recommendedResult.Products = models;
             }
             catch (Exception e)
             {
@@ -82,7 +91,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             }
             
             
-            return View("_recommendedProductsBlock", models);
+            return View("_recommendedProductsBlock", recommendedResult);
         }
     }
 }
