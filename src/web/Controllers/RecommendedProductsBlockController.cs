@@ -13,8 +13,6 @@ using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Catalog.Objects;
 using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -48,32 +46,15 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
-            CultureInfo currentCulture = ContentLanguage.PreferredCulture;
+           
             List<ProductListViewModel> models = new List<ProductListViewModel>();
-            IEnumerable<IContent> recommendedProducts;
+
             RecommendedResult recommendedResult = new RecommendedResult();
             var currentCustomer = CustomerContext.Current.CurrentContact;
-            int maxCount = 6;
-            if (currentBlock.MaxCount > 0)
-                maxCount = currentBlock.MaxCount;
+          
             try
             {
-                if (currentBlock.Category != null)
-                {
-                    NodeContent catalogNode = _contentLoader.Get<NodeContent>(currentBlock.Category);
-                    var code = catalogNode.Code;
-                    recommendedProducts =
-                        _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
-                            code,
-                            maxCount,
-                            currentCulture);
-                }
-                else
-                {
-                    recommendedProducts =
-                    _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), maxCount,
-                        currentCulture);
-                }
+                IEnumerable<IContent> recommendedProducts = GetRecommendedProducts(currentBlock);
 
                 foreach (var content in recommendedProducts)
                 {
@@ -114,6 +95,32 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
 
             return View("_recommendedProductsBlock", recommendedResult);
+        }
+
+        private IEnumerable<IContent> GetRecommendedProducts(RecommendedProductsBlock currentBlock)
+        {
+            IEnumerable<IContent> recommendedProducts;
+            CultureInfo currentCulture = ContentLanguage.PreferredCulture;
+            int maxCount = 6;
+            if (currentBlock.MaxCount > 0)
+                maxCount = currentBlock.MaxCount;
+            if (currentBlock.Category != null)
+            {
+                NodeContent catalogNode = _contentLoader.Get<NodeContent>(currentBlock.Category);
+                var code = catalogNode.Code;
+                recommendedProducts =
+                    _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
+                        new List<string> { code },
+                        maxCount,
+                        currentCulture);
+            }
+            else
+            {
+                recommendedProducts =
+                _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), maxCount,
+                    currentCulture);
+            }
+            return recommendedProducts;
         }
     }
 }

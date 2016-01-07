@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Globalization;
 using EPiServer;
@@ -51,9 +50,9 @@ namespace OxxCommerceStarterKit.Sannsyn
             return _contentRepository.GetItems(links, cultureInfo);
         }
 
-        public IEnumerable<IContent> GetRecommendedProductsByCagetory(string userId, string category, int maxCount, CultureInfo cultureInfo)
+        public IEnumerable<IContent> GetRecommendedProductsByCagetory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo)
         {
-            var recommendationsForProduct = _recommendationService.GetRecommendationsForCustomerByCategory(userId, category, maxCount);
+            var recommendationsForProduct = _recommendationService.GetRecommendationsForCustomerByCategory(userId, categories, maxCount);
 
             List<ContentReference> links = new List<ContentReference>();
             foreach (string code in recommendationsForProduct)
