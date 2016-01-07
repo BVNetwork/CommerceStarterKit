@@ -64,5 +64,10 @@ namespace OxxCommerceStarterKit.Web.Services
         {
             throw new NotImplementedException();
         }
+
+        public IEnumerable<IContent> GetRecommendedProductsByCagetory(string userId, string category, int maxCount, CultureInfo cultureInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

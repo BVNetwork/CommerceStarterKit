@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using EPiServer.Commerce;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
 
@@ -20,6 +21,12 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
                Order = 10)]
         [CultureSpecific]
         public virtual string Heading { get; set; }
+
+        [Display(Name = "Category",
+               Description = "",
+               Order = 20)]
+        [UIHint(UIHint.CatalogContent)]
+        public virtual ContentReference Category { get; set; }
 
         [Display(Name = "Number of products",
                Description = "The number of products to show in the list. Default is 6.",

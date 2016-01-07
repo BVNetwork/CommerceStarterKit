@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Web.Mvc;
+using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
 using EPiServer.Globalization;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Customers;
@@ -11,6 +13,8 @@ using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce.Catalog.Objects;
 using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -21,6 +25,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ICurrentCustomerService _currentCustomerService;
         private readonly ICurrentMarket _currentMarket;
         private readonly ProductService _productService;
+        private readonly IContentLoader _contentLoader;
 
         public class RecommendedResult
         {
@@ -28,21 +33,24 @@ namespace OxxCommerceStarterKit.Web.Controllers
             public List<ProductListViewModel> Products { get; set; }
         }
 
-        public RecommendedProductsBlockController(IRecommendedProductsService recommendationService, 
-            ICurrentCustomerService currentCustomerService, 
+        public RecommendedProductsBlockController(IRecommendedProductsService recommendationService,
+            ICurrentCustomerService currentCustomerService,
             ICurrentMarket currentMarket,
-            ProductService productService)
+            ProductService productService,
+            IContentLoader contentLoader)
         {
             _recommendationService = recommendationService;
             _currentCustomerService = currentCustomerService;
             _currentMarket = currentMarket;
             _productService = productService;
+            _contentLoader = contentLoader;
         }
 
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
             CultureInfo currentCulture = ContentLanguage.PreferredCulture;
             List<ProductListViewModel> models = new List<ProductListViewModel>();
+            IEnumerable<IContent> recommendedProducts;
             RecommendedResult recommendedResult = new RecommendedResult();
             var currentCustomer = CustomerContext.Current.CurrentContact;
             int maxCount = 6;
@@ -50,9 +58,23 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 maxCount = currentBlock.MaxCount;
             try
             {
-                var recommendedProducts =
+                if (currentBlock.Category != null)
+                {
+                    NodeContent catalogNode = _contentLoader.Get<NodeContent>(currentBlock.Category);
+                    var code = catalogNode.Code;
+                    recommendedProducts =
+                        _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
+                            code,
+                            maxCount,
+                            currentCulture);
+                }
+                else
+                {
+                    recommendedProducts =
                     _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), maxCount,
                         currentCulture);
+                }
+
                 foreach (var content in recommendedProducts)
                 {
                     ProductListViewModel model = null;
@@ -89,8 +111,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 //TODO:Log
             }
-            
-            
+
+
             return View("_recommendedProductsBlock", recommendedResult);
         }
     }

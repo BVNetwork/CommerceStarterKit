@@ -50,5 +50,18 @@ namespace OxxCommerceStarterKit.Sannsyn
 
             return _contentRepository.GetItems(links, cultureInfo);
         }
+
+        public IEnumerable<IContent> GetRecommendedProductsByCagetory(string userId, string category, int maxCount, CultureInfo cultureInfo)
+        {
+            var recommendationsForProduct = _recommendationService.GetRecommendationsForCustomerByCategory(userId, category, maxCount);
+
+            List<ContentReference> links = new List<ContentReference>();
+            foreach (string code in recommendationsForProduct)
+            {
+                links.Add(_referenceConverter.GetContentLink(code, CatalogContentType.CatalogEntry));
+            }
+
+            return _contentRepository.GetItems(links, cultureInfo);
+        }
     }
 }
