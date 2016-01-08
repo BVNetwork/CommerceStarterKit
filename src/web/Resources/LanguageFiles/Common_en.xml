@@ -159,6 +159,7 @@
 				<out_of_stock>Out of stock</out_of_stock>
 				<in_stock>in stock</in_stock>
 				<similar_products>Similar products</similar_products>
+        <related_products>Related products</related_products>
 				<color>Color</color>
                 <code>Model No</code>
 				<colors>

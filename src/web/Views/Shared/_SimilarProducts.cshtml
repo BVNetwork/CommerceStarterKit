@@ -3,7 +3,7 @@
     <div class="container">
         <div class="accordion row" ng-controller="SimilarProductsController" ng-init="init('@Model.ContentLink.ID', '@Model.Language')" ng-hide="!visible">
             <div class="panel-heading active">
-                <a class="accordion-toggle" data-toggle="collapse" data-target="#similar-products"><i></i>@Html.Translate("/common/product/similar_products")</a>
+                <a class="accordion-toggle" data-toggle="collapse" data-target="#similar-products"><i></i>@Html.Translate("/common/product/related_products")</a>
             </div>
             <div class="sliderContainer collapse in" id="similar-products">
                 <div class="catalog-grid">
