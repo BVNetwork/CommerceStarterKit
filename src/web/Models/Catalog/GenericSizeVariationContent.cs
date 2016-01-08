@@ -79,8 +79,8 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
             findProduct.DiscountedPrice = GetDisplayPriceWithCheck(discountPrice);
 
             PriceAndMarket customerClubPrice = this.GetCustomerClubPrice(market);
-            findProduct.CustomerClubPriceAmount = customerClubPrice != null ? (double)customerClubPrice.UnitPrice.Amount : 0;
-            findProduct.CustomerClubPrice = customerClubPrice != null ? customerClubPrice.Price : string.Empty;
+            findProduct.CustomerClubPriceAmount = GetPriceWithCheck(customerClubPrice);
+            findProduct.CustomerClubPrice = GetDisplayPriceWithCheck(customerClubPrice);
 
             findProduct.Brand = this.Facet_Brand;
             return findProduct;

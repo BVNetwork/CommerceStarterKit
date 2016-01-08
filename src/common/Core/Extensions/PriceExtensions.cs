@@ -267,7 +267,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
             var foundPrice = variation.GetPricesWithMarket(market).FirstOrDefault(priceFilter);
 
 
-            if (foundPrice != null) return foundPrice.Price;
+            if (foundPrice != null) return foundPrice.UnitPrice.ToString();
             return string.Empty;
         }
 

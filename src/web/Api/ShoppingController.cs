@@ -261,17 +261,17 @@ namespace OxxCommerceStarterKit.Web.Api
         {
             var productsQuery = SearchClient.Instance.Search<FindProduct>(GetFindLanguage(language));
 
+            
+            productsQuery = ApplyTermFilter(productsQuery, searchTerm, trackSearchTerm: true);
+
+            // common filters
+            productsQuery = ApplyCommonFilters(productsQuery, language);
             //Filter out recommended products
             if (recommendedFindProducts != null)
             {
                 List<string> recommendedCodes = recommendedFindProducts.Select(x => x.Code).ToList();
                 productsQuery = productsQuery.Filter(x => !x.Code.In(recommendedCodes));
             }
-            productsQuery = ApplyTermFilter(productsQuery, searchTerm, trackSearchTerm: true);
-
-            // common filters
-            productsQuery = ApplyCommonFilters(productsQuery, language);
-
             // selected categories
             if (productSearchData.ProductData.SelectedProductCategories != null &&
                 productSearchData.ProductData.SelectedProductCategories.Any())
