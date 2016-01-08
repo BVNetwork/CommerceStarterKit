@@ -14,6 +14,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Web.Http;
+using CsQuery.ExtensionMethods.Internal;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
@@ -96,6 +97,17 @@ namespace OxxCommerceStarterKit.Web.Api
         [HttpPost]
         public JObject GetProducts(ProductSearchData productSearchData)
         {
+            bool enableRecommendations = false;
+            if (productSearchData.ProductData.Facets.IsNullOrEmpty() && productSearchData.Page == 1)
+            {
+                enableRecommendations = true;
+            }
+
+            if (string.IsNullOrEmpty(productSearchData.ProductData.SearchTerm) == false)
+            {
+                enableRecommendations = false;
+            }
+
             // If we do not get any facets as part of query, we use the default facets from the registry
             var facetRegistry = ServiceLocator.Current.GetInstance<FacetRegistry>();
             if (productSearchData.ProductData.Facets == null || productSearchData.ProductData.Facets.Any() == false)
@@ -116,7 +128,11 @@ namespace OxxCommerceStarterKit.Web.Api
 
 
             //Get RecommendedProducts
-            List<FindProduct> recommendedFindProducts = GetRecommendedProducts(productSearchData, language);
+            List<FindProduct> recommendedFindProducts = new List<FindProduct>();
+            if(enableRecommendations)
+            {
+                recommendedFindProducts = GetRecommendedProducts(productSearchData, language);
+            }
        
             // search term, used if part of freetext search
             var searchTerm = productSearchData.ProductData.SearchTerm;
