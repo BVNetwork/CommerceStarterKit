@@ -25,6 +25,7 @@
         $scope.ShowMainCategoryFacets = false;
         $scope.SearchDone = false;
         $scope.SearchPage = false;
+        $scope.sortOrder = "popularity";
 
 		$scope.init = function (preSelectedCategory, language, pageSize) {
 		    $scope.language = language;
@@ -131,7 +132,8 @@
                 SearchTerm: $scope.queryTerm,
                 SelectedProductCategories: $scope.selectedProductCategories,
                 Facets: $scope.selectedFacets,
-                SelectedFacetName: $scope.CurrentSelectedFacetType
+                SelectedFacetName: $scope.CurrentSelectedFacetType,
+                SortOrder:$scope.sortOrder
             };
         }
 
@@ -181,7 +183,11 @@
             setNewProductDataAndUpdate();
         };
 
-     
+
+        $scope.sortProducts = function () {
+            setProductdata();
+            $scope.loadProductData();
+        };
       
 
         $scope.updateViewNrOfColumns = function ($event) {

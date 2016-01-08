@@ -8,4 +8,10 @@
             <div class="row2"><span></span><span></span><span></span><span></span><span></span></div>
         </div>
     </div>
+    <select name="productSorting" ng-model="sortOrder" ng-change="sortProducts()">
+        <option value="popularity">Popularity</option>
+        <option value="priceAscending">Price ascending</option>
+        <option value="priceDescending">Price decending</option>
+        <option value="rating">Best review</option>
+    </select>
 </div>

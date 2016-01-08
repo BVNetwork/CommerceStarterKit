@@ -91,7 +91,7 @@ namespace OxxCommerceStarterKit.Web.Api
             public string SearchTerm { get; set; }
             public List<FacetValues> Facets { get; set; }
             public string SelectedFacetName { get; set; }
-
+            public string SortOrder { get; set; }
         }
 
         [HttpPost]
@@ -285,6 +285,8 @@ namespace OxxCommerceStarterKit.Web.Api
                 productsQuery = fv.Definition.Filter(productsQuery);
             }
 
+            productsQuery = ApplySorting(productsQuery, productSearchData.ProductData.SortOrder);
+
             // execute product search
             productsQuery = productsQuery
                 .Skip((productSearchData.Page - 1) * productSearchData.PageSize)
@@ -366,6 +368,28 @@ namespace OxxCommerceStarterKit.Web.Api
         private static ITypeSearch<FindProduct> ApplyCommonFilters(ITypeSearch<FindProduct> query, string language)
         {
             return query.Filter(x => x.Language.Match(language));
+
+        }
+
+        private static ITypeSearch<FindProduct> ApplySorting(ITypeSearch<FindProduct> query,string sortOrder)
+        {
+            if (sortOrder.Equals("popularity"))
+            {
+                return query;
+            }
+            if (sortOrder.Equals("priceAscending"))
+            {
+                return query.OrderBy(x => x.DefaultPriceAmount);
+            }
+            if (sortOrder.Equals("priceDescending"))
+            {
+                return query.OrderByDescending(x => x.DefaultPriceAmount);
+            }
+            if (sortOrder.Equals("rating"))
+            {
+                return query.OrderByDescending(x => x.AverageRating);
+            }
+            return query;
 
         }
 
