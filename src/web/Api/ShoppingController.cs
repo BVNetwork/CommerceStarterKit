@@ -11,25 +11,52 @@ Copyright (C) 2013-2014 BV Network AS
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
 using System.Web.Http;
+using EPiServer;
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Api.Facets;
 using EPiServer.Find.Framework;
 using EPiServer.Find.Framework.Statistics;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
+using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce.Catalog.Objects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OxxCommerceStarterKit.Core.Services;
+using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Business.FacetRegistry;
 using OxxCommerceStarterKit.Web.Extensions;
+using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.FindModels;
+using ReferenceConverter = Mediachase.Commerce.Catalog.ReferenceConverter;
 
 namespace OxxCommerceStarterKit.Web.Api
 {
     public class ShoppingController : BaseApiController
     {
+        private readonly IRecommendedProductsService _recommendationService;
+        private readonly ICurrentCustomerService _currentCustomerService;
+        private readonly IContentLoader _contentLoader;
+        private readonly ReferenceConverter _referenceConverter;
         private ILogger _log = LogManager.GetLogger();
+
+        public ShoppingController(IRecommendedProductsService recommendationService,
+            ICurrentCustomerService currentCustomerService,
+            IContentLoader contentLoader,
+            ReferenceConverter referenceConverter)
+        {
+            _recommendationService = recommendationService;
+            _currentCustomerService = currentCustomerService;
+            _contentLoader = contentLoader;
+            _referenceConverter = referenceConverter;
+
+        }
+
         public class FacetViewModel
         {
             public string Name { get; set; }
@@ -87,9 +114,13 @@ namespace OxxCommerceStarterKit.Web.Api
             // The language is part of the route
             string language = Language;
 
+
+            //Get RecommendedProducts
+            List<FindProduct> recommendedFindProducts = GetRecommendedProducts(productSearchData, language);
+       
             // search term, used if part of freetext search
             var searchTerm = productSearchData.ProductData.SearchTerm;
-            SearchResults<FindProduct> productsSearchResult = GetProductsForSearchAndFilters(productSearchData, searchTerm, language);
+            SearchResults<FindProduct> productsSearchResult = GetProductsForSearchAndFilters(productSearchData, searchTerm, language, recommendedFindProducts);
 
             string selectedFacetName = productSearchData.ProductData.SelectedFacetName ?? string.Empty;
             var productFacetsResult = GetFacetResult(productSearchData, language, productSearchData.ProductData.Facets, searchTerm);
@@ -125,10 +156,16 @@ namespace OxxCommerceStarterKit.Web.Api
                 // Treat the selected faced specially, as it might show more data if it is selected
                 facetsAndValues = GetFacetsAndValues(productSelectedFacetsResult, facetsAndValues);
             }
+            List<FindProduct> productResult = new List<FindProduct>();
+            if (recommendedFindProducts.Any())
+            {
+                productResult = recommendedFindProducts;
+            }
+            productResult.AddRange(productsSearchResult.ToList());
 
             var result = new
             {
-                products = productsSearchResult.ToList(),
+                products = productResult,
                 productCategoryFacets = allProductCategoryFacets,
                 facets = facetsAndValues,
                 totalResult = productsSearchResult.TotalMatching
@@ -139,6 +176,44 @@ namespace OxxCommerceStarterKit.Web.Api
 
             return JObject.FromObject(result, serializer);
 
+        }
+
+        private List<FindProduct> GetRecommendedProducts(ProductSearchData productSearchData, string language)
+        {
+            List<FindProduct> recommendedFindProducts = new List<FindProduct>();
+            CultureInfo currentCulture = new CultureInfo(language);
+            List<string> categoryCodes = new List<string>();
+            foreach (var categoryId in productSearchData.ProductData.SelectedProductCategories)
+            {
+                ContentReference catalogNodeRef = _referenceConverter.GetContentLink(categoryId, CatalogContentType.CatalogNode, 0);
+                var catalogNode = _contentLoader.Get<NodeContent>(catalogNodeRef);
+                if (catalogNode != null)
+                {
+                    categoryCodes.Add(catalogNode.Code);
+                }
+            }
+
+            IEnumerable<IContent> recommendedProducts =
+                    _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
+                        categoryCodes,
+                        3,
+                        currentCulture);
+
+            if (recommendedProducts != null && recommendedProducts.Any())
+            {
+                var currentMarket = ServiceLocator.Current.GetInstance<Mediachase.Commerce.ICurrentMarket>().GetCurrentMarket();
+
+                foreach (var product in recommendedProducts)
+                {
+                    if (product is IIndexableContent)
+                    {
+                        var productContent = product as IIndexableContent;
+                        var findProduct = productContent.GetFindProduct(currentMarket);
+                        recommendedFindProducts.Add(findProduct);
+                    }
+                }
+            }
+            return recommendedFindProducts;
         }
 
         /// <summary>
@@ -166,10 +241,16 @@ namespace OxxCommerceStarterKit.Web.Api
             return facetList;
         }
 
-        protected SearchResults<FindProduct> GetProductsForSearchAndFilters(ProductSearchData productSearchData, string searchTerm, string language)
+        protected SearchResults<FindProduct> GetProductsForSearchAndFilters(ProductSearchData productSearchData, string searchTerm, string language, List<FindProduct> recommendedFindProducts = null)
         {
             var productsQuery = SearchClient.Instance.Search<FindProduct>(GetFindLanguage(language));
 
+            //Filter out recommended products
+            if (recommendedFindProducts != null)
+            {
+                List<string> recommendedCodes = recommendedFindProducts.Select(x => x.Code).ToList();
+                productsQuery = productsQuery.Filter(x => !x.Code.In(recommendedCodes));
+            }
             productsQuery = ApplyTermFilter(productsQuery, searchTerm, trackSearchTerm: true);
 
             // common filters
