@@ -20,7 +20,7 @@
         <p>Stops the Sannsyn service, creating a new one using the Episerver standard configuration. <b>Note!</b> Data that has not been persisted will be lost.
         </p>
         <span class="epi-danger dijitButton ">
-            <input type="button" class="dijitButtonNode" value="Restart Service(not impl.)"
+            <input type="button" class="dijitButtonNode" value="Restart Service"
                    onclick="location.href = '@Url.Action("StopAndStartSannsynService", "SannsynAdmin")'" />
         </span>
     </section>
@@ -29,7 +29,15 @@
         <p></p>
         <span class="dijitButton">
             <input type="button" class="dijitButtonNode" value="Index Products"
-                   onclick="location.href='@Url.Action("IndexProductsWithCategories", "SannsynAdmin" )'" />
+                   onclick="location.href = '@Url.Action("IndexProductsWithCategories", "SannsynAdmin")'" />
+        </span>
+    </section>
+    <section>
+        <h2>Update products in Find with score from Sannsyn</h2>
+        <p></p>
+        <span class="dijitButton">
+            <input type="button" class="dijitButtonNode" value="Update Score"
+                   onclick="location.href='@Url.Action("UpdateProductsWithScore", "SannsynAdmin" )'" />
         </span>
     </section>
     <div>
