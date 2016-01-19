@@ -78,7 +78,8 @@ namespace OxxCommerceStarterKit.Core.Objects
             address.Line1 = StreetAddress;
             address.PostalCode = ZipCode;
             address.City = City;
-			address[Constants.Metadata.Address.DeliveryServicePoint] = DeliveryServicePoint;
+            
+			// address[Constants.Metadata.Address.DeliveryServicePoint] = DeliveryServicePoint;
 			address.CountryCode = CountryCode;
             return address;
         }
