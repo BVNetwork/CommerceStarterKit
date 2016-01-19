@@ -483,6 +483,7 @@
     <Content Include="modules\epicode.newsletter\content\fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="modules\epicode.newsletter\content\fonts\glyphicons-halflings-regular.eot" />
     <Content Include="modules\epicode.newsletter\content\css\newsletterstyle.less" />
+    <Compile Include="Business\Pim\DeleteActionsHandler.cs" />
     <Compile Include="Business\Pim\PimPostImportHandler.cs" />
     <Compile Include="Business\Search\CatalogContentEventIndexer.cs" />
     <Compile Include="Controllers\HotspotController.cs" />
