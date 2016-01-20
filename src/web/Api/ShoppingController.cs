@@ -375,7 +375,7 @@ namespace OxxCommerceStarterKit.Web.Api
         {
             if (sortOrder.Equals("popularity"))
             {
-                return query;
+                return query.OrderByDescending(x => x.Score);
             }
             if (sortOrder.Equals("priceAscending"))
             {

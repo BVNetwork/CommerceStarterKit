@@ -69,5 +69,10 @@ namespace OxxCommerceStarterKit.Web.Services
         {
             throw new NotImplementedException();
         }
+
+        public Dictionary<string, double> GetScoreForItems(int maxCount = 10000)
+        {
+            return null;
+        }
     }
 }

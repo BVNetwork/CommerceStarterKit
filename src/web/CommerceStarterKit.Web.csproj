@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
+    <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
     <Compile Include="Services\RecommendedProductsService.cs" />
     <Content Include="ClientResources\Images\icons\layoutIcons24x24.png" />

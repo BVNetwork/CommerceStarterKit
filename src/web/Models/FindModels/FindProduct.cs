@@ -147,6 +147,7 @@ namespace OxxCommerceStarterKit.Web.Models.FindModels
         public double Weight { get; set; }
         [NumericFilter(DisplayName = "Average Rating")]
         public double AverageRating { get; set; }
-       
+
+        public double Score { get; set; }
     }
 }

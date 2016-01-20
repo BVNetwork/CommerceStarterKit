@@ -62,5 +62,10 @@ namespace OxxCommerceStarterKit.Sannsyn
 
             return _contentRepository.GetItems(links, cultureInfo);
         }
+
+        public Dictionary<string,double> GetScoreForItems(int maxCount = 10000)
+        {
+            return _recommendationService.GetScoreForItems(maxCount);
+        }
     }
 }
