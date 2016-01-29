@@ -19,13 +19,13 @@ namespace OxxCommerceStarterKit.Web.Jobs
         {
             int scoreAddedToProducts = 0;
             IClient client = SearchClient.Instance;
-            var _recommendedProductService = ServiceLocator.Current.GetInstance<IRecommendedProductsService>();
-            Dictionary<string, double> scoreForItems = _recommendedProductService.GetScoreForItems(10000);
+            var recommendedProductService = ServiceLocator.Current.GetInstance<IRecommendedProductsService>();
+            // TODO: Remove hardcoded number of max products we can get a score for
+            Dictionary<string, double> scoreForItems = recommendedProductService.GetScoreForItems(10000);
             if (scoreForItems != null)
             {
                 List<string> codes = scoreForItems.Keys.ToList();
                 int numOfItems = 100;
-                int skip = 0;
                 for (int i = 0; i < codes.Count(); i = i + numOfItems)
                 {
                     var items = codes.Skip(i).Take(numOfItems);
