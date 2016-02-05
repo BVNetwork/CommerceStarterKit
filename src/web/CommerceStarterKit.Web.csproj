@@ -463,14 +463,6 @@
     <Content Include="modules\_protected\EPiServer.Cms.AddOns.Blocks\EPiServer.Cms.AddOns.Blocks.zip" />
     <Content Include="modules\_protected\EPiServer.Packaging.UI\web.config" />
     <Content Include="modules\_protected\EPiServer.Packaging.UI\EPiServer.Packaging.UI.zip" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\web.config" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\Views\Web.config" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\module.config" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\EPiServerGoogleAnalytics.config" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\EPiServer.GoogleAnalytics.zip" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics.Commerce\web.config" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics.Commerce\module.config" />
-    <Content Include="modules\_protected\EPiServer.GoogleAnalytics.Commerce\EPiServer.GoogleAnalytics.Commerce.zip" />
     <Content Include="modules\_protected\EPiServer.Social\web.config" />
     <Content Include="modules\_protected\EPiServer.Social\Views\Web.config" />
     <Content Include="modules\_protected\EPiServer.Social\module.config" />
@@ -498,6 +490,14 @@
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />
     <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics.Commerce\web.config" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics.Commerce\module.config" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics.Commerce\EPiServer.GoogleAnalytics.Commerce.zip" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\web.config" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\Views\Web.config" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\module.config" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\EPiServerGoogleAnalytics.config" />
+    <Content Include="modules\_protected\EPiServer.GoogleAnalytics\EPiServer.GoogleAnalytics.zip" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -1072,12 +1072,12 @@
       <HintPath>..\..\packages\EPiServer.Framework.9.3.1\lib\net45\EPiServer.Framework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.GoogleAnalytics, Version=1.8.3.9000, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.GoogleAnalytics.1.8.3.9000\lib\EPiServer.GoogleAnalytics.dll</HintPath>
+    <Reference Include="EPiServer.GoogleAnalytics, Version=1.9.2.9000, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.GoogleAnalytics.1.9.2.9000\lib\EPiServer.GoogleAnalytics.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.GoogleAnalytics.Commerce, Version=1.8.3.9000, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.GoogleAnalytics.Commerce.1.8.3.9000\lib\EPiServer.GoogleAnalytics.Commerce.dll</HintPath>
+    <Reference Include="EPiServer.GoogleAnalytics.Commerce, Version=1.9.2.9000, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.GoogleAnalytics.Commerce.1.9.2.9000\lib\EPiServer.GoogleAnalytics.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.ImageLibrary, Version=9.3.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
