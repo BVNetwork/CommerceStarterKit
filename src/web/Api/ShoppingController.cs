@@ -233,7 +233,11 @@ namespace OxxCommerceStarterKit.Web.Api
                     {
                         var productContent = product as IIndexableContent;
                         var findProduct = productContent.GetFindProduct(currentMarket);
-                        recommendedFindProducts.Add(findProduct);
+                        //Filter on right product category
+                        if (categoryCodes.Contains(findProduct.CategoryName))
+                        {
+                            recommendedFindProducts.Add(findProduct);
+                        } 
                     }
                 }
             }
