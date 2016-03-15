@@ -220,7 +220,7 @@ namespace OxxCommerceStarterKit.Web.Api
             IEnumerable<IContent> recommendedProducts =
                     _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
                         categoryCodes,
-                        3,
+                        10, // TODO: Workaround for bug in miprecommend
                         currentCulture);
 
             if (recommendedProducts != null && recommendedProducts.Any())
