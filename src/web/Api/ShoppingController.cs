@@ -25,7 +25,6 @@ using EPiServer.Find.Framework.Statistics;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Catalog.Objects;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using OxxCommerceStarterKit.Core.Services;
@@ -131,7 +130,16 @@ namespace OxxCommerceStarterKit.Web.Api
             List<FindProduct> recommendedFindProducts = new List<FindProduct>();
             if(enableRecommendations)
             {
-                recommendedFindProducts = GetRecommendedProducts(productSearchData, language);
+                try
+                {
+                    recommendedFindProducts = GetRecommendedProducts(productSearchData, language);
+                }
+                //Recommended service is logging, so we just skip recommended products here
+                catch (Exception e)
+                {
+                    recommendedFindProducts = new List<FindProduct>();
+                }
+                
             }
        
             // search term, used if part of freetext search
