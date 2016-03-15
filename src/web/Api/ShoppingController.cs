@@ -218,7 +218,7 @@ namespace OxxCommerceStarterKit.Web.Api
             }
 
             IEnumerable<IContent> recommendedProducts =
-                    _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
+                    _recommendationService.GetRecommendedProductsByCategory(_currentCustomerService.GetCurrentUserId(),
                         categoryCodes,
                         3, 
                         currentCulture);

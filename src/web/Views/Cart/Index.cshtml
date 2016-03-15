@@ -11,7 +11,7 @@
             <!--Items List-->
             <div class="col-lg-9 col-md-9">
                 <h1 class="title">@Html.PropertyFor(m => m.CurrentPage.Name)</h1>
-                @Html.Partial("PagePartials/_ItemList", new CartItemListViewModel() { HideMoveToCart = true })
+                @Html.Partial("PagePartials/_ItemList", new CartItemListViewModel() {HideMoveToCart = true})
                 <button class="btn btn-default pull-right" ng-click="emptyCart('Default')">@Html.Translate("/common/cart/empty_cart")</button>
             </div>
             <div class="col-lg-3 col-md-3">
@@ -20,6 +20,20 @@
         </div>
     </div>
 </section>
+
+@if (Model.Recommendations.Any())
+{
+    <h2>Recommendations</h2>
+    <ul>
+        @foreach (var recommendation in Model.Recommendations)
+        {
+            <li>
+                @recommendation.Name - @Html.ContentLink(recommendation)
+            </li>
+        }
+    </ul>
+}
+
 @*<div class="row cart-commands buttons">
     <div class="col-xs-12" ng-show="cartTotal === 0" ng-cloak>@Html.Translate("/common/cart/no_products")</div>
     <div class="col-xs-12" ng-show="cartTotal > 0" ng-cloak>

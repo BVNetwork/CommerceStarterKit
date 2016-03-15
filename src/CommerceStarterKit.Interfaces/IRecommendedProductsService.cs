@@ -15,7 +15,9 @@ namespace OxxCommerceStarterKit.Interfaces
 
         IEnumerable<IContent> GetRecommendedProducts(string userId, int maxCount, CultureInfo cultureInfo);
 
-        IEnumerable<IContent> GetRecommendedProductsByCagetory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo);
+        IEnumerable<IContent> GetRecommendedProductsByCategory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo);
+
+        IEnumerable<IContent> GetRecommendedProductsForCart(string userId, IEnumerable<string> productCodes, int maxCount, CultureInfo cultureInfo);
 
         Dictionary<string, double> GetScoreForItems(int maxCount = 10000);
 

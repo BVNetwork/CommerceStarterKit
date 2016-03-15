@@ -109,7 +109,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 NodeContent catalogNode = _contentLoader.Get<NodeContent>(currentBlock.Category);
                 var code = catalogNode.Code;
                 recommendedProducts =
-                    _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
+                    _recommendationService.GetRecommendedProductsByCategory(_currentCustomerService.GetCurrentUserId(),
                         new List<string> { code },
                         maxCount,
                         currentCulture);

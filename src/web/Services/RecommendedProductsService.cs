@@ -62,12 +62,17 @@ namespace OxxCommerceStarterKit.Web.Services
 
         public IEnumerable<IContent> GetRecommendedProducts(string userId, int maxCount, CultureInfo cultureInfo)
         {
-            throw new NotImplementedException();
+            return null;
         }
 
-        public IEnumerable<IContent> GetRecommendedProductsByCagetory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo)
+        public IEnumerable<IContent> GetRecommendedProductsByCategory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo)
         {
-            throw new NotImplementedException();
+            return null;
+        }
+
+        public IEnumerable<IContent> GetRecommendedProductsForCart(string userId, IEnumerable<string> productCodes, int maxCount, CultureInfo cultureInfo)
+        {
+            return null;
         }
 
         public Dictionary<string, double> GetScoreForItems(int maxCount = 10000)

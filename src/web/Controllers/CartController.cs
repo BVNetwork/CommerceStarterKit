@@ -9,14 +9,19 @@ Copyright (C) 2013-2014 BV Network AS
 */
 
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
 using EPiServer.Web.Mvc;
+using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using OxxCommerceStarterKit.Core.Objects;
+using OxxCommerceStarterKit.Core.Services;
+using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Business.Delivery;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
@@ -31,10 +36,17 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class CartController : PageController<CartSimpleModulePage>
     {
         private readonly IPostNordClient _postNordClient;
+        private readonly IRecommendedProductsService _recommendationService;
+        private readonly ICurrentCustomerService _currentCustomerService;
+        private readonly ICurrentMarket _currentMarket;
 
-        public CartController(IPostNordClient postNordClient)
+
+        public CartController(IPostNordClient postNordClient, IRecommendedProductsService recommendationService, ICurrentCustomerService currentCustomerService, ICurrentMarket currentMarket)
         {
             _postNordClient = postNordClient;
+            _recommendationService = recommendationService;
+            _currentCustomerService = currentCustomerService;
+            _currentMarket = currentMarket;
         }
 
         public async Task<JsonResult> GetDeliveryLocations(string streetAddress, string city, string postalCode)
@@ -108,9 +120,27 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             CartModel model = new CartModel(currentPage);
 
+            // Get recommendations for the contents of the cart
+            PopulateRecommendations(model);
+
             Track(model);
 
             return View(model);
+        }
+
+        protected void PopulateRecommendations(CartModel model, int maxCount = 6)
+        {
+            IEnumerable<IContent> recommendedProductsForCart =
+                _recommendationService.GetRecommendedProductsForCart(_currentCustomerService.GetCurrentUserId(),
+                    model.LineItems.Select(x => x.Code).ToList(),
+                    maxCount,
+                    _currentMarket.GetCurrentMarket().DefaultLanguage
+                    );
+
+            if (recommendedProductsForCart != null)
+            {
+                model.Recommendations = recommendedProductsForCart;
+            }
         }
 
         private void Track(CartModel model)

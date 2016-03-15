@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
@@ -50,7 +51,7 @@ namespace OxxCommerceStarterKit.Sannsyn
             return _contentRepository.GetItems(links, cultureInfo);
         }
 
-        public IEnumerable<IContent> GetRecommendedProductsByCagetory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo)
+        public IEnumerable<IContent> GetRecommendedProductsByCategory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo)
         {
             var recommendationsForProduct = _recommendationService.GetRecommendationsForCustomerByCategory(userId, categories, maxCount);
 
@@ -61,6 +62,25 @@ namespace OxxCommerceStarterKit.Sannsyn
             }
 
             return _contentRepository.GetItems(links, cultureInfo);
+        }
+
+        public IEnumerable<IContent> GetRecommendedProductsForCart(string userId, IEnumerable<string> productCodes, int maxCount, CultureInfo cultureInfo)
+        {
+            var recommendationsForCart = _recommendationService.GetRecommendationsForCart(userId, productCodes, maxCount);
+
+            if(recommendationsForCart == null)
+            {
+                return null;
+            }
+
+            List<ContentReference> links = new List<ContentReference>();
+            foreach (string code in recommendationsForCart)
+            {
+                links.Add(_referenceConverter.GetContentLink(code, CatalogContentType.CatalogEntry));
+            }
+
+            return _contentRepository.GetItems(links, cultureInfo);
+
         }
 
         public Dictionary<string,double> GetScoreForItems(int maxCount = 10000)
