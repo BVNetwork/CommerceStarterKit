@@ -220,7 +220,7 @@ namespace OxxCommerceStarterKit.Web.Api
             IEnumerable<IContent> recommendedProducts =
                     _recommendationService.GetRecommendedProductsByCagetory(_currentCustomerService.GetCurrentUserId(),
                         categoryCodes,
-                        10, // TODO: Workaround for bug in miprecommend
+                        3, 
                         currentCulture);
 
             if (recommendedProducts != null && recommendedProducts.Any())
@@ -233,11 +233,7 @@ namespace OxxCommerceStarterKit.Web.Api
                     {
                         var productContent = product as IIndexableContent;
                         var findProduct = productContent.GetFindProduct(currentMarket);
-                        //Filter on right product category
-                        if (categoryCodes.Contains(findProduct.CategoryName))
-                        {
-                            recommendedFindProducts.Add(findProduct);
-                        } 
+                        recommendedFindProducts.Add(findProduct);
                     }
                 }
             }
