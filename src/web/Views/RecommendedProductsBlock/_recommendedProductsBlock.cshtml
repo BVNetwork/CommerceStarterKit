@@ -6,11 +6,14 @@
 @if (Model != null)
 {
     <div class="row">
-        @foreach (var product in Model.Products)
+        @if (Model.Products != null && Model.Products.Any())
         {
-            <div class="col-md-4">
-                @Html.Partial("ProductPartials/_ProductListView", product)
-            </div>
+            foreach (var product in Model.Products)
+             {
+                 <div class="col-md-4">
+                     @Html.Partial("ProductPartials/_ProductListView", product)
+                 </div>
+             }
         }
 
     </div>
