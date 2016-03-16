@@ -11,7 +11,8 @@
             </a>
             <div class="footer">
                 <a href="{{ product.ProductUrl }}">
-                    <h3 class="name">{{ product.DisplayName }}</h3></a>
+                    <h3 class="name">{{ product.DisplayName }}</h3>
+                </a>
                 <div class="tools">
                     <div class="rate">
                         <span ng-class="{'active' : product.AverageRating  >= 0.5, 'half' : product.AverageRating  == 0.5}"></span>
@@ -20,12 +21,11 @@
                         <span ng-class="{'active' : product.AverageRating  >= 3.5, 'half' : product.AverageRating  == 3.5}"></span>
                         <span ng-class="{'active' : product.AverageRating  >= 4.5, 'half' : product.AverageRating  == 4.5 }"></span>
                     </div>
-                    <span ng-hide="product.GenericVariants.length > 0">
+
+                    <span ng-hide="product.GenericVariants.length > 0 || product.DefaultInventory == 0">
                         <span ng-controller="BuyController" ng-init="initWithProduct(product)">
                             <!--Add To Cart Button-->
-                            <span ng-show="product.DefaultInventory > 0">
-                                <a class="add-cart-btn" ng-click="addToCartDefault()"><span>@Html.Translate("/common/product/add_to_cart")</span><i class="icon-shopping-cart"></i></a>
-                            </span>
+                             <a class="add-cart-btn" ng-click="addToCartDefault()"><span>@Html.Translate("/common/product/add_to_cart")</span><i class="icon-shopping-cart"></i></a>
                             <!--Add To Wishlist Button-->
                             <a class="wishlist-btn" ng-click="addToWishlist(product)">
                                 <div class="hover-state">@Html.Translate("/common/product/add_to_wishlist")</div>
@@ -48,7 +48,8 @@
     </button>
 </div>
 
-@helper PriceHelper() {
+@helper PriceHelper()
+{
     <div class="price-label">
         <span ng-hide="product.DiscountedPrice">{{product.DefaultPrice}}</span>
         <span ng-show="product.DiscountedPrice">{{product.DiscountedPrice}}</span>
