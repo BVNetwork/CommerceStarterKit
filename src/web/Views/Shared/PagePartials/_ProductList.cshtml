@@ -10,7 +10,6 @@
                 <img class="img-responsive" ng-src="{{product.DefaultImageUrl}}?preset=largethumbnail" />
             </a>
             <div class="footer">
-                @*<div class="newitemtext" ng-show="product.NewItemText">{{product.NewItemText}}</div>*@
                 <a href="{{ product.ProductUrl }}">
                     <h3 class="name">{{ product.DisplayName }}</h3></a>
                 <div class="tools">
@@ -24,8 +23,9 @@
                     <span ng-hide="product.GenericVariants.length > 0">
                         <span ng-controller="BuyController" ng-init="initWithProduct(product)">
                             <!--Add To Cart Button-->
-                            <a class="add-cart-btn" ng-click="addToCartDefault()"><span>@Html.Translate("/common/product/add_to_cart")</span><i class="icon-shopping-cart"></i></a>
-
+                            <span ng-show="product.DefaultInventory > 0">
+                                <a class="add-cart-btn" ng-click="addToCartDefault()"><span>@Html.Translate("/common/product/add_to_cart")</span><i class="icon-shopping-cart"></i></a>
+                            </span>
                             <!--Add To Wishlist Button-->
                             <a class="wishlist-btn" ng-click="addToWishlist(product)">
                                 <div class="hover-state">@Html.Translate("/common/product/add_to_wishlist")</div>
@@ -37,9 +37,6 @@
                         <a class="add-cart-btn" href="{{ product.ProductUrl }}"><span>@Html.Translate("/common/product/details")</span><i class="icon-arrow-right"></i></a>
                     </span>
                 </div>
-                @*<div class="add-to-cart-form" ng-controller="BuyController" ng-init="initWithProduct(product)">
-                        <input type="button" class="btn btn-success btn-sm" value="@Html.Translate("/common/product/add_to_cart")" ng-click="addToCartDefault()" />
-                    </div>*@
             </div>
         </div>
     </div>
