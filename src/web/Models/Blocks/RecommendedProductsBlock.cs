@@ -6,6 +6,7 @@ using System.Web;
 using EPiServer.Commerce;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
+using OxxCommerceStarterKit.Core.Attributes;
 
 namespace OxxCommerceStarterKit.Web.Models.Blocks
 {
@@ -14,6 +15,7 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
        Description = "",
        GroupName = WebGlobal.GroupNames.Commerce
        )]
+    [SiteImageUrl(thumbnail: EditorThumbnail.Commerce)]
     public class RecommendedProductsBlock : BlockData
     {
         [Display(Name = "Heading",
