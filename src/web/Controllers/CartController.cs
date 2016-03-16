@@ -127,7 +127,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             CartModel model = new CartModel(currentPage);
 
             // Get recommendations for the contents of the cart
-            PopulateRecommendations(model);
+            PopulateRecommendations(model, 3);
 
             Track(model);
 
@@ -136,24 +136,30 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         protected void PopulateRecommendations(CartModel model, int maxCount = 6)
         {
-            IEnumerable<IContent> recommendedProductsForCart =
-                _recommendationService.GetRecommendedProductsForCart(_currentCustomerService.GetCurrentUserId(),
-                    model.LineItems.Select(x => x.Code).ToList(),
-                    maxCount,
-                    _currentMarket.GetCurrentMarket().DefaultLanguage
-                    );
-            List<ProductListViewModel> searchResult = new List<ProductListViewModel>();
-            if (recommendedProductsForCart != null)
+            if (model.LineItems.Any())
             {
-                foreach (var product in recommendedProductsForCart)
+
+
+
+                IEnumerable<IContent> recommendedProductsForCart =
+                    _recommendationService.GetRecommendedProductsForCart(_currentCustomerService.GetCurrentUserId(),
+                        model.LineItems.Select(x => x.Code).ToList(),
+                        maxCount,
+                        _currentMarket.GetCurrentMarket().DefaultLanguage
+                        );
+                List<ProductListViewModel> searchResult = new List<ProductListViewModel>();
+                if (recommendedProductsForCart != null)
                 {
-                    IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
-                    if (modelInitializer != null)
+                    foreach (var product in recommendedProductsForCart)
                     {
-                        searchResult.Add(_productService.GetProductListViewModel(modelInitializer));
+                        IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
+                        if (modelInitializer != null)
+                        {
+                            searchResult.Add(_productService.GetProductListViewModel(modelInitializer));
+                        }
                     }
+                    model.Recommendations = searchResult;
                 }
-                model.Recommendations = searchResult;
             }
         }
 
