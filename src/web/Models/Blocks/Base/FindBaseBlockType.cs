@@ -110,6 +110,12 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks.Base
 
         protected ITypeSearch<FindProduct> ApplySortOrder(ITypeSearch<FindProduct> query)
         {
+            
+            if(SortOrder == null)
+            {
+                return query;
+            }
+
             if (SortOrder.Equals("popularity"))
             {
                 return query.OrderByDescending(x => x.Score);
