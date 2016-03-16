@@ -39,14 +39,20 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly IRecommendedProductsService _recommendationService;
         private readonly ICurrentCustomerService _currentCustomerService;
         private readonly ICurrentMarket _currentMarket;
+        private readonly ProductService _productService;
 
 
-        public CartController(IPostNordClient postNordClient, IRecommendedProductsService recommendationService, ICurrentCustomerService currentCustomerService, ICurrentMarket currentMarket)
+        public CartController(IPostNordClient postNordClient, 
+            IRecommendedProductsService recommendationService, 
+            ICurrentCustomerService currentCustomerService, 
+            ICurrentMarket currentMarket,
+            ProductService productService)
         {
             _postNordClient = postNordClient;
             _recommendationService = recommendationService;
             _currentCustomerService = currentCustomerService;
             _currentMarket = currentMarket;
+            _productService = productService;
         }
 
         public async Task<JsonResult> GetDeliveryLocations(string streetAddress, string city, string postalCode)
@@ -136,10 +142,18 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     maxCount,
                     _currentMarket.GetCurrentMarket().DefaultLanguage
                     );
-
+            List<ProductListViewModel> searchResult = new List<ProductListViewModel>();
             if (recommendedProductsForCart != null)
             {
-                model.Recommendations = recommendedProductsForCart;
+                foreach (var product in recommendedProductsForCart)
+                {
+                    IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
+                    if (modelInitializer != null)
+                    {
+                        searchResult.Add(_productService.GetProductListViewModel(modelInitializer));
+                    }
+                }
+                model.Recommendations = searchResult;
             }
         }
 

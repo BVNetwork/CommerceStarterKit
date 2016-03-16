@@ -21,7 +21,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
     public class CartModel : PageViewModel<CartSimpleModulePage>
     {
         // We don't want it null in the view
-        private IEnumerable<IContent> _recommendations = new List<IContent>();
+        private List<ProductListViewModel> _recommendations = new List<ProductListViewModel>();
 
 
         public CartModel(CartSimpleModulePage currentPage )
@@ -66,7 +66,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             }
         }
 
-        public IEnumerable<IContent> Recommendations
+        public List<ProductListViewModel> Recommendations
         {
             get { return _recommendations; }
             set { _recommendations = value; }
