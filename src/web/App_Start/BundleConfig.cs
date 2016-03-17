@@ -34,11 +34,6 @@ namespace OxxCommerceStarterKit.Web
                 "~/Content/js/plugins/jquery.stellar.min.js",
                 "~/Content/js/plugins/jquery.shuffle.min.js"));
 
-            // Use the development version of Modernizr to develop with and learn from. Then, when you're
-            // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
-			//bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
-			//			"~/Scripts/modernizr-*"));
-
 			// Note! Bootstrap needs to run after jQuery, or we'll get trouble
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
 				"~/Scripts/libraries/bootstrap.min.js",
@@ -64,7 +59,6 @@ namespace OxxCommerceStarterKit.Web
                 "~/Content/js/plugins/lightslider.js",
                 "~/Content/js/plugins/owl.carousel.min.js",
                 "~/Content/js/plugins/masterslider.min.js",
-                "~/Scripts/libraries/easyzoom.js",
                 "~/Scripts/libraries/accounting.min.js", // http://openexchangerates.github.io/accounting.js
 				"~/Scripts/js/Oxx/ObjectUtils.js",
 				"~/Scripts/js/Oxx/AjaxUtils.js",
@@ -87,10 +81,8 @@ namespace OxxCommerceStarterKit.Web
                 // Original Bushido template  + Fix font-references
                 .Include("~/Content/less/styles.css", new CssRewriteUrlTransform())
                 // Our Overrides
-                .Include("~/Content/css/commerce-starter-kit.css")); 
+                .Include("~/Content/less/epicphoto.css")); 
                 
-            // .Include("~/Content/css/colors/color-scheme2.css")); // Color Scheme
-
             bundles.Add(new ScriptBundle("~/bundles/angular_app").IncludeDirectory(
                 "~/Scripts/app/", "*.js",true
                 ));

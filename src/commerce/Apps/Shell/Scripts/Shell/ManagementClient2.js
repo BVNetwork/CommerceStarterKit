@@ -170,7 +170,7 @@
 
 	this.OpenHelp = function()
 	{
-	    this.OpenExternal('http://webhelp.episerver.com/15-4/EN/Default.htm');
+	    this.OpenExternal('http://webhelp.episerver.com/16-1/EN/home.htm');
     };
 
     this.getEcfMainFrame = function() {

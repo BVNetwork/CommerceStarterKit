@@ -1,16 +1,23 @@
-/* Theme variables we want to reuse */
-@import "../less/variables.less";
+// This less file contains overrides and additional styling
+// for the Bushido template. For ease of updates, we keep these
+// two separate, so the Bushido files can be updated as-is.
+//
+// The site will include the Bushido styles.css first and
+// then the epicphoto.css afterwards.
 
-@import "commerce-starter-kit/blocks/_video.less";
-@import "commerce-starter-kit/blocks/_bannerBlock.less";
-@import "commerce-starter-kit/_productList.less";
-@import "commerce-starter-kit/_bootstrap-lightbox.less";
-@import "commerce-starter-kit/_product.less";
-@import "commerce-starter-kit/_box.less";
-@import "commerce-starter-kit/_footer.less";
-@import "commerce-starter-kit/_search.less";
-@import "commerce-starter-kit/_search-autocomplete.less";
-@import "commerce-starter-kit/_cart.less";
+// Bushido theme variables we want to reuse
+@import "variables.less";
+
+@import "epicphoto/blocks/_video.less";
+@import "epicphoto/blocks/_bannerBlock.less";
+@import "epicphoto/_productList.less";
+@import "epicphoto/_bootstrap-lightbox.less";
+@import "epicphoto/_product.less";
+@import "epicphoto/_box.less";
+@import "epicphoto/_footer.less";
+@import "epicphoto/_search.less";
+@import "epicphoto/_search-autocomplete.less";
+@import "epicphoto/_cart.less";
 
 body {
 }
@@ -438,6 +445,10 @@ img.img-float-top-right {
     }
 }
 
+.notification-settings-page {
+    h4 {
+        padding-top: 1em;
+        border-bottom: 1px solid #aaa;
 
 .article-sidebar .recommendedproductsblock .col-md-4 {
     width: 100% !important;

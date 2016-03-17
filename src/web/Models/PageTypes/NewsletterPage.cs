@@ -65,6 +65,14 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
 			Order = 160)]
 		public virtual ContentArea MainContentArea { get; set; }
 
+
+	    [Display(
+	        GroupName = SystemTabNames.Content,
+	        Order = 69,
+	        Name = "Utm Campaign Name")]
+	    [CultureSpecific(false)]
+	    public virtual string UtmCampaign { get; set; }
+
 	}
 
 }

@@ -30,5 +30,6 @@ namespace OxxCommerceStarterKit.Core.Objects.SharedViewModels
         public DiscountModel[] Discounts { get; set; }
 
         public string WarehouseCode { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

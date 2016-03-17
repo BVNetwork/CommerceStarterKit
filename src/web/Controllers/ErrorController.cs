@@ -23,14 +23,39 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class ErrorController : PageControllerBase<PageData>
     {
         // GET: Error404
+        [BVNetwork.NotFound.Core.NotFoundPage.NotFoundPage]
         public ActionResult Error404()
         {
-			ErrorPageViewModel model = GetViewModel();
+            ErrorPageViewModel model = GetViewModel();
 
-			return View("Error404", model);
+            // The Action Filter will add the following to the ViewBag:
+            // Referrer, NotFoundUrl and StatusCode
+            model.NotFoundUrl = GetSafeUrlFromViewBag(ViewBag.NotFoundUrl);
+            model.Referer = GetSafeUrlFromViewBag(ViewBag.Referrer);
+
+            return View("Error404", model);
         }
 
-		private static ErrorPageViewModel GetViewModel()
+        private Uri GetSafeUrlFromViewBag(dynamic uri)
+        {
+            string url = uri;
+            if (string.IsNullOrEmpty(url) == false)
+            {
+                Uri urlParsed = null;
+                try
+                {
+                    urlParsed = new Uri(url);
+                }
+                catch 
+                {
+                    // Someone could hand-craft something nasty in there, we won't show it 
+                }
+                return urlParsed;
+            }
+            return null;
+        }
+
+        private static ErrorPageViewModel GetViewModel()
 		{
 			ErrorPageViewModel model;
 			try

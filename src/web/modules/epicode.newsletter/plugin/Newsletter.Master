@@ -1,4 +1,4 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Newsletter.master.cs" Inherits="BVNetwork.EPiSendMail.Plugin.Newsletter" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Newsletter.master.cs" EnableViewState="true" Inherits="BVNetwork.EPiSendMail.Plugin.Newsletter" %>
 <%@ Import Namespace="EPiServer.Framework.Web.Resources" %>
 <%@ Import Namespace="EPiServer.Framework.Web.Mvc.Html" %>
 

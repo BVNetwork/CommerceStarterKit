@@ -22,7 +22,6 @@
                     $(statusCountId).html(data.EmailAddressCount);
                 },
                 error: function (jqXHR, textStatus, errorThrown) {
-                    console.debug(jqXHR, textStatus, errorThrown);
                     $(statusCountId).html('Error');
                 }
             });

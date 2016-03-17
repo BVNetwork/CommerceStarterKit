@@ -20,5 +20,6 @@ namespace OxxCommerceStarterKit.Core.Services
         PurchaseOrderModel GetOrderByTrackingNumber(string trackingNumber);
         IEnumerable<PurchaseOrderModel> GetOrdersByUserId(Guid customerId);
         void FinalizeOrder(string orderTrackingNumber, IIdentity identity);
+        bool SendOrderReceipt(string trackingNumber);
     }
 }

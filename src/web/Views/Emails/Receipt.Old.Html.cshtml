@@ -1,0 +1,191 @@
+﻿@using System.Web.Mvc.Html
+@model OxxCommerceStarterKit.Web.Services.Email.Models.Receipt
+@{ Layout = "_Layout.Html.cshtml"; }
+@section Subject { @Model.Subject }
+@section BodyClass { receipt }
+
+@if (Model != null && Model.OrderViewModel != null)
+{
+	<table class="row">
+		<tr>
+			<td class="wrapper">
+				<table class="eight columns">
+					<tr>
+						<td class="text-pad receipt-header">
+							<h1>@Html.Translate("/common/receipt/email/title")</h1>
+							<p>@Html.Translate("/common/accountpages/order_table_headers/number") @Model.OrderViewModel.OrderNumber
+							@(!string.IsNullOrEmpty(Model.OrderViewModel.ErpOrderNumber) ? " / " + Model.OrderViewModel.ErpOrderNumber : "")</p>
+
+						</td>
+						<td class="expander"></td>
+					</tr>
+				</table>
+			</td>
+			<td class="wrapper last">
+				<table class="four columns">
+					<tr>
+						<td class="text-pad receipt-header date">
+							<p>@Html.Translate("/common/accountpages/order_table_headers/date") @Model.OrderViewModel.OrderDate.ToString("dd.MM.yyyy")</p>
+						</td>
+						<td class="expander"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+	if (Model.OrderViewModel.OrderLines != null)
+	{
+		<table class="row">
+			@foreach (var p in Model.OrderViewModel.OrderLines)
+			{
+				<tr class="lineitem">
+					<td class="wrapper">
+						<table class="nine columns">
+							<tr>
+								<td class="text-pad">@p.Name @Html.Translate("/common/cart/article_number") @p.ArticleNumber
+								@p.Color @Html.Translate("/common/receipt/size_prefix") @p.Size
+									@p.Quantity @(p.Quantity == 1 ? Html.Translate("/common/cart/quantity_one") : Html.Translate("/common/cart/quantity_many"))
+								</td>
+								<td class="expander"></td>
+							</tr>
+						</table>
+					</td>
+					<td class="wrapper last">
+						<table class="three columns">
+							<tr>
+								<td class="text-pad money-column">
+									@Model.OrderViewModel.FormatMoney(p.Price)
+								</td>
+								<td class="expander"></td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			}
+		</table>
+	}
+	if (Model.OrderViewModel.DiscountCodes != null && Model.OrderViewModel.DiscountCodes.Any())
+	{
+		<table class="row">
+			<tr class="discount-codes">
+				<td class="wrapper last">
+					<table class="twelve columns">
+						<tr>
+							<td class="text-pad">
+								<span>@Html.Translate("/common/cart/coupon_codes/applied_label")</span>
+								<span>
+									@Html.Raw(string.Join("</span><span>, ", Model.OrderViewModel.DiscountCodes.ToArray()))
+								</span>
+							</td>
+							<td class="expander"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+		</table>
+	}
+
+	<table class="row">
+		<tr class="sums">
+			<td class="wrapper last offset-by-six">
+				<table class="six columns">
+					<tr>
+						<td class="six sub-columns text-pad">
+							@Html.Translate("/common/cart/products")<br />
+							@if (Model.OrderViewModel.Shipping > 0)
+							{
+								@Html.Translate("/common/cart/shipping")<br />
+							}
+							@if (Model.OrderViewModel.Discount > 0)
+							{
+								@Html.Translate("/common/cart/discount")
+							}
+							@Html.Translate("/common/cart/taxes")
+						</td>
+						<td class="six sub-columns text-pad money-column">
+							@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.TotalLineItemsAmount)<br />
+							@if (Model.OrderViewModel.Shipping > 0)
+							{
+								@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Shipping)<br />
+							}
+							@if (Model.OrderViewModel.Discount > 0)
+							{
+								@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Discount)<br />
+							}
+							@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Tax)
+						</td>
+						<td class="expander"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr class="sums-total">
+			<td class="wrapper last offset-by-six">
+				<table class="six columns">
+					<tr>
+						<td class="six sub-columns sum text-pad"><b>@Html.Translate("/common/cart/total")</b></td>
+						<td class="six sub-columns sum text-pad money-column"><b>@Model.OrderViewModel.FormatMoneyForReceipt(Model.OrderViewModel.TotalAmount)</b></td>
+						<td class="expander"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	<table class="row">
+		<tr class="addresses">
+			<td class="wrapper">
+				<table class="six columns">
+					<tr>
+						<td class="text-pad">
+							<h3>@Html.Translate("/common/accountpages/billing_address_title")</h3>
+						</td>
+						<td class="expander"></td>
+					</tr>
+					<tr>
+						<td class="text-pad">
+							@if (Model.OrderViewModel.BillingAddress != null)
+							{
+								<p>
+									@Model.OrderViewModel.BillingAddress.FirstName @Model.OrderViewModel.BillingAddress.LastName<br />
+									@Model.OrderViewModel.BillingAddress.StreetAddress<br />
+									@Model.OrderViewModel.BillingAddress.ZipCode @Model.OrderViewModel.BillingAddress.City
+								</p>
+							}
+						</td>
+						<td class="expander"></td>
+					</tr>
+				</table>
+			</td>
+			<td class="wrapper last">
+				<table class="six columns">
+					<tr>
+						<td class="text-pad"><h3>@Html.Translate("/common/accountpages/shipping_address_title")</h3></td>
+						<td class="expander"></td>
+					</tr>
+					<tr>
+						<td class="text-pad">
+							@if (Model.OrderViewModel.ShippingAddress != null)
+							{
+								<p>
+									@Model.OrderViewModel.ShippingAddress.FirstName @Model.OrderViewModel.ShippingAddress.LastName<br />
+									@Model.OrderViewModel.ShippingAddress.StreetAddress<br />
+									@Model.OrderViewModel.ShippingAddress.ZipCode @Model.OrderViewModel.ShippingAddress.City
+								</p>
+							}
+							@if (!string.IsNullOrWhiteSpace(Model.OrderViewModel.DeliveryLocation))
+							{
+								<p>
+									<b>@Html.Translate("/common/accountpages/delivery_service_point")</b><br/>
+									@Model.OrderViewModel.DeliveryLocation
+								</p>
+							}
+						</td>
+						<td class="expander"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+}

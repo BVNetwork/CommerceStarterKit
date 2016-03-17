@@ -1,15 +1,16 @@
 ﻿@model OxxCommerceStarterKit.Web.Models.ViewModels.PageViewModel<OxxCommerceStarterKit.Web.Models.ViewModels.Email.NotificationSettings>
 
 <div class="login-page notification-settings-page">
-
-	<h4>@Html.Translate("/contenttypes/notificationsettings/properties/from/caption")</h4>
-	@Html.PropertyFor(m => m.CurrentPage.From)
-
-	<h4>@Html.Translate("/contenttypes/notificationsettings/properties/mailheader/caption")</h4>
-	<div class="email-header">@Html.PropertyFor(m => m.CurrentPage.MailHeader)</div>
-	
-	<h4>@Html.Translate("/contenttypes/notificationsettings/properties/mailfooter/caption")</h4>
-	<div class="email-footer">@Html.PropertyFor(m => m.CurrentPage.MailFooter)</div>
-
-
+    <div class="row">
+        <h4>@Html.Translate("/contenttypes/notificationsettings/properties/from/caption")</h4>
+        @Html.PropertyFor(m => m.CurrentPage.From)
+    </div>
+    <div class="row">
+        <h4>@Html.Translate("/contenttypes/notificationsettings/properties/mailheader/caption")</h4>
+        <div class="email-header">@Html.PropertyFor(m => m.CurrentPage.MailHeader, new { CssClass = "overflow-hidden clearfix" })</div>
+    </div>
+    <div class="row">
+        <h4>@Html.Translate("/contenttypes/notificationsettings/properties/mailfooter/caption")</h4>
+        <div class="email-footer">@Html.PropertyFor(m => m.CurrentPage.MailFooter, new { CssClass = "overflow-hidden clearfix" })</div>
+    </div>
 </div>

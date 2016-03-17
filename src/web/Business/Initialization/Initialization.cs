@@ -28,6 +28,7 @@ using EPiServer.Web.Routing.Segments;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce.Pricing;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Customers;
 using OxxCommerceStarterKit.Core.Services;
@@ -170,6 +171,9 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
             context.Container.Configure(c => c.For<IHttpContextProvider>().Singleton().Use<HttpContextProvider>());
             context.Container.Configure(c => c.For<IPostNordClient>().Singleton().Use<PostNordClient>());
             context.Container.Configure(c => c.For<IStockUpdater>().Use<StockUpdater>());
+
+            // Include this price service to get random prices
+            // context.Container.Configure(c => c.For<IPriceService>().Singleton().Use<OxxCommerceStarterKit.PriceService.RandomPriceService>());
         }
     }
 }

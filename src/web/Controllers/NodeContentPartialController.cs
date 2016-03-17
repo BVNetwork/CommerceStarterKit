@@ -26,6 +26,11 @@ using Mediachase.Commerce.Catalog;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels.Simple;
+using OxxCommerceStarterKit.Web.Models.ViewModels;
+using System.Collections.Generic;
+using EPiServer.Find.Api;
+using EPiServer.Core;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -67,25 +72,38 @@ namespace OxxCommerceStarterKit.Web.Controllers
             string language = Language;
             var client = SearchClient.Instance;
 
+            IContentLoader loader = ServiceLocator.Current.GetInstance<IContentLoader>();
+            ProductService productService = ServiceLocator.Current.GetInstance<ProductService>();
+            ReferenceConverter refConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
+
+
             try
             {
-                var result = client.Search<FindProduct>()
+                SearchResults<FindProduct> results = client.Search<FindProduct>()
                     .Filter(x => x.ParentCategoryId.Match(currentContent.ContentLink.ID))
                     .Filter(x => x.Language.Match(language))
                     .StaticallyCacheFor(TimeSpan.FromMinutes(1))
                     .GetResult();
 
-                var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
-                var referenceConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
+                List<ProductListViewModel> searchResult = new List<ProductListViewModel>();
+                foreach (SearchHit<FindProduct> searchHit in results.Hits)
+                {
+                    ContentReference contentLink = refConverter.GetContentLink(searchHit.Document.Id, CatalogContentType.CatalogEntry, 0);
+
+                    // The content can be deleted from the db, but still exist in the index
+                    IContentData content = null;
+                    if (loader.TryGet(contentLink, out content))
+                    {
+                        IProductListViewModelInitializer modelInitializer = content as IProductListViewModelInitializer;
+                        if (modelInitializer != null)
+                        {
+                            searchResult.Add(productService.GetProductListViewModel(modelInitializer));
+                        }
+                    }
+                }
 
 
-                return PartialView("Blocks/NodeContentPartial", result.Select(p => {
-                
-                    var productLink = referenceConverter.GetContentLink(p.Id, CatalogContentType.CatalogEntry, 0);
-                
-                    return new ProductViewModel(contentLoader.Get<FashionProductContent>(productLink));
-
-                }));
+                return PartialView("Blocks/NodeContentPartial", searchResult);
             }
 
             catch (Exception)

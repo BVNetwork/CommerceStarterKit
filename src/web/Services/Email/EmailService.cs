@@ -88,17 +88,17 @@ namespace OxxCommerceStarterKit.Web.Services.Email
             return false;
         }
 
-        public bool SendWelcomeEmail(string email)
+        public bool SendWelcomeEmail(string emailAddress)
         {
-            return SendWelcomeEmail(email, null);
+            return SendWelcomeEmail(emailAddress, null);
         }
 
-        public bool SendWelcomeEmail(string email, RegisterPage currentPage)
+        public bool SendWelcomeEmail(string emailAddress, RegisterPage currentPage)
         {
             if (currentPage == null)
                 currentPage = GetRegisterPage();
             if (currentPage != null)
-                return SendWelcomeEmail(email, currentPage.EmailSubject, currentPage.EmailBody.ToString());
+                return SendWelcomeEmail(emailAddress, currentPage.EmailSubject, currentPage.EmailBody.ToString());
             return false;
         }
 
@@ -114,14 +114,14 @@ namespace OxxCommerceStarterKit.Web.Services.Email
             return null;
         }
 
-        public bool SendWelcomeEmail(string email, string subject, string body)
+        public bool SendWelcomeEmail(string emailAddress, string subject, string body)
         {
             var mailSettings = _notificationSettingsRepository.GetNotificationSettings();
             if (mailSettings != null)
             {
                 var emailMessage = new Welcome();
                 emailMessage.From = mailSettings.From;
-                emailMessage.To = email;
+                emailMessage.To = emailAddress;
                 emailMessage.Subject = subject;
                 emailMessage.Header = mailSettings.MailHeader.ToString();
                 emailMessage.Footer = mailSettings.MailFooter.ToString();
@@ -152,8 +152,8 @@ namespace OxxCommerceStarterKit.Web.Services.Email
                     throw new ArgumentException("Missing From address in email settings");
                 
                 emailMessage.From = mailSettings.From;
-                emailMessage.Header = mailSettings.MailHeader.ToString();
-                emailMessage.Footer = mailSettings.MailFooter.ToString();
+                emailMessage.Header = mailSettings.MailHeader.ToHtmlString();
+                emailMessage.Footer = mailSettings.MailFooter.ToHtmlString();
 
                 if (string.IsNullOrEmpty(emailMessage.To))
                     throw new ArgumentException("Missing To address");

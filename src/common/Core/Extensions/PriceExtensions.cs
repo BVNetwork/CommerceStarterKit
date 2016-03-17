@@ -150,7 +150,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
             var discountedPrice = variation.GetPricesWithMarket(market).FirstOrDefault(priceFilter);
 
             if (discountedPrice != null) 
-                return discountedPrice.Price;
+                return discountedPrice.UnitPrice.ToString();
             return string.Empty;
 
             

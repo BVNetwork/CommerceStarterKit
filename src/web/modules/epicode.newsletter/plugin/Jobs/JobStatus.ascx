@@ -9,7 +9,7 @@
     var delay = 1000; // One second increment
 
     function InitializeTimer() {
-        timerID = setInterval(updateStatus(), durationInSeconds * delay);
+        timerID = setInterval(updateStatus, durationInSeconds * delay);
     }
 
     function StopTheTimer() {
@@ -26,17 +26,14 @@
     });
 
     function updateStatus() {
-        console.debug("Getting job status");
         $.ajax({
             dataType: "json",
             url: '<%= NewsLetterConfiguration.GetModuleBaseDir() %>/api/job/getjobstatus?jobid=<%= this.NewsletterJob.Id %>',
             success: function(data) {
-                console.debug(data);
                 var html =  $('#jobStatusTemplate').render(data);
                 $('#pnlStatusMessage').html(html);
             },
             error: function(data) {
-                console.debug(data);
                 if (data.status === 500) {
                     var errorData = {};
                     errorData.status = data.status;

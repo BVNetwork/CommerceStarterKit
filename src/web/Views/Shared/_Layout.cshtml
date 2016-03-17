@@ -40,7 +40,7 @@
     @* jQuery needs to run early, earlier than Bootstrap *@
     @Scripts.Render("~/bundles/jquery")
 
-    <link media="print" href="@Url.Content("~/Content/css/print.css")" rel="stylesheet" type="text/css" />
+    <link media="print" href="@Url.Content("~/Content/less/print.css")" rel="stylesheet" type="text/css" />
 
     @RenderSection("Head", false)
     @Html.RequiredClientResources(EPiServer.Framework.Web.RenderingTags.Header)

@@ -1,5 +1,5 @@
 ﻿@import url('/content/bootstrap.css');
-@import url('/content/css/styles.css');
+@import url('/content/less/styles.css');
 /* Import order is important */
 /*@fontSerif: "Georgia", "Serif";*/
 /*@import "../less/mixins.less";

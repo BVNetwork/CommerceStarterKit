@@ -51,7 +51,6 @@
 	             type: 'POST'
 	         })
 	             .done(function (data) {
-	                 console.debug(data);
 	                 var html = $('#successTemplate').render(data.database);
 	                 $('#result').html(html);
 

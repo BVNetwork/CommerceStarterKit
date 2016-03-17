@@ -3,6 +3,10 @@
   <language name="English" id="EN">
     <bvnetwork>
       <sendmail>
+        <view>
+          <name>Newsletter Details</name>
+          <description>Newsletter Details View</description>
+        </view>
         <enum>
           <recipientlisttype>
             <privatelist>Recipient List</privatelist>

@@ -10,7 +10,7 @@
 	{
 		<div class="form-group">
 			@Html.LabelFor(m => m.Username)
-			@Html.TextBoxFor(m => m.Username, new { @placeholder = Html.Translate("/common/account/username_placeholder"), @class = "form-control" })
+			@Html.TextBoxFor(m => m.Username, new { @placeholder = Html.Translate("/common/account/username_placeholder"), @class = "form-control", autofocus = "" })
 			@Html.ValidationMessageFor(m => m.Username, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/username").Replace(":", "")))
 		</div>
 

@@ -3,6 +3,10 @@
   <language name="Norsk" id="NO">
     <bvnetwork>
       <sendmail>
+        <view>
+          <name>Nyhetsbrev</name>
+          <description>Newsletter detaljer</description>
+        </view>
         <enum>
           <recipientlisttype>
             <privatelist>Mottakerliste</privatelist>

@@ -4,7 +4,11 @@
     "inputFile": "Content/less/styles.less"
   },
   {
-    "outputFile": "Content/css/commerce-starter-kit.css",
-    "inputFile": "Content/css/commerce-starter-kit.less"
+    "outputFile": "Content/less/epicphoto.css",
+    "inputFile": "Content/less/epicphoto.less"
+  },
+  {
+    "outputFile": "Content/less/print.css",
+    "inputFile": "Content/less/print.less"
   }
 ]

@@ -1,0 +1,15 @@
+﻿@using OxxCommerceStarterKit.Web.Helpers
+@model List<ProductListViewModel>
+@{
+    Layout = null;
+}
+
+<div class="row">
+
+    @foreach (var product in Model)
+    {
+        <div class="col-md-4">
+            @Html.Partial("../../Shared/ProductPartials/_ProductListView", product)
+        </div>
+    }
+</div>

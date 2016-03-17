@@ -23,8 +23,9 @@ namespace OxxCommerceStarterKit.Core.Objects.SharedViewModels
 		public decimal Price { get; set; }
 		public decimal Discount { get; set; }
 		public string ArticleNumber { get; set; }
+        public string ImageUrl { get; set; }
 
-		public OrderLineViewModel() { }
+        public OrderLineViewModel() { }
 		public OrderLineViewModel(LineItemModel item)
 		{
 		    Code = item.CatalogEntryId;
@@ -36,6 +37,7 @@ namespace OxxCommerceStarterKit.Core.Objects.SharedViewModels
 			Size = item.Size;
 			Color = item.Color;
 			ArticleNumber = item.ArticleNumber;
+		    ImageUrl = item.ImageUrl;
 		}
 	}
 }

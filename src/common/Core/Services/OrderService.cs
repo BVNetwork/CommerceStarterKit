@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web.Security;
+using AjaxControlToolkit;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
@@ -150,7 +151,8 @@ namespace OxxCommerceStarterKit.Core.Services
                 OrderLevelDiscountAmount = item.OrderLevelDiscountAmount,
                 Quantity = (int)item.Quantity,
                 Size = item.GetStringValue(Constants.Metadata.LineItem.Size),
-                WarehouseCode = item.WarehouseCode
+                WarehouseCode = item.WarehouseCode, 
+                ImageUrl = item.GetStringValue(Constants.Metadata.LineItem.ImageUrl)
             };
         }
 
@@ -352,5 +354,25 @@ namespace OxxCommerceStarterKit.Core.Services
             return _customerFactory.CreateCustomer(email, password, phone, billingAddress, shippingAddress, hasPassword,
                 userCreationFailed);
         }
+
+        public bool SendOrderReceipt(string trackingNumber)
+        {
+            PurchaseOrderModel model = GetOrderByTrackingNumber(trackingNumber);
+            return SendOrderReceipt(model);
+        }
+
+        public bool SendOrderReceipt(PurchaseOrder order)
+        {
+            return SendOrderReceipt(MapToModel(order));
+        }
+
+        public bool SendOrderReceipt(PurchaseOrderModel orderModel)
+        {
+            IEmailService emailService = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<IEmailService>();
+            if(orderModel == null)
+                throw new ArgumentNullException("orderModel");
+            return emailService.SendOrderReceipt(orderModel);
+        }
+
     }
 }

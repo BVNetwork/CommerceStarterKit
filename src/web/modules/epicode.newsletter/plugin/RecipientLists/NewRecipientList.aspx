@@ -13,7 +13,7 @@
         <div class="col-lg-12">
             <h1>Create Recipient List</h1>        
             <EPiSendMail:statusmessage runat="server" id="ucStatusMessage" />
-            <asp:Panel ID="Panel1" runat="server" DefaultButton="cmdSaveNewRecipientList">
+            <asp:Panel ID="Panel1" runat="server" DefaultButton="cmdSaveNewRecipientList" EnableViewState="True">
                 Please give the recipient list a name and a description.
                 <br />
                 <br />

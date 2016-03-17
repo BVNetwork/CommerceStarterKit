@@ -1,191 +1,281 @@
 ﻿@using System.Web.Mvc.Html
 @model OxxCommerceStarterKit.Web.Services.Email.Models.Receipt
-@{ Layout = "_Layout.Html.cshtml"; }
-@section Subject { @Model.Subject }
-@section BodyClass { receipt }
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.Subject</title>
 
-@if (Model != null && Model.OrderViewModel != null)
-{
-	<table class="row">
-		<tr>
-			<td class="wrapper">
-				<table class="eight columns">
-					<tr>
-						<td class="text-pad receipt-header">
-							<h1>@Html.Translate("/common/receipt/email/title")</h1>
-							<p>@Html.Translate("/common/accountpages/order_table_headers/number") @Model.OrderViewModel.OrderNumber
-							@(!string.IsNullOrEmpty(Model.OrderViewModel.ErpOrderNumber) ? " / " + Model.OrderViewModel.ErpOrderNumber : "")</p>
+    @Html.Partial("_oxygen.css")
 
-						</td>
-						<td class="expander"></td>
-					</tr>
-				</table>
-			</td>
-			<td class="wrapper last">
-				<table class="four columns">
-					<tr>
-						<td class="text-pad receipt-header date">
-							<p>@Html.Translate("/common/accountpages/order_table_headers/date") @Model.OrderViewModel.OrderDate.ToString("dd.MM.yyyy")</p>
-						</td>
-						<td class="expander"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
+    <style type="text/css" media="screen">
+    @@import url(http://fonts.googleapis.com/css?family=Oxygen:400,700);
+    </style>
 
-	if (Model.OrderViewModel.OrderLines != null)
-	{
-		<table class="row">
-			@foreach (var p in Model.OrderViewModel.OrderLines)
-			{
-				<tr class="lineitem">
-					<td class="wrapper">
-						<table class="nine columns">
-							<tr>
-								<td class="text-pad">@p.Name @Html.Translate("/common/cart/article_number") @p.ArticleNumber
-								@p.Color @Html.Translate("/common/receipt/size_prefix") @p.Size
-									@p.Quantity @(p.Quantity == 1 ? Html.Translate("/common/cart/quantity_one") : Html.Translate("/common/cart/quantity_many"))
-								</td>
-								<td class="expander"></td>
-							</tr>
-						</table>
-					</td>
-					<td class="wrapper last">
-						<table class="three columns">
-							<tr>
-								<td class="text-pad money-column">
-									@Model.OrderViewModel.FormatMoney(p.Price)
-								</td>
-								<td class="expander"></td>
-							</tr>
-						</table>
-					</td>
-				</tr>
-			}
-		</table>
-	}
-	if (Model.OrderViewModel.DiscountCodes != null && Model.OrderViewModel.DiscountCodes.Any())
-	{
-		<table class="row">
-			<tr class="discount-codes">
-				<td class="wrapper last">
-					<table class="twelve columns">
-						<tr>
-							<td class="text-pad">
-								<span>@Html.Translate("/common/cart/coupon_codes/applied_label")</span>
-								<span>
-									@Html.Raw(string.Join("</span><span>, ", Model.OrderViewModel.DiscountCodes.ToArray()))
-								</span>
-							</td>
-							<td class="expander"></td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-		</table>
-	}
+    <style type="text/css" media="screen">
+        @@media screen {
+            /* Thanks Outlook 2013! http://goo.gl/XLxpyl */
+            * {
+                font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
+            }
+        }
+    </style>
 
-	<table class="row">
-		<tr class="sums">
-			<td class="wrapper last offset-by-six">
-				<table class="six columns">
-					<tr>
-						<td class="six sub-columns text-pad">
-							@Html.Translate("/common/cart/products")<br />
-							@if (Model.OrderViewModel.Shipping > 0)
-							{
-								@Html.Translate("/common/cart/shipping")<br />
-							}
-							@if (Model.OrderViewModel.Discount > 0)
-							{
-								@Html.Translate("/common/cart/discount")
-							}
-							@Html.Translate("/common/cart/taxes")
-						</td>
-						<td class="six sub-columns text-pad money-column">
-							@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.TotalLineItemsAmount)<br />
-							@if (Model.OrderViewModel.Shipping > 0)
-							{
-								@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Shipping)<br />
-							}
-							@if (Model.OrderViewModel.Discount > 0)
-							{
-								@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Discount)<br />
-							}
-							@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Tax)
-						</td>
-						<td class="expander"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-		<tr class="sums-total">
-			<td class="wrapper last offset-by-six">
-				<table class="six columns">
-					<tr>
-						<td class="six sub-columns sum text-pad"><b>@Html.Translate("/common/cart/total")</b></td>
-						<td class="six sub-columns sum text-pad money-column"><b>@Model.OrderViewModel.FormatMoneyForReceipt(Model.OrderViewModel.TotalAmount)</b></td>
-						<td class="expander"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
-	<table class="row">
-		<tr class="addresses">
-			<td class="wrapper">
-				<table class="six columns">
-					<tr>
-						<td class="text-pad">
-							<h3>@Html.Translate("/common/accountpages/billing_address_title")</h3>
-						</td>
-						<td class="expander"></td>
-					</tr>
-					<tr>
-						<td class="text-pad">
-							@if (Model.OrderViewModel.BillingAddress != null)
-							{
-								<p>
-									@Model.OrderViewModel.BillingAddress.FirstName @Model.OrderViewModel.BillingAddress.LastName<br />
-									@Model.OrderViewModel.BillingAddress.StreetAddress<br />
-									@Model.OrderViewModel.BillingAddress.ZipCode @Model.OrderViewModel.BillingAddress.City
-								</p>
-							}
-						</td>
-						<td class="expander"></td>
-					</tr>
-				</table>
-			</td>
-			<td class="wrapper last">
-				<table class="six columns">
-					<tr>
-						<td class="text-pad"><h3>@Html.Translate("/common/accountpages/shipping_address_title")</h3></td>
-						<td class="expander"></td>
-					</tr>
-					<tr>
-						<td class="text-pad">
-							@if (Model.OrderViewModel.ShippingAddress != null)
-							{
-								<p>
-									@Model.OrderViewModel.ShippingAddress.FirstName @Model.OrderViewModel.ShippingAddress.LastName<br />
-									@Model.OrderViewModel.ShippingAddress.StreetAddress<br />
-									@Model.OrderViewModel.ShippingAddress.ZipCode @Model.OrderViewModel.ShippingAddress.City
-								</p>
-							}
-							@if (!string.IsNullOrWhiteSpace(Model.OrderViewModel.DeliveryLocation))
-							{
-								<p>
-									<b>@Html.Translate("/common/accountpages/delivery_service_point")</b><br/>
-									@Model.OrderViewModel.DeliveryLocation
-								</p>
-							}
-						</td>
-						<td class="expander"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
+    @Html.Partial("_oxygen.mobile.css")
+</head>
 
-}
+<body bgcolor="#f7f7f7">
+
+
+    @if (Model != null && Model.OrderViewModel != null)
+    {
+        <div>
+        <table align="center" cellpadding="0" cellspacing="0" class="container-for-gmail-android" width="100%">
+        <tr>
+            <td align="left" valign="top" width="100%" style="background: repeat-x url(/Content/Images/email/oxygen/bg_top_02.jpg) #ffffff;">
+                <center>
+                    <img src="/Content/Images/email/oxygen/transparent.png" class="force-width-gmail">
+                    <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff" background="/Content/Images/email/oxygen/bg_top_02.jpg" style="background-color: transparent">
+                        <tr>
+                            <td width="100%" height="80" valign="top" style="text-align: center; vertical-align: middle;">
+                                <!--[if gte mso 9]>
+                                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent: 1000; height: 80px; v-text-anchor: middle;">
+                                    <v:fill type="tile" src="/Content/Images/email/oxygen/bg_top_02.jpg" color="#ffffff"/>
+                                    <v:textbox inset="0,0,0,0">
+                                <![endif]-->
+                                <center>
+                                    <table cellpadding="0" cellspacing="0" width="600" class="w320">
+                                        <tr>
+                                            <td class="pull-left mobile-header-padding-left" style="vertical-align: middle;">
+                                                <a href=""><img width="207" height="47" src="/Content/Images/email/epic-photo-logo-blue-horz-no-tag-207x47.png" alt="logo"></a>
+                                            </td>
+                                            <td class="pull-right mobile-header-padding-right" style="color: #4d4d4d;">
+                                                <a href=""><img width="44" height="47" src="/Content/Images/email/social_twitter.gif" alt="twitter"/></a>
+                                                <a href="https://www.facebook.com/epicphotodemo/"><img width="38" height="47" src="/Content/Images/email/social_facebook.gif" alt="facebook"/></a>
+                                                <a href=""><img width="40" height="47" src="/Content/Images/email/social_rss.gif" alt="rss"/></a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </center>
+                                <!--[if gte mso 9]>
+                                    </v:textbox>
+                                    </v:rect>
+                                <![endif]-->
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #f7f7f7;" class="content-padding">
+                <center>
+                    <table cellspacing="0" cellpadding="0" width="600" class="w320">
+                        <tr>
+                            <td class="header-lg">
+                                Thank you for your order!
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="free-text">
+                                We'll let you know as soon as your items have shipped. To change or view your order, please view your account by clicking the button below.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="button">
+                                <div>
+                                    <!--[if mso]>
+                                        <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="/en/my-page/orders/" style="height: 45px; v-text-anchor: middle; width: 155px;" arcsize="15%" strokecolor="#ffffff" fillcolor="#ff6f6f">
+                                            <w:anchorlock/>
+                                            <center style="color: #ffffff; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: regular;">My Account</center>
+                                        </v:roundrect>
+                                    <![endif]-->
+                                    <a href="/en/my-page/orders/"
+                                       style="background-color: #ff6f6f; border-radius: 5px; color: #ffffff; display: inline-block; font-family: 'Cabin', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: regular; line-height: 45px; text-align: center; text-decoration: none; width: 155px; -webkit-text-size-adjust: none; mso-hide: all;">My Account</a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w320">
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td class="mini-container-left">
+                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td class="mini-block-padding">
+                                                        <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: separate !important;">
+                                                            <tr>
+                                                                <td class="mini-block">
+                                                                    <span class="header-sm">Shipping Address</span><br />
+                                                                    @if (Model.OrderViewModel.ShippingAddress != null)
+                                                                    {
+                                                                        @Model.OrderViewModel.ShippingAddress.FirstName@:&nbsp;@Model.OrderViewModel.ShippingAddress.LastName<br />
+                                                                        @Model.OrderViewModel.ShippingAddress.StreetAddress<br />
+                                                                        @Model.OrderViewModel.ShippingAddress.ZipCode@:&nbsp;@Model.OrderViewModel.ShippingAddress.City<br/>
+                                                                    }
+                                                                    @if (!string.IsNullOrWhiteSpace(Model.OrderViewModel.DeliveryLocation))
+                                                                    {
+                                                                        <b>@Html.Translate("/common/accountpages/delivery_service_point")</b>
+                                                                        <br/>
+                                                                        @Model.OrderViewModel.DeliveryLocation
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <br/>
+                                                                    }
+
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td class="mini-container-right">
+                                            <table cellpadding="0" cellspacing="0" width="100%">
+                                                <tr>
+                                                    <td class="mini-block-padding">
+                                                        <table cellspacing="0" cellpadding="0" width="100%" style="border-collapse: separate !important;">
+                                                            <tr>
+                                                                <td class="mini-block">
+                                                                    <span class="header-sm">Date Ordered</span><br/>
+                                                                    @Model.OrderViewModel.OrderDate.ToString("dd.MM.yyyy") <br/>
+                                                                    <br/>
+                                                                    <span class="header-sm">Order</span> <br/>
+                                                                    @Model.OrderViewModel.OrderNumber
+                                                                    @(!string.IsNullOrEmpty(Model.OrderViewModel.ErpOrderNumber) ? " / " + Model.OrderViewModel.ErpOrderNumber : "")
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #ffffff; border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;">
+                <center>
+                    <table cellpadding="0" cellspacing="0" width="600" class="w320">
+                        <tr>
+                            <td class="item-table">
+                                <table cellspacing="0" cellpadding="0" width="100%">
+                                    <tr>
+                                        <td class="title-dark" width="300">
+                                            Item
+                                        </td>
+                                        <td class="title-dark" width="163">
+                                            Qty
+                                        </td>
+                                        <td class="title-dark" width="97">
+                                            Total
+                                        </td>
+                                    </tr>
+
+
+                                    @if (Model.OrderViewModel.OrderLines != null)
+                                    {
+                                        foreach (var p in Model.OrderViewModel.OrderLines)
+                                        {
+                                            <tr>
+                                                <td class="item-col item">
+                                                    <table cellspacing="0" cellpadding="0" width="100%">
+                                                        <tr>
+                                                            <td class="mobile-hide-img">
+                                                                <a href=""><img width="110" height="92" src="@p.ImageUrl?preset=email-receipt-product" alt="item1" /></a>
+                                                            </td>
+                                                            <td class="product">
+                                                                <span style="color: #4d4d4d; font-weight: bold;">@p.Name</span> <br />
+                                                                (@p.ArticleNumber)
+                                                                @p.Color
+                                                                @if (string.IsNullOrEmpty(p.Size) == false)
+                                                                {
+                                                                    @Html.Translate("/common/receipt/size_prefix") @p.Size
+                                                                }
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td class="item-col quantity">
+                                                    @p.Quantity
+                                                </td>
+                                                <td class="item-col">
+                                                    @Model.OrderViewModel.FormatMoney(p.Price)
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                    <tr>
+                                        <td class="item-col item mobile-row-padding"></td>
+                                        <td class="item-col quantity"></td>
+                                        <td class="item-col price"></td>
+                                    </tr>
+
+
+                                    <tr>
+                                        <td class="item-col item"></td>
+                                        <td class="item-col quantity" style="text-align: right; padding-right: 10px; border-top: 1px solid #cccccc;">
+                                            <span class="total-space">Subtotal</span> <br />
+                                            <span class="total-space">Tax</span>  <br />
+                                            <span class="total-space">Shipping</span> <br />
+                                            <span class="total-space" style="font-weight: bold; color: #4d4d4d">Total</span>
+                                        </td>
+                                        <td class="item-col price" style="text-align: left; border-top: 1px solid #cccccc;">
+                                            <span class="total-space">@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.TotalLineItemsAmount)</span> <br />
+                                            <span class="total-space">@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Tax)</span>  <br />
+                                            <span class="total-space">@Model.OrderViewModel.FormatMoney(Model.OrderViewModel.Shipping)</span>  <br />
+                                            <span class="total-space" style="font-weight: bold; color: #4d4d4d">@Model.OrderViewModel.FormatMoneyForReceipt(Model.OrderViewModel.TotalAmount)</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #f7f7f7; height: 100px;">
+                <center>
+                    <table cellspacing="0" cellpadding="0" width="600" class="w320">
+                        <tr>
+                            <td style="padding: 25px 0 25px">
+                                <strong>Epic Photo</strong><br/>
+                                1234 Epic St <br/>
+                                Wonderland <br/><br/>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #ffffff; height: 100px;">
+                <center>
+                    <table cellspacing="0" cellpadding="0" width="600" class="w320">
+                        <tr>
+                            <td style="padding: 25px 0 25px">
+                                <strong style="color: red;">Important!</strong><br/>
+                                Epic Photo is a fictious ecommerce demo web site. <br/>
+                                Orders are not real, no goods will be sold or shipped.
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        </table>
+        </div>
+    }
+    </body>
+</html>
+
+

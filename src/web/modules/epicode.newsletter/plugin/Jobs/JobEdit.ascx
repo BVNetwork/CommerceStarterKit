@@ -24,7 +24,6 @@
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {
-                console.debug(jqXHR, textStatus, errorThrown);
                 var data = {
                     warning: 'Failed to Send Newsletter',
                     message: errorThrown

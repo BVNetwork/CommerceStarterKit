@@ -4,7 +4,7 @@
 	{
 		Layout = "~/Views/Shared/_LayoutNoDb.cshtml";
 	}
-	
+
 	string title = Html.TranslateFallback("/errors/error404/title", "Page Not Found");
 	string htmlText = Html.TranslateFallback("/errors/error404/text", "We're sorry, but the page you requested could not be found");
 	string urlLabel = Html.TranslateFallback("/errors/error404/url_label", "You were looking for:");
@@ -19,8 +19,9 @@
 		if (Model.CurrentPage.Settings.FileNotFoundPageText != null && !string.IsNullOrEmpty(Model.CurrentPage.Settings.FileNotFoundPageText.ToString())) {
 			htmlText = Model.CurrentPage.Settings.FileNotFoundPageText.ToString();
 		}
+		ViewBag.Title = "404 - " + Model.CurrentPage.Name;
 	}
-	ViewBag.Title = "404 - " + Model.CurrentPage.Name;
+
 }
 <div class="article-page error-page">
 
