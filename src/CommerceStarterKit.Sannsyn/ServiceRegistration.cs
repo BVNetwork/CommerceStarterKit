@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using EPiServer.Core;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
 using OxxCommerceStarterKit.Interfaces;
+using Sannsyn.Episerver.Commerce.Configuration;
 using StructureMap;
 
 namespace OxxCommerceStarterKit.Sannsyn
@@ -27,7 +29,12 @@ namespace OxxCommerceStarterKit.Sannsyn
 
         private void ConfigureContainer(ConfigurationExpression container)
         {
-            container.For<IRecommendedProductsService>().Use<SannsynRecommendedProductsService>();
+            SannsynConfiguration sannsynConfiguration = ServiceLocator.Current.GetInstance<SannsynConfiguration>();
+            if (sannsynConfiguration.ModuleEnabled)
+            {
+                container.For<IRecommendedProductsService>().Use<SannsynRecommendedProductsService>();
+            }
+            
         }
     }
 }
