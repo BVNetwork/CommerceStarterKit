@@ -7,7 +7,7 @@
 
     productApp.controller("HeaderCartController", ['$scope', 'handleCartService', '$sce', function ($scope, handleCartService, $sce) {
 
-       
+        $scope.accounting = window.accounting;
 
         $scope.GetCartItemsToHeader = function(language) {
             console.log(language);
@@ -19,6 +19,21 @@
 				    //console.log(response);
 				});
 
+        };
+
+        $scope.formatMoney = function (money) {
+            if (!money) {
+                money = 0;
+            }
+
+            return $scope.accounting.formatMoney(money);
+
+            if ((money + '').indexOf('.') > 0) {
+                return money.toFixed(2); // + ' kr';
+            }
+            return money; // + ' kr';
+            //TODO: Fix accoring to currency
+            // $scope.currencySymbol
         };
         $scope.removeFromCart = function(product) {
             console.log(product);

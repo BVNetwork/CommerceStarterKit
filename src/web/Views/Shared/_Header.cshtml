@@ -120,7 +120,7 @@
                         <tr class="item" ng-repeat="p in products">
                             <td>{{p.Name}}</td>
                             <td>{{p.Quantity}}</td>
-                            <td class="price">{{p.LineItemTotal}}</td>
+                            <td class="price">{{formatMoney(p.LineItemTotal)}}</td>
                         </tr>
                     </table>
                 </div>
@@ -129,7 +129,7 @@
                         <a class="btn btn-outlined-invert" href="@Url.ContentUrl(Model.CheckoutPage)"><i class="icon-download"></i>Checkout</a>
                         <a class="btn btn-outlined-invert" href="@Url.ContentUrl(homePage.Settings.CartPage)"><i class="icon-shopping-cart-content"></i>To cart</a>
                     </div>
-                    <div class="total">{{cartTotalAmount}}</div>
+                    <div class="total">{{formatMoney(cartTotalAmount)}}</div>
                 </div>
             </div><!--Cart Dropdown Close-->
         </div>
