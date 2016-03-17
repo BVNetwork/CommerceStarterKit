@@ -73,11 +73,11 @@ namespace OxxCommerceStarterKit.Web
 				"~/Scripts/js/components/HelpDialog.js"));
 
             // Note - //"~/Content/bootstrap.min.css", // Part of the template
-            bundles.Add(new StyleBundle("~/bundles/css").Include(
-                "~/Content/css/jqueryui/jquery-ui-1.10.4.custom.min.css",
-                "~/Content/masterslider/style/masterslider.css",
+            bundles.Add(new StyleBundle("~/content/css/css").Include(
                 "~/Content/css/flexslider/flexslider.css",
                 "~/Content/css/lightslider.css")
+                .Include("~/Content/css/jqueryui/jquery-ui-1.10.4.custom.min.css", new CssRewriteUrlTransform())
+                .Include("~/Content/masterslider/style/masterslider.css", new CssRewriteUrlTransform())
                 // Original Bushido template  + Fix font-references
                 .Include("~/Content/less/styles.css", new CssRewriteUrlTransform())
                 // Our Overrides
