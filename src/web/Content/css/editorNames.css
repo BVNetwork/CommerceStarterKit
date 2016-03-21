@@ -1,9 +1,7 @@
-﻿@import url('/content/bootstrap.css');
+﻿/* Import order is important */
+@import url('/content/bootstrap.css');
 @import url('/content/less/styles.css');
-/* Import order is important */
 /*@fontSerif: "Georgia", "Serif";*/
-/*@import "../less/mixins.less";
-@import "../less/type.less";*/
 body {
   background: transparent;
   background-image: none;
