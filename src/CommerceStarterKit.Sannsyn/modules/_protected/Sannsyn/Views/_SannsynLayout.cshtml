@@ -1,0 +1,46 @@
+﻿@using EPiServer.Framework.Web.Resources
+@using EPiServer.Shell
+@using EPiServer.Shell.Navigation
+@using EPiServer.Shell.Web.Mvc.Html
+@inherits System.Web.Mvc.WebViewPage
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Sannsyn admin</title>
+
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+
+    <!-- Shell -->
+    @Html.Raw(ClientResources.RenderResources("ShellCore"))
+    @Html.Raw(ClientResources.RenderResources("ShellWidgets"))
+
+    <!-- LightTheme -->
+    @Html.Raw(ClientResources.RenderResources("ShellCoreLightTheme"))
+
+    @Html.Raw(ClientResources.RenderResources("Style"))
+    <!-- Navigation -->
+    @Html.Raw(ClientResources.RenderResources("Navigation"))
+
+    <!-- Dojo Dashboard -->
+    @Html.Raw(ClientResources.RenderResources("DojoDashboardCompatibility", new[] { ClientResourceType.Style }))
+
+    @Html.Raw(ClientResources.RenderResources("epi.shell.ui", new[] { ClientResourceType.Style }))
+    @Html.Raw(ClientResources.RenderResources("epi-cms.widgets.base", new[] { ClientResourceType.Style }))
+    
+    <link rel="stylesheet" type="text/css" href="@Paths.ToClientResource("Sannsyn", "Styles/SannsynAdminStyle.css")" />
+</head>
+<body class="Sleek">
+    @Html.Raw(Html.ShellInitializationScript())
+    @Html.Raw(Html.GlobalMenu())
+    <div class="sannsynnContainer">
+        <div class="grid">
+            <div class="grid__item">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

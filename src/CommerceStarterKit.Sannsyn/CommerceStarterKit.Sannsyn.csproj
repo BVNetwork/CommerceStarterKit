@@ -190,6 +190,10 @@
       <HintPath>..\..\packages\EPiServer.Commerce.Core.9.2.0\lib\net45\nsoftware.IBizPay.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Sannsyn.Episerver.Commerce, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Sannsyn.Episerver.Commerce.1.0.0\lib\net45\Sannsyn.Episerver.Commerce.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <HintPath>..\..\packages\structuremap-signed.3.1.6.186\lib\net40\StructureMap.dll</HintPath>
       <Private>True</Private>
@@ -238,10 +242,6 @@
     <Compile Include="ServiceRegistration.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\github-bvn\sannsyn-episerver-connector\src\Sannsyn.Episerver.Commerce\Sannsyn.Episerver.Commerce.csproj">
-      <Project>{4bf3d566-bbc6-495a-957b-2e9cfa46c7bb}</Project>
-      <Name>Sannsyn.Episerver.Commerce</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CommerceStarterKit.Interfaces\CommerceStarterKit.Interfaces.csproj">
       <Project>{3db4fc74-4a88-4a75-b272-ff5b6e6ab874}</Project>
       <Name>CommerceStarterKit.Interfaces</Name>
@@ -249,7 +249,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="modules\_protected\Sannsyn\module.config" />
+    <None Include="modules\_protected\Sannsyn\Views\SannsynAdmin\Index.cshtml" />
+    <None Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
+    <None Include="modules\_protected\Sannsyn\Views\_SannsynLayout.cshtml" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="modules\_protected\Sannsyn\Styles\SannsynAdminStyle.css" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

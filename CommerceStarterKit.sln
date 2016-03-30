@@ -20,8 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceStarterKit.PriceService", "src\CommerceStarterKit.PriceService\CommerceStarterKit.PriceService.csproj", "{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sannsyn.Episerver.Commerce", "..\..\github-bvn\sannsyn-episerver-connector\src\Sannsyn.Episerver.Commerce\Sannsyn.Episerver.Commerce.csproj", "{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceStarterKit.Interfaces", "src\CommerceStarterKit.Interfaces\CommerceStarterKit.Interfaces.csproj", "{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceStarterKit.Sannsyn", "src\CommerceStarterKit.Sannsyn\CommerceStarterKit.Sannsyn.csproj", "{E95AE6E5-6FBE-4456-A528-481350865E28}"
@@ -98,18 +96,6 @@ Global
 		{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}.Release|x86.Build.0 = Release|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Debug|x86.Build.0 = Debug|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Release|x86.ActiveCfg = Release|Any CPU
-		{4BF3D566-BBC6-495A-957B-2E9CFA46C7BB}.Release|x86.Build.0 = Release|Any CPU
 		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
