@@ -8,20 +8,12 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
-using EPiServer.Find;
-using EPiServer.Find.Framework;
 using Mediachase.Commerce.Catalog;
-using OxxCommerceStarterKit.Web.Models.FindModels;
-using Sannsyn.Episerver.Commerce.Services;
-using EPiServer.Find.Commerce;
-using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Services;

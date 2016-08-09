@@ -16,15 +16,6 @@
         </span>
     </section>
     <section>
-        <h2>Restart Service</h2>
-        <p>Stops the Sannsyn service, creating a new one using the Episerver standard configuration. <b>Note!</b> Data that has not been persisted will be lost.
-        </p>
-        <span class="epi-danger dijitButton ">
-            <input type="button" class="dijitButtonNode" value="Restart Service"
-                   onclick="location.href = '@Url.Action("StopAndStartSannsynService", "SannsynAdmin")'" />
-        </span>
-    </section>
-    <section>
         <h2>Index products with categories</h2>
         <p></p>
         <span class="dijitButton">
@@ -32,7 +23,19 @@
                    onclick="location.href = '@Url.Action("IndexProductsWithCategories", "SannsynAdmin")'" />
         </span>
     </section>
+    <section>
+        <h2>Restart Service</h2>
+        <p>
+            Stops the Sannsyn service, creating a new one using the Episerver standard configuration. <b>Note!</b> Data that has not been persisted will be lost.
+        </p>
+        <span class="epi-danger dijitButton ">
+            <input type="button" class="dijitButtonNode" value="Restart Service"
+                   onclick="location.href = '@Url.Action("StopAndStartSannsynService", "SannsynAdmin")'" />
+        </span>
+    </section>
     <div>
-        @myModel.StatusMessage
+        <b>
+            @myModel.StatusMessage
+        </b>
     </div>
 </div>
