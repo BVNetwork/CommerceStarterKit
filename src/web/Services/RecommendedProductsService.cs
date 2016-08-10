@@ -32,7 +32,7 @@ namespace OxxCommerceStarterKit.Web.Services
 
         public IEnumerable<IContent> GetRecommendedProducts(EntryContentBase catalogEntry, string userId, int maxCount)
         {
-            if (catalogEntry == null) throw new ArgumentNullException(nameof(catalogEntry));
+            if (catalogEntry == null) throw new ArgumentNullException("catalogEntry");
 
             var client = SearchClient.Instance;
             string language = catalogEntry.Language.Name;
