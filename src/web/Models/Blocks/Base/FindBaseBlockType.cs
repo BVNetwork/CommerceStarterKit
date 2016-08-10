@@ -22,7 +22,9 @@ using EPiServer.Find.Api;
 using EPiServer.Find.Framework;
 using EPiServer.Globalization;
 using EPiServer.ServiceLocation;
+using EPiServer.Shell.ObjectEditing;
 using Mediachase.Commerce.Catalog;
+using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
@@ -56,6 +58,15 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks.Base
                  Description = "The maximum price in the current market currency")]
         [CultureSpecific]
         public virtual int MaxPrice { get; set; }
+
+        [CultureSpecific]
+        [Display(
+            Name = "Sort Order",
+            Description = "How to sort the list",
+            GroupName = SystemTabNames.Content,
+            Order = 15)]
+        [SelectOne(SelectionFactoryType = typeof(FindProductFilterSortOrderFactory))]
+        public virtual string SortOrder { get; set; }
 
 
         public void SetIndex(int index)
@@ -91,10 +102,38 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks.Base
                 language = ContentLanguage.PreferredCulture.Name;
 
             query = query.Filter((x => x.Language.MatchCaseInsensitive(language)));
-            query = query.OrderByDescending(x => x.AverageRating);
+            query = ApplySortOrder(query);
             return query.Take(numberofPages)
                 //.StaticallyCacheFor(TimeSpan.FromMinutes(1))
                 .GetResult();
+        }
+
+        protected ITypeSearch<FindProduct> ApplySortOrder(ITypeSearch<FindProduct> query)
+        {
+            
+            if(SortOrder == null)
+            {
+                return query;
+            }
+
+            if (SortOrder.Equals("popularity"))
+            {
+                return query.OrderByDescending(x => x.Score);
+            }
+            if (SortOrder.Equals("priceAscending"))
+            {
+                return query.OrderBy(x => x.DefaultPriceAmount);
+            }
+            if (SortOrder.Equals("priceDescending"))
+            {
+                return query.OrderByDescending(x => x.DefaultPriceAmount);
+            }
+            if (SortOrder.Equals("rating"))
+            {
+                return query.OrderByDescending(x => x.AverageRating);
+            }
+            return query;
+
         }
 
         /// <summary>

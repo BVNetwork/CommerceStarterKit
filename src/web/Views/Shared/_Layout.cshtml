@@ -24,7 +24,7 @@
       <script src="@Url.Content("~/Scripts/libraries/html5shiv.js")"></script>
       <script src="@Url.Content("~/Scripts/libraries/respond.min.js")"></script>
     <![endif]-->
-    @Styles.Render("~/bundles/css")
+    @Styles.Render("~/content/css/css")
     @if (string.IsNullOrEmpty(chrome.ColorScheme) == false)
     {
         <link href="@Url.Content("~/Content/css/colors/" + chrome.ColorScheme + ".css")" rel="stylesheet" type="text/css" />

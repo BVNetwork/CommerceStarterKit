@@ -30,7 +30,7 @@
             {{p.Description}}
             <div class="sku">@Html.Translate("/common/cart/article_number") {{p.ArticleNumber}}</div>
         </td>
-        <td class="price">{{p.PlacedPrice}}</td>
+        <td class="price">{{formatMoney(p.PlacedPrice)}}</td>
         <td class="qnt-count">
             <a class="incr-btn" ng-click="decreaseQuantity(p)">-</a>
             <input id="quantity" name="Quantity" ng-model="p.Quantity" ng-blur="update(p)" class="form-control" type="text">

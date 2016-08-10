@@ -920,7 +920,6 @@ h2 {
 .my-page .form-group .lastname,
 .my-page .form-group .phone,
 .my-page .form-group .streetaddress,
-.my-page .form-group .email,
 .my-page .form-group .new-password,
 .my-page .form-group .repeat-password,
 .cart .addresses .form-group .firstname,
@@ -1157,4 +1156,10 @@ img.img-float-top-right {
 .notification-settings-page h4 {
   padding-top: 1em;
   border-bottom: 1px solid #aaa;
+}
+.article-sidebar .recommendedproductsblock .col-md-4 {
+  width: 100% !important;
+}
+.cartRecommendations .tile {
+  height: 350px;
 }

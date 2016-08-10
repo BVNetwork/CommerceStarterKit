@@ -18,6 +18,7 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Orders;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Services;
+using OxxCommerceStarterKit.Interfaces;
 
 namespace OxxCommerceStarterKit.Web.Jobs
 {

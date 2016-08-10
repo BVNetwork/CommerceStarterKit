@@ -1,0 +1,19 @@
+﻿@media (min-width: 769px) {
+    .sannsynnContainer {
+        margin: 0 10em;
+        max-width: 1170px;
+    }
+}
+@media (max-width: 768px) {
+    .sannsynnContainer {
+        margin: 0 1em;
+    }
+}
+
+.sannsynnContainer td {
+    padding: 0 4px;
+}
+
+.sannsynnContainer section {
+    padding-bottom: 1em;
+}

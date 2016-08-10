@@ -9,6 +9,8 @@ Copyright (C) 2013-2014 BV Network AS
 */
 
 using System.Collections.Generic;
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Website.Helpers;
@@ -18,12 +20,13 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 {
     public class CartModel : PageViewModel<CartSimpleModulePage>
     {
-        
+        // We don't want it null in the view
+        private List<ProductListViewModel> _recommendations = new List<ProductListViewModel>();
+
 
         public CartModel(CartSimpleModulePage currentPage )
             : base(currentPage)
         {
-             
         }
 
         /// <summary>
@@ -61,6 +64,12 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 
                 return cartHelper.LineItems;
             }
+        }
+
+        public List<ProductListViewModel> Recommendations
+        {
+            get { return _recommendations; }
+            set { _recommendations = value; }
         }
     }
 }

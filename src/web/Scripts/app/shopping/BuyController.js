@@ -18,6 +18,9 @@
         $scope.initWithProduct = function (product) {
             // console.log("Init buy controller with product");
             // console.log(product);
+
+            if(product && product.DisplayName)
+
             $scope.initLanguage(product.Language);
             $scope.product = $scope.getProductModel(product);
             if (product.Variants) {

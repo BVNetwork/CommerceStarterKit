@@ -48,7 +48,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 
         }
 
-        public ProductListViewModel(ProductBase content, 
+        public ProductListViewModel(ProductContent content, 
             IMarket currentMarket,
             CustomerContact currentContact)
             : this()
@@ -58,6 +58,8 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             AllImageUrls = content.AssetUrls();
 
             PopulateCommonData(content, currentMarket, currentContact);
+
+
         }
 
         protected void PopulateCommonData(EntryContentBase content, IMarket currentMarket, CustomerContact currentContact)

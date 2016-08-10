@@ -159,6 +159,7 @@
 				<out_of_stock>Utsolgt</out_of_stock>
 				<in_stock>på lager</in_stock>
 				<similar_products>Tilsvarende produkter</similar_products>
+        <related_products>Relaterte produkter</related_products>
 				<color>Farge</color>
                 <code>Art.nr.</code>
 				<colors>

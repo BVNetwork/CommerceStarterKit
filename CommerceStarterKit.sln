@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceStarterKit.Core", "src\common\Core\CommerceStarterKit.Core.csproj", "{01A92F8F-E704-4F78-8DCA-67E76B8A6CCF}"
 EndProject
@@ -19,6 +19,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceStarterKit.PriceService", "src\CommerceStarterKit.PriceService\CommerceStarterKit.PriceService.csproj", "{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceStarterKit.Interfaces", "src\CommerceStarterKit.Interfaces\CommerceStarterKit.Interfaces.csproj", "{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommerceStarterKit.Sannsyn", "src\CommerceStarterKit.Sannsyn\CommerceStarterKit.Sannsyn.csproj", "{E95AE6E5-6FBE-4456-A528-481350865E28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -92,6 +96,30 @@ Global
 		{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}.Release|x86.ActiveCfg = Release|Any CPU
 		{B0CD90AD-3A55-4E03-8F67-A1AE885098BA}.Release|x86.Build.0 = Release|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Debug|x86.Build.0 = Debug|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Release|x86.ActiveCfg = Release|Any CPU
+		{3DB4FC74-4A88-4A75-B272-FF5B6E6AB874}.Release|x86.Build.0 = Release|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Debug|x86.Build.0 = Debug|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Release|x86.ActiveCfg = Release|Any CPU
+		{E95AE6E5-6FBE-4456-A528-481350865E28}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

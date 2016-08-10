@@ -8,69 +8,113 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
-using EPiServer.Find;
-using EPiServer.Find.Framework;
-using OxxCommerceStarterKit.Web.Models.FindModels;
+using EPiServer;
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Core;
+using Mediachase.Commerce.Catalog;
+using Mediachase.Commerce;
+using Mediachase.Commerce.Customers;
+using OxxCommerceStarterKit.Core.Services;
+using OxxCommerceStarterKit.Interfaces;
+using OxxCommerceStarterKit.Web.Models.ViewModels;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Api
 {
+
+    public class SimilarProductObject
+    {
+        public string Name { get; set; }
+        public string Image { get; set; }
+        public string Url { get; set; }
+        public string DefaultPrice { get; set; }
+        public string DiscountedPrice { get; set; }
+    }
+
     public class SimilarProductsController : BaseApiController
     {
-        public class SimilarProductObject
+
+        private readonly IRecommendedProductsService _recommendationService;
+        private readonly IContentLoader _contentLoader;
+        private readonly ReferenceConverter _referenceConverter;
+        private readonly ProductService _productService;
+        private readonly ICurrentCustomerService _currentCustomerService;
+
+        private readonly ICurrentMarket _currentMarket;
+
+        public SimilarProductsController(IRecommendedProductsService recommendationService,
+            IContentLoader contentLoader,
+            ICurrentCustomerService currentCustomerService,
+            ICurrentMarket currentMarket,
+            ReferenceConverter referenceConverter,
+            ProductService productService)
         {
-            public string Name { get; set; }
-            public string Image { get; set; }
-            public string Url { get; set; }
-            public string DefaultPrice { get; set; }
-            public string DiscountedPrice { get; set; }
+            _recommendationService = recommendationService;
+            _contentLoader = contentLoader;
+            _currentCustomerService = currentCustomerService;
+            _currentMarket = currentMarket;
+            _referenceConverter = referenceConverter;
+            _productService = productService;
         }
 
+
         [HttpGet]
-        public object GetSimilarProducts(string indexId)
+        public IEnumerable<ProductListViewModel> GetSimilarProducts(int contentId)
         {
-            try
+            const int maxRecommendedProducts = 10;
+            List<ProductListViewModel> models = new List<ProductListViewModel>();
+            SetLanguage();
+            string language = Language;
+            ContentReference contentLink = _referenceConverter.GetContentLink(contentId, CatalogContentType.CatalogEntry, 0);
+            IContent contentItem;
+
+            if (_contentLoader.TryGet(contentLink, out contentItem))
             {
-                SetLanguage();
-                string language = Language;
-                var client = SearchClient.Instance;
-                FindProduct currentProduct = client.Search<FindProduct>()
-                    .Filter(x => x.IndexId.Match(indexId)).Take(1).StaticallyCacheFor(TimeSpan.FromMinutes(1)).GetResult().FirstOrDefault();
-                if (currentProduct != null)
+                EntryContentBase entryContent = contentItem as EntryContentBase;
+                if (entryContent != null)
                 {
+                    var currentCustomer = CustomerContext.Current.CurrentContact;
+                    var recommendedProducts = _recommendationService.GetRecommendedProducts(entryContent,
+                        _currentCustomerService.GetCurrentUserId(), maxRecommendedProducts);
 
-                    List<SimilarProductObject> similarProductObjects = new List<SimilarProductObject>();
 
-                    var result = client.Search<FindProduct>()
-                        .Filter(x => x.CategoryName.Match(currentProduct.CategoryName))
-                        .Filter(x => x.MainCategoryName.Match(currentProduct.MainCategoryName))
-                        .Filter(x => !x.DisplayName.Match(currentProduct.DisplayName))
-                        .Filter(x => x.Language.Match(language))
-                        .StaticallyCacheFor(TimeSpan.FromMinutes(1))
-                        .GetResult();
-
-                    similarProductObjects = result.Select(y => new SimilarProductObject
+                    foreach (var content in recommendedProducts)
                     {
-                        Name = y.DisplayName,
-                        Image = y.DefaultImageUrl,
-                        Url = y.ProductUrl,
-                        DefaultPrice = y.DefaultPrice,
-                        DiscountedPrice = y.DiscountedPrice
-                    }).ToList();
+                        ProductListViewModel model = null;
+                        VariationContent variation = content as VariationContent;
+                        if (variation != null)
+                        {
+                            model = new ProductListViewModel(variation, _currentMarket.GetCurrentMarket(),
+                                currentCustomer);
+                        }
+                        else
+                        {
+                            ProductContent product = content as ProductContent;
+                            if (product != null)
+                            {
+                                model = _productService.GetProductListViewModel(product as IProductListViewModelInitializer);
 
+                                // Fallback
+                                if(model == null)
+                                {
+                                    model = new ProductListViewModel(product, _currentMarket.GetCurrentMarket(),
+                                        currentCustomer);
+                                }
+                            }
+                        }
 
-                    return similarProductObjects;
+                        if (model != null)
+                        {
+                            models.Add(model);
+                        }
+
+                    }
                 }
-                return null;
-            }
-            catch (ServiceException)
-            {
-                return null;
             }
 
+            return models;
         }
     }
 }

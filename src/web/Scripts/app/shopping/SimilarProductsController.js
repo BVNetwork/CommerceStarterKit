@@ -9,7 +9,7 @@
 			$scope.visible = false;
 
             var findIndexId = id + '_' + language;
-            $.getJSON('/' + $scope.language + '/api/SimilarProducts/GetSimilarProducts', { indexId: findIndexId, _: new Date().getTime().toString() }).success(function (data) {
+            $.getJSON('/' + $scope.language + '/api/SimilarProducts/GetSimilarProducts', { contentId: id, _: new Date().getTime().toString() }).success(function (data) {
                 $scope.similarProducts = data;
                 $scope.visible = typeof ($scope.similarProducts) !== 'undefined' && ($scope.similarProducts !== null && $scope.similarProducts.length > 0);
 

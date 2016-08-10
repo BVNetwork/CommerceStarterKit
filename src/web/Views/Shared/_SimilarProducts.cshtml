@@ -3,7 +3,7 @@
     <div class="container">
         <div class="accordion row" ng-controller="SimilarProductsController" ng-init="init('@Model.ContentLink.ID', '@Model.Language')" ng-hide="!visible">
             <div class="panel-heading active">
-                <a class="accordion-toggle" data-toggle="collapse" data-target="#similar-products"><i></i>@Html.Translate("/common/product/similar_products")</a>
+                <a class="accordion-toggle" data-toggle="collapse" data-target="#similar-products"><i></i>@Html.Translate("/common/product/related_products")</a>
             </div>
             <div class="sliderContainer collapse in" id="similar-products">
                 <div class="catalog-grid">
@@ -11,27 +11,32 @@
                         <ul id="similarProducts" class="slides">
                             <li class="product" ng-repeat="product in similarProducts">
                                 <div class="tile">
-                                    <div class="badges" ng-show="product.DiscountedPrice">
+                                    <div class="badges" ng-show="product.DiscountPriceString">
                                         <span class="sale"></span>
                                     </div>
                                     <div class="price-label">
-                                        <span ng-show="product.DiscountedPrice">{{product.DiscountedPrice}}</span>
-                                        <span ng-hide="product.DiscountedPrice">{{product.DefaultPrice}}</span>
+                                        <span ng-show="product.DiscountPriceString">{{product.DiscountPriceString}}</span>
+                                        <span ng-hide="product.DiscountPriceString">{{product.PriceString}}</span>
 
                                     </div>
-                                    <div class="price-label old-price" ng-show="product.DiscountedPrice">
-                                        {{product.DefaultPrice}}
+                                    <div class="price-label old-price" ng-show="product.DiscountPriceString">
+                                        {{product.PriceString}}
                                     </div>
-                                    <a href="{{ product.Url }}">
-
-                                        <img class="img-responsive" ng-src="{{product.Image}}?preset=largethumbnail" load-disp load-dispatcher />
+                                    <a href="{{ product.ProductUrl }}">
+                                        <img class="img-responsive" ng-src="{{product.ImageUrl}}?preset=largethumbnail" load-disp load-dispatcher />
                                     </a>
                                     <div class="footer">
-                                        <a href="{{ product.Url }}">{{ product.Name }}</a>
+                                        <a href="{{ product.ProductUrl }}">{{ product.DisplayName }}</a>
                                         <div class="tools">
                                             <!--Add To Cart Button-->
-                                            <a class="add-cart-btn" ng-controller="BuyController" ng-init="initWithProduct(product)" ng-click="addToCartDefault()" href="#"><span>@Html.Translate("/common/product/add_to_cart")</span><i class="icon-shopping-cart"></i></a>
+                                            <span ng-show="product.IsVariation">
+                                                <a class="add-cart-btn" ng-controller="BuyController" ng-init="initWithProduct(product)" ng-click="addToCartDefault()" href="#"><span>@Html.Translate("/common/product/add_to_cart")</span><i class="icon-shopping-cart"></i></a>
+                                            </span>                                        
+                                            <span ng-hide="product.IsVariation">
+                                                <a class="add-cart-btn" href="{{ product.ProductUrl }}"><span>@Html.Translate("/common/product/details")</span><i class="icon-arrow-right"></i></a>
+                                            </span>
                                         </div>
+                                        
                                     </div>
                                 </div>
                             </li>
