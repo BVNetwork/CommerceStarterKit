@@ -539,11 +539,11 @@
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />
     <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
-    <Content Include="modules\_protected\Sannsyn\module.config" />
     <Content Include="modules\_protected\Sannsyn\Views\SannsynAdmin\Index.cshtml" />
-    <Content Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
-    <Content Include="modules\_protected\Sannsyn\Views\web.config" />
     <Content Include="modules\_protected\Sannsyn\Views\_SannsynLayout.cshtml" />
+    <Content Include="modules\_protected\Sannsyn\Views\web.config" />
+    <Content Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
+    <Content Include="modules\_protected\Sannsyn\module.config" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -1320,6 +1320,10 @@
     </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RestSharp.105.2.3\lib\net452\RestSharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Sannsyn.Episerver.Commerce, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Sannsyn.Episerver.Commerce.1.0.2\lib\net45\Sannsyn.Episerver.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=3.1.6.191, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
