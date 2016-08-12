@@ -14,6 +14,7 @@ using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using Mediachase.Commerce;
 using OxxCommerceStarterKit.Web.Services;
+using Sannsyn.Episerver.Commerce;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -28,7 +29,17 @@ namespace OxxCommerceStarterKit.Web.Controllers
         public class RecommendedResult
         {
             public string Heading { get; set; }
+            public string TrackingName { get; set; }
             public List<ProductListViewModel> Products { get; set; }
+
+            public string GetTrackingName(ProductListViewModel product)
+            {
+                if(string.IsNullOrEmpty(TrackingName) == false)
+                {
+                    return TrackingName + "_" + product.Code;
+                }
+                return string.Empty;
+            }
         }
 
         public RecommendedProductsBlockController(IRecommendedProductsService recommendationService,
@@ -85,6 +96,17 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     }
 
                 }
+                // TODO: The recommender needs to return this
+                if(currentBlock.Category != null)
+                {
+                    recommendedResult.TrackingName = Constants.Recommenders.UserItemCategoryClickBuy;
+                    
+                }
+                else
+                {
+                    recommendedResult.TrackingName = Constants.Recommenders.UserItemClickBuy;
+                }
+
                 recommendedResult.Heading = currentBlock.Heading;
                 recommendedResult.Products = models;
             }

@@ -9,13 +9,11 @@
         @if (Model.Products != null && Model.Products.Any())
         {
             foreach (var product in Model.Products)
-             {
-                 <div class="col-md-4">
-                     @Html.Partial("ProductPartials/_ProductListView", product)
-                 </div>
-             }
+            {
+                <div class="col-md-4 @Model.GetTrackingName(product)">
+                    @Html.Partial("ProductPartials/_ProductListView", product)
+                </div>
+            }
         }
-
     </div>
-
 }

@@ -27,6 +27,7 @@ using OxxCommerceStarterKit.Web.Business.Delivery;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
+using Sannsyn.Episerver.Commerce;
 using LineItem = Mediachase.Commerce.Orders.LineItem;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -138,9 +139,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             if (model.LineItems.Any())
             {
-
-
-
                 IEnumerable<IContent> recommendedProductsForCart =
                     _recommendationService.GetRecommendedProductsForCart(_currentCustomerService.GetCurrentUserId(),
                         model.LineItems.Select(x => x.Code).ToList(),
@@ -159,6 +157,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                         }
                     }
                     model.Recommendations = searchResult;
+                    model.RecommendationsTrackingName = Constants.Recommenders.CartItemsRecommender;
                 }
             }
         }

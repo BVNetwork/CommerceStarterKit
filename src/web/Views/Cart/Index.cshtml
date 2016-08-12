@@ -30,7 +30,7 @@
             <ul>
                 @foreach (var recommendation in Model.Recommendations)
                 {
-                    <div class="col-md-4 clearfix">
+                    <div class="col-md-4 clearfix @Model.GetTrackingName(recommendation)">
                         @Html.Partial("../../Shared/ProductPartials/_ProductListView", recommendation)
                     </div>
                     }

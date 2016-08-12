@@ -191,7 +191,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Sannsyn.Episerver.Commerce, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sannsyn.Episerver.Commerce.1.0.3\lib\net45\Sannsyn.Episerver.Commerce.dll</HintPath>
+      <HintPath>..\..\packages\Sannsyn.Episerver.Commerce.1.1.0\lib\net45\Sannsyn.Episerver.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
