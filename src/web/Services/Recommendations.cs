@@ -13,7 +13,7 @@ namespace OxxCommerceStarterKit.Web.Services
         }
 
 
-        public IEnumerable<IContent> Products { get; }
-        public string RecommenderName { get; }
+        public IEnumerable<IContent> Products { get; set; }
+        public string RecommenderName { get; set; }
     }
 }
