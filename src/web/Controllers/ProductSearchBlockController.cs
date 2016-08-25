@@ -134,9 +134,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
             }
         }
 
-        private void TrackProductImpressions(ProductSearchResult wineProductSearchResult)
+        private void TrackProductImpressions(ProductSearchResult productSearchResult)
         {
-            foreach (var product in wineProductSearchResult.Products)
+            foreach (var product in productSearchResult.Products)
             {
                 GoogleAnalyticsTracking tracker = new GoogleAnalyticsTracking(ControllerContext.HttpContext);
                 tracker.ProductImpression(

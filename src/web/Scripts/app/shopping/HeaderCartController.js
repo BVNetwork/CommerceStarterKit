@@ -10,7 +10,6 @@
         $scope.accounting = window.accounting;
 
         $scope.GetCartItemsToHeader = function(language) {
-            console.log(language);
             handleCartService.getCart(language, 'Default').$promise.then(function (data) {
                     getCartInfoFromResponse(data);
                

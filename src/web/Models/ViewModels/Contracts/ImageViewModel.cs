@@ -49,14 +49,18 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 				ExternalLink = currentContent.Link.ToString();
 				ExternalLinkTarget = currentContent.Link.IsAbsoluteUri ? "_blank" : "";
 			}
-			try
-			{
-				HotSpots = JsonConvert.DeserializeObject<IEnumerable<HotSpotContainer>>(currentContent.HotSpotSettings);
-			}
-			catch (Exception)
-			{
-				// TODO: Remove empty catch - needs testing	
-			}
+
+		    if (string.IsNullOrEmpty(currentContent.HotSpotSettings) == false)
+		    {
+		        try
+		        {
+		            HotSpots = JsonConvert.DeserializeObject<IEnumerable<HotSpotContainer>>(currentContent.HotSpotSettings);
+		        }
+		        catch (Exception)
+		        {
+		            // TODO: Remove empty catch - needs testing	
+		        }
+		    }
 		}
 
 
