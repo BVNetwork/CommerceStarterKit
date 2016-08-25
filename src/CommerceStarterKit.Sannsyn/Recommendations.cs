@@ -6,23 +6,14 @@ namespace OxxCommerceStarterKit.Sannsyn
 {
     public class ProductRecommendations : IRecommendations
     {
-        private readonly IEnumerable<IContent> _products;
-        private readonly string _recommenderName;
-
         public ProductRecommendations(string recommenderName, IEnumerable<IContent> products)
         {
-            _recommenderName = recommenderName;
-            _products = products;
+            RecommenderName = recommenderName;
+            Products = products;
         }
 
-        public IEnumerable<IContent> Products
-        {
-            get { return _products; }
-        }
+        public IEnumerable<IContent> Products { get; set; }
 
-        public string RecommenderName
-        {
-            get { return _recommenderName; }
-        }
+        public string RecommenderName { get; set; }
     }
 }
