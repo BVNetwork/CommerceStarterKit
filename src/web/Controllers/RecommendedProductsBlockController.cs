@@ -13,8 +13,10 @@ using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using Mediachase.Commerce;
+using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Services;
 using Sannsyn.Episerver.Commerce;
+using Sannsyn.Episerver.Commerce.Tracking;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -34,7 +36,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             public string GetTrackingName(ProductListViewModel product)
             {
-                if(string.IsNullOrEmpty(TrackingName) == false)
+                if (string.IsNullOrEmpty(TrackingName) == false)
                 {
                     return TrackingName + "_" + product.Code;
                 }
@@ -57,71 +59,65 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
-           
+
             List<ProductListViewModel> models = new List<ProductListViewModel>();
 
             RecommendedResult recommendedResult = new RecommendedResult();
             var currentCustomer = CustomerContext.Current.CurrentContact;
-          
-            try
+
+            var recommendedProducts = GetRecommendedProducts(currentBlock);
+
+            foreach (var content in recommendedProducts.Products)
             {
-                IEnumerable<IContent> recommendedProducts = GetRecommendedProducts(currentBlock);
-
-                foreach (var content in recommendedProducts)
+                ProductListViewModel model = null;
+                VariationContent variation = content as VariationContent;
+                if (variation != null)
                 {
-                    ProductListViewModel model = null;
-                    VariationContent variation = content as VariationContent;
-                    if (variation != null)
-                    {
-                        model = new ProductListViewModel(variation, _currentMarket.GetCurrentMarket(),
-                            currentCustomer);
-                    }
-                    else
-                    {
-                        ProductContent product = content as ProductContent;
-                        if (product != null)
-                        {
-                            model = _productService.GetProductListViewModel(product as IProductListViewModelInitializer);
-                            if (model == null)
-                            {
-                                model = new ProductListViewModel(product, _currentMarket.GetCurrentMarket(),
-                                    currentCustomer);
-                            }
-                        }
-                    }
-
-                    if (model != null)
-                    {
-                        models.Add(model);
-                    }
-
-                }
-                // TODO: The recommender needs to return this
-                if(currentBlock.Category != null)
-                {
-                    recommendedResult.TrackingName = Constants.Recommenders.UserItemCategoryClickBuy;
-                    
+                    model = new ProductListViewModel(variation, _currentMarket.GetCurrentMarket(),
+                        currentCustomer);
                 }
                 else
                 {
-                    recommendedResult.TrackingName = Constants.Recommenders.UserItemClickBuy;
+                    ProductContent product = content as ProductContent;
+                    if (product != null)
+                    {
+                        model = _productService.GetProductListViewModel(product as IProductListViewModelInitializer);
+                        if (model == null)
+                        {
+                            model = new ProductListViewModel(product, _currentMarket.GetCurrentMarket(),
+                                currentCustomer);
+                        }
+                    }
                 }
 
-                recommendedResult.Heading = currentBlock.Heading;
-                recommendedResult.Products = models;
-            }
-            catch (Exception e)
-            {
-                //TODO:Log
+                if (model != null)
+                {
+                    models.Add(model);
+
+                    // Track
+                    ControllerContext.HttpContext.AddRecommendationExposure(new TrackedRecommendation() { ProductCode = model.Code, RecommenderName = recommendedProducts.RecommenderName });
+                    GoogleAnalyticsTracking tracker = new GoogleAnalyticsTracking(ControllerContext.HttpContext);
+                    tracker.ProductImpression(
+                        model.Code,
+                        model.DisplayName,
+                        null,
+                        model.BrandName,
+                        null,
+                        currentBlock.Heading);
+
+                }
             }
 
+            recommendedResult.TrackingName = recommendedProducts.RecommenderName;
+            recommendedResult.Heading = currentBlock.Heading;
+            recommendedResult.Products = models;
 
             return View("_recommendedProductsBlock", recommendedResult);
         }
 
-        private IEnumerable<IContent> GetRecommendedProducts(RecommendedProductsBlock currentBlock)
+        private IRecommendations GetRecommendedProducts(RecommendedProductsBlock currentBlock)
         {
-            IEnumerable<IContent> recommendedProducts;
+            IRecommendations recommendedProducts;
             CultureInfo currentCulture = ContentLanguage.PreferredCulture;
             int maxCount = 6;
             if (currentBlock.MaxCount > 0)

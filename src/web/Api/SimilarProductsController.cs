@@ -80,7 +80,7 @@ namespace OxxCommerceStarterKit.Web.Api
                         _currentCustomerService.GetCurrentUserId(), maxRecommendedProducts);
 
 
-                    foreach (var content in recommendedProducts)
+                    foreach (var content in recommendedProducts.Products)
                     {
                         ProductListViewModel model = null;
                         VariationContent variation = content as VariationContent;

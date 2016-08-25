@@ -239,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Recommendations.cs" />
     <Compile Include="SannsynRecommendedProductsService.cs" />
     <Compile Include="ServiceRegistration.cs" />
   </ItemGroup>

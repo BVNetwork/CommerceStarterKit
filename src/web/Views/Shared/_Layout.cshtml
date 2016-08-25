@@ -4,6 +4,7 @@
 @using OxxCommerceStarterKit.Web.Business
 @using OxxCommerceStarterKit.Web.Helpers
 @using OxxCommerceStarterKit.Web.Models.PageTypes
+@using Sannsyn.Episerver.Commerce.Tracking
 @{
     var chrome = (Chrome)ViewBag.Chrome;
 }
@@ -19,7 +20,7 @@
     @* Facebook Open Graph *@
     @Html.Partial("_OpenGraphView")
 
-    <link rel="icon" type="image/ico" href="" />
+    @*<link rel="icon" type="image/ico" href="" />*@
     <!--[if lt IE 9]>
       <script src="@Url.Content("~/Scripts/libraries/html5shiv.js")"></script>
       <script src="@Url.Content("~/Scripts/libraries/respond.min.js")"></script>
@@ -122,5 +123,6 @@
     </script>
     @RenderSection("scripts", required: false)
     @Html.RequiredClientResources(EPiServer.Framework.Web.RenderingTags.Footer)
+    @Html.TrackSannsynProductExposures()
 </body>
 </html>

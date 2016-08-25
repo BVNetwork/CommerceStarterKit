@@ -28,6 +28,7 @@ using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
 using Sannsyn.Episerver.Commerce;
+using Sannsyn.Episerver.Commerce.Tracking;
 using LineItem = Mediachase.Commerce.Orders.LineItem;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -139,25 +140,28 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             if (model.LineItems.Any())
             {
-                IEnumerable<IContent> recommendedProductsForCart =
+                var recommendedProductsForCart =
                     _recommendationService.GetRecommendedProductsForCart(_currentCustomerService.GetCurrentUserId(),
                         model.LineItems.Select(x => x.Code).ToList(),
                         maxCount,
                         _currentMarket.GetCurrentMarket().DefaultLanguage
                         );
-                List<ProductListViewModel> searchResult = new List<ProductListViewModel>();
-                if (recommendedProductsForCart != null)
+                List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
+                if (recommendedProductsForCart != null && recommendedProductsForCart.Products != null)
                 {
-                    foreach (var product in recommendedProductsForCart)
+                    foreach (var product in recommendedProductsForCart.Products)
                     {
                         IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
                         if (modelInitializer != null)
                         {
-                            searchResult.Add(_productService.GetProductListViewModel(modelInitializer));
+                            var viewModel = _productService.GetProductListViewModel(modelInitializer);
+                            recommendedProductList.Add(viewModel);
+                            // Track
+                            HttpContext.AddRecommendationExposure(new TrackedRecommendation() { ProductCode = viewModel.Code, RecommenderName = recommendedProductsForCart.RecommenderName });
                         }
                     }
-                    model.Recommendations = searchResult;
-                    model.RecommendationsTrackingName = Constants.Recommenders.CartItemsRecommender;
+                    model.Recommendations = recommendedProductList;
+                    model.RecommendationsTrackingName = recommendedProductsForCart.RecommenderName;
                 }
             }
         }

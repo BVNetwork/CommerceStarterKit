@@ -217,17 +217,17 @@ namespace OxxCommerceStarterKit.Web.Api
                 }
             }
 
-            IEnumerable<IContent> recommendedProducts =
+            var recommendedProducts =
                     _recommendationService.GetRecommendedProductsByCategory(_currentCustomerService.GetCurrentUserId(),
                         categoryCodes,
                         3, 
                         currentCulture);
 
-            if (recommendedProducts != null && recommendedProducts.Any())
+            if (recommendedProducts != null && recommendedProducts.Products != null && recommendedProducts.Products.Any())
             {
                 var currentMarket = ServiceLocator.Current.GetInstance<Mediachase.Commerce.ICurrentMarket>().GetCurrentMarket();
 
-                foreach (var product in recommendedProducts)
+                foreach (var product in recommendedProducts.Products)
                 {
                     if (product is IIndexableContent)
                     {

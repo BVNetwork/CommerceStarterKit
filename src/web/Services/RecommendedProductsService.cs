@@ -30,7 +30,7 @@ namespace OxxCommerceStarterKit.Web.Services
             _referenceConverter = referenceConverter;
         }
 
-        public IEnumerable<IContent> GetRecommendedProducts(EntryContentBase catalogEntry, string userId, int maxCount)
+        public IRecommendations GetRecommendedProducts(EntryContentBase catalogEntry, string userId, int maxCount)
         {
             if (catalogEntry == null) throw new ArgumentNullException("catalogEntry");
 
@@ -57,20 +57,21 @@ namespace OxxCommerceStarterKit.Web.Services
                 links.Add(_referenceConverter.GetContentLink(product.Id, CatalogContentType.CatalogEntry, 0));
             }
 
-            return _contentRepository.GetItems(links, catalogEntry.Language);
+            IRecommendations recommendations = new Recommendations("RecForProduct", _contentRepository.GetItems(links, catalogEntry.Language));
+            return recommendations;
         }
 
-        public IEnumerable<IContent> GetRecommendedProducts(string userId, int maxCount, CultureInfo cultureInfo)
+        public IRecommendations GetRecommendedProducts(string userId, int maxCount, CultureInfo cultureInfo)
         {
             return null;
         }
 
-        public IEnumerable<IContent> GetRecommendedProductsByCategory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo)
+        public IRecommendations GetRecommendedProductsByCategory(string userId, List<string> categories, int maxCount, CultureInfo cultureInfo)
         {
             return null;
         }
 
-        public IEnumerable<IContent> GetRecommendedProductsForCart(string userId, IEnumerable<string> productCodes, int maxCount, CultureInfo cultureInfo)
+        public IRecommendations GetRecommendedProductsForCart(string userId, IEnumerable<string> productCodes, int maxCount, CultureInfo cultureInfo)
         {
             return null;
         }
