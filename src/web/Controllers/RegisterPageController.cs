@@ -190,7 +190,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 			registerForm.Address.IsPreferredBillingAddress = true;
 			CustomerAddressRepository.Save(registerForm.Address);
 
-			LoginController.CreateAuthenticationCookie(ControllerContext.HttpContext, emailAddress, AppContext.Current.ApplicationName, false);
+			LoginController.CreateAuthenticationCookie(ControllerContext.HttpContext, emailAddress, Mediachase.Commerce.Core.AppContext.Current.ApplicationName, false);
 
 			bool mail_sent = SendWelcomeEmail(registerForm.UserName, currentPage);
 

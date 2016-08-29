@@ -52,7 +52,7 @@ namespace OxxCommerceStarterKit.Commerce.Apps.Reporting
             tranDataCommand.CommandText = "[reporting_OrderReport]";
             tranDataCommand.CommandType = CommandType.StoredProcedure;
             tranDataCommand.Parameters = new DataParameters();
-            tranDataCommand.Parameters.Add(new DataParameter("ApplicationId", (object)AppContext.Current.ApplicationId, DataParameterType.UniqueIdentifier));
+            tranDataCommand.Parameters.Add(new DataParameter("ApplicationId", (object)Mediachase.Commerce.Core.AppContext.Current.ApplicationId, DataParameterType.UniqueIdentifier));
             tranDataCommand.Parameters.Add(new DataParameter("MarketId", (object)this.MarketFilter.SelectedValue, DataParameterType.NVarChar));
             tranDataCommand.Parameters.Add(new DataParameter("CurrencyCode", (object)this.CurrencyFilter.SelectedValue, DataParameterType.NVarChar));
             tranDataCommand.Parameters.Add(new DataParameter("CommerceManagerUrl", (object)ConfigurationManager.AppSettings["SiteUrl"], DataParameterType.NVarChar));            

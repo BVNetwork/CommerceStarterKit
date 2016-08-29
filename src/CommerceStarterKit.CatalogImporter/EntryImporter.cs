@@ -235,7 +235,7 @@ namespace CommerceStarterKit.CatalogImporter
                 throw new ArgumentNullException("inStockQuantity", "InStockQuantity is required");
             }
 
-            CatalogKey key = new CatalogKey(AppContext.Current.ApplicationId, code);
+            CatalogKey key = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, code);
 
 
 
@@ -263,7 +263,7 @@ namespace CommerceStarterKit.CatalogImporter
             if (prices == null)
                 return;
 
-            CatalogKey key = new CatalogKey(AppContext.Current.ApplicationId, code);
+            CatalogKey key = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, code);
 
             var catalogEntryPrices = _priceService.GetCatalogEntryPrices(key); //.ToList();
             List<IPriceValue> priceValues = new List<IPriceValue>(catalogEntryPrices);

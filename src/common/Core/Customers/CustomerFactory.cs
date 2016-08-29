@@ -4,10 +4,8 @@ using System.Web.Security;
 using EPiServer.ServiceLocation;
 using Mediachase.BusinessFoundation.Data.Business;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
-using Mediachase.Commerce.Security;
 using OxxCommerceStarterKit.Core.Extensions;
 
 namespace OxxCommerceStarterKit.Core.Customers
@@ -23,8 +21,8 @@ namespace OxxCommerceStarterKit.Core.Customers
             {
                 case MembershipCreateStatus.Success:
 
-                    Roles.AddUserToRole(user.UserName, AppRoles.EveryoneRole);
-                    Roles.AddUserToRole(user.UserName, AppRoles.RegisteredRole);
+                    Roles.AddUserToRole(user.UserName, Mediachase.Commerce.Core.AppRoles.EveryoneRole);
+                    Roles.AddUserToRole(user.UserName, Mediachase.Commerce.Core.AppRoles.RegisteredRole);
 
                     var customer = CustomerContext.Current.GetContactForUser(user);
                     customer.FirstName = billingAddress.FirstName;
@@ -33,7 +31,7 @@ namespace OxxCommerceStarterKit.Core.Customers
                     customer.SetPhoneNumber(phone);
                     customer.SetHasPassword(hasPassword);
 
-                    var customerBillingAddress = CustomerAddress.CreateForApplication(AppContext.Current.ApplicationId);
+                    var customerBillingAddress = CustomerAddress.CreateForApplication(Mediachase.Commerce.Core.AppContext.Current.ApplicationId);
                     OrderAddress.CopyOrderAddressToCustomerAddress(billingAddress, customerBillingAddress);
                     customer.AddContactAddress(customerBillingAddress);
                     customer.SaveChanges();
@@ -44,7 +42,7 @@ namespace OxxCommerceStarterKit.Core.Customers
                     BusinessManager.Update(customerBillingAddress);
                     customer.SaveChanges();
 
-                    var customerShippingAddress = CustomerAddress.CreateForApplication(AppContext.Current.ApplicationId);
+                    var customerShippingAddress = CustomerAddress.CreateForApplication(Mediachase.Commerce.Core.AppContext.Current.ApplicationId);
                     OrderAddress.CopyOrderAddressToCustomerAddress(shippingAddress, customerShippingAddress);
                     customer.AddContactAddress(customerShippingAddress);
                     customer.SaveChanges();

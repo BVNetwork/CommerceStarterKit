@@ -26,7 +26,7 @@ namespace OxxCommerceStarterKit.Web.Helpers
             var priceService = ServiceLocator.Current.GetInstance<IPriceService>();
 
             IEnumerable<IPriceValue> entryPrices =
-                priceService.GetCatalogEntryPrices(new CatalogKey(AppContext.Current.ApplicationId, skuCode))
+                priceService.GetCatalogEntryPrices(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, skuCode))
                 .Where(x => x.ValidUntil.GetNullableDateTime() >= DateTime.Now);
 
             return entryPrices;

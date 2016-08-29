@@ -102,7 +102,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 					if (profile != null)
 					{
 						cc = CustomerContext.Current.GetContactForUser(account);
-						CreateAuthenticationCookie(ControllerContext.HttpContext, user, AppContext.Current.ApplicationName, false);
+						CreateAuthenticationCookie(ControllerContext.HttpContext, user, Mediachase.Commerce.Core.AppContext.Current.ApplicationName, false);
 
 						string url = returnUrl;
 

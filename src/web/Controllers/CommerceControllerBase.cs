@@ -198,7 +198,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         protected bool IsSellable(VariationContent variationContent)
         {
-            var inventory = InventoryService.GetTotal(new CatalogKey(AppContext.Current.ApplicationId, variationContent.Code));
+            var inventory = InventoryService.GetTotal(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, variationContent.Code));
 
             return HasPrice(variationContent) &&
                 inventory != null &&

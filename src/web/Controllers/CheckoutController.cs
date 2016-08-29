@@ -244,7 +244,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             foreach (var p in summary)
             {
-                var catalogKey = new CatalogKey(AppContext.Current.ApplicationId, p.Key);
+                var catalogKey = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, p.Key);
                 var inventory = _warehouseInventory.GetTotal(catalogKey, epiWarehouses);
 
                 if (inventory == null || inventory.InStockQuantity < p.Value.Item1)

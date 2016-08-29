@@ -270,7 +270,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
                 return 0;
 
             var inventoryService = ServiceLocator.Current.GetInstance<IWarehouseInventoryService>();
-            var inventory = inventoryService.GetTotal(new CatalogKey(AppContext.Current.ApplicationId, content.Code));
+            var inventory = inventoryService.GetTotal(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, content.Code));
 
             if (inventory != null)
             {

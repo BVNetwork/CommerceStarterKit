@@ -128,7 +128,7 @@ namespace OxxCommerceStarterKit.Web.Plugins.CommerceTools.Prices
     
         private void UpdatePriceOnSku(string code, DateTime from, DateTime until, IMarket market, string currency, decimal value)
         {
-            var catalogKey = new CatalogKey(AppContext.Current.ApplicationId, code);
+            var catalogKey = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, code);
 
 
 

@@ -176,7 +176,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 List<SelectListItem> items = variationItems.Select(x =>
                         {
-                            var inventory = _inventoryService.GetTotal(new CatalogKey(AppContext.Current.ApplicationId, x.Code));
+                            var inventory = _inventoryService.GetTotal(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, x.Code));
                             bool inStock = inventory != null && inventory.InStockQuantity - inventory.ReservedQuantity > 0;
                             return CreateSelectListItem(x.Size, x.Size + GetStockText(inStock), !inStock, x.Code);
                         }).ToList();

@@ -84,7 +84,7 @@ namespace OxxCommerceStarterKit.Core.Repositories
 
             if (address == null)
             {
-                address = CustomerAddress.CreateForApplication(AppContext.Current.ApplicationId);
+                address = CustomerAddress.CreateForApplication(Mediachase.Commerce.Core.AppContext.Current.ApplicationId);
                
                 _currentContact.AddContactAddress(address);
                 _currentContact.SaveChanges();

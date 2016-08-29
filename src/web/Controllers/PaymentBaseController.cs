@@ -55,7 +55,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     // If no variants for a product has inventory, expire the product
                     if (!variants.Any(v =>
                     {
-                        var catalogKey = new CatalogKey(AppContext.Current.ApplicationId, v.Code);
+                        var catalogKey = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, v.Code);
 
                         return warehouseInventoryService.List(catalogKey).Any(inventory => inventory.InStockQuantity > 0);
                     }))
