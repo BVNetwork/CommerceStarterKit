@@ -6,14 +6,19 @@
     var chrome = (Chrome)ViewBag.Chrome;
     var displayName = Model.DisplayName ?? "";
     displayName = displayName.Replace("'", "");
-    double rating = Model.AverageRating; 
+    double rating = Model.AverageRating;
+    string trackingClickEvent = string.Empty;
+    if (string.IsNullOrEmpty(Model.TrackingName) == false)
+    {
+        trackingClickEvent = "onclick=\"trackRecClick('" + Model.GetTrackingName() + "')\"";
+    }
 
 
     <div class="productRow col-sm-12">
         <div class="tile">
             @Html.Partial("ProductPartials/_Badges")
             @Html.Partial("ProductPartials/_PriceLabel")
-            <a href="@Model.ProductUrl">
+            <a href="@Model.ProductUrl" @Html.Raw(trackingClickEvent)>
                 <img id="anim-img-@Model.ContentLink" class="image img-responsive" src="@Model.ImageUrl?preset=largethumbnail"/>
             </a>
 
@@ -28,7 +33,7 @@
                         <span class="@(rating >= 0.5 ? "active" : "")@(rating == 0.5 ? " half" : "")"></span>
                         <span class="@(rating >= 1.5 ? "active" : "")@(rating == 1.5 ? " half" : "")"></span>
                         <span class="@(rating >= 2.5 ? "active" : "")@(rating == 2.5 ? " half" : "")"></span>
-                        <span class="@(rating >= 3.5 ? "active" : "")@(rating == 3.5 ? " half" : "") "></span>
+                        <span class="@(rating >= 3.5 ? "active" : "")@(rating == 3.5 ? " half" : "")"></span>
                         <span class="@(rating >= 4.5 ? "active" : "")@(rating == 4.5 ? " half" : "")"></span>
                     </div>
                     <div class="add-to-cart-form" ng-controller="BuyController" ng-init="init('@chrome.Language','@Model.Code','@Model.DisplayName.Replace("'", "")',1 ,'','', 'anim-img-@Model.ContentLink')">
@@ -41,7 +46,7 @@
                             }
                             else
                             {
-                                <a class="add-cart-btn" href="@Model.ProductUrl"><span>@Html.Translate("/common/product/details")</span><i class="icon-arrow-right"></i></a>
+                                <a class="add-cart-btn" href="@Model.ProductUrl" @Html.Raw(trackingClickEvent)><span>@Html.Translate("/common/product/details")</span><i class="icon-arrow-right"></i></a>
                             }
 
                             <a class="wishlist-btn" ng-click="addToWishlist(product)">
@@ -51,7 +56,7 @@
                         }
                         else
                         {
-                            <a class="add-cart-btn" href="@Model.ProductUrl"><span>@Html.Translate("/common/product/details")</span><i class="icon-arrow-right"></i></a>
+                            <a class="add-cart-btn" href="@Model.ProductUrl" @Html.Raw(trackingClickEvent)><span>@Html.Translate("/common/product/details")</span><i class="icon-arrow-right"></i></a>
                         }
 
                     </div>

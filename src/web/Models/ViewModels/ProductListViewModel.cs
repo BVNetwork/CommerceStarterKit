@@ -113,6 +113,14 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             return price != null ? price.UnitPrice.ToString() : string.Empty;
         }
 
+        public string GetTrackingName()
+        {
+            if (string.IsNullOrEmpty(TrackingName) == false)
+            {
+                return TrackingName + "_" + Code;
+            }
+            return string.Empty;
+        }
 
         public string Code { get; set; }
         public string DisplayName { get; set; }
@@ -143,6 +151,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public bool IsVariation { get; set; }
         public bool CurrentContactIsCustomerClubMember { get; set; }
         public bool InStock { get; set; }
+        public string TrackingName { get; set; }
 
     }
 }

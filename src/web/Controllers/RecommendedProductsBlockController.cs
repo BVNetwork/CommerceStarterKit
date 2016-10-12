@@ -92,6 +92,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
                 if (model != null)
                 {
+                    model.TrackingName = recommendedProducts.RecommenderName;
+
                     models.Add(model);
 
                     // Track
