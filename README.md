@@ -124,3 +124,24 @@ Change both AttachDbFilename settings:
 
 After you have run the `update-epidatabase` you can revert the connectionstring changes.
 
+# Frequently Asked Questions
+
+1. How can I access the Epic Photo site?
+ * The project is published on this Github account:
+[https://github.com/BVNetwork/CommerceStarterKit](https://github.com/BVNetwork/CommerceStarterKit).
+ * You need to clone the code, build and run it in Visual Studio. You can also set it up in IIS or deploy to public servers.
+1. There is little documentation available, what are your plans around this?
+ * To document one such large project is a major undertaking and has not been prioritized. It is expected of those who will use this to invest time and effort in setting it up, explore the functionality and look at the code. All contributions with good documentation are of course appreciated!
+1. What license applies to this module?
+ * EPiCode Community Source License: [https://www.coderesort.com/p/epicode/wiki/EpicodeLicense](https://www.coderesort.com/p/epicode/wiki/EpicodeLicense)
+1. I have created a module I would like to include in the project, is this possible?
+ * Of course. It should be of a general interest and source code must be available. The project welcomes pull-requests on GitHub. If you’re unsure about the process, get the talk going on [https://github.com/BVNetwork/CommerceStarterKit/issues](https://github.com/BVNetwork/CommerceStarterKit/issues)
+1. I have found something that does not work, who should I contact?
+ * You have several choices, the project is very happy to receive bug fixes as pull-requests. You may also add an issue on the Github project (please check that is has not been raised before).
+ * Note There is no guarantee that bugs will be fixed, or that feature requests will be implemented.
+1. I represent a 3rd party vendor and would like to have my "payment / shipping-provider", customer service module, analysis product, e-mail integration etc. integrated in the starting the kit.
+ * If it is of public interest and provides value to the site, we welcome any integration code. You might also want to distribute your module as a nuget package that can be installed easily.
+ * You can buy help doing the integration. Contact [info@episerver.no](mailto:info@episerver.no) 
+ * Note! The module must be possible to switch on / off using configuration settings.
+
+
