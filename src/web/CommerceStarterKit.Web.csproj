@@ -975,7 +975,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="BVNetwork.EPi404, Version=4.1.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\BVN.404Handler.4.1.1\lib\net45\BVNetwork.EPi404.dll</HintPath>
+      <HintPath>..\..\packages\BVN.404Handler.4.2.1\lib\net45\BVNetwork.EPi404.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="BVNetwork.EPiSendMail, Version=4.2.1.0, Culture=neutral, processorArchitecture=MSIL">
