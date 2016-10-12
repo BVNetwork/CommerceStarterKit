@@ -59,6 +59,7 @@
     <Compile Include="EditorDescriptors\SelectionFactories\FindProductFilterSortOrderFactory.cs" />
     <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
+    <Compile Include="Models\Blocks\AdvancedContentBlock.cs" />
     <Compile Include="Services\Recommendations.cs" />
     <Compile Include="Services\RecommendedProductsService.cs" />
     <Content Include="ClientResources\Images\icons\layoutIcons24x24.png" />
@@ -517,7 +518,6 @@
     <Content Include="Content\less\epicphoto.less" />
     <Content Include="Content\less\readme.md" />
     <Content Include="Content\css\readme.md" />
-    <Content Include="modules\_protected\BVNetwork.404Handler\BVNetwork.404Handler.zip" />
     <Content Include="modules\epicode.newsletter\plugin\Web.config" />
     <Content Include="modules\epicode.newsletter\plugin\Newsletter.Master" />
     <Content Include="modules\epicode.newsletter\module.config" />
@@ -540,6 +540,7 @@
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />
     <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
+    <Content Include="modules\_protected\BVNetwork.404Handler\BVNetwork.404Handler.zip" />
     <Content Include="modules\_protected\Sannsyn\Views\_SannsynLayout.cshtml" />
     <Content Include="modules\_protected\Sannsyn\Views\web.config" />
     <Content Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
@@ -924,6 +925,7 @@
     <Content Include="Views\Emails\_oxygen.mobile.css.cshtml" />
     <Content Include="Views\Emails\Receipt.Html.cshtml" />
     <Content Include="Views\RecommendedProductsBlock\_recommendedProductsBlock.cshtml" />
+    <Content Include="Views\Shared\Blocks\AdvancedContentBlock.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -970,7 +972,7 @@
     <Reference Include="AppleWatchChannel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AppleWatchChannel.1.1.12\lib\net40\AppleWatchChannel.dll</HintPath>
     </Reference>
-    <Reference Include="AuthorizeNet">
+    <Reference Include="AuthorizeNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AuthorizeNet.1.8.2\lib\AuthorizeNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -1182,7 +1184,7 @@
       <HintPath>..\..\packages\EPiServer.CMS.Core.9.7.2\lib\net45\EPiServer.XForms.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="ICSharpCode.SharpZipLib">
+    <Reference Include="ICSharpCode.SharpZipLib, Version=0.86.0.518, Culture=neutral, PublicKeyToken=1b03e6acf1164f73, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SharpZipLib.0.86.0\lib\20\ICSharpCode.SharpZipLib.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -1207,7 +1209,7 @@
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Lucene.Net">
+    <Reference Include="Lucene.Net, Version=3.0.3.0, Culture=neutral, PublicKeyToken=85089178b9ac3181, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -1296,7 +1298,7 @@
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.ReportViewer.WebForms.10.0.40219.1\lib\Microsoft.ReportViewer.WebForms.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Web.Infrastructure">
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
@@ -1359,8 +1361,8 @@
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1372,8 +1374,8 @@
     </Reference>
     <Reference Include="System.Web.Mobile" />
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -1383,22 +1385,22 @@
       <HintPath>..\..\packages\Microsoft.AspNet.Providers.Core.2.0.0\lib\net40\System.Web.Providers.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />

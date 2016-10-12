@@ -1,0 +1,15 @@
+﻿@model OxxCommerceStarterKit.Web.Models.Blocks.AdvancedContentBlock
+
+@if (string.IsNullOrEmpty(Model.Javascript) == false)
+{
+    <script type="text/javascript">
+        @Html.Raw(Model.Javascript)
+    </script>
+}
+@if (string.IsNullOrEmpty(Model.Css) == false)
+{
+    <style type="text/css">
+        @Html.Raw(Model.Css)
+        </style>
+}
+@Html.Raw(Model.HtmlContent)
