@@ -95,8 +95,8 @@
       <HintPath>..\..\..\packages\EPiServer.Framework.9.7.2\lib\net45\EPiServer.Events.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="EPiServer.Find, Version=11.1.1.4013, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\EPiServer.Find.11.1.1.4013\lib\net45\EPiServer.Find.dll</HintPath>
+    <Reference Include="EPiServer.Find, Version=11.1.7.4454, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EPiServer.Find.11.1.7.4454\lib\net45\EPiServer.Find.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Framework, Version=9.7.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
