@@ -546,6 +546,9 @@
     <Content Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
     <Content Include="modules\_protected\Sannsyn\Views\SannsynAdmin\Index.cshtml" />
     <Content Include="modules\_protected\Sannsyn\module.config" />
+    <Content Include="modules\_protected\EPiServer.VisitorGroupsCriteriaPack\web.config" />
+    <Content Include="modules\_protected\EPiServer.VisitorGroupsCriteriaPack\module.config" />
+    <Content Include="modules\_protected\EPiServer.VisitorGroupsCriteriaPack\EPiServer.VisitorGroupsCriteriaPack.zip" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -1174,6 +1177,10 @@
     </Reference>
     <Reference Include="EPiServer.UI, Version=9.4.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.UI.Core.9.4.2\lib\net45\EPiServer.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EPiServer.VisitorGroupsCriteriaPack, Version=1.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.VisitorGroupsCriteriaPack.1.2.1\lib\EPiServer.VisitorGroupsCriteriaPack.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Web.WebControls, Version=9.7.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
