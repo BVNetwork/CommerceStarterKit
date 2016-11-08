@@ -23,7 +23,7 @@
     <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <NuGetPackageImportStamp>a2bf5964</NuGetPackageImportStamp>
-    <UseGlobalApplicationHostFile />
+	<UseGlobalApplicationHostFile>True</UseGlobalApplicationHostFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
