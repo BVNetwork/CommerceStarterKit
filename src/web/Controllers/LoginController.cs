@@ -29,6 +29,7 @@ using OxxCommerceStarterKit.Web.Helpers;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.ResetPassword;
+using OxxCommerceStarterKit.Web.Services;
 using OxxCommerceStarterKit.Web.Services.Email;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -38,14 +39,20 @@ namespace OxxCommerceStarterKit.Web.Controllers
 		private readonly IContentRepository _contentRepository;
 		private readonly UrlResolver _urlResolver;
 		private readonly LocalizationService _localizationService;
-        private readonly ISiteSettingsProvider _siteConfiguration;
+	    private readonly IMetricsLoggingService _metrics;
+	    private readonly ISiteSettingsProvider _siteConfiguration;
 
-		public LoginController(IContentRepository contentRepository, ISiteSettingsProvider siteConfiguration, UrlResolver urlResolver, LocalizationService localizationService)
+		public LoginController(IContentRepository contentRepository, 
+            ISiteSettingsProvider siteConfiguration, 
+            UrlResolver urlResolver, 
+            LocalizationService localizationService,
+            IMetricsLoggingService metrics)
 		{
 			_contentRepository = contentRepository;
 		    _siteConfiguration = siteConfiguration;
 			_urlResolver = urlResolver;
 			_localizationService = localizationService;
+		    _metrics = metrics;
 		}
 
 		[RequireSSL]
@@ -118,13 +125,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
 							}
 						}
 
-						return Redirect(url);
+                        _metrics.Count("Users", "Login Success");
+                        return Redirect(url);
 					}
 				}
 			}
 			ModelState.AddModelError("LoginForm.ValidationMessage", _localizationService.GetString("/common/account/login_error"));
-			
-			return View("Index", model);
+            _metrics.Count("Users", "Login Failure");
+            return View("Index", model);
 		}
 
 		[HttpGet]
@@ -179,7 +187,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 				}
 				else
 				{
-					model.ResetPasswordForm = ResetUserPassword(resetPasswordForm, passwordService);
+                    model.ResetPasswordForm = ResetUserPassword(resetPasswordForm, passwordService);
 				}
 			}
 			if (resetPasswordForm.PasswordConfirm != resetPasswordForm.Password)
@@ -191,9 +199,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
 			}
 			if (!ModelState.IsValid)
 			{
-				return View(model);
+                _metrics.Count("Users", "Password Reset Failed");
+
+                return View(model);
 			}
-			return Index(currentPage);
+            _metrics.Count("Users", "Password Reset");
+
+            return Index(currentPage);
 		}
 
 		private RegisterForm ResetUserPassword(RegisterForm registerForm, IResetPasswordService passwordService)
@@ -237,7 +249,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
 			LoginViewModel model = new LoginViewModel(currentPage);
 			var result = SendForgotPasswordEmail(forgotPasswordForm, currentPage);
-			return View("SentForgotPassword", model);
+            _metrics.Count("Users", "Forgot Password");
+
+            return View("SentForgotPassword", model);
 		}
 
 
