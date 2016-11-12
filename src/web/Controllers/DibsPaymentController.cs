@@ -29,6 +29,7 @@ using OxxCommerceStarterKit.Web.Business.Payment;
 using OxxCommerceStarterKit.Web.Models.PageTypes.Payment;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels.Payment;
+using OxxCommerceStarterKit.Web.Services;
 using LineItem = OxxCommerceStarterKit.Core.Objects.LineItem;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -40,19 +41,23 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	    private readonly IIdentityProvider _identityProvider;
 	    private readonly IReceiptViewModelBuilder _receiptViewModelBuilder;
 	    private readonly IGoogleAnalyticsTracker _googleAnalyticsTracker;
-	    private readonly ILogger _logger;	    
+	    private readonly ILogger _logger;
+	    private readonly IMetricsLoggingService _metricsLoggingService;
 
 	    public DibsPaymentController(IIdentityProvider identityProvider, 
             IContentRepository contentRepository, 
             IDibsPaymentProcessor paymentProcessor, IReceiptViewModelBuilder receiptViewModelBuilder, 
-            IGoogleAnalyticsTracker googleAnalyticsTracker, ILogger logger)
+            IGoogleAnalyticsTracker googleAnalyticsTracker, 
+            ILogger logger,
+            IMetricsLoggingService metricsLoggingService)
 		{
 		    _identityProvider = identityProvider;
 			_contentRepository = contentRepository;
 		    _paymentProcessor = paymentProcessor;
 		    _receiptViewModelBuilder = receiptViewModelBuilder;
 	        _googleAnalyticsTracker = googleAnalyticsTracker;
-	        _logger = logger;	        
+	        _logger = logger;
+		    _metricsLoggingService = metricsLoggingService;
 		}
 
 		[RequireSSL]
@@ -130,7 +135,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
             // Track successfull order in Google Analytics
 	        _googleAnalyticsTracker.TrackAfterPayment(model);
 
-	        return View("ReceiptPage", model);
+            _metricsLoggingService.Count("Purchase", "Purchase Success");
+            _metricsLoggingService.Count("Payment", "Dibs");
+
+            return View("ReceiptPage", model);
 		}
 
 	    private ReceiptViewModel GetReceiptForPayment(DibsPaymentResult result)
@@ -144,6 +152,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
         public ActionResult CancelPayment(DibsPaymentPage currentPage, DibsPaymentResult result)
         {
             var model = new CancelPaymentViewModel(currentPage, result);
+
+            _metricsLoggingService.Count("Purchase", "Purchase Cancelled");
+            _metricsLoggingService.Count("Payment", "Dibs");
+
             return View("CancelPayment", model);
         }
     }

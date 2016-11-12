@@ -39,6 +39,7 @@ using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels.Payment;
 using LineItem = OxxCommerceStarterKit.Core.Objects.LineItem;
 using OxxCommerceStarterKit.Core.Services;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -50,14 +51,16 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly IPaymentCompleteHandler _paymentCompleteHandler;
         private readonly ICurrentMarket _currentMarket;
         private readonly ILogger _logger;
+        private readonly IMetricsLoggingService _metricsLoggingService;
 
         public GenericPaymentController(
-            IContentRepository contentRepository, 
-            IOrderService orderService, 
-            IPaymentCompleteHandler paymentCompleteHandler, 
-            ISiteSettingsProvider siteConfiguration, 
-            ICurrentMarket currentMarket, 
-            ILogger logger)
+            IContentRepository contentRepository,
+            IOrderService orderService,
+            IPaymentCompleteHandler paymentCompleteHandler,
+            ISiteSettingsProvider siteConfiguration,
+            ICurrentMarket currentMarket,
+            ILogger logger,
+            IMetricsLoggingService metricsLoggingService)
         {
             _contentRepository = contentRepository;
             _orderService = orderService;
@@ -65,6 +68,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             _paymentCompleteHandler = paymentCompleteHandler;
             _currentMarket = currentMarket;
             _logger = logger;
+            _metricsLoggingService = metricsLoggingService;
         }
 
         [RequireSSL]
@@ -73,7 +77,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             CartHelper ch = new CartHelper(Cart.DefaultName);
 
             if (ch.IsEmpty && !PageEditing.PageIsInEditMode)
-            {                
+            {
                 return View("Error/_EmptyCartError");
             }
 
@@ -109,7 +113,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             var cartHelper = new CartHelper(Cart.DefaultName);
 
             if (cartHelper.IsEmpty && !PageEditing.PageIsInEditMode)
-            {                
+            {
                 return View("Error/_EmptyCartError");
             }
 
@@ -124,6 +128,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
                 cartHelper.Cart.OrderNumberMethod = CartExtensions.GeneratePredictableOrderNumber;
 
+                System.Diagnostics.Trace.WriteLine("Running Workflow: " + OrderGroupWorkflowManager.CartCheckOutWorkflowName);
                 var results = OrderGroupWorkflowManager.RunWorkflow(cartHelper.Cart, OrderGroupWorkflowManager.CartCheckOutWorkflowName);
                 message = string.Join(", ", OrderGroupWorkflowManager.GetWarningsFromWorkflowResult(results));
 
@@ -134,11 +139,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     cartHelper.Cart.AcceptChanges();
                 }
 
+                System.Diagnostics.Trace.WriteLine("Loading Order: " + orderNumber);
                 var order = _orderService.GetOrderByTrackingNumber(orderNumber);
 
                 // Must be run after order is complete, 
                 // This might release the order for shipment and 
                 // send the order receipt by email
+                System.Diagnostics.Trace.WriteLine(string.Format("Process Completed Payment: {0} (User: {1})", orderNumber, User.Identity.Name));
                 _paymentCompleteHandler.ProcessCompletedPayment(order, User.Identity);
 
                 orderViewModel = new OrderViewModel(_currentMarket.GetCurrentMarket().DefaultCurrency.Format, order);
@@ -151,6 +158,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
             // Track successfull order in Google Analytics
             TrackAfterPayment(model);
 
+            _metricsLoggingService.Count("Purchase", "Purchase Success");
+            _metricsLoggingService.Count("Payment", "Generic");
+            
             return View("ReceiptPage", model);
         }
 
@@ -177,79 +187,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             // Send it off
             tracking.Custom("ga('send', 'pageview');");
-        }
-
-        /// <summary>
-        /// Processes the payment after we get back from the
-        /// payment provider
-        /// </summary>
-        /// <param name="currentPage"></param>
-        /// <param name="result">The result posted from the provider.</param>
-        [HttpPost]
-        [RequireSSL]
-        public ActionResult ProcessPayment(DibsPaymentPage currentPage, DibsPaymentResult result)
-        {
-            ReceiptPage receiptPage = _contentRepository.Get<ReceiptPage>(_siteConfiguration.GetSettings().ReceiptPage);
-
-            if (_log.IsDebugEnabled())
-                _log.Debug("Payment processed: {0}", result);
-
-            CartHelper cartHelper = new CartHelper(Cart.DefaultName);
-            string message = "";
-            OrderViewModel orderViewModel = null;
-
-            if (cartHelper.Cart.OrderForms.Count > 0)
-            {
-                var payment = cartHelper.Cart.OrderForms[0].Payments[0] as DibsPayment;
-
-                if (payment != null)
-                {
-                    payment.CardNumberMasked = result.CardNumberMasked;
-                    payment.CartTypeName = result.CardTypeName;
-                    payment.TransactionID = result.Transaction;
-                    payment.TransactionType = TransactionType.Authorization.ToString();
-                    payment.Status = result.Status;
-                    cartHelper.Cart.Status = DIBSPaymentGateway.PaymentCompleted;
-                }
-                else
-                {
-                    throw new Exception("Not a DIBS Payment");
-                }
-
-                var orderNumber = cartHelper.Cart.GeneratePredictableOrderNumber();
-
-                _log.Debug("Order placed - order number: " + orderNumber);
-
-                cartHelper.Cart.OrderNumberMethod = CartExtensions.GeneratePredictableOrderNumber;
-
-                var results = OrderGroupWorkflowManager.RunWorkflow(cartHelper.Cart, OrderGroupWorkflowManager.CartCheckOutWorkflowName);
-                message = string.Join(", ", OrderGroupWorkflowManager.GetWarningsFromWorkflowResult(results));
-
-                if (message.Length == 0)
-                {
-                    cartHelper.Cart.SaveAsPurchaseOrder();
-                    cartHelper.Cart.Delete();
-                    cartHelper.Cart.AcceptChanges();
-                }
-
-                var order = _orderService.GetOrderByTrackingNumber(orderNumber);
-
-                // Must be run after order is complete, 
-                // This will release the order for shipment and 
-                // send the order receipt by email
-                _paymentCompleteHandler.ProcessCompletedPayment(order, User.Identity);
-
-                orderViewModel = new OrderViewModel(_currentMarket.GetCurrentMarket().DefaultCurrency.Format, order);
-            }
-
-            ReceiptViewModel model = new ReceiptViewModel(receiptPage);
-            model.CheckoutMessage = message;
-            model.Order = orderViewModel;
-
-            // Track successfull order in Google Analytics
-            TrackAfterPayment(model);
-
-            return View("ReceiptPage", model);
         }
 
         private void TrackAfterPayment(ReceiptViewModel model)

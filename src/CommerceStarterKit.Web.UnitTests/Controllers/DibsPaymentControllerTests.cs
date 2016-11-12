@@ -83,7 +83,11 @@ namespace CommerceStarterKit.Web.Controllers
             _logger = new Mock<ILogger>();
             _permanentLinkMapper = new Mock<IPermanentLinkMapper>();
 
-            _sut = new DibsPaymentController(_identityProvider.Object, _contentRepositoryMock.Object, _dibsPaymentProcessorMock.Object, _receiptViewModelBuilderMock.Object, _googleAnalyticsTracker.Object, _logger.Object);
+            _sut = new DibsPaymentController(_identityProvider.Object, _contentRepositoryMock.Object, _dibsPaymentProcessorMock.Object, _receiptViewModelBuilderMock.Object, 
+                _googleAnalyticsTracker.Object, 
+                _logger.Object, 
+                null
+                );
         }
 
         private void SetUpContentRepository()
