@@ -4,7 +4,7 @@
 <%@ Register src="~/Apps/Core/Controls/ButtonsHolder.ascx" tagname="ButtonsHolder" tagprefix="uc1" %>
 <table cellpadding="0" cellspacing="0" width="100%">
 	<tr>
-		<td style="padding: 5px 5px 5px 15px;width:300px;" valign="top">
+		<td style="padding: 5px;width:300px;" valign="top">
 			<mc2:BlockHeaderLight HeaderCssClass="ibn-toolbar-light" ID="bhl" runat="server"
 				Title="<%$ Resources:OrderStrings, Shipment_Summary %>"></mc2:BlockHeaderLight>
 			<table class="orderform-blockheaderlight-datatable">
@@ -13,7 +13,23 @@
 						<asp:Label ID="Label4" runat="server" Text="<%$ Resources:OrderStrings, Item_Subtotal %>"></asp:Label>:
 					</td>
 					<td valign="top">
-						<asp:Label ID="lblSubTotal" runat="server"></asp:Label>
+						<asp:Label ID="lblItemsSubTotal" runat="server"></asp:Label>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="font-weight:bold; text-align:right;">
+						<asp:Label ID="Label5" runat="server" Text="<%$ Resources:OrderStrings, Order_Level_Discounts %>"></asp:Label>:
+					</td>
+					<td valign="top">
+						<asp:Label ID="lblOrderLevelDiscount" runat="server"></asp:Label>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" style="font-weight:bold; text-align:right;">
+						<asp:Label ID="Label9" runat="server" Text="<%$ Resources:OrderStrings, Order_Subtotal %>"></asp:Label>:
+					</td>
+					<td valign="top">
+						<asp:Label ID="lblOrderSubTotal" runat="server"></asp:Label>
 					</td>
 				</tr>
 				<tr>

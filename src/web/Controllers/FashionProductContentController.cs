@@ -28,6 +28,7 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Inventory;
+using Mediachase.Commerce.InventoryService;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Web.Api;
 using OxxCommerceStarterKit.Web.Business;
@@ -44,13 +45,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	{
 		#region Variables and constructors
 		
-		private readonly IWarehouseInventoryService _inventoryService;
+		private readonly IInventoryService _inventoryService;
 		private readonly LocalizationService _localizationService;
 		private readonly ReadOnlyPricingLoader _readOnlyPricingLoader;
 		private readonly ICurrentMarket _currentMarket;
 
 		public FashionProductContentController()
-			: this(ServiceLocator.Current.GetInstance<IWarehouseInventoryService>(),
+			: this(ServiceLocator.Current.GetInstance<IInventoryService>(),
 			ServiceLocator.Current.GetInstance<LocalizationService>(),
 			ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
 			ServiceLocator.Current.GetInstance<ICurrentMarket>()
@@ -58,7 +59,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 		{
 		}
 
-		public FashionProductContentController(IWarehouseInventoryService inventoryService, LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket)
+		public FashionProductContentController(IInventoryService inventoryService, LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket)
 		{			
 			_inventoryService = inventoryService;
 			_localizationService = localizationService;
@@ -212,6 +213,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
 		private void CreateSizeListItems(FashionProductViewModel model, List<FashionItemContent> fashionItems)
 		{
+
 			if (model.FashionItemViewModel != null)
 			{
 				List<SelectListItem> items =
@@ -220,8 +222,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
 							return ShoppingController.SortSizes(model.SizeType + "/" + model.SizeUnit + "/" + x.Facet_Size);
 						})
 						.Select(x => {
-							var inventory = _inventoryService.GetTotal(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, x.Code));
-							bool inStock = inventory != null && inventory.InStockQuantity - inventory.ReservedQuantity > 0;
+							var inventory = _inventoryService.Get(x.Code, ));
+							bool inStock = inventory != null && inventory.PurchaseAvailableQuantity > 0;
 							return CreateSelectListItem(x.Facet_Size, x.Facet_Size + GetStockText(inStock), !inStock, x.Code);
 						}).ToList();
 

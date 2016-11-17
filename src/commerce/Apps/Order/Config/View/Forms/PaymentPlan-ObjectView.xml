@@ -16,7 +16,7 @@
             <Control id="SplitterCtrl1" path="~/Apps/Order/Modules/SplitterControl.ascx">
             </Control>
             <Control id="GeneralInfoCtrl1" path="~/Apps/Order/Modules/ShortInfo.ascx">
-              
+
             </Control>
           </Placeholder>
           <Placeholder id="Placeholder_2">
@@ -120,8 +120,9 @@
               <Template id="LineItemDiscountTemplate" controlUrl="GridTemplates/LineItemDiscountTemplate.ascx"></Template>
             </Column>
             <Column width="180" visible="true" allowSorting="false" dataField="CustomDiscountDescr" headingText="{SharedStrings:Discount_Descr}"></Column>
-            <Column width="70" visible="true" allowSorting="false" dataField="ExtendedPrice" columnType="Currency" currencyCodeField="Parent.Parent.BillingCurrency" headingText="{SharedStrings:Total}"></Column>
-            <Column width="180" visible="true" allowSorting="true" dataField="Warehouse" headingText="{OrderStrings:Fulfillment_Warehouse}"></Column>
+            <Column width="70" visible="true" allowSorting="false" dataField="LineItemId" headingText="{SharedStrings:Total}" columnType="CustomTemplate">
+              <Template id="TotalNamesTemplate" controlUrl="GridTemplates/LineItemTotalTemplate.ascx"></Template>
+            </Column>
           </Columns>
         </Grid>
         <Grid placeName="OrderPayment-List">
@@ -169,7 +170,7 @@
             <Column width="200" allowSorting="true" dataField="CustomerName" headingText="{SharedStrings:Customer}"></Column>
             <!--<Column width="100" allowSorting="true" dataField="Total" headingText="{SharedStrings:Total}" columnType="Currency" currencyCodeField="BillingCurrency" align="Right"></Column>-->
             <Column width="100" allowSorting="true" dataField="Total" headingText="{SharedStrings:Total}" columnType="CustomTemplate" align="Right">
-              <Template id="PaymentAmountTemplate" controlUrl="GridTemplates/OrderTotalAmountTemplate.ascx"></Template>
+              <Template id="OrderTotalAmountTemplate" controlUrl="GridTemplates/OrderTotalAmountTemplate.ascx"></Template>
             </Column>
             <Column width="150" allowSorting="true" dataField="OrderGroupId"  headingText="{SharedStrings:Status}" Align="Center" columnType="CustomTemplate">
               <Template id="OrderStatusTemplate" controlUrl="GridTemplates/OrderStatusTemplate.ascx"></Template>

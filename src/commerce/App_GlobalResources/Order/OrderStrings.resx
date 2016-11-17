@@ -945,6 +945,9 @@
   <data name="Item_Subtotal" xml:space="preserve">
     <value>Item Subtotal</value>
   </data>
+  <data name="Order_Subtotal" xml:space="preserve">
+    <value>Order Subtotal</value>
+  </data>
   <data name="Item_Taxes" xml:space="preserve">
     <value>Item Taxes</value>
   </data>
@@ -1265,9 +1268,6 @@
   </data>
   <data name="Pickup_Orders" xml:space="preserve">
     <value>Pickup Orders</value>
-  </data>
-  <data name="Fulfillment_Warehouse" xml:space="preserve">
-    <value>Fulfillment Warehouse</value>
   </data>
   <data name="Shipment_ChargeForFromShipment" xml:space="preserve">
     <value>Charge customer for original shipment's shipping rate</value>

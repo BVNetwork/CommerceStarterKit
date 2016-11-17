@@ -942,6 +942,9 @@
   <data name="Item_Subtotal" xml:space="preserve">
     <value>Delsumma artikel</value>
   </data>
+  <data name="Order_Subtotal" xml:space="preserve">
+    <value>Orderdelsumma</value>
+  </data>
   <data name="Item_Taxes" xml:space="preserve">
     <value>Moms på artikel</value>
   </data>
@@ -1226,9 +1229,6 @@
   </data>
   <data name="Total_Before_Tax_And_Shipping" xml:space="preserve">
     <value>Totalsumma före moms och leverans</value>
-  </data>
-  <data name="Fulfillment_Warehouse" xml:space="preserve">
-    <value>Slutförandelager</value>
   </data>
   <data name="Inventory_Not_Check" xml:space="preserve">
     <value>Inte tillgänglig</value>

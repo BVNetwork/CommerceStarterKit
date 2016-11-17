@@ -111,16 +111,6 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
                 var firstCatalog =
                     contentLoader.GetChildren<CatalogContent>(referenceConverter.GetRootLink()).FirstOrDefault();
 
-                var partialRouter = new HierarchicalCatalogPartialRouter(
-                    () => SiteDefinition.Current.StartPage,
-                    commerceRoot: firstCatalog,
-                    supportSeoUri: false,
-                    contentLoader: contentLoader,
-                    routingSegmentLoader: routingSegmentLoader,
-                    contentVersionRepository: contentVersionRepo,
-                    urlSegmentRouter: urlSegmentRouter,
-                    contentLanguageSettingsHandler: contentLanguageSettingsHandler);
-
                 var partialRouter2 = new HierarchicalCatalogPartialRouter(
                     () => SiteDefinition.Current.StartPage, firstCatalog, false);
 

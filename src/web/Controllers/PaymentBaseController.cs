@@ -22,6 +22,7 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Inventory;
+using Mediachase.Commerce.InventoryService;
 using Mediachase.Commerce.Orders;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -39,7 +40,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
             var linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
             var languageSelector = ServiceLocator.Current.GetInstance<LanguageSelector>();
-            var warehouseInventoryService = ServiceLocator.Current.GetInstance<IWarehouseInventoryService>();
+            var warehouseInventoryService = ServiceLocator.Current.GetInstance<IInventoryService>();
 
             foreach (var p in expirationCandidates)
             {
@@ -55,9 +56,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     // If no variants for a product has inventory, expire the product
                     if (!variants.Any(v =>
                     {
-                        var catalogKey = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, v.Code);
-
-                        return warehouseInventoryService.List(catalogKey).Any(inventory => inventory.InStockQuantity > 0);
+                        return warehouseInventoryService.QueryByEntry(new[] {v.Code}).Any(inventory => inventory.PurchaseAvailableQuantity > 0);
                     }))
                     {
                         var writableClone = (ProductContent)p.CreateWritableClone();
