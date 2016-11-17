@@ -28,23 +28,20 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class DigitalCameraVariationContentController : CommerceControllerBase<DigitalCameraVariationContent>
     {
          private readonly ICurrentMarket _currentMarket;
-        private IWarehouseInventoryService _warehouseInventoryService;
         private LocalizationService _localizationService;
         private ReadOnlyPricingLoader _readOnlyPricingLoader;
         private readonly IPriceDetailService _priceDetailService;
 
         public DigitalCameraVariationContentController()
-			: this(ServiceLocator.Current.GetInstance<IWarehouseInventoryService>(),
-			ServiceLocator.Current.GetInstance<LocalizationService>(),
+			: this(ServiceLocator.Current.GetInstance<LocalizationService>(),
 			ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
 			ServiceLocator.Current.GetInstance<ICurrentMarket>(),
             ServiceLocator.Current.GetInstance<IPriceDetailService>()
 			)
 		{
 		}
-        public DigitalCameraVariationContentController(IWarehouseInventoryService warehouseInventoryService, LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket, IPriceDetailService priceDetailService)
+        public DigitalCameraVariationContentController(LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket, IPriceDetailService priceDetailService)
         {
-            _warehouseInventoryService = warehouseInventoryService;
             _localizationService = localizationService;
             _readOnlyPricingLoader = readOnlyPricingLoader;
             _currentMarket = currentMarket;

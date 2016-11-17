@@ -7,11 +7,14 @@ using EPiServer.Logging;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Inventory;
+using Mediachase.Commerce.InventoryService;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Objects.SharedViewModels;
+using OxxCommerceStarterKit.Core.Services;
 
 namespace OxxCommerceStarterKit.Web.Business.Payment
 {
+    [Obsolete("This should be handled by standard activityflows or calculators")]
     public class StockUpdater : IStockUpdater
     {
         private static readonly ILogger Log = LogManager.GetLogger();
@@ -30,7 +33,7 @@ namespace OxxCommerceStarterKit.Web.Business.Payment
         {
             var warehouseRepository = ServiceLocator.Current.GetInstance<IWarehouseRepository>();
             var warehousesCache = warehouseRepository.List();
-            var warehouseInventory = ServiceLocator.Current.GetInstance<IWarehouseInventoryService>();
+            var warehouseInventory = ServiceLocator.Current.GetInstance<IDefaultInventoryService>();
 
             var expirationCandidates = new HashSet<ProductContent>();
 
@@ -47,10 +50,9 @@ namespace OxxCommerceStarterKit.Web.Business.Payment
                         var warehouse = warehousesCache.First(w => w.Code == i.WarehouseCode);
                         var catalogEntry = CatalogContext.Current.GetCatalogEntry((string) i.CatalogEntryId);
                         var catalogKey = new CatalogKey(catalogEntry);
-                        var inventory = new WarehouseInventory(warehouseInventory.Get(catalogKey, warehouse));
+                        var inventory = warehouseInventory.GetForDefaultWarehouse((string)i.CatalogEntryId);
 
-                        inventory.InStockQuantity = inventory.InStockQuantity - i.Quantity;
-                        if (inventory.InStockQuantity <= 0)
+                        if (inventory.PurchaseAvailableQuantity - i.Quantity <= 0)
                         {
                             var contentLink = referenceConverter.GetContentLink(i.CatalogEntryId);
                             var variant = contentRepository.Get<VariationContent>(contentLink);

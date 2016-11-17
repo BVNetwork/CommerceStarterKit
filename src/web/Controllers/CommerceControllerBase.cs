@@ -28,6 +28,7 @@ using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Inventory;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
+using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Helpers;
 using OxxCommerceStarterKit.Web.Models.Catalog;
@@ -42,9 +43,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private static Injected<ReadOnlyPricingLoader> _readonlyPricingLoaderService;
         private static Injected<ICurrentMarket> _icurrentMarketService;
         private static Injected<ILinksRepository> _linksRepositoryService;
-        private static Injected<IWarehouseInventoryService> _inventoryService;
+        private static Injected<IDefaultInventoryService> _inventoryService;
  
-        
 
         protected IContentLoader ContentLoader
         {
@@ -71,7 +71,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             get { return _linksRepositoryService.Service; }
         }
 
-        protected IWarehouseInventoryService InventoryService
+        protected IDefaultInventoryService InventoryService
         {
             get { return _inventoryService.Service; }
         }
@@ -198,11 +198,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         protected bool IsSellable(VariationContent variationContent)
         {
-            var inventory = InventoryService.GetTotal(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, variationContent.Code));
+            var inventory = InventoryService.GetForDefaultWarehouse(variationContent.Code);
 
             return HasPrice(variationContent) &&
                 inventory != null &&
-                inventory.InStockQuantity - inventory.ReservedQuantity > 0;
+                inventory.PurchaseAvailableQuantity > 0;
         }
 
         protected bool HasPrice(VariationContent variationContent)

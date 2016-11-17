@@ -30,6 +30,7 @@ using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Inventory;
 using Mediachase.Commerce.InventoryService;
 using OxxCommerceStarterKit.Core;
+using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Web.Api;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Models.Catalog;
@@ -45,26 +46,30 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	{
 		#region Variables and constructors
 		
-		private readonly IInventoryService _inventoryService;
 		private readonly LocalizationService _localizationService;
 		private readonly ReadOnlyPricingLoader _readOnlyPricingLoader;
 		private readonly ICurrentMarket _currentMarket;
+	    private readonly IDefaultInventoryService _defaultInventoryService;
 
-		public FashionProductContentController()
-			: this(ServiceLocator.Current.GetInstance<IInventoryService>(),
-			ServiceLocator.Current.GetInstance<LocalizationService>(),
+	    public FashionProductContentController()
+			: this(ServiceLocator.Current.GetInstance<LocalizationService>(),
 			ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
-			ServiceLocator.Current.GetInstance<ICurrentMarket>()
+			ServiceLocator.Current.GetInstance<ICurrentMarket>(),
+            ServiceLocator.Current.GetInstance<IDefaultInventoryService>()
 			)
 		{
 		}
 
-		public FashionProductContentController(IInventoryService inventoryService, LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket)
+		public FashionProductContentController(LocalizationService localizationService, 
+            ReadOnlyPricingLoader readOnlyPricingLoader, 
+            ICurrentMarket currentMarket,
+            IDefaultInventoryService defaultInventoryService)
 		{			
-			_inventoryService = inventoryService;
+			
 			_localizationService = localizationService;
 			_readOnlyPricingLoader = readOnlyPricingLoader;
 			_currentMarket = currentMarket;
+		    _defaultInventoryService = defaultInventoryService;
 		}
 		#endregion
 
@@ -216,13 +221,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
 			if (model.FashionItemViewModel != null)
 			{
-				List<SelectListItem> items =
+                List<SelectListItem> items =
 					fashionItems.Distinct(new FashionProductSizeVariationComparer())
 						.OrderBy(x => {
 							return ShoppingController.SortSizes(model.SizeType + "/" + model.SizeUnit + "/" + x.Facet_Size);
 						})
 						.Select(x => {
-							var inventory = _inventoryService.Get(x.Code, ));
+							var inventory = _defaultInventoryService.GetForDefaultWarehouse(x.Code);
 							bool inStock = inventory != null && inventory.PurchaseAvailableQuantity > 0;
 							return CreateSelectListItem(x.Facet_Size, x.Facet_Size + GetStockText(inStock), !inStock, x.Code);
 						}).ToList();

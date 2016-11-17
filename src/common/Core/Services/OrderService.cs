@@ -82,7 +82,7 @@ namespace OxxCommerceStarterKit.Core.Services
             return new OrderFormModel()
             {
                 Discounts = MapDiscounts(orderForm.Discounts),
-                LineItems = orderForm.LineItems.Select(MapToModel),
+                LineItems = GetLineItems(orderForm),
                 Payments = orderForm.Payments.OrEmpty().Select(MapToModel).ToArray(),
                 Shipments = orderForm.Shipments.OrEmpty().Select(MapToModel).ToArray()
             };
@@ -134,6 +134,12 @@ namespace OxxCommerceStarterKit.Core.Services
                 });
             }
             return models.ToArray();
+        }
+
+        private IEnumerable<LineItemModel> GetLineItems(OrderForm orderForm)
+        {
+            /// TODO: Extract warehouse code from shipment
+            return orderForm.LineItems.Select(MapToModel);
         }
 
         private LineItemModel MapToModel(Mediachase.Commerce.Orders.LineItem item)

@@ -86,7 +86,7 @@ namespace OxxCommerceStarterKit.Web.Business.Rendering
             string cssClass)
         {
             ViewContext viewContext = htmlHelper.ViewContext;
-            IContent content = contentAreaItem.GetContent(this._contentRepository);
+            IContent content = contentAreaItem.GetContent();
             if (content != null)
             {
                 using (new ContentAreaContext(viewContext.RequestContext, content.ContentLink))

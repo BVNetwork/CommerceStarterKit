@@ -28,22 +28,19 @@ namespace OxxCommerceStarterKit.Web.Controllers
     [RequireClientResources]
     public class GenericProductContentController : CommerceControllerBase<GenericProductContent>
     {
-        private readonly IWarehouseInventoryService _inventoryService;
 		private readonly LocalizationService _localizationService;
 		private readonly ReadOnlyPricingLoader _readOnlyPricingLoader;
 		private readonly ICurrentMarket _currentMarket;
 
         public GenericProductContentController()
-			: this(ServiceLocator.Current.GetInstance<IWarehouseInventoryService>(),
-			ServiceLocator.Current.GetInstance<LocalizationService>(),
+			: this(ServiceLocator.Current.GetInstance<LocalizationService>(),
 			ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
 			ServiceLocator.Current.GetInstance<ICurrentMarket>()
 			)
 		{
 		}
-        public GenericProductContentController(IWarehouseInventoryService inventoryService, LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket)
+        public GenericProductContentController(LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket)
 		{			
-			_inventoryService = inventoryService;
 			_localizationService = localizationService;
 			_readOnlyPricingLoader = readOnlyPricingLoader;
 			_currentMarket = currentMarket;
@@ -176,8 +173,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 List<SelectListItem> items = variationItems.Select(x =>
                         {
-                            var inventory = _inventoryService.GetTotal(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, x.Code));
-                            bool inStock = inventory != null && inventory.InStockQuantity - inventory.ReservedQuantity > 0;
+                            var inventory = InventoryService.GetForDefaultWarehouse(x.Code);
+                            bool inStock = inventory != null && inventory.PurchaseAvailableQuantity > 0;
                             return CreateSelectListItem(x.Size, x.Size + GetStockText(inStock), !inStock, x.Code);
                         }).ToList();
 

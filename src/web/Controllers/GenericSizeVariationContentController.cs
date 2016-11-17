@@ -28,24 +28,21 @@ namespace OxxCommerceStarterKit.Web.Controllers
     [RequireClientResources]
     public class GenericSizeVariationContentController : CommerceControllerBase<GenericSizeVariationContent>
     {
-         private readonly ICurrentMarket _currentMarket;
-        private IWarehouseInventoryService _warehouseInventoryService;
+        private readonly ICurrentMarket _currentMarket;
         private LocalizationService _localizationService;
         private ReadOnlyPricingLoader _readOnlyPricingLoader;
         private readonly IPriceDetailService _priceDetailService;
 
         public GenericSizeVariationContentController()
-			: this(ServiceLocator.Current.GetInstance<IWarehouseInventoryService>(),
-			ServiceLocator.Current.GetInstance<LocalizationService>(),
-			ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
-			ServiceLocator.Current.GetInstance<ICurrentMarket>(),
+            : this(ServiceLocator.Current.GetInstance<LocalizationService>(),
+            ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
+            ServiceLocator.Current.GetInstance<ICurrentMarket>(),
             ServiceLocator.Current.GetInstance<IPriceDetailService>()
-			)
-		{
-		}
-        public GenericSizeVariationContentController(IWarehouseInventoryService warehouseInventoryService, LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket, IPriceDetailService priceDetailService)
+            )
         {
-            _warehouseInventoryService = warehouseInventoryService;
+        }
+        public GenericSizeVariationContentController(LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket, IPriceDetailService priceDetailService)
+        {
             _localizationService = localizationService;
             _readOnlyPricingLoader = readOnlyPricingLoader;
             _currentMarket = currentMarket;
@@ -73,7 +70,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             return View(viewModel);
         }
 
-       
+
         private List<MediaData> GetMedia(GenericSizeVariationContent currentContent)
         {
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();

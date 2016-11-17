@@ -210,6 +210,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -352,6 +353,7 @@
     <Compile Include="Services\ExportOrderService.cs" />
     <Compile Include="Services\ICartService.cs" />
     <Compile Include="Services\ICurrentCustomerService.cs" />
+    <Compile Include="Services\IDefaultInventoryService.cs" />
     <Compile Include="Services\IEnumerableExtensions.cs" />
     <Compile Include="Services\IOrderService.cs" />
     <Compile Include="Services\IOrderSettings.cs" />
@@ -365,7 +367,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
-    <None Include="Views\Emails\_ViewStart.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CommerceStarterKit.Interfaces\CommerceStarterKit.Interfaces.csproj">

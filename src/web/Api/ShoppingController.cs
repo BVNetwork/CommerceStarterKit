@@ -135,7 +135,7 @@ namespace OxxCommerceStarterKit.Web.Api
                     recommendedFindProducts = GetRecommendedProducts(productSearchData, language);
                 }
                 //Recommended service is logging, so we just skip recommended products here
-                catch (Exception e)
+                catch
                 {
                     recommendedFindProducts = new List<FindProduct>();
                 }

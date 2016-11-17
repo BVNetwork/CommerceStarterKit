@@ -29,6 +29,7 @@ using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Inventory;
 using OxxCommerceStarterKit.Core.Models;
+using OxxCommerceStarterKit.Core.Services;
 
 
 namespace OxxCommerceStarterKit.Core.Extensions
@@ -269,12 +270,12 @@ namespace OxxCommerceStarterKit.Core.Extensions
             if (content == null)
                 return 0;
 
-            var inventoryService = ServiceLocator.Current.GetInstance<IWarehouseInventoryService>();
-            var inventory = inventoryService.GetTotal(new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, content.Code));
+            var inventoryService = ServiceLocator.Current.GetInstance<IDefaultInventoryService>();
+            var inventory = inventoryService.GetForDefaultWarehouse(content.Code);
 
             if (inventory != null)
             {
-                return inventory.InStockQuantity - inventory.ReservedQuantity;
+                return inventory.PurchaseAvailableQuantity;
             }
             return 0;
         }

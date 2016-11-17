@@ -32,7 +32,7 @@ namespace OxxCommerceStarterKit.Web.Business.Rendering
 
             var tag = GetContentAreaItemTemplateTag(htmlHelper, contentAreaItem);
 
-            var content = contentAreaItem.GetContent(ContentRepository);
+            var content = contentAreaItem.GetContent();
             if(content != null)
             {
                 if (tag == null )

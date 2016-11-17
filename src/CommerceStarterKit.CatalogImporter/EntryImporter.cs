@@ -17,6 +17,7 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Inventory;
+using Mediachase.Commerce.InventoryService;
 using Mediachase.Commerce.Pricing;
 using Price = CommerceStarterKit.CatalogImporter.DTO.Price;
 
@@ -27,14 +28,14 @@ namespace CommerceStarterKit.CatalogImporter
     {
         private readonly UrlResolver _urlResolver;
         private readonly IWarehouseRepository _warehouseRepository;
-        private readonly IWarehouseInventoryService _inventoryService;
+        private readonly IInventoryService _inventoryService;
         private readonly IPriceService _priceService;
 
         public EntryImporter(IContentRepository contentRepository,
             ReferenceConverter referenceConverter, IContentTypeRepository typeRepository,
             ILogger logger, UrlResolver urlResolver,
             IWarehouseRepository warehouseRepository,
-            IWarehouseInventoryService inventoryService,
+            IInventoryService inventoryService,
             IPriceService priceService)
             : base(contentRepository, referenceConverter, typeRepository, logger)
         {
@@ -235,26 +236,22 @@ namespace CommerceStarterKit.CatalogImporter
                 throw new ArgumentNullException("inStockQuantity", "InStockQuantity is required");
             }
 
-            CatalogKey key = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, code);
+            var existingInventory = _inventoryService.Get(code, warehouse.Code);
 
-
-
-            var existingInventory = _inventoryService.Get(key, warehouse);
-
-            WarehouseInventory inv;
+            InventoryRecord inv;
             if (existingInventory != null)
             {
-                inv = new WarehouseInventory(existingInventory);
+                inv = new InventoryRecord(existingInventory);
             }
             else
             {
-                inv = new WarehouseInventory();
+                inv = new InventoryRecord();
                 inv.WarehouseCode = warehouse.Code;
-                inv.CatalogKey = key;
+                inv.CatalogEntryCode = code;
             }
-            inv.InStockQuantity = inStockQuantity;
+            inv.PurchaseAvailableQuantity = inStockQuantity;
 
-            _inventoryService.Save(inv);
+            _inventoryService.Save(new[] {inv});
         }
 
         protected void SetPrices(string code, List<Price> prices)

@@ -34,6 +34,7 @@ using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Customers;
 using OxxCommerceStarterKit.Core.PaymentProviders.Payment;
 using OxxCommerceStarterKit.Core.Repositories;
+using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Business.Payment;
@@ -54,14 +55,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ICurrentMarket _currentMarket;
         private readonly LocalizationService _localizationService;
         private readonly ICustomerFactory _customerFactory;
-        private readonly IWarehouseInventoryService _warehouseInventory;
+        private readonly IDefaultInventoryService _warehouseInventory;
         private readonly IWarehouseRepository _warehouseRepository;
         private readonly PaymentRegistry _paymentRegistry;
 
         public CheckoutController(CustomerAddressRepository customerAddressRepository, IContentRepository contentRepository, 
             ICurrentMarket currentMarket, ICustomerFactory customerFactory, 
             LocalizationService localizationService,
-            IWarehouseInventoryService warehouseInventory,
+            IDefaultInventoryService warehouseInventory,
             IWarehouseRepository warehouseRepository,
             PaymentRegistry paymentRegistry)
         {
@@ -245,9 +246,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
             foreach (var p in summary)
             {
                 var catalogKey = new CatalogKey(Mediachase.Commerce.Core.AppContext.Current.ApplicationId, p.Key);
-                var inventory = _warehouseInventory.GetTotal(catalogKey, epiWarehouses);
+                var inventory = _warehouseInventory.GetForDefaultWarehouse(p.Key);
 
-                if (inventory == null || inventory.InStockQuantity < p.Value.Item1)
+                if (inventory == null || inventory.PurchaseAvailableQuantity < p.Value.Item1)
                 {
                     /// TODO: Add language string
                     ModelState.AddModelError(string.Empty, "Variant is out of stock " + p.Value.Item2 + " (" + p.Key + ")");
