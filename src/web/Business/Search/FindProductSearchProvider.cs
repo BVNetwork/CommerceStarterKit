@@ -122,10 +122,10 @@ namespace OxxCommerceStarterKit.Web.Business.Search
 
                     result.Metadata.Add("parentId", content.ParentLink.ToString());
                     result.Metadata.Add("parentType", CatalogContentType.CatalogNode.ToString());
-                    result.Metadata.Add("id", contentLink.ToString());
+                    result.Metadata.Add("Id", contentLink.ToString());
                     result.Metadata.Add("code", content.Code);
                     result.Metadata.Add("languageBranch", content.Language.Name);
-
+                    result.Metadata.Add("typeIdentifier", RuntimeModelExtensions.GetOriginalType(content).FullName.ToLower());
                     entryResults.Add(result);
                 }
                 else
