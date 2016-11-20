@@ -56,6 +56,7 @@
     <Folder Include="Views\WineSKUPartial\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\GenericCampaignPartialController.cs" />
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\FindProductFilterSortOrderFactory.cs" />
     <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
@@ -933,6 +934,7 @@
     <Content Include="Views\Emails\Receipt.Html.cshtml" />
     <Content Include="Views\RecommendedProductsBlock\_recommendedProductsBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\AdvancedContentBlock.cshtml" />
+    <None Include="Views\Shared\CampaignPartials\GenericCampaign.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -1444,7 +1446,6 @@
     <Content Include="Configs\ecf.app.config" />
     <Content Include="Configs\ecf.asset.config" />
     <Content Include="Configs\ecf.catalog.config" />
-    <Content Include="Configs\ecf.cms.config" />
     <Content Include="Configs\ecf.customer.config" />
     <Content Include="Configs\ecf.customization.config" />
     <Content Include="Configs\ecf.marketing.config" />

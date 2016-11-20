@@ -1,13 +1,7 @@
-﻿/*
-Commerce Starter Kit for EPiServer
-
-All rights reserved. See LICENSE.txt in project root.
-
-Copyright (C) 2013-2014 Oxx AS
-Copyright (C) 2013-2014 BV Network AS
-
-*/
-
+using EPiServer.Commerce.Marketing;
+using EPiServer.Commerce.Order;
+using EPiServer.ServiceLocation;
+using Mediachase.Commerce;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +9,6 @@ using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.Localization;
-using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Catalog.Objects;
 using Mediachase.Commerce.Engine;
@@ -25,22 +18,293 @@ using Mediachase.Commerce.Orders.Managers;
 using Mediachase.Commerce.Website.Helpers;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Objects;
-using LineItem = OxxCommerceStarterKit.Core.Objects.LineItem;
 using OxxCommerceStarterKit.Core.Objects.SharedViewModels;
+using LineItem = OxxCommerceStarterKit.Core.Objects.LineItem;
 
 namespace OxxCommerceStarterKit.Core.Services
 {
+    [ServiceConfiguration(typeof(ICartService), Lifecycle = ServiceInstanceScope.Singleton)]
     public class CartService : ICartService
     {
+        private readonly IPricingService _pricingService;
+        private readonly IOrderFactory _orderFactory;
+        private readonly ICurrentCustomerService _customerContext;
+        private readonly IPlacedPriceProcessor _placedPriceProcessor;
+        private readonly IInventoryProcessor _inventoryProcessor;
+        private readonly ILineItemValidator _lineItemValidator;
+        private readonly IPromotionEngine _promotionEngine;
+        private readonly IOrderRepository _orderRepository;
+        private readonly ICurrentMarket _currentMarket;
         private readonly IContentLoader _contentLoader;
         private readonly ReferenceConverter _referenceConverter;
 
-        public CartService(IContentLoader contentLoader, ReferenceConverter referenceConverter)
+        public CartService(
+            IPricingService pricingService,
+            IOrderFactory orderFactory,
+            ICurrentCustomerService customerContext,
+            IPlacedPriceProcessor placedPriceProcessor,
+            IInventoryProcessor inventoryProcessor,
+            ILineItemValidator lineItemValidator,
+            IOrderRepository orderRepository,
+            IPromotionEngine promotionEngine,
+            ICurrentMarket currentMarket,
+            IContentLoader contentLoader, 
+            ReferenceConverter referenceConverter
+            )
         {
+            _pricingService = pricingService;
+            _orderFactory = orderFactory;
+            _customerContext = customerContext;
+            _placedPriceProcessor = placedPriceProcessor;
+            _inventoryProcessor = inventoryProcessor;
+            _lineItemValidator = lineItemValidator;
+            _promotionEngine = promotionEngine;
+            _orderRepository = orderRepository;
+            _currentMarket = currentMarket;
             _contentLoader = contentLoader;
             _referenceConverter = referenceConverter;
         }
 
+        public string DefaultCartName
+        {
+            get { return "Default"; }
+        }
+
+        public string DefaultWishListName
+        {
+            get { return "WishList"; }
+        }
+
+        public void MergeShipments(ICart cart)
+        {
+            if (cart == null || !cart.GetAllLineItems().Any())
+            {
+                return;
+            }
+
+            var form = cart.GetFirstForm();
+            var keptShipment = cart.GetFirstShipment();
+            var removedShipments = form.Shipments.Skip(1).ToList();
+            var movedLineItems = removedShipments.SelectMany(x => x.LineItems).ToList();
+            removedShipments.ForEach(x => x.LineItems.Clear());
+            removedShipments.ForEach(x => cart.GetFirstForm().Shipments.Remove(x));
+
+            foreach (var item in movedLineItems)
+            {
+                var existingLineItem = keptShipment.LineItems.SingleOrDefault(x => x.Code == item.Code);
+                if (existingLineItem != null)
+                {
+                    existingLineItem.Quantity += item.Quantity;
+                    continue;
+                }
+
+                keptShipment.LineItems.Add(item);
+            }
+
+            ValidateCart(cart);
+        }
+
+
+        public bool AddToCart(ICart cart, string code, int quantity, out string warningMessage)
+        {
+            warningMessage = string.Empty;
+
+            var lineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code);
+
+            if (lineItem == null)
+            {
+                lineItem = _orderFactory.CreateLineItem(code);
+                lineItem.Quantity = quantity;
+                cart.AddLineItem(lineItem, _orderFactory);
+            }
+            else
+            {
+                var shipment = cart.GetFirstShipment();
+                cart.UpdateLineItemQuantity(shipment, lineItem, lineItem.Quantity + quantity);
+            }
+
+            var validationIssues = ValidateCart(cart);
+
+            foreach (var validationIssue in validationIssues)
+            {
+                warningMessage += String.Format("Line Item with code {0} ", lineItem.Code);
+                warningMessage = validationIssue.Value.Aggregate(warningMessage, (current, issue) => current + String.Format("{0}, ", issue));
+                warningMessage = warningMessage.Substring(0, warningMessage.Length - 2);
+            }
+
+            if (validationIssues.HasItemBeenRemoved(lineItem))
+            {
+                return false;
+            }
+
+            return GetFirstLineItem(cart, code) != null;
+        }
+
+        public void SetCartCurrency(ICart cart, Currency currency)
+        {
+            if (currency.IsEmpty || currency == cart.Currency)
+            {
+                return;
+            }
+
+            cart.Currency = currency;
+            foreach (var lineItem in cart.GetAllLineItems())
+            {
+                //If there is an item which has no price in the new currency, a NullReference exception will be thrown.
+                //Mixing currencies in cart is not allowed.
+                //It's up to site's managers to ensure that all items have prices in allowed currency.
+                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency).Value.Amount;
+            }
+
+            ValidateCart(cart);
+        }
+
+        public Dictionary<ILineItem, List<ValidationIssue>> ValidateCart(ICart cart)
+        {
+            if (cart.Name.Equals(DefaultWishListName))
+            {
+                return new Dictionary<ILineItem, List<ValidationIssue>>();
+            }
+
+            var validationIssues = new Dictionary<ILineItem, List<ValidationIssue>>();
+            cart.ValidateOrRemoveLineItems((item, issue) => validationIssues.AddValidationIssues(item, issue), _lineItemValidator);
+            cart.UpdatePlacedPriceOrRemoveLineItems(_customerContext.GetContactById(cart.CustomerId), (item, issue) => validationIssues.AddValidationIssues(item, issue), _placedPriceProcessor);
+            cart.UpdateInventoryOrRemoveLineItems((item, issue) => validationIssues.AddValidationIssues(item, issue), _inventoryProcessor);
+
+            cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
+
+            return validationIssues;
+        }
+
+        public Dictionary<ILineItem, List<ValidationIssue>> RequestInventory(ICart cart)
+        {
+            var validationIssues = new Dictionary<ILineItem, List<ValidationIssue>>();
+            cart.AdjustInventoryOrRemoveLineItems((item, issue) => validationIssues.AddValidationIssues(item, issue), _inventoryProcessor);
+            return validationIssues;
+        }
+
+        public ICart LoadCart(string name)
+        {
+            var cart = _orderRepository.LoadCart<ICart>(_customerContext.GetCurrentUserGuid(), name, _currentMarket);
+            if (cart != null)
+            {
+                SetCartCurrency(cart, _currentMarket.GetCurrentMarket().DefaultCurrency);
+
+                var validationIssues = ValidateCart(cart);
+                // After validate, if there is any change in cart, saving cart.
+                if (validationIssues.Any())
+                {
+                    _orderRepository.Save(cart);
+                }
+            }
+
+            return cart;
+        }
+
+        public ICart LoadOrCreateCart(string name)
+        {
+            var cart = _orderRepository.LoadOrCreateCart<ICart>(_customerContext.GetCurrentUserGuid(), name, _currentMarket);
+            if (cart != null)
+            {
+                SetCartCurrency(cart, _currentMarket.GetCurrentMarket().DefaultCurrency);
+            }
+
+            return cart;
+        }
+
+        public bool AddCouponCode(ICart cart, string couponCode)
+        {
+            var couponCodes = cart.GetFirstForm().CouponCodes;
+            if (couponCodes.Any(c => c.Equals(couponCode, StringComparison.OrdinalIgnoreCase)))
+            {
+                return false;
+            }
+            couponCodes.Add(couponCode);
+            var rewardDescriptions = cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
+            var appliedCoupons = rewardDescriptions.Where(r => r.Status == FulfillmentStatus.Fulfilled && !string.IsNullOrEmpty(r.Promotion.Coupon.Code))
+                                                   .Select(c => c.Promotion.Coupon.Code);
+            var couponApplied = appliedCoupons.Any(c => c.Equals(couponCode, StringComparison.OrdinalIgnoreCase));
+            if (!couponApplied)
+            {
+                couponCodes.Remove(couponCode);
+            }
+            return couponApplied;
+        }
+
+        public void RemoveCouponCode(ICart cart, string couponCode)
+        {
+            cart.GetFirstForm().CouponCodes.Remove(couponCode);
+            cart.ApplyDiscounts(_promotionEngine, new PromotionEngineSettings());
+        }
+
+        private void RemoveLineItem(ICart cart, int shipmentId, string code)
+        {
+            var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+
+            var lineItem = shipment.LineItems.FirstOrDefault(l => l.Code == code);
+            if (lineItem != null)
+            {
+                shipment.LineItems.Remove(lineItem);
+            }
+
+            if (!shipment.LineItems.Any())
+            {
+                cart.GetFirstForm().Shipments.Remove(shipment);
+            }
+
+            ValidateCart(cart);
+        }
+
+        private void UpdateLineItemSku(ICart cart, int shipmentId, string oldCode, string newCode, decimal quantity)
+        {
+            RemoveLineItem(cart, shipmentId, oldCode);
+
+            //merge same sku's
+            var newLineItem = GetFirstLineItem(cart, newCode);
+            if (newLineItem != null)
+            {
+                var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+                cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity);
+            }
+            else
+            {
+                newLineItem = _orderFactory.CreateLineItem(newCode);
+                newLineItem.Quantity = quantity;
+                cart.AddLineItem(newLineItem, _orderFactory);
+
+                var price = _pricingService.GetCurrentPrice(newCode);
+                if (price.HasValue)
+                {
+                    newLineItem.PlacedPrice = price.Value.Amount;
+                }
+            }
+
+            ValidateCart(cart);
+        }
+
+        private void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity)
+        {
+            if (quantity == 0)
+            {
+                RemoveLineItem(cart, shipmentId, code);
+            }
+            var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+            var lineItem = shipment.LineItems.FirstOrDefault(x => x.Code == code);
+            if (lineItem == null)
+            {
+                return;
+            }
+
+            cart.UpdateLineItemQuantity(shipment, lineItem, quantity);
+            ValidateCart(cart);
+        }
+
+        private ILineItem GetFirstLineItem(ICart cart, string code)
+        {
+            return cart.GetAllLineItems().FirstOrDefault(x => x.Code == code);
+        }
+
+        // Oldie
         public CartActionResult AddToCart(LineItem lineItem)
         {
             return AddToCart(Cart.DefaultName, lineItem);
@@ -53,45 +317,57 @@ namespace OxxCommerceStarterKit.Core.Services
 
         private CartActionResult AddToCart(string name, LineItem lineItem)
         {
-            CartHelper ch = new CartHelper(name);
-            string messages = string.Empty;
+            string code = lineItem.Code;
 
             if (lineItem.Quantity < 1)
             {
                 lineItem.Quantity = 1;
             }
 
-            // Need entry for adding to cart
-            var entry = CatalogContext.Current.GetCatalogEntry(lineItem.Code);
-            ch.AddEntry(entry, lineItem.Quantity, false, new CartHelper[] { });
+            string messages = string.Empty;
+            ICart cart = LoadOrCreateCart(DefaultCartName);
+            var result = AddToCart(cart, code, lineItem.Quantity, out messages);
 
-            // Need content for easier access to more information
-            ContentReference itemLink = _referenceConverter.GetContentLink(entry.CatalogEntryId,
-                CatalogContentType.CatalogEntry, 0);
-            EntryContentBase entryContent = _contentLoader.Get<EntryContentBase>(itemLink);
-
-            // Populate line item with as much as we can find
-            if (string.IsNullOrEmpty(lineItem.ImageUrl))
+            // Populate with additional fields before saving
+            ILineItem addedLineItem = cart.GetAllLineItems().FirstOrDefault(x => x.Code == code);
+            if (addedLineItem != null)
             {
-                lineItem.ImageUrl = entryContent.GetDefaultImage();
+                // Need content for easier access to more information
+                ContentReference itemLink = _referenceConverter.GetContentLink(code);
+                EntryContentBase entryContent = _contentLoader.Get<EntryContentBase>(itemLink);
+
+                AddPropertiesToLineItem(addedLineItem, lineItem, entryContent);
+
+                AddCustomProperties(lineItem, addedLineItem);
             }
 
-            if (string.IsNullOrEmpty(lineItem.ArticleNumber))
-            {
-                lineItem.ArticleNumber = entry.ID;
-            }
-
-            lineItem.Name = TryGetDisplayName(entry);
-            //lineItem.IsInventoryAllocated = true; // Will this be enough?
-
-            AddCustomProperties(lineItem, ch.Cart);
-
-
-            messages = RunWorkflowAndReturnFormattedMessage(ch.Cart, OrderGroupWorkflowManager.CartValidateWorkflowName);
-            ch.Cart.AcceptChanges();
+            _orderRepository.Save(cart);
 
             // TODO: Always returns success, if we get warnings, we need to show them
             return new CartActionResult() { Success = true, Message = messages };
+        }
+
+        private void AddPropertiesToLineItem(ILineItem cartItem, LineItem addedItem, EntryContentBase entryContent)
+        {
+            string imageUrl = null;
+            // Populate line item with as much as we can find
+            if (string.IsNullOrEmpty(addedItem.ImageUrl) == false)
+            {
+                imageUrl = addedItem.ImageUrl;
+            }
+            else
+            {
+                imageUrl = entryContent.GetDefaultImage();
+            }
+
+            cartItem.Properties["ImageUrl"] = imageUrl;
+
+            //if (string.IsNullOrEmpty(lineItem.ArticleNumber))
+            //{
+            //    lineItem.ArticleNumber = entry.ID;
+            //}
+
+            cartItem.DisplayName = entryContent.DisplayName;
         }
 
         public static string RunWorkflowAndReturnFormattedMessage(Cart cart, string workflowName)
@@ -303,25 +579,21 @@ namespace OxxCommerceStarterKit.Core.Services
             cart.AcceptChanges();
         }
 
-        private void AddCustomProperties(LineItem lineItem, Cart cart)
+        private void AddCustomProperties(LineItem lineItem, ILineItem cartItem)
         {
-
-            Mediachase.Commerce.Orders.LineItem item = cart.OrderForms[0].LineItems.FindItemByCatalogEntryId(lineItem.Code);
 
             // Make sure we have all available data on the item before
             // we proceed
-            lineItem.UpdateData(item);
+            // lineItem.UpdateData(item);
 
             //TODO: Let specific model implementation populate these fields, we need to know too much about the model here
-            item[Constants.Metadata.LineItem.DisplayName] = lineItem.Name;
-            item[Constants.Metadata.LineItem.ImageUrl] = lineItem.ImageUrl;
-            item[Constants.Metadata.LineItem.Size] = lineItem.Size;
-            item[Constants.Metadata.LineItem.Description] = lineItem.Description;
-            item[Constants.Metadata.LineItem.Color] = lineItem.Color;
-            item[Constants.Metadata.LineItem.ColorImageUrl] = lineItem.ColorImageUrl;
-            item[Constants.Metadata.LineItem.ArticleNumber] = lineItem.ArticleNumber;
-
-            cart.AcceptChanges();
+            cartItem.Properties[Constants.Metadata.LineItem.DisplayName] = lineItem.Name;
+            cartItem.Properties[Constants.Metadata.LineItem.ImageUrl] = lineItem.ImageUrl;
+            cartItem.Properties[Constants.Metadata.LineItem.Size] = lineItem.Size;
+            cartItem.Properties[Constants.Metadata.LineItem.Description] = lineItem.Description;
+            cartItem.Properties[Constants.Metadata.LineItem.Color] = lineItem.Color;
+            cartItem.Properties[Constants.Metadata.LineItem.ColorImageUrl] = lineItem.ColorImageUrl;
+            cartItem.Properties[Constants.Metadata.LineItem.ArticleNumber] = lineItem.ArticleNumber;
         }
 
         public List<DiscountItem> GetAllDiscountCodes(string name)
@@ -404,5 +676,6 @@ namespace OxxCommerceStarterKit.Core.Services
                 discounts.Add(discount);
             }
         }
+
     }
 }

@@ -282,6 +282,7 @@
     <Compile Include="Extensions\PriceExtensions.cs" />
     <Compile Include="Extensions\PurchaseOrderExtensions.cs" />
     <Compile Include="Extensions\ShippingExtensions.cs" />
+    <Compile Include="Facades\AppContextFacade.cs" />
     <Compile Include="Models\PriceAndMarket.cs" />
     <Compile Include="Models\SiteCategoryContent.cs" />
     <Compile Include="Models\SiteSubCategoryContent.cs" />
@@ -347,8 +348,10 @@
     <Compile Include="Services\IEnumerableExtensions.cs" />
     <Compile Include="Services\IOrderService.cs" />
     <Compile Include="Services\IOrderSettings.cs" />
+    <Compile Include="Services\IPricingService.cs" />
     <Compile Include="Services\OrderService.cs" />
     <Compile Include="Services\OrderSettings.cs" />
+    <Compile Include="Services\PricingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="PaymentProviders\DIBS\ConfigurePayment.ascx" />
