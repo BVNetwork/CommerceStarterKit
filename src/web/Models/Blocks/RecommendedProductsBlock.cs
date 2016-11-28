@@ -12,7 +12,7 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
 {
     [ContentType(GUID = "c279b6d5-8569-9166-7cf1-a121edc963c9",
        DisplayName = "Recommended Products",
-       Description = "",
+       Description = "List of recommended products for the visitor based on behaviour tracking",
        GroupName = WebGlobal.GroupNames.Commerce
        )]
     [SiteImageUrl(thumbnail: EditorThumbnail.Commerce)]

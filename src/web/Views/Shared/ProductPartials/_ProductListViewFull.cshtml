@@ -12,37 +12,40 @@
     {
         description = description.Substring(0, 1000);
     }
-    
+
     Layout = null;
 }
 <div class="productRow col-sm-12">
     <div class="tile clearfix">
         <div class="col-md-6">
+            <img id="anim-img-@Model.ContentLink" class="image img-responsive" src="@Model.ImageUrl?preset=listmedium" />
 
-            @if (@Model.AllImageUrls != null)
-            {
-                <ul class="imageGallery">
-                    @foreach (var url in Model.AllImageUrls)
-                    {
-                        <li data-thumb="@url?preset=sliderimage"
-                            data-src="@url">
-                            <img src="@url?preset=imagehalf" />
-                        </li>
-                    }
-                </ul>
-            }
+            @*
+                    There is an issue with loading this view in a content area, as the imageGalley is hidden by default,
+                    unless the script is run on the page
+
+                @if (@Model.AllImageUrls != null)
+                {
+                    <ul class="imageGallery">
+                        @foreach (var url in Model.AllImageUrls)
+                        {
+                            <li data-thumb="@url?preset=sliderimage"
+                                data-src="@url">
+                                <img src="@url?preset=imagehalf" />
+                            </li>
+                        }
+                    </ul>
+                }*@
         </div>
         <div class="col-md-6">
             @Html.Partial("ProductPartials/_Badges")
             @Html.Partial("ProductPartials/_PriceLabel")
             <a href="@Model.ProductUrl"><h2 class="productFullWidthHeader">@Model.DisplayName</h2></a>
 
-
             <div class="footer">
                 <p>@Html.Raw(description)</p>
                 <div class="tools">
                     @{ double rating = Model.AverageRating; }
-
                     <div class="rate">
                         <span class="@(rating >= 0.5 ? "active" : "")@(rating == 0.5 ? " half" : "")"></span>
                         <span class="@(rating >= 1.5 ? "active" : "")@(rating == 1.5 ? " half" : "")"></span>
@@ -51,7 +54,6 @@
                         <span class="@(rating >= 4.5 ? "active" : "")@(rating == 4.5 ? " half" : "")"></span>
                     </div>
                     <div class="add-to-cart-form" ng-controller="BuyController" ng-init="init('@chrome.Language','@Model.Code','@Model.DisplayName.Replace("'", "")',1 ,'','', 'anim-img-@Model.ContentLink')">
-
                         @if (Model.IsVariation)
                         {
                             <a class="add-cart-btn" ng-click="addToCart(product)"><span>@Html.Translate("/common/product/add_to_cart")</span><i class="icon-shopping-cart"></i></a>
@@ -64,12 +66,10 @@
                         {
                             <a class="add-cart-btn" href="@Model.ProductUrl"><span>@Html.Translate("/common/product/details")</span><i class="icon-arrow-right"></i></a>
                         }
-
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 
 </div>

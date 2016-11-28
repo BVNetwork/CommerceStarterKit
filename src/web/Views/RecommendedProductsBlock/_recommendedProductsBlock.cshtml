@@ -10,7 +10,7 @@
         {
             foreach (var product in Model.Products)
             {
-                <div class="col-md-4 @product.GetTrackingName()">
+                <div class="col-md-4">
                     @Html.Partial("ProductPartials/_ProductListView", product)
                 </div>
             }
