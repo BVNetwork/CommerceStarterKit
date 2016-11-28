@@ -1,15 +1,14 @@
 ﻿using System;
 using EPiServer.ServiceLocation;
-using Mediachase.Commerce.Core;
 
-namespace OxxCommerceStarterKit.Core.Services
+namespace OxxCommerceStarterKit.Core.Facades
 {
     [ServiceConfiguration(typeof(AppContextFacade), Lifecycle = ServiceInstanceScope.Singleton)]
     public class AppContextFacade
     {
         public virtual Guid ApplicationId
         {
-            get { return AppContext.Current.ApplicationId; }
+            get { return Mediachase.Commerce.Core.AppContext.Current.ApplicationId; }
         }
     }
 }

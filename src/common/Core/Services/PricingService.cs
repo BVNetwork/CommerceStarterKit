@@ -5,6 +5,7 @@ using Mediachase.Commerce.Pricing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OxxCommerceStarterKit.Core.Facades;
 
 namespace OxxCommerceStarterKit.Core.Services
 {
