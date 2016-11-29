@@ -50,7 +50,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="modules\_protected\Sannsyn\Scripts\" />
-    <Folder Include="Promotion\" />
     <Folder Include="Views\ImportEPiServerData\" />
     <Folder Include="Views\PaymentBase\" />
     <Folder Include="Views\WineSKUPartial\" />
@@ -62,6 +61,7 @@
     <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
     <Compile Include="Models\Blocks\AdvancedContentBlock.cs" />
+    <Compile Include="Promotion\BuyXFromCategoryGetProductForFree.cs" />
     <Compile Include="Services\IMetricsLoggingService.cs" />
     <Compile Include="Services\MetricsLoggingService.cs" />
     <Compile Include="Services\Recommendations.cs" />
