@@ -73,9 +73,12 @@ namespace OxxCommerceStarterKit.Web
             //FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             //RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            JsonSerializerSettings serializerSettings = GlobalConfiguration.Configuration
-   .Formatters.JsonFormatter.SerializerSettings;
+            JsonSerializerSettings serializerSettings = GlobalConfiguration.Configuration.Formatters.JsonFormatter.SerializerSettings;
             serializerSettings.TypeNameHandling = TypeNameHandling.Auto;
+
+            // Security - remove information headers
+            MvcHandler.DisableMvcResponseHeader = true;
+
         }
 
 
