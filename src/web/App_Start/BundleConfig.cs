@@ -8,6 +8,7 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
+using System.Configuration;
 using System.Web.Optimization;
 
 namespace OxxCommerceStarterKit.Web
@@ -17,27 +18,21 @@ namespace OxxCommerceStarterKit.Web
         // For more information on Bundling, visit http://go.microsoft.com/fwlink/?LinkId=254725
         public static void RegisterBundles(BundleCollection bundles)
         {
+            ConfigureBundling();
+
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
-                        "~/Scripts/libraries/jquery-2.1.0.min.js"));
-
-			bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
-						"~/Scripts/libraries/jquery-ui-1.10.4.custom.min.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
+                        "~/Scripts/libraries/jquery-2.1.0.min.js",
+						"~/Scripts/libraries/jquery-ui-1.10.4.custom.min.js",
+                        // jqueryval
 						"~/Scripts/libraries/jquery.validate.min.js",
-						"~/Scripts/libraries/jquery.validate.unobtrusive.min.js"
+						"~/Scripts/libraries/jquery.validate.unobtrusive.min.js",
                         //, "~/Scripts/libraries/jquery.unobtrusive-ajax.min.js"
-						));
-            bundles.Add(new ScriptBundle("~/bundles/jqueryaddons").Include(
-                "~/Scripts/libraries/jquery.touchSwipe.min.js",
-                "~/Content/js/plugins/jquery.placeholder.js",
-                "~/Content/js/plugins/jquery.stellar.min.js",
-                "~/Content/js/plugins/jquery.shuffle.min.js"));
+                        // jqueryaddons
+                        "~/Scripts/libraries/jquery.touchSwipe.min.js",
+                        "~/Content/js/plugins/jquery.placeholder.js",
+                        "~/Content/js/plugins/jquery.stellar.min.js",
+                        "~/Content/js/plugins/jquery.shuffle.min.js"));
 
-			// Note! Bootstrap needs to run after jQuery, or we'll get trouble
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-				"~/Scripts/libraries/bootstrap.min.js",
-				"~/Scripts/libraries/bootstrap-lightbox.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/frontpage").Include(
 				"~/Scripts/js/components/FrontPage.js"));
@@ -49,10 +44,15 @@ namespace OxxCommerceStarterKit.Web
 			bundles.Add(new ScriptBundle("~/bundles/registration").Include(
 				"~/Scripts/js/components/Registration.js"));
 
+            // Note! Bootstrap needs to run after jQuery, or we'll get trouble
+
             // Note! Some of the included scripts comes from the Bushido template
             // and we want to be able to update them without merging changes, so
             // we keep them separate.
-			bundles.Add(new ScriptBundle("~/bundles/general").Include(
+            bundles.Add(new ScriptBundle("~/bundles/general").Include(
+                "~/Scripts/libraries/bootstrap.min.js",
+                "~/Scripts/libraries/bootstrap-lightbox.js",
+                "~/Content/js/scripts.js", // Bushido
                 "~/Content/js/plugins/smoothscroll.js",
                 "~/Content/js/plugins/icheck.min.js",
                 "~/Content/js/plugins/lightGallery.min.js",
@@ -83,14 +83,29 @@ namespace OxxCommerceStarterKit.Web
                 // Our Overrides
                 .Include("~/Content/less/epicphoto.css")); 
                 
-            bundles.Add(new ScriptBundle("~/bundles/angular_app").IncludeDirectory(
-                "~/Scripts/app/", "*.js",true
-                ));
             bundles.Add(new ScriptBundle("~/bundles/angular").Include(
                "~/Scripts/angular.js",
                "~/Scripts/angular-resource.js",
                "~/Scripts/libraries/ui-bootstrap-tpls-0.10.0.js"
+               )
+               // angular_app
+               .IncludeDirectory(
+                "~/Scripts/app/", "*.js", true
                ));
+        }
+
+        public static void ConfigureBundling()
+        {
+            string configurationValue = ConfigurationManager.AppSettings["ForceEnableBundling"];
+            bool forceEnableBundles = false;
+            if (bool.TryParse(configurationValue, out forceEnableBundles))
+            {
+                if(forceEnableBundles)
+                {
+                    // We only set it to true if forced, if else we leave it be
+                    BundleTable.EnableOptimizations = true;
+                }
+            }
         }
     }
 }

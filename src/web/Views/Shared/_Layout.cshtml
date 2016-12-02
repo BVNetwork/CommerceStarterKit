@@ -107,16 +107,8 @@
         @Html.Partial("_Footer", chrome)
     </footer>
 
-    @*<script src="~/Scripts/libraries/jquery-migrate-1.2.1.min.js"></script>*@
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/jqueryui")
-    @Scripts.Render("~/bundles/jqueryval")
-    @Scripts.Render("~/bundles/jqueryaddons")
-    <script src="@Url.Content("~/Content/js/scripts.js")"></script>
-
     @Scripts.Render("~/bundles/general")
     @Scripts.Render("~/bundles/angular")
-    @Scripts.Render("~/bundles/angular_app")
     <script type="text/javascript">
         Oxx.AjaxUtils.sitePath = '@Url.Content("~/")';
         Oxx.AjaxUtils.language = '@chrome.Language';
