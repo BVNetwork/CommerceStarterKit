@@ -341,6 +341,7 @@
     <Compile Include="Repositories\OrderRepository.cs" />
     <Compile Include="Services\CartService.cs" />
     <Compile Include="Services\CurrentCustomerService.cs" />
+    <Compile Include="Services\DefaultInventoryService.cs" />
     <Compile Include="Services\ExportOrderService.cs" />
     <Compile Include="Services\ICartService.cs" />
     <Compile Include="Services\ICurrentCustomerService.cs" />

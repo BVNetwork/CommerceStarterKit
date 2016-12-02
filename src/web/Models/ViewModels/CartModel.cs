@@ -50,6 +50,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
                 {
                     // TODO: Move provider id into custom carthelper so we do not forget
                     cartHelper.Cart.ProviderId = "FrontEnd";
+                    // TODO: Do not run a workflow inside a Model!
                     cartHelper.RunWorkflow(OrderGroupWorkflowManager.CartValidateWorkflowName);
 
                     // If cart is empty, remove it from the database
