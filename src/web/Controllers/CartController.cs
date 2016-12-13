@@ -155,9 +155,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
                         if (modelInitializer != null)
                         {
                             var viewModel = _productService.GetProductListViewModel(modelInitializer);
+                            viewModel.TrackingName = recommendedProductsForCart.RecommenderName;
                             recommendedProductList.Add(viewModel);
-                            // Track
-                            HttpContext.AddRecommendationExposure(new TrackedRecommendation() { ProductCode = viewModel.Code, RecommenderName = recommendedProductsForCart.RecommenderName });
                         }
                     }
                     model.Recommendations = recommendedProductList;

@@ -67,15 +67,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             }
         }
 
-        public string GetTrackingName(ProductListViewModel product)
-        {
-            if (string.IsNullOrEmpty(RecommendationsTrackingName) == false)
-            {
-                return RecommendationsTrackingName + "_" + product.Code;
-            }
-            return string.Empty;
-        }
-
 
         public List<ProductListViewModel> Recommendations
         {
