@@ -543,7 +543,6 @@
     <Content Include="modules\_protected\EPiServer.Commerce.Shell.ManagerIntegration\EPiServer.Commerce.Shell.ManagerIntegration.zip" />
     <Content Include="modules\_protected\EPiServer.Packaging.UI\web.config" />
     <Content Include="modules\_protected\EPiServer.Packaging.UI\EPiServer.Packaging.UI.zip" />
-    <Content Include="modules\_protected\BVNetwork.404Handler\BVNetwork.404Handler.zip" />
     <Content Include="modules\epicode.newsletter\plugin\Web.config" />
     <Content Include="modules\epicode.newsletter\plugin\Newsletter.Master" />
     <Content Include="modules\epicode.newsletter\module.config" />
@@ -556,6 +555,7 @@
     <Content Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
     <Content Include="modules\_protected\Sannsyn\Views\SannsynAdmin\Index.cshtml" />
     <Content Include="modules\_protected\Sannsyn\module.config" />
+    <Content Include="modules\_protected\BVNetwork.404Handler\BVNetwork.404Handler.zip" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -987,8 +987,8 @@
       <HintPath>..\..\packages\AuthorizeNet.1.8.10\lib\AuthorizeNet.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="BVNetwork.EPi404, Version=8.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\BVN.404Handler.9.0.0\lib\net45\BVNetwork.EPi404.dll</HintPath>
+    <Reference Include="BVNetwork.EPi404, Version=9.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\BVN.404Handler.9.1.0\lib\net45\BVNetwork.EPi404.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="BVNetwork.EPiSendMail, Version=9.0.0.0, Culture=neutral, processorArchitecture=MSIL">
