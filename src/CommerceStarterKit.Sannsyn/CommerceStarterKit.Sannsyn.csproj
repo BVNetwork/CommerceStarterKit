@@ -194,8 +194,8 @@
       <HintPath>..\..\packages\EPiServer.Commerce.Core.9.24.1\lib\net45\nsoftware.IBizPay.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sannsyn.Episerver.Commerce, Version=1.9.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sannsyn.Episerver.Commerce.1.9.0\lib\net45\Sannsyn.Episerver.Commerce.dll</HintPath>
+    <Reference Include="Sannsyn.Episerver.Commerce, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Sannsyn.Episerver.Commerce.2.0.0\lib\net45\Sannsyn.Episerver.Commerce.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="StructureMap, Version=3.1.6.186, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">

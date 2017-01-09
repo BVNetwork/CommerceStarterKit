@@ -37,9 +37,11 @@
         </table>
     </div>
     <h2>Current User Recommendations</h2>
-    Current User: @overviewModel.CurrentUserId
+    <div>Current User: @overviewModel.CurrentUserId</div>
+    <div>Recommender: @overviewModel.CurrentUserRecommendations.RecommenderName</div>
     <ul>
-        @foreach (var code in overviewModel.CurrentUserRecommendations)
+        
+        @foreach (var code in overviewModel.CurrentUserRecommendations.ProductCodes)
         {
             <li>@code</li>
         }
