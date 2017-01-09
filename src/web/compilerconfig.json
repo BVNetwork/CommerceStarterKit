@@ -14,5 +14,9 @@
   {
     "outputFile": "Content/css/editorNames.css",
     "inputFile": "Content/css/editorNames.less"
+  },
+  {
+    "outputFile": "Content/less/bootstrap/bootstrap.css",
+    "inputFile": "Content/less/bootstrap/bootstrap.less"
   }
 ]

@@ -78,7 +78,7 @@ namespace OxxCommerceStarterKit.Web
                 "~/Content/css/lightslider.css")
                 .Include("~/Content/css/jqueryui/jquery-ui-1.10.4.custom.min.css", new CssRewriteUrlTransform())
                 .Include("~/Content/masterslider/style/masterslider.css", new CssRewriteUrlTransform())
-                // Original Bushido template  + Fix font-references
+                // Original Bushido template + Bootstrap + Fix font-references
                 .Include("~/Content/less/styles.css", new CssRewriteUrlTransform())
                 // Our Overrides
                 .Include("~/Content/less/epicphoto.css")); 

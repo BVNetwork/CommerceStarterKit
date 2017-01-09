@@ -236,7 +236,13 @@
     <Content Include="Content\less\blog.less" />
     <Content Include="Content\less\bootstrap\alerts.less" />
     <Content Include="Content\less\bootstrap\badges.less" />
+    <Content Include="Content\less\bootstrap\bootstrap.css">
+      <DependentUpon>bootstrap.less</DependentUpon>
+    </Content>
     <Content Include="Content\less\bootstrap\bootstrap.less" />
+    <Content Include="Content\less\bootstrap\bootstrap.min.css">
+      <DependentUpon>bootstrap.css</DependentUpon>
+    </Content>
     <Content Include="Content\less\bootstrap\breadcrumbs.less" />
     <Content Include="Content\less\bootstrap\button-groups.less" />
     <Content Include="Content\less\bootstrap\buttons.less" />
@@ -477,9 +483,6 @@
     <Content Include="Content\fonts\Slide-icons.eot" />
     <Content Include="Content\fonts\Slide-icons.ttf" />
     <Content Include="Content\fonts\Slide-icons.woff" />
-    <Content Include="Content\less\styles.css.map">
-      <DependentUpon>styles.css</DependentUpon>
-    </Content>
     <Content Include="modules\AppleWatchChannel\Views\web.config" />
     <Content Include="modules\AppleWatchChannel\Views\Pages\AppleWatch.cshtml" />
     <Content Include="modules\AppleWatchChannel\module.config" />
@@ -779,7 +782,7 @@
     <Content Include="Scripts\libraries\ui-bootstrap-0.10.0.min.js" />
     <Content Include="Scripts\libraries\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\libraries\ui-bootstrap-tpls-0.10.0.min.js" />
-    <Content Include="WarmMeUp\WarmMeUp.exe" />
+    <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="web.config">
       <SubType>Designer</SubType>
     </Content>

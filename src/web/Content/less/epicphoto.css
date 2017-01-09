@@ -1163,3 +1163,6 @@ img.img-float-top-right {
 .cartRecommendations .tile {
   height: 350px;
 }
+pre {
+  font-size: 13px;
+}
