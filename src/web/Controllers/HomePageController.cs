@@ -25,6 +25,7 @@ using OxxCommerceStarterKit.Web.Models.ViewModels;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
+    [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
     [TemplateDescriptor()]
     public class HomePageController : PageControllerBase<HomePage>
     {
@@ -32,7 +33,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         public HomePageController(IContentLoader contentLoader)
         {            
-			_contentLoader = contentLoader;		    
+			_contentLoader = contentLoader;
         }
 
         public ViewResult Index(PageData currentPage)

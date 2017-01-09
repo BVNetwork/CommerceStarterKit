@@ -8,24 +8,17 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using Castle.MicroKernel.Registration;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Find;
-using EPiServer.Globalization;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Routing;
-using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Models.Blocks;
-using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
-using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
 
