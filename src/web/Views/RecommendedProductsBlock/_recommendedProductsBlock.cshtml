@@ -2,9 +2,9 @@
 @{
     Layout = null;
 }
-<h2>@Model.Heading</h2>
-@if (Model != null)
+@if (Model != null && Model.Products.Any())
 {
+    <h2>@Model.Heading</h2>
     <div class="row">
         @if (Model.Products != null && Model.Products.Any())
         {
@@ -16,4 +16,15 @@
             }
         }
     </div>
+}
+else
+{
+    if (EPiServer.Editor.PageEditing.PageIsInEditMode)
+    {
+        // Editor help
+        <h2>No Recommended Products Found</h2>
+        <div>
+            This block has no content. The module has been disabled or there is a problem with the configuration.
+        </div>
+    }
 }

@@ -140,6 +140,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 _recommendationService.GetRecommendedProducts(_currentCustomerService.GetCurrentUserId(), maxCount,
                     currentCulture);
             }
+
+            // If disabled, we won't get anything which could break the view
+            if(recommendedProducts == null)
+            {
+                recommendedProducts = new Recommendations(string.Empty, new List<IContent>(0));
+            }
+
             return recommendedProducts;
         }
     }
