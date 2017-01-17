@@ -10,7 +10,7 @@ namespace OxxCommerceStarterKit.Web.Reviews
     public class ReviewPaneNavigationComponent : ComponentDefinitionBase
     {
         public ReviewPaneNavigationComponent()
-            : base("epi-cms.component.SharedBlocks")
+            : base("epi-cms/component/SharedBlocks")
         {
             PlugInAreas = new[] { "/episerver/cms/assets/defaultgroup", "/episerver/commerce/assets/defaultgroup" };
             Categories = new[] { "commerce", "cms", "content" };

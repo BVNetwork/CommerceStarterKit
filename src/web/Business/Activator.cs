@@ -65,7 +65,11 @@ namespace OxxCommerceStarterKit.Web.Business
                 .ToArray();
 
             var cacheKey = String.Concat(type.GetHashCode(), "#", String.Join(":", argumentTypes.Select(x => x.GetHashCode())));
-            var objectActivator = ObjectInstanceCache.ReadThrough<ObjectActivator>(cacheKey, () => GetObjectActivator(type, argumentTypes), null);
+            var objectActivator = ObjectInstanceCache.ReadThrough<ObjectActivator>(cacheKey, () =>
+            {
+                var finalType = type.IsGenericTypeDefinition ? type.MakeGenericType(argumentTypes) : type;
+                return GetObjectActivator(finalType, argumentTypes);
+            });
             return objectActivator(constructorArguments);
         }
 
@@ -78,9 +82,9 @@ namespace OxxCommerceStarterKit.Web.Business
         private static ObjectActivator GetObjectActivator(Type type, Type[] constructorArgumentTypes)
         {
             // If type is an open generic type, then create a closed type with generic arguments defined.
-            Type closedType = type.IsGenericTypeDefinition ? type.MakeGenericType(constructorArgumentTypes) : type;
+            // Type closedType = type.IsGenericTypeDefinition ? type.MakeGenericType(constructorArgumentTypes) : type;
 
-            ConstructorInfo constructorInfo = closedType.GetConstructor(constructorArgumentTypes);
+            ConstructorInfo constructorInfo = type.GetConstructor(constructorArgumentTypes);
             var delegateParameterExpression = Expression.Parameter(typeof(object[]), "args");
 
             var typeExpressions = CreateTypeExpressions(constructorArgumentTypes, delegateParameterExpression);

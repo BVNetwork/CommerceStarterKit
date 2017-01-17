@@ -41,12 +41,5 @@ namespace OxxCommerceStarterKit.Web.Extensions
             return combinedRouteValues;
         }
 
-        public static string GetContentContextMode(this RequestSegmentContext segmentContext)
-        {
-            if (segmentContext.ContextMode.ToString() != "Default")
-                return segmentContext.ContextMode.ToString();
-
-            return segmentContext.QueryString.AllKeys.Contains("epiworkspaceactive") ? "PreviewMode" : segmentContext.ContextMode.ToString();
-        }
     }
 }

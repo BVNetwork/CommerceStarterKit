@@ -57,7 +57,7 @@
                             </div>
                             <ul class="meta">
                                 <li><i class="fa fa-user"></i><a href="#">@Model.CurrentPage.CreatedBy</a></li>
-                                <li><i class="fa fa-calendar"></i><a href="#">@Model.CurrentPage.StartPublish.ToShortDateString()</a></li>
+                                <li><i class="fa fa-calendar"></i><a href="#">@Model.CurrentPage.StartPublish.GetValueOrDefault().ToShortDateString()</a></li>
                             </ul>
                         </footer>
                     </div>

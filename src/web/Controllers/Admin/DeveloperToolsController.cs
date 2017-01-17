@@ -49,7 +49,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             string data = new StreamReader(req).ReadToEnd();
 
             StringBuilder sb = new StringBuilder();
-            BlobFactory blobFactory = ServiceLocator.Current.GetInstance<BlobFactory>();
+            IBlobFactory blobFactory = ServiceLocator.Current.GetInstance<IBlobFactory>();
 
             string[] idList = data.Split(new []{'\n'}, StringSplitOptions.RemoveEmptyEntries);
             foreach (string uri in idList)
@@ -67,7 +67,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
         public ActionResult DeleteBlobs()
         {
             IContentRepository repo = ServiceLocator.Current.GetInstance<IContentRepository>();
-            BlobFactory blobFactory = ServiceLocator.Current.GetInstance<BlobFactory>();
+            IBlobFactory blobFactory = ServiceLocator.Current.GetInstance<IBlobFactory>();
             var assetHelper = ServiceLocator.Current.GetInstance<ContentAssetHelper>();
             StringBuilder sb = new StringBuilder();
 
@@ -91,7 +91,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
         }
 
         private static void DeleteContentInAssetFolders(IEnumerable<ContentReference> contentReferences, ContentAssetHelper assetHelper,
-            IContentRepository repo, StringBuilder sb, BlobFactory blobFactory)
+            IContentRepository repo, StringBuilder sb, IBlobFactory blobFactory)
         {
             foreach (ContentReference reference in contentReferences)
             {
@@ -105,7 +105,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
         }
 
         private static void DeleteBlobs(IEnumerable<ContentReference> contentReferences, IContentRepository repo, StringBuilder sb,
-            BlobFactory blobFactory)
+            IBlobFactory blobFactory)
         {
             foreach (ContentReference reference in contentReferences)
             {
@@ -139,7 +139,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             }
         }
 
-        private static void DeleteBlobInstances(StringBuilder sb, BlobFactory blobFactory, ImageFile file)
+        private static void DeleteBlobInstances(StringBuilder sb, IBlobFactory blobFactory, ImageFile file)
         {
             //DeleteBlob(file.LargeThumbnail, sb, blobFactory);
             //DeleteBlob(file.ListImage, sb, blobFactory);
@@ -179,7 +179,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             
         }
 
-        private static void DeleteBlob(Blob blob, StringBuilder sb, BlobFactory blobFactory)
+        private static void DeleteBlob(Blob blob, StringBuilder sb, IBlobFactory blobFactory)
         {
             // Deleting 
             if (blob != null)
@@ -188,7 +188,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             }
         }
 
-        private static void DeleteBlob(Uri blobId, StringBuilder sb, BlobFactory blobFactory)
+        private static void DeleteBlob(Uri blobId, StringBuilder sb, IBlobFactory blobFactory)
         {
             sb.AppendFormat("Deleting: {0}<br>", blobId);
             blobFactory.Delete(blobId);
