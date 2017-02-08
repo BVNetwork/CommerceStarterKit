@@ -63,6 +63,7 @@
     <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
     <Compile Include="Models\Blocks\AdvancedContentBlock.cs" />
+    <Compile Include="Models\ViewModels\NewsletterWithProductsViewModel.cs" />
     <Compile Include="Promotion\BuyXFromCategoryGetProductForFree.cs" />
     <Compile Include="Services\IMetricsLoggingService.cs" />
     <Compile Include="Services\MetricsLoggingService.cs" />
@@ -784,6 +785,9 @@
     <Content Include="Scripts\libraries\ui-bootstrap-0.10.0.min.js" />
     <Content Include="Scripts\libraries\ui-bootstrap-tpls-0.10.0.js" />
     <Content Include="Scripts\libraries\ui-bootstrap-tpls-0.10.0.min.js" />
+    <Content Include="Views\Newsletter\Newsletter2.cshtml" />
+    <Content Include="Views\Newsletter\_oxygen.mobile.css.cshtml" />
+    <Content Include="Views\Newsletter\_oxygen.css.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="web.config">
       <SubType>Designer</SubType>

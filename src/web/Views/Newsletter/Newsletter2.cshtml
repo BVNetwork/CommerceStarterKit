@@ -1,0 +1,72 @@
+﻿@using OxxCommerceStarterKit.Web.Helpers
+@using OxxCommerceStarterKit.Web.Models.Files
+@model OxxCommerceStarterKit.Web.Models.ViewModels.NewsletterViewModel
+@{
+	Layout = "_Layout.cshtml";
+}
+@section Top {
+	@if (Html.IsInEditMode())
+	{
+		<div style="width: 580px; margin: 0 auto;">Email subject: @Html.PropertyFor(m => m.NewsletterPage.MailSubject)</div>
+	}
+}
+<table class="row">
+	<tr>
+		<td class="wrapper last">
+			<table class="twelve columns">
+				<tr>
+					<td>
+						<div>@Html.PropertyFor(m => m.NewsletterPage.MainImage, new { extraImageUrlParameters = ImageFile.NewsletterWidths.FULL })</div>
+						@if (Html.IsInEditMode() || !string.IsNullOrEmpty(Model.NewsletterPage.Title))
+						{
+							<h1 @Html.EditAttributes(m => m.NewsletterPage.Title)>@Model.NewsletterPage.Title</h1>
+						}
+						@if (Html.IsInEditMode() || !string.IsNullOrEmpty(Model.NewsletterPage.Lead))
+						{
+							<p class="intro" @Html.EditAttributes(m => m.NewsletterPage.Lead)>@Model.NewsletterPage.Lead</p>
+						}
+						@Html.PropertyFor(m => m.NewsletterPage.MainBody)
+					</td>
+					<td class="expander"></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+@if (Html.IsInEditMode() || Model.NewsletterPage.Callout != null)
+{
+	<table class="row callout">
+		<tr>
+			<td class="wrapper last">
+				<table class="twelve columns">
+					<tr>
+						<td class="panel">
+							@Html.PropertyFor(m => m.NewsletterPage.Callout)
+						</td>
+						<td class="expander"></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+}
+
+<div class="content-area" @Html.EditAttributes(x => x.NewsletterPage.MainContentArea)>
+	@if (Model.NewsletterPage.MainContentArea != null)
+	{
+		@Html.Partial("_ContentArea", Model.NewsletterPage.MainContentArea)
+	}
+</div>
+
+@if (!string.IsNullOrEmpty(Model.UnsubscribeUrl))
+{
+	<table class="row">
+		<tr>
+			<td class="wrapper last">
+				<center>
+					<a style="font-size: 10px;" href="@Model.UnsubscribeUrl">@Html.Translate("/common/newsletter_unsubscribe/newsletter_text")</a>
+				</center>
+			</td>
+		</tr>
+	</table>
+}

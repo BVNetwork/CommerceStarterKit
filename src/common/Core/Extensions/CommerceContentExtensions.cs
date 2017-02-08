@@ -12,23 +12,18 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Reflection;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
-using EPiServer.Commerce.Catalog.Provider;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
+using EPiServer.Find.Helpers.Text;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
-using EPiServer.Web;
-using EPiServer.Web.Routing;
-using EPiServer.Web.WebControls;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Core;
-using Mediachase.Commerce.Inventory;
 using OxxCommerceStarterKit.Core.Models;
+using OxxCommerceStarterKit.Core.PaymentProviders;
 using OxxCommerceStarterKit.Core.Services;
 
 
@@ -377,6 +372,26 @@ namespace OxxCommerceStarterKit.Core.Extensions
                 return (double)entryContentBase.Property["AverageRating"].Value;
             }
             return 0.0;
+        }
+
+        public static string GetShortDescription(this EntryContentBase entryContentBase)
+        {
+            if (string.IsNullOrEmpty(entryContentBase.SeoInformation.Description) == false)
+            {
+                return entryContentBase.SeoInformation.Description;
+            }
+            if (string.IsNullOrEmpty(entryContentBase["Description"] as string))
+            {
+                string shortDescription = entryContentBase["Description"] as string;
+                // Remove HTML Markup
+                shortDescription = shortDescription.StripHtml();
+                shortDescription = shortDescription.StripPreviewText(255);
+                return shortDescription;
+
+            }
+
+            return string.Empty;
+
         }
 
     }

@@ -1,9 +1,6 @@
-﻿@using EPiServer.ServiceLocation
-@using OxxCommerceStarterKit.Core.Extensions
+﻿@using OxxCommerceStarterKit.Core.Extensions
 @using OxxCommerceStarterKit.Web
 @using OxxCommerceStarterKit.Web.Extensions
-@using OxxCommerceStarterKit.Web.Models.ViewModels.Simple
-@using OxxCommerceStarterKit.Web.Services
 @model EPiServer.Commerce.Catalog.ContentTypes.VariationContent
 @{
 	Layout = null;
@@ -14,22 +11,60 @@
 		image = image.Split(',')[0];
 	}
 	var imageWidth = ViewData["imageWidth"];
+    var contentUrl = Url.ContentUrl(Model.ContentLink);
+
 }
-<center class="product">
-	<div class="image">
-		<a href="@Url.ContentUrl(Model.ContentLink)">
-			@if (image != null)
-			{
-				<img class="img-responsive center" src="@(image + imageWidth)" />
-            }
-            else
-            {
-                <img class="img-responsive no-image center" src="@(WebGlobal.NoImageUrl)@(imageWidth)">
-            }
-		</a>
-	</div>
-	<h2 class="name">@Model.DisplayName</h2>
-    <div class="price">
-        @Model.GetDisplayPrice()
-    </div>
-</center>
+
+<td class="info-block">
+    <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:separate !important;">
+        <tr>
+            <td class="block-rounded">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td class="info-img">
+                            <a href="@contentUrl">
+                                @if (image != null)
+                                     {
+                                         <img class="info-img" src="@(image + imageWidth)" alt="img"/>
+                                     }
+                                     else
+                                     {
+                                         <img class="info-img" src="@(WebGlobal.NoImageUrl)@(imageWidth)" alt="img"/>
+                                     }
+                            </a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px;">
+                            <table cellspacing="0" cellpadding="0" width="100%">
+                                <tr>
+                                    <td style="text-align:left; width:155px">
+                                        <a href="@contentUrl"><span class="header-sm">@Model.DisplayName</span></a><br />
+                                        @Model.GetShortDescription()
+                                    </td>
+                                    <td style="text-align:right; vertical-align: top;">
+                                        <strong>@Model.GetDisplayPrice()</strong>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 15px;">
+                            <div>
+                                <!--[if mso]>
+                                  <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height:45px;v-text-anchor:middle;width:228px;" arcsize="15%" strokecolor="#ffffff" fillcolor="#ff6f6f">
+                                    <w:anchorlock/>
+                                    <center style="color:#ffffff;font-family:Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;">View Now!</center>
+                                  </v:roundrect>
+                                <![endif]-->
+                                <a class="button-width" href="@contentUrl"
+                                   style="background-color:#ff6f6f;border-radius:5px;color:#ffffff;display:inline-block;font-family:'Cabin', Helvetica, Arial, sans-serif;font-size:14px;font-weight:regular;line-height:45px;text-align:center;text-decoration:none; -webkit-text-size-adjust:none;mso-hide:all;">View Now!</a>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</td>

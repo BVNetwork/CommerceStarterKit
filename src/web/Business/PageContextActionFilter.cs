@@ -174,7 +174,7 @@ namespace OxxCommerceStarterKit.Web.Business
                         DisplayName = languageBranch.Name,
                         IconUrl = languageBranch.ResolvedIconPath, //"/Content/Images/flags/" + language + ".png",
                         // We use this to enable language switching inside edit mode too
-                        Url = languageBranch.CurrentUrlSegment,
+                        Url = languageBranch.URLSegment,
                         EditUrl = PageEditing.GetEditUrlForLanguage(page.ContentLink, languageBranch.LanguageID),
                         Selected = string.Compare(language, currentLanguage, StringComparison.InvariantCultureIgnoreCase) == 0
                     });

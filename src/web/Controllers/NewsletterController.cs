@@ -8,8 +8,10 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
+using System.Linq;
 using System.Web.Mvc;
 using EPiServer;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
 using EPiServer.ServiceLocation;
@@ -34,7 +36,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         // GET: /Newsletter/
         public ActionResult Index(NewsletterPage currentPage, HomePage homePage)
         {
-			var model = new NewsletterViewModel(currentPage, _notificationSettingsRepository.GetNotificationSettings());
+			var model = new NewsletterWithProductsViewModel(currentPage, _notificationSettingsRepository.GetNotificationSettings());
 
 			var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
 
@@ -52,6 +54,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
 					model.UnsubscribeUrl += "?email=%recipient%";
 				}
 			}
+
+            model.ProductListTitle = currentPage.MainProductListTitle;
+            if(currentPage.MainProductList != null && currentPage.MainProductList.FilteredItems.Any())
+            {
+                model.Products = currentPage.MainProductList.FilteredItems.Select(p => p.GetContent()).Cast<EntryContentBase>();
+            }
 
 
             return View("Newsletter1", model);

@@ -1,72 +1,286 @@
-﻿@using OxxCommerceStarterKit.Web.Helpers
+﻿@using System.Web.Mvc.Html
+@using EPiServer.Commerce.Catalog.ContentTypes
+@using OxxCommerceStarterKit.Web.Helpers
 @using OxxCommerceStarterKit.Web.Models.Files
-@model OxxCommerceStarterKit.Web.Models.ViewModels.NewsletterViewModel
+@model OxxCommerceStarterKit.Web.Models.ViewModels.NewsletterWithProductsViewModel
 @{
-	Layout = "_Layout.cshtml";
-}
-@section Top {
-	@if (Html.IsInEditMode())
-	{
-		<div style="width: 580px; margin: 0 auto;">Email subject: @Html.PropertyFor(m => m.NewsletterPage.MailSubject)</div>
-	}
-}
-<table class="row">
-	<tr>
-		<td class="wrapper last">
-			<table class="twelve columns">
-				<tr>
-					<td>
-						<div>@Html.PropertyFor(m => m.NewsletterPage.MainImage, new { extraImageUrlParameters = ImageFile.NewsletterWidths.FULL })</div>
-						@if (Html.IsInEditMode() || !string.IsNullOrEmpty(Model.NewsletterPage.Title))
-						{
-							<h1 @Html.EditAttributes(m => m.NewsletterPage.Title)>@Model.NewsletterPage.Title</h1>
-						}
-						@if (Html.IsInEditMode() || !string.IsNullOrEmpty(Model.NewsletterPage.Lead))
-						{
-							<p class="intro" @Html.EditAttributes(m => m.NewsletterPage.Lead)>@Model.NewsletterPage.Lead</p>
-						}
-						@Html.PropertyFor(m => m.NewsletterPage.MainBody)
-					</td>
-					<td class="expander"></td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
-@if (Html.IsInEditMode() || Model.NewsletterPage.Callout != null)
-{
-	<table class="row callout">
-		<tr>
-			<td class="wrapper last">
-				<table class="twelve columns">
-					<tr>
-						<td class="panel">
-							@Html.PropertyFor(m => m.NewsletterPage.Callout)
-						</td>
-						<td class="expander"></td>
-					</tr>
-				</table>
-			</td>
-		</tr>
-	</table>
+    Layout = null;
 }
 
-<div class="content-area" @Html.EditAttributes(x => x.NewsletterPage.MainContentArea)>
-	@if (Model.NewsletterPage.MainContentArea != null)
-	{
-		@Html.Partial("_ContentArea", Model.NewsletterPage.MainContentArea)
-	}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@Model.NewsletterPage.MailSubject</title>
+    @Html.Partial("_oxygen.css")
+    <style type="text/css" media="screen">
+        @@import url(//fonts.googleapis.com/css?family=Oxygen:400,700);
+    </style>
+    <style type="text/css" media="screen">
+        @@media screen {
+            * {
+                font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
+            }
+        }
+    </style>
+    @Html.Partial("_oxygen.mobile.css")
+</head>
+<body bgcolor="#f7f7f7">
+
+        <div>
+        <table align="center" cellpadding="0" cellspacing="0" class="container-for-gmail-android" width="100%">
+        <tr>
+            <td align="left" valign="top" width="100%" style="background: repeat-x url(/Content/Images/email/oxygen/bg_top_02.jpg) #ffffff;">
+                <center>
+                    <img src="/Content/Images/email/oxygen/transparent.png" class="force-width-gmail">
+                    <table cellspacing="0" cellpadding="0" width="100%" bgcolor="#ffffff" background="/Content/Images/email/oxygen/bg_top_02.jpg" style="background-color: transparent">
+                        <tr>
+                            <td width="100%" height="80" valign="top" style="text-align: center; vertical-align: middle;">
+                                <!--[if gte mso 9]>
+                                    <v:rect xmlns:v="urn:schemas-microsoft-com:vml" fill="true" stroke="false" style="mso-width-percent: 1000; height: 80px; v-text-anchor: middle;">
+                                    <v:fill type="tile" src="/Content/Images/email/oxygen/bg_top_02.jpg" color="#ffffff"/>
+                                    <v:textbox inset="0,0,0,0">
+                                <![endif]-->
+                                <center>
+                                    <table cellpadding="0" cellspacing="0" width="600" class="w320">
+                                        <tr>
+                                            <td class="pull-left mobile-header-padding-left" style="vertical-align: middle;">
+                                                <a href=""><img width="207" height="47" src="/Content/Images/email/epic-photo-logo-blue-horz-no-tag-207x47.png" alt="logo"></a>
+                                            </td>
+                                            <td class="pull-right mobile-header-padding-right" style="color: #4d4d4d;">
+                                                <a href=""><img width="44" height="47" src="/Content/Images/email/social_twitter.gif" alt="twitter" /></a>
+                                                <a href="https://www.facebook.com/epicphotodemo/"><img width="38" height="47" src="/Content/Images/email/social_facebook.gif" alt="facebook" /></a>
+                                                <a href=""><img width="40" height="47" src="/Content/Images/email/social_rss.gif" alt="rss" /></a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </center>
+                                <!--[if gte mso 9]>
+                                    </v:textbox>
+                                    </v:rect>
+                                <![endif]-->
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #f7f7f7;" class="content-padding">
+                <center>
+                    <table cellspacing="0" cellpadding="0" width="600" class="w320">
+                        <tr>
+                            <td class="header-lg">
+                                @if (Html.IsInEditMode())
+                                {
+                                    <div style="width: 580px; margin: 0 auto;">Email subject: @Html.PropertyFor(m => m.NewsletterPage.MailSubject)</div>
+                                    <div class="editorHint">The subject of this email when sent. Can be different from the title</div>
+                                }
+                                @if (Html.IsInEditMode() || !string.IsNullOrEmpty(Model.NewsletterPage.Title))
+                                {
+                                    <h1 @Html.EditAttributes(m => m.NewsletterPage.Title)>@Model.NewsletterPage.Title</h1>
+                                }
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="free-text">
+                                @if (Html.IsInEditMode() || !string.IsNullOrEmpty(Model.NewsletterPage.Lead))
+                                {
+                                    <div @Html.EditAttributes(m => m.NewsletterPage.Lead)>@Model.NewsletterPage.Lead</div>
+                                }
+
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;">
+                <center>
+                    <table cellpadding="0" cellspacing="0" width="600" class="w320">
+                        <tr>
+                            <td class="content-padding">
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td class="header-md">
+                                            @Model.ProductListTitle
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="padding-bottom: 75px;">
+                                <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate !important;">
+                                    <tr>
+                                        @Html.Partial("~/Views/Newsletter/Blocks/VariationContent.cshtml", Model.Products.ElementAt(0) as VariationContent, new ViewDataDictionary() { { "imageWidth", ImageFile.NewsletterWidths.HALF} })
+                                        @Html.Partial("~/Views/Newsletter/Blocks/VariationContent.cshtml", Model.Products.ElementAt(1) as VariationContent, new ViewDataDictionary() { { "imageWidth", ImageFile.NewsletterWidths.HALF } })
+                                    </tr>
+                                    <tr>
+                                        <td class="info-block">
+                                            <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate !important;">
+                                                <tr>
+                                                    <td class="block-rounded">
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td class="info-img">
+                                                                    <a href=""><img class="info-img" src="http://s3.amazonaws.com/swu-filepicker/9wRy50HQTg2CTyZA5Ozi_item_images_16.jpg" alt="img"/></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 15px;">
+                                                                    <table cellspacing="0" cellpadding="0" width="100%">
+                                                                        <tr>
+                                                                            <td style="text-align: left; width: 155px">
+                                                                                <a href=""><span class="header-sm">Pink Shoes</span></a><br/>
+                                                                                The hottest summer sneakers are in now!
+                                                                            </td>
+                                                                            <td style="text-align: right; vertical-align: top;">
+                                                                                <strong>$29.99</strong>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 15px;">
+                                                                    <div>
+                                                                        <!--[if mso]>
+                                                                            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height: 45px; v-text-anchor: middle; width: 228px;" arcsize="15%" strokecolor="#ffffff" fillcolor="#ff6f6f">
+                                                                                <w:anchorlock/>
+                                                                                <center style="color: #ffffff; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: regular;">My Account</center>
+                                                                            </v:roundrect>
+                                                                        <![endif]-->
+                                                                        <a class="button-width" href="http://"
+                                                                           style="background-color: #ff6f6f; border-radius: 5px; color: #ffffff; display: inline-block; font-family: 'Cabin', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: regular; line-height: 45px; text-align: center; text-decoration: none; -webkit-text-size-adjust: none; mso-hide: all;">View Now!</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                        <td class="info-block">
+                                            <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse: separate !important;">
+                                                <tr>
+                                                    <td class="block-rounded">
+                                                        <table cellpadding="0" cellspacing="0" width="100%">
+                                                            <tr>
+                                                                <td class="info-img">
+                                                                    <a href=""><img width="258" height="210" class="info-img" src="http://s3.amazonaws.com/swu-filepicker/RPezUIwPRv8pjatAAH1E_item_images_19.jpg" alt="img"/></a>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 15px;">
+                                                                    <table cellspacing="0" cellpadding="0" width="100%">
+                                                                        <tr>
+                                                                            <td style="text-align: left; width: 155px">
+                                                                                <a href=""><span class="header-sm">Golden Earings</span></a><br/>
+                                                                                New city looks!
+                                                                                <!-- Remove bottom br and nbsp when item text longer than one line is -->
+                                                                                <br/>
+                                                                                &nbsp;
+                                                                            </td>
+                                                                            <td style="text-align: right; vertical-align: top;">
+                                                                                <strong>$29.99</strong>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td style="padding: 15px;">
+                                                                    <div>
+                                                                        <!--[if mso]>
+                                                                            <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://" style="height: 45px; v-text-anchor: middle; width: 228px;" arcsize="15%" strokecolor="#ffffff" fillcolor="#ff6f6f">
+                                                                                <w:anchorlock/>
+                                                                                <center style="color: #ffffff; font-family: Helvetica, Arial, sans-serif; font-size: 14px; font-weight: regular;">My Account</center>
+                                                                            </v:roundrect>
+                                                                        <![endif]-->
+                                                                        <a class="button-width" href="http://"
+                                                                           style="background-color: #ff6f6f; border-radius: 5px; color: #ffffff; display: inline-block; font-family: 'Cabin', Helvetica, Arial, sans-serif; font-size: 14px; font-weight: regular; line-height: 45px; text-align: center; text-decoration: none; -webkit-text-size-adjust: none; mso-hide: all;">View Now!</a>
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        <!-- Content area -->
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #ffffff;  border-top: 1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;">
+                <center>
+                    <table cellpadding="0" cellspacing="0" width="600" class="w320">
+                        <tr>
+                            <td class="content-padding">
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td class="header-md">
+                                            <div class="content-area" @Html.EditAttributes(x => x.NewsletterPage.MainContentArea)>
+                                                @if (Model.NewsletterPage.MainContentArea != null)
+                                                {
+                                                    @Html.Partial("_ContentArea", Model.NewsletterPage.MainContentArea)
+                                                }
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+                </center>
+            </td>
+        </tr>
+
+
+        <!-- Footer -->
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #f7f7f7; height: 100px;">
+                <center>
+                    <table cellspacing="0" cellpadding="0" width="600" class="w320">
+                        <tr>
+                            <td style="padding: 25px 0 25px">
+                                <strong>Epic Photo</strong><br />
+                                1234 Epic St <br />
+                                Wonderland <br /><br />
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #ffffff; height: 100px;">
+                <center>
+                    <table cellspacing="0" cellpadding="0" width="600" class="w320">
+                        <tr>
+                            <td style="padding: 25px 0 25px">
+                                <strong style="color: red;">Important!</strong><br />
+                                Epic Photo is a fictious ecommerce demo web site. <br />
+                                Orders are not real, no goods will be sold or shipped.
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+        </tr>
+        </table>
 </div>
+</body>
+</html>
 
-@if (!string.IsNullOrEmpty(Model.UnsubscribeUrl))
-{
-	<table class="row">
-		<tr>
-			<td class="wrapper last">
-				<center>
-					<a style="font-size: 10px;" href="@Model.UnsubscribeUrl">@Html.Translate("/common/newsletter_unsubscribe/newsletter_text")</a>
-				</center>
-			</td>
-		</tr>
-	</table>
-}
+

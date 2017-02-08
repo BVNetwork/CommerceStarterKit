@@ -2,126 +2,129 @@
 @using EPiServer.Core
 @using OxxCommerceStarterKit.Web.Helpers
 @using OxxCommerceStarterKit.Web.Models.Blocks
-@using OxxCommerceStarterKit.Web.Models.Catalog
 @using OxxCommerceStarterKit.Web.Models.Files
 @using OxxCommerceStarterKit.Web.Models.PageTypes
-@using OxxCommerceStarterKit.Web.Models.ViewModels
 @model EPiServer.Core.ContentArea
 @{
-	Layout = null;
+    Layout = null;
 }
-
 
 @if (Model != null)
 {
-	var contents = Model.Items;
-	int columns = 0;
-	<table class="row">
-		<tr>
-			@for (int i = 0; i < contents.Count(); i++)
-			{
-				var contentAreaItem = contents[i];
-				int thisItemWidth, nextItemWidth = 0;
-				bool isLastInRow = true;
-				IContent content = contentAreaItem.GetContent();
+    var contents = Model.Items;
+    int columns = 0;
+    <table cellpadding="0" cellspacing="0" width="600" class="w320">
 
-				string cssClass = Html.GetNewsletterColumns(contentAreaItem, out thisItemWidth);
-				columns += thisItemWidth;
-				if (columns > 12)
-				{
-					columns = thisItemWidth;
-					@Html.Raw("</tr></table><table class=\"row\"><tr>")
-				}
+        @for (int i = 0; i < contents.Count(); i++)
+        {
+            var contentAreaItem = contents[i];
+            IContent content = contentAreaItem.GetContent();
 
 
-				@* if we are not on the last item *@
-				if (i < (contents.Count() - 1))
-				{
-					@* get the width of the next item *@
-					Html.GetNewsletterColumns(contents[i + 1], out nextItemWidth);
-					if (thisItemWidth != 12 && columns + nextItemWidth <= 12)
-					{
-						isLastInRow = false;
-					}
-				}
-				if (thisItemWidth == 12)
-				{
-					columns = 12;
-				}
+                    @*
+                int thisItemWidth, nextItemWidth = 0;
+                bool isLastInRow = true;
+        string cssClass = Html.GetNewsletterColumns(contentAreaItem, out thisItemWidth);
+        columns += thisItemWidth;
+        if (columns > 12)
+        {
+            columns = thisItemWidth;
+            // @Html.Raw("</tr></table><table class=\"row\"><tr>")
+        }
+                    *@
 
-				<td class="wrapper @(isLastInRow ? "last" : "")">
-					<table data-epi-block-id="@( content != null && content.ContentLink != null ? content.ContentLink.ToString() : string.Empty)" class="@cssClass columns">
-						<tr>
-							<td>
-								@if (content is ArticlePage)
-								{
-									@Html.Partial("~/Views/Newsletter/Blocks/ArticlePage.cshtml", content)
-								}
-								else if (content is ImageFile)
-								{
-									@* no hotspots and no video support *@
-									@*@Html.Action("Image", "ImageFile", new { currentContent = content, extraImageUrlParameters = Html.GetNewsletterImageWidth(contentAreaItem) })*@
-									var imageFileViewModel = new ImageViewModel((ImageFile)content, "no");
-									if (ViewData["imageWidth"] != null)
-									{
-										imageFileViewModel.Url += ViewData["imageWidth"];
-									}
-									else
-									{
-										imageFileViewModel.Url += Html.GetNewsletterImageWidth(contentAreaItem);
-									}
-									@Html.Partial("~/Views/Newsletter/Blocks/ImageFile.cshtml", imageFileViewModel)
-								}
-								else if (content is HtmlBlock)
-								{
-									@Html.Partial("~/Views/Shared/Blocks/HtmlBlock.cshtml", content)
-								}
-                                else if (content is FashionStoreLandingNodeContent)
+
+            @* if we are not on the last item
+    if (i < (contents.Count() - 1))
+    {
+        // get the width of the next item
+        Html.GetNewsletterColumns(contents[i + 1], out nextItemWidth);
+        if (thisItemWidth != 12 && columns + nextItemWidth <= 12)
+        {
+            isLastInRow = false;
+        }
+    }
+    if (thisItemWidth == 12)
+    {
+        columns = 12;
+    }
+
+            *@
+        <tr>
+            <td class="content-padding">
+                <table cellpadding="0" cellspacing="0" width="100%">
+                    <tr>
+                        <td class="info-block" data-epi-block-id="@( content != null && content.ContentLink != null ? content.ContentLink.ToString() : string.Empty)">
+
+                            @if (content is ArticlePage)
+                            {
+                                @Html.Partial("~/Views/Newsletter/Blocks/ArticlePage.cshtml", content)
+                            }
+                            else if (content is ImageFile)
+                            {
+                                @* no hotspots and no video support *@
+                                @*@Html.Action("Image", "ImageFile", new { currentContent = content, extraImageUrlParameters = Html.GetNewsletterImageWidth(contentAreaItem) })*@
+                            var imageFileViewModel = new ImageViewModel((ImageFile)content, "no");
+                            if (ViewData["imageWidth"] != null)
+                            {
+                                imageFileViewModel.Url += ViewData["imageWidth"];
+                            }
+                            else
+                            {
+                                imageFileViewModel.Url += Html.GetNewsletterImageWidth(contentAreaItem);
+                            }
+                            @Html.Partial("~/Views/Newsletter/Blocks/ImageFile.cshtml", imageFileViewModel)
+                            }
+                            else if (content is HtmlBlock)
+                            {
+                                @Html.Partial("~/Views/Shared/Blocks/HtmlBlock.cshtml", content)
+                            }
+                            else if (content is FashionStoreLandingNodeContent)
+                            {
+                                @Html.Partial("~/Views/Newsletter/Blocks/FashionStoreLandingNodeContent.cshtml", content)
+                            }
+                            else if (content is FashionStoreSubLandingNodeContent)
+                            {
+                                @Html.Partial("~/Views/Newsletter/Blocks/FashionStoreSubLandingNodeContent.cshtml", content)
+                            }
+                            else if (content is FashionProductContent)
+                            {
+                                @Html.Partial("~/Views/Newsletter/Blocks/FashionProductContent.cshtml", content, new ViewDataDictionary() { { "imageWidth", Html.GetNewsletterImageWidth(contentAreaItem) } })
+                            }
+                            else if (content is VariationContent)
+                            {
+                                @Html.Partial("~/Views/Newsletter/Blocks/VariationContent.cshtml", content, new ViewDataDictionary() { { "imageWidth", Html.GetNewsletterImageWidth(contentAreaItem) } })
+                            }
+                            else if (content is ProductContent)
+                            {
+                                @Html.Partial("~/Views/Newsletter/Blocks/ProductContent.cshtml", content, new ViewDataDictionary() { { "imageWidth", Html.GetNewsletterImageWidth(contentAreaItem) } })
+                            }
+                            else if (content is TwoColumnsBlock)
+                            {
+                                if (ViewData["imageWidth"] != null)
                                 {
-									@Html.Partial("~/Views/Newsletter/Blocks/FashionStoreLandingNodeContent.cshtml", content)
-								}
-								else if (content is FashionStoreSubLandingNodeContent)
-								{
-									@Html.Partial("~/Views/Newsletter/Blocks/FashionStoreSubLandingNodeContent.cshtml", content)
-								}
-								else if (content is FashionProductContent)
-								{
-									@Html.Partial("~/Views/Newsletter/Blocks/FashionProductContent.cshtml", content, new ViewDataDictionary() { { "imageWidth", Html.GetNewsletterImageWidth(contentAreaItem) } })
+                                    @Html.Partial("~/Views/Newsletter/Blocks/TwoColumnsBlock.cshtml", content, ViewData);
                                 }
-                                else if (content is VariationContent)
+                                else
                                 {
-                                    @Html.Partial("~/Views/Newsletter/Blocks/VariationContent.cshtml", content)
+                                    @Html.Partial("~/Views/Newsletter/Blocks/TwoColumnsBlock.cshtml", content, new ViewDataDictionary() { { "imageWidth", Html.GetNewsletterImageWidth(contentAreaItem, true) } })
                                 }
-                                else if (content is ProductContent)
-                                {
-                                    @Html.Partial("~/Views/Newsletter/Blocks/ProductContent.cshtml", content)
-                                }
-                                else if (content is TwoColumnsBlock)
-                                {
-                                    if (ViewData["imageWidth"] != null)
-                                    {
-										@Html.Partial("~/Views/Newsletter/Blocks/TwoColumnsBlock.cshtml", content, ViewData);
-									}
-									else { 
-										@Html.Partial("~/Views/Newsletter/Blocks/TwoColumnsBlock.cshtml", content, new ViewDataDictionary() { { "imageWidth", Html.GetNewsletterImageWidth(contentAreaItem, true) } })
-									}
-								}
-								else if (Html.IsInEditMode() && content != null)
-								{
-									<span class="warning">There is no newsletter renderer for @(content.GetType().FullName)</span>
-								}
-								else
-								{
-									<span class="danger">Content is null</span>
-								}
+                            }
+                            else if (Html.IsInEditMode() && content != null)
+                            {
+                                <span class="warning">There is no newsletter renderer for @(content.GetType().FullName)</span>
+                            }
+                            else
+                            {
+                                <span class="danger">Content is null</span>
+                            }
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-							</td>
-							<td class="extender"></td>
-						</tr>
-					</table>
-				</td>
-			}
-		</tr>
-	</table>
+        }
+    </table>
+
 }
-

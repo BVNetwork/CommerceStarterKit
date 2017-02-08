@@ -8,8 +8,10 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
+using System;
 using System.ComponentModel.DataAnnotations;
 using BVNetwork.EPiSendMail;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
@@ -73,6 +75,18 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
 	    [CultureSpecific(false)]
 	    public virtual string UtmCampaign { get; set; }
 
-	}
+        [Display(Name = "Product List Title",
+          GroupName = SystemTabNames.Content,
+          Order = 168)]
+        public virtual string MainProductListTitle { get; set; }
+
+        [Display(Name = "Product List",
+            GroupName = SystemTabNames.Content,
+            Order = 170)]
+        [AllowedTypes(typeof(EntryContentBase))]
+        public virtual ContentArea MainProductList { get; set; }
+
+
+    }
 
 }
