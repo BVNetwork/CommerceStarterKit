@@ -1168,12 +1168,31 @@ pre {
 }
 /* Landing pages */
 .color-black {
-  background-color: #000;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: #fff !important;
+  font-size: 36px;
 }
 .color-black h1,
 .color-black h2,
 .color-black h3 {
   color: #fff !important;
+  font-size: 80px;
+}
+.section-image-block {
+  padding: 3em 0;
+  position: relative;
+  font-size: 36px;
+}
+.section-image-padding {
+  padding: 3em 0 6em 0;
+  position: relative;
+}
+.sectionArrow {
+  color: #000;
+  font-size: 128px;
+}
+.color-black .sectionArrow {
+  color: #fff;
 }
 /* Coverr block */
 .homepage-hero-module {
@@ -1208,6 +1227,8 @@ pre {
   position: absolute;
   background: rgba(0, 0, 0, 0.4);
   width: 100%;
+  top: 300px;
+  margin: auto 0;
 }
 .video-container video {
   position: absolute;

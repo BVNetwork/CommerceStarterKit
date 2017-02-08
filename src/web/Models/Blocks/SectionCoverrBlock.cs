@@ -5,6 +5,8 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Web;
 using OxxCommerceStarterKit.Core.Attributes;
+using EPiServer.Shell.ObjectEditing;
+using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
 
 namespace OxxCommerceStarterKit.Web.Models.Blocks
 {
@@ -13,8 +15,9 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
         Description = "Coverr Video Block",
         GroupName = WebGlobal.GroupNames.Campaign)]
     [SiteImageUrl(thumbnail: EditorThumbnail.Multimedia)]
-    public class SectionCoverrBlock : BlockData
+    public class SectionCoverrBlock : SectionBlock
     {
+
 
         [Display(
             GroupName = SystemTabNames.Content,
@@ -38,5 +41,18 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
         [CultureSpecific]
         [UIHint(UIHint.MediaFile)]
         public virtual ContentReference JPG { get; set; }
+
+        [Display(
+            GroupName = SystemTabNames.Content,
+            Order = 300)]
+        public virtual bool ShowArrow { get; set; }
+
+
+        [Display(
+            GroupName = SystemTabNames.Content,
+            Order = 530)]
+        [SelectOne(SelectionFactoryType = typeof(ColorSelectionFactory))]
+        public virtual string ColorCover { get; set; }
+
     }
 }

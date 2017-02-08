@@ -71,7 +71,7 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
             GroupName = SystemTabNames.Content,
             Order = 530)]
         [SelectOne(SelectionFactoryType = typeof(ColorSelectionFactory))]
-        public virtual string Color { get; set; }
+        public virtual string ColorSection { get; set; }
 
         [CultureSpecific]
         [Display(
@@ -81,6 +81,12 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
             Order = 20)]
         [UIHint(UIHint.Image)]
         public virtual ContentReference Image { get; set; }
+
+        [Display(
+            GroupName = SystemTabNames.Content,
+            Order = 300)]
+        [CultureSpecific]
+        public virtual bool ShowArrow { get; set; }
 
 
     }

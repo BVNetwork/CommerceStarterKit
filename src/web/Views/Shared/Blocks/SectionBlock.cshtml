@@ -1,6 +1,6 @@
 ﻿@model OxxCommerceStarterKit.Web.Models.Blocks.SectionBlock
-<div class="color-@Model.Color">
-    <div class="section-image-block" style=" background-image: url(@(Url.ContentUrl(Model.Image)+""));">
+<div class="color-@Model.ColorSection">
+    <div class="section-image-block @(Model.ShowArrow ? " section-image-padding" : "")" style=" background-image: url(@(Url.ContentUrl(Model.Image)+""));">
 
         <div class="container">
             <div class="row">
@@ -35,7 +35,7 @@
                     @Html.PropertyFor(x => x.BottomWideContentArea, new { Tag = "SectionContent" })
                 </div>
                 @if (Model.MainBody != null && (!string.IsNullOrEmpty(Model.MainBody.ToString())))
-            {
+                {
                     <div class="col-md-12">
                         @Html.PropertyFor(x => x.MainBody)
                     </div>
@@ -44,5 +44,19 @@
             </div>
 
         </div>
+        @if(Model as EPiServer.Core.IContent != null && Model.ShowArrow) { 
+        <div style="position: absolute; bottom: 20px; left: 50%; margin-left: -19px;">
+            <a class="coverr-nav-item" href="@("#SectionBottom"+(Model as EPiServer.Core.IContent).ContentLink.ID.ToString())" style="text-decoration: none;">
+                <div class="sectionArrow">
+                    <i class="fa fa-angle-down"></i>
+                </div>
+            </a>
+        </div>
+        }
     </div>
+
 </div>
+@if (Model as EPiServer.Core.IContent != null && Model.ShowArrow)
+{
+    <div id="@("SectionBottom" + (Model as EPiServer.Core.IContent).ContentLink.ID.ToString())"></div>
+}

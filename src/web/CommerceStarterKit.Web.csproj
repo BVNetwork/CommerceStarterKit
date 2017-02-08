@@ -794,7 +794,7 @@
     <Content Include="Views\Newsletter\_oxygen.css.cshtml" />
     <Content Include="Views\LandingPage\Index.cshtml" />
     <Content Include="Views\Shared\Blocks\SectionBlock.cshtml" />
-    <Content Include="Views\Shared\Blocks\CoverrBlock.cshtml" />
+    <Content Include="Views\Shared\Blocks\SectionCoverrBlock.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="web.config">
       <SubType>Designer</SubType>

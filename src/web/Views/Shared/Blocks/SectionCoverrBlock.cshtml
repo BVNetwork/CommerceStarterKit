@@ -1,19 +1,136 @@
 ﻿@using OxxCommerceStarterKit.Web.Models.ViewModels
 @model OxxCommerceStarterKit.Web.Models.Blocks.SectionCoverrBlock
-@if(EPiServer.Editor.PageEditing.PageIsInEditMode) {
-    <img src="@Url.ContentUrl(Model.JPG)" alt="">
-}
-else {
-<div class="homepage-hero-module">
-    <div class="video-container">
-        <div class="filter"></div>
-        <video autoplay loop class="fillWidth">
-            <source src="@Url.ContentUrl(Model.MP4)" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
-            <source src="@Url.ContentUrl(Model.WEBM)" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
-        </video>
-        <div class="poster hidden">
-            <img src="@Url.ContentUrl(Model.JPG)" alt="">
+<div class="color-@Model.ColorCover">
+
+    @if (EPiServer.Editor.PageEditing.PageIsInEditMode)
+    {
+        <div style="@("background-image: url("+(Url.ContentUrl(Model.JPG)))+" ;")">
+            <div style="padding:100px 0;">
+                <div class="color-@Model.ColorSection">
+                    <div class="section-image-block" style=" background-image url(@(Url.ContentUrl(Model.Image)+""));">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @if (!string.IsNullOrEmpty(Model.Header) || EPiServer.Editor.PageEditing.PageIsInEditMode)
+                                    {
+                                        <h2>@Html.PropertyFor(x => x.Header)</h2>
+                                    }
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.PropertyFor(x => x.LeftMainBody, new { Tag = "SectionContent" })
+                                        </div>
+                                        <div class="col-md-12">
+                                            @Html.PropertyFor(x => x.BottomLeftContentArea, new { Tag = "SectionContent" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            @Html.PropertyFor(x => x.RightMainBody, new { Tag = "SectionContent" })
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            @Html.PropertyFor(x => x.BottomRightContentArea, new { Tag = "SectionContent" })
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    @Html.PropertyFor(x => x.BottomWideContentArea, new { Tag = "SectionContent" })
+                                </div>
+                                @if (Model.MainBody != null && (!string.IsNullOrEmpty(Model.MainBody.ToString())))
+                {
+                                    <div class="col-md-12">
+                                        @Html.PropertyFor(x => x.MainBody)
+                                    </div>
+                                }
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+    }
+    else
+    {
+        <div class="homepage-hero-module">
+            <div class="video-container">
+                <div class="filter">
+                    <div class="color-@Model.ColorSection">
+                        <div class="" style=" background-image url(@(Url.ContentUrl(Model.Image)+""));">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        @if (!string.IsNullOrEmpty(Model.Header) || EPiServer.Editor.PageEditing.PageIsInEditMode)
+                                        {
+                                            <h2>@Html.PropertyFor(x => x.Header)</h2>
+                                        }
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.PropertyFor(x => x.LeftMainBody, new { Tag = "SectionContent" })
+                                            </div>
+                                            <div class="col-md-12">
+                                                @Html.PropertyFor(x => x.BottomLeftContentArea, new { Tag = "SectionContent" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                @Html.PropertyFor(x => x.RightMainBody, new { Tag = "SectionContent" })
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                @Html.PropertyFor(x => x.BottomRightContentArea, new { Tag = "SectionContent" })
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        @Html.PropertyFor(x => x.BottomWideContentArea, new { Tag = "SectionContent" })
+                                    </div>
+                                    @if (Model.MainBody != null && (!string.IsNullOrEmpty(Model.MainBody.ToString())))
+                                    {
+                                        <div class="col-md-12">
+                                            @Html.PropertyFor(x => x.MainBody)
+                                        </div>
+                                    }
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <video autoplay loop class="fillWidth">
+                    <source src="@Url.ContentUrl(Model.MP4)" type="video/mp4" />Your browser does not support the video tag. I suggest you upgrade your browser.
+                    <source src="@Url.ContentUrl(Model.WEBM)" type="video/webm" />Your browser does not support the video tag. I suggest you upgrade your browser.
+                </video>
+                @if (Model as EPiServer.Core.IContent != null && Model.ShowArrow)
+                {
+
+                    <div style="position: absolute; bottom: 20px; left: 50%; margin-left: -19px;">
+                        <a class="coverr-nav-item" href="@("#SectionCoverrBottom" + (Model as EPiServer.Core.IContent).ContentLink.ID)" style="text-decoration: none;">
+                            <div class="sectionArrow">
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+                        </a>
+                    </div>
+                }
+                <div class="poster hidden">
+                    <img src="@Url.ContentUrl(Model.JPG)" alt="">
+                </div>
+            </div>
+        </div>
+        if (Model as EPiServer.Core.IContent != null && Model.ShowArrow)
+        {
+            <div id="@("SectionCoverrBottom" + (Model as EPiServer.Core.IContent).ContentLink.ID)"></div>
+        }
+    }
 </div>
-}
