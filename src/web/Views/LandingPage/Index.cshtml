@@ -1,0 +1,30 @@
+﻿@using OxxCommerceStarterKit.Web.Helpers
+@model OxxCommerceStarterKit.Web.Models.ViewModels.IPageViewModel<OxxCommerceStarterKit.Web.Models.PageTypes.LandingPage>
+</div>
+
+@Html.PropertyFor(x => x.CurrentPage.ContentAreaWideTop, new { CssClass = "overflow-hidden clearfix" })
+
+<div class="container">
+    @Html.PropertyFor(x => x.CurrentPage.ContentAreaNarrowTop, new {CssClass = "overflow-hidden clearfix"})
+    <div class="row">
+        <div class="col-lg-4">
+            @Html.PropertyFor(x => x.CurrentPage.ContentAreaFirstSmall, new { CssClass = "overflow-hidden clearfix" })         
+        </div>
+        <div class="col-lg-4">
+            @Html.PropertyFor(x => x.CurrentPage.ContentAreaSecondSmall, new { CssClass = "overflow-hidden clearfix" })
+        </div>
+        <div class="col-lg-4">
+            @Html.PropertyFor(x => x.CurrentPage.ContentAreaThirdSmall, new { CssClass = "overflow-hidden clearfix" })
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    @Html.PropertyFor(x => x.CurrentPage.ContentAreaNarrowBottom, new { CssClass = "overflow-hidden clearfix" })
+</div>
+@Html.PropertyFor(x => x.CurrentPage.ContentAreaWideBottom, new { CssClass = "overflow-hidden clearfix" })
+
+
+
+<div class="container">
