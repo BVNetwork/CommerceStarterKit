@@ -63,11 +63,13 @@
     {
         @Html.Partial("SetupWarning")
     }
-
+@if (chrome.HideHeader == false)
+{
     <header role="banner" data-offset-top="150" data-stuck="250">
         @Html.Partial("_Header", chrome)
     </header>
-    <div class="page-content">
+}
+    <div class="@(chrome.HideHeader ? "" : "page-content")">
         <section role="main" class="page">
             <div class="container">
                 <!--Shopping Cart Message-->
@@ -103,10 +105,12 @@
             </div>
         </section>
     </div>
+@if (chrome.HideFooter == false)
+{
     <footer role="contentinfo" class="footer">
         @Html.Partial("_Footer", chrome)
     </footer>
-
+}
     @Scripts.Render("~/bundles/general")
     @Scripts.Render("~/bundles/angular")
     <script type="text/javascript">

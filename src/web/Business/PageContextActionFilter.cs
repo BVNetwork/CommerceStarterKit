@@ -75,7 +75,21 @@ namespace OxxCommerceStarterKit.Web.Business
             if (model != null)
             {
                 PopulateOpenGraph(filterContext, model);
+                var chrome = filterContext.Controller.ViewBag.Chrome;
+                filterContext.Controller.ViewBag.Chrome = PopulateChromePageSettings(chrome, model);
             }
+        }
+
+        protected virtual Chrome PopulateChromePageSettings(Chrome chrome, IPageViewModel<SitePage> model)
+        {
+            if(chrome != null && model != null && model.CurrentPage != null) {
+                SitePage sitePage = model.CurrentPage as SitePage;
+                if(sitePage != null) {
+                    chrome.HideHeader = sitePage.HideSiteHeader;
+                    chrome.HideFooter = sitePage.HideSiteFooter;
+                }
+            }
+            return chrome;
         }
 
         protected virtual void PopulateOpenGraph(ResultExecutingContext filterContext, IPageViewModel<SitePage> model)

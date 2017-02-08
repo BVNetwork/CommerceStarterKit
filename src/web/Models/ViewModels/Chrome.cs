@@ -43,6 +43,8 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public ContentArea GlobalFooterContent { get; set; }
         public string HomePageUrl { get; set; }
         public string ColorScheme { get; set; }
+        public bool HideHeader { get; set; }
+        public bool HideFooter { get; set; }
 
         //TODO: Remove after configuration
         public bool ShowWarning

@@ -14,6 +14,7 @@ using EPiServer.Core;
 using EPiServer.DataAnnotations;
 using EPiServer.Web;
 using OxxCommerceStarterKit.Web.Models.CustomProperties;
+using EPiServer.DataAbstraction;
 
 namespace OxxCommerceStarterKit.Web.Models.PageTypes
 {
@@ -60,6 +61,19 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
             Name = "Disable Indexing")]
         [CultureSpecific]
         public virtual bool DisableIndexing { get; set; }
+
+        [Display(
+            GroupName = SystemTabNames.Settings,
+            Order = 500)]
+        [CultureSpecific]
+        public virtual bool HideSiteHeader { get; set; }
+
+        [Display(
+            GroupName = SystemTabNames.Settings,
+            Order = 510)]
+        [CultureSpecific]
+        public virtual bool HideSiteFooter { get; set; }
+
 
     }
 }
