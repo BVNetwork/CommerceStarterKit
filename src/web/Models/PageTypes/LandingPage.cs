@@ -13,7 +13,7 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
         Description = "Landing page campaign page type", 
         GroupName = WebGlobal.GroupNames.Campaign)]
     [SiteImageUrl(thumbnail: EditorThumbnail.Multimedia)]
-    public class LandingPage : PageData
+    public class LandingPage : SitePage
     {
         [Display(
             Name = "Content area narrow top",

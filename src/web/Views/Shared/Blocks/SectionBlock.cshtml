@@ -1,0 +1,48 @@
+﻿@model OxxCommerceStarterKit.Web.Models.Blocks.SectionBlock
+<div class="color-@Model.Color">
+    <div class="section-image-block" style=" background-image: url(@(Url.ContentUrl(Model.Image)+""));">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    @if (!string.IsNullOrEmpty(Model.Header) || EPiServer.Editor.PageEditing.PageIsInEditMode)
+                    {
+                        <h2>@Html.PropertyFor(x => x.Header)</h2>
+                    }
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.PropertyFor(x => x.LeftMainBody, new { Tag = "SectionContent" })
+                        </div>
+                        <div class="col-md-12">
+                            @Html.PropertyFor(x => x.BottomLeftContentArea, new { Tag = "SectionContent" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            @Html.PropertyFor(x => x.RightMainBody, new { Tag = "SectionContent" })
+                        </div>
+
+                        <div class="col-md-12">
+                            @Html.PropertyFor(x => x.BottomRightContentArea, new { Tag = "SectionContent" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    @Html.PropertyFor(x => x.BottomWideContentArea, new { Tag = "SectionContent" })
+                </div>
+                @if (Model.MainBody != null && (!string.IsNullOrEmpty(Model.MainBody.ToString())))
+            {
+                    <div class="col-md-12">
+                        @Html.PropertyFor(x => x.MainBody)
+                    </div>
+                }
+
+            </div>
+
+        </div>
+    </div>
+</div>
