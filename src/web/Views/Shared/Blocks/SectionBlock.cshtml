@@ -2,59 +2,61 @@
 <div class="color-@Model.ColorSection">
     <div class="section-image-block @(Model.ShowArrow ? " section-image-padding" : "")" style=" background-image: url(@(Url.ContentUrl(Model.Image)+""));">
 
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    @if (!string.IsNullOrEmpty(Model.Header) || EPiServer.Editor.PageEditing.PageIsInEditMode)
-                    {
-                        <h2>@Html.PropertyFor(x => x.Header)</h2>
-                    }
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.PropertyFor(x => x.LeftMainBody, new { Tag = "SectionContent" })
-                        </div>
-                        <div class="col-md-12">
-                            @Html.PropertyFor(x => x.BottomLeftContentArea, new { Tag = "SectionContent" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12">
-                            @Html.PropertyFor(x => x.RightMainBody, new { Tag = "SectionContent" })
-                        </div>
-
-                        <div class="col-md-12">
-                            @Html.PropertyFor(x => x.BottomRightContentArea, new { Tag = "SectionContent" })
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12">
-                    @Html.PropertyFor(x => x.BottomWideContentArea, new { Tag = "SectionContent" })
-                </div>
-                @if (Model.MainBody != null && (!string.IsNullOrEmpty(Model.MainBody.ToString())))
-                {
+        <div class="color-@Model.ColorText">
+            <div class="container">
+                <div class="row">
                     <div class="col-md-12">
-                        @Html.PropertyFor(x => x.MainBody)
+                        @if (!string.IsNullOrEmpty(Model.Header) || EPiServer.Editor.PageEditing.PageIsInEditMode)
+                        {
+                            <h2>@Html.PropertyFor(x => x.Header)</h2>
+                        }
                     </div>
-                }
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.PropertyFor(x => x.LeftMainBody, new { Tag = "SectionContent" })
+                            </div>
+                            <div class="col-md-12">
+                                @Html.PropertyFor(x => x.BottomLeftContentArea, new { Tag = "SectionContent" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
+                                @Html.PropertyFor(x => x.RightMainBody, new { Tag = "SectionContent" })
+                            </div>
+
+                            <div class="col-md-12">
+                                @Html.PropertyFor(x => x.BottomRightContentArea, new { Tag = "SectionContent" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        @Html.PropertyFor(x => x.BottomWideContentArea, new { Tag = "SectionContent" })
+                    </div>
+                    @if (Model.MainBody != null && (!string.IsNullOrEmpty(Model.MainBody.ToString())))
+                    {
+                        <div class="col-md-12">
+                            @Html.PropertyFor(x => x.MainBody)
+                        </div>
+                    }
+
+                </div>
 
             </div>
-
-        </div>
-        @if(Model as EPiServer.Core.IContent != null && Model.ShowArrow) { 
-        <div style="position: absolute; bottom: 20px; left: 50%; margin-left: -19px;">
-            <a class="coverr-nav-item" href="@("#SectionBottom"+(Model as EPiServer.Core.IContent).ContentLink.ID.ToString())" style="text-decoration: none;">
-                <div class="sectionArrow">
-                    <i class="fa fa-angle-down"></i>
+            @if (Model as EPiServer.Core.IContent != null && Model.ShowArrow)
+            {
+                <div style="position: absolute; bottom: 20px; left: 50%; margin-left: -19px;">
+                    <a class="coverr-nav-item" href="@("#SectionBottom"+(Model as EPiServer.Core.IContent).ContentLink.ID.ToString())" style="text-decoration: none;">
+                        <div class="sectionArrow">
+                            <i class="fa fa-angle-down"></i>
+                        </div>
+                    </a>
                 </div>
-            </a>
+            }
         </div>
-        }
     </div>
-
 </div>
 @if (Model as EPiServer.Core.IContent != null && Model.ShowArrow)
 {

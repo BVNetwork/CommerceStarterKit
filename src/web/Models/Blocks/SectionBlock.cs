@@ -73,6 +73,12 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
         [SelectOne(SelectionFactoryType = typeof(ColorSelectionFactory))]
         public virtual string ColorSection { get; set; }
 
+        [Display(
+            GroupName = SystemTabNames.Content,
+            Order = 530)]
+        [SelectOne(SelectionFactoryType = typeof(ColorSelectionFactory))]
+        public virtual string ColorText { get; set; }
+
         [CultureSpecific]
         [Display(
             Name = "Image",
