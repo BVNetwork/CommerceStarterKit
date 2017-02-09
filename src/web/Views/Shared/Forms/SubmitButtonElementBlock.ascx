@@ -20,7 +20,7 @@
     <%= Model.AttributesString %> <%: buttonDisableState %>
     <% if (Model.Image == null) 
     { %>
-        class="Form__Element FormExcludeDataRebind FormSubmitButton btn-standard">
+        class="Form__Element FormExcludeDataRebind FormSubmitButton btn btn-standard">
         <%: buttonText %>
     <% } else { %>
         class="Form__Element FormExcludeDataRebind FormSubmitButton FormImageSubmitButton">

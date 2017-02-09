@@ -26,8 +26,10 @@ namespace OxxCommerceStarterKit.Web.Business.Rendering
     {
         public const string BlockFolder = "~/Views/Shared/Blocks/";
         public const string PagePartialsFolder = "~/Views/Shared/PagePartials/";
+        public const string FormFolder = "~/Views/Shared/Forms/";
 
-		public static void OnTemplateResolved(object sender, TemplateResolverEventArgs args)
+
+        public static void OnTemplateResolved(object sender, TemplateResolverEventArgs args)
 		{
 			// Disable DefaultPageController for page types that shouldn't have any renderer as pages
 			if (args.ItemToRender is IContainerPage && args.SelectedTemplate != null && args.SelectedTemplate.TemplateType == typeof(DefaultPageController))
@@ -106,6 +108,75 @@ namespace OxxCommerceStarterKit.Web.Business.Rendering
                 AvailableWithoutTag = false,
                 Default = false
             });
+
+            // Forms
+            viewTemplateModelRegistrator.Add(typeof(EPiServer.Forms.Implementation.Elements.SubmitButtonElementBlock), new TemplateModel
+            {
+                Name = "SubmitFormElementBlock",
+                Inherit = false,
+                Default = true,
+                AvailableWithoutTag = true,
+                Path = FormPath("SubmitButtonElementBlock.ascx")
+            });
+
+            viewTemplateModelRegistrator.Add(typeof(EPiServer.Forms.Implementation.Elements.ChoiceElementBlock), new TemplateModel
+            {
+                Name = "ChoiceFormElementBlock",
+                Inherit = true,
+                Default = true,
+                AvailableWithoutTag = true,
+                Path = FormPath("ChoiceElementBlock.ascx")
+            });
+
+            viewTemplateModelRegistrator.Add(typeof(EPiServer.Forms.Implementation.Elements.NumberElementBlock), new TemplateModel
+            {
+                Name = "NumberFormElementBlock",
+                Inherit = true,
+                Default = true,
+                AvailableWithoutTag = true,
+                Path = FormPath("NumberElementBlock.ascx")
+            });
+
+            viewTemplateModelRegistrator.Add(typeof(EPiServer.Forms.Implementation.Elements.SelectionElementBlock), new TemplateModel
+            {
+                Name = "SelectionFormElementBlock",
+                Inherit = true,
+                Default = true,
+                AvailableWithoutTag = true,
+                Path = FormPath("SelectionElementBlock.ascx")
+            });
+
+            viewTemplateModelRegistrator.Add(typeof(EPiServer.Forms.Implementation.Elements.ParagraphTextElementBlock), new TemplateModel
+            {
+                Name = "ParagraphTextFormElementBlock",
+                Inherit = true,
+                Default = true,
+                AvailableWithoutTag = true,
+                Path = FormPath("ParagraphTextElementBlock.cshtml")
+            });
+
+
+            viewTemplateModelRegistrator.Add(typeof(EPiServer.Forms.Implementation.Elements.TextareaElementBlock), new TemplateModel
+            {
+                Name = "TextareaFormElementBlock",
+                Inherit = true,
+                Default = true,
+                AvailableWithoutTag = true,
+                Path = FormPath("TextareaElementBlock.ascx")
+            });
+
+
+
+            viewTemplateModelRegistrator.Add(typeof(EPiServer.Forms.Implementation.Elements.TextboxElementBlock), new TemplateModel
+            {
+                Name = "TextBoxFormElementBlock",
+                Inherit = true,
+                Default = true,
+                AvailableWithoutTag = true,
+                Path = FormPath("TextBoxElementBlock.ascx")
+            });
+
+
         }
 
         public static string BlockPath(string fileName)
@@ -117,5 +188,11 @@ namespace OxxCommerceStarterKit.Web.Business.Rendering
         {
             return string.Format("{0}{1}", PagePartialsFolder, fileName);
         }
+
+        private static string FormPath(string fileName)
+        {
+            return string.Format("{0}{1}", FormFolder, fileName);
+        }
+
     }
 }
