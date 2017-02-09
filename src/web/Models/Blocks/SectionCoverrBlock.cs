@@ -18,39 +18,31 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
     public class SectionCoverrBlock : SectionBlock
     {
 
-
         [Display(
             GroupName = SystemTabNames.Content,
-            Order = 210)]
+            Order = 10)]
         [CultureSpecific]
         [UIHint(UIHint.MediaFile)]
         public virtual ContentReference MP4 { get; set; }
 
-
         [Display(
             GroupName = SystemTabNames.Content,
-            Order = 220)]
+            Order = 20)]
         [CultureSpecific]
         [UIHint(UIHint.MediaFile)]
         public virtual ContentReference WEBM { get; set; }
 
-
         [Display(
             GroupName = SystemTabNames.Content,
-            Order = 230)]
+            Order = 30)]
         [CultureSpecific]
         [UIHint(UIHint.MediaFile)]
         public virtual ContentReference JPG { get; set; }
 
         [Display(
             GroupName = SystemTabNames.Content,
-            Order = 300)]
-        public virtual bool ShowArrow { get; set; }
-
-
-        [Display(
-            GroupName = SystemTabNames.Content,
-            Order = 530)]
+            Order = 40,
+            Description = "Background color behind Coverr video")]
         [SelectOne(SelectionFactoryType = typeof(ColorSelectionFactory))]
         public virtual string ColorCover { get; set; }
 

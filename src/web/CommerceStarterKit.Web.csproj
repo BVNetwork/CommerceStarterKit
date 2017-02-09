@@ -61,6 +61,7 @@
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\FindProductFilterSortOrderFactory.cs" />
     <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
+    <Compile Include="Models\Blocks\Base\SectionBlockBase.cs" />
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
     <Compile Include="Models\Blocks\AdvancedContentBlock.cs" />
     <Compile Include="Models\Blocks\SectionBlock.cs" />

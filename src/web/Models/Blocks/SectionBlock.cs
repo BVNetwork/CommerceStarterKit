@@ -7,14 +7,15 @@ using OxxCommerceStarterKit.Core.Attributes;
 using EPiServer.Web;
 using EPiServer.Shell.ObjectEditing;
 using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
+using OxxCommerceStarterKit.Web.Models.Blocks.Base;
 
 namespace OxxCommerceStarterKit.Web.Models.Blocks
 {
-    [ContentType(DisplayName = "SectionBlock", 
+    [ContentType(DisplayName = "Section Block", 
         GUID = "9a5824e4-6fb7-4d1b-9efd-0c4f655fde70",
         GroupName = WebGlobal.GroupNames.Campaign)]
     [SiteImageUrl(thumbnail: EditorThumbnail.Multimedia)]
-    public class SectionBlock : SiteBlockData
+    public class SectionBlock : SectionBlockBase
     {
         [CultureSpecific]
         [Display(
@@ -23,7 +24,6 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
             GroupName = SystemTabNames.Content,
             Order = 10)]
         public virtual String Header { get; set; }
-
 
         [Display(
             Name = "Left main body",
@@ -67,32 +67,6 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
             Order = 640)]
         public virtual XhtmlString MainBody { get; set; }
 
-        [Display(
-            GroupName = SystemTabNames.Content,
-            Order = 530)]
-        [SelectOne(SelectionFactoryType = typeof(ColorSelectionFactory))]
-        public virtual string ColorSection { get; set; }
-
-        [Display(
-            GroupName = SystemTabNames.Content,
-            Order = 530)]
-        [SelectOne(SelectionFactoryType = typeof(ColorSelectionFactory))]
-        public virtual string ColorText { get; set; }
-
-        [CultureSpecific]
-        [Display(
-            Name = "Image",
-            Description = "Section image",
-            GroupName = SystemTabNames.Content,
-            Order = 20)]
-        [UIHint(UIHint.Image)]
-        public virtual ContentReference Image { get; set; }
-
-        [Display(
-            GroupName = SystemTabNames.Content,
-            Order = 300)]
-        [CultureSpecific]
-        public virtual bool ShowArrow { get; set; }
 
 
     }
