@@ -1,5 +1,5 @@
 ﻿@model OxxCommerceStarterKit.Web.Models.Blocks.SectionBlock
-<div class="@(Model.FullHeight ? "homepage-hero-module" : "") color-@Model.ColorSection">
+<div class="@(Model.FullHeight && EPiServer.Editor.PageEditing.PageIsInEditMode == false ? "homepage-hero-module" : "") color-@Model.ColorSection color-solid-@Model.ColorSection">
     <div class="section-image-block @(Model.ShowArrow ? " section-image-padding" : "")" style=" background-image: url(@(Url.ContentUrl(Model.Image)+""));">
 
         <div class="color-@Model.ColorText">

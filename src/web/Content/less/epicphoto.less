@@ -472,9 +472,12 @@ pre {
     color: #fff !important;
 }
 
-.color-black h1, .color-black h2, .color-black h3 {
-    color: #fff !important;
-    font-size: 80px;
+.color-solid-black { 
+    background-color: rgba(0,0,0,1);
+}
+
+.color-black h1, .color-black h2, .color-black h3 { 
+    color: #fff;
 }
 
 .color-white { 
@@ -482,9 +485,20 @@ pre {
     color: #000 !important;
 }
 
-.color-white h1, .color-white h2, .color-white h3 {
-    color: #000 !important;
+.color-white h1, .color-white h2, .color-white h3 { 
+    color: black;
+}
+
+.color-white h1, .color-black h1 {
     font-size: 80px;
+}
+
+.color-white h2, .color-black h2 { 
+    font-size: 48px;
+}
+
+.color-white h3, .color-black h3 {
+    font-size: 36px;
 }
 
 .section-image-block {

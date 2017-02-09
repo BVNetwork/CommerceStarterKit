@@ -13,7 +13,8 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
 {
     [ContentType(DisplayName = "Section Block", 
         GUID = "9a5824e4-6fb7-4d1b-9efd-0c4f655fde70",
-        GroupName = WebGlobal.GroupNames.Campaign)]
+        GroupName = WebGlobal.GroupNames.Campaign,
+        Description = "Block for wide area sections")]
     [SiteImageUrl(thumbnail: EditorThumbnail.Multimedia)]
     public class SectionBlock : SectionBlockBase
     {
