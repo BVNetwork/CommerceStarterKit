@@ -1141,6 +1141,9 @@ h2.titleBlock {
 .pagelistblock .row {
   padding-bottom: 1em;
 }
+.tile .image {
+  padding: 25px;
+}
 /* Used in the editor */
 img.img-float-top-left {
   float: left;
@@ -1201,12 +1204,12 @@ pre {
   font-size: 36px;
 }
 .section-image-block {
-  padding: 150px 0 150px 0;
+  padding: 100px 0 150px 0 !important;
   position: relative;
   background-size: cover;
 }
 .section-image-padding {
-  padding: 150px 0 300px 0;
+  padding: 100px 0 200px 0 !important;
   position: relative;
 }
 .sectionArrow {
@@ -1215,6 +1218,13 @@ pre {
 }
 .color-black .sectionArrow {
   color: #fff;
+}
+.section-image-block .tile {
+  background-color: #fff;
+  border: 0;
+}
+.section-image-block .tile .image {
+  padding: 20px;
 }
 /* Coverr block */
 .homepage-hero-module {
