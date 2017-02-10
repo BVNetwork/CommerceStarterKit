@@ -4,10 +4,10 @@
 
     @if (EPiServer.Editor.PageEditing.PageIsInEditMode)
     {
-        <div style="@("background-image: url("+(Url.ContentUrl(Model.JPG)))+" ;")">
+        <div style="@("background-image: url(" + Url.ContentUrl(Model.JPG) + ")")">
             <div style="padding:100px 0;">
                 <div class="color-@Model.ColorSection">
-                    <div class="section-image-block" style=" background-image url(@(Url.ContentUrl(Model.Image)+""));">
+                    <div class="section-image-block" style="background-image: url(@(Url.ContentUrl(Model.Image) + ""));">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-12">
@@ -41,7 +41,7 @@
                                     @Html.PropertyFor(x => x.BottomWideContentArea, new { Tag = "SectionContent" })
                                 </div>
                                 @if (Model.MainBody != null && (!string.IsNullOrEmpty(Model.MainBody.ToString())))
-                {
+                                {
                                     <div class="col-md-12">
                                         @Html.PropertyFor(x => x.MainBody)
                                     </div>
@@ -61,7 +61,7 @@
             <div class="video-container">
                 <div class="filter">
                     <div class="color-@Model.ColorSection">
-                        <div class="" style=" background-image url(@(Url.ContentUrl(Model.Image)+""));">
+                        <div class="" style="background-image: url(@(Url.ContentUrl(Model.JPG)+ ""));">
                             <div class="container">
                                 <div class="row">
                                     <div class="col-md-12">
