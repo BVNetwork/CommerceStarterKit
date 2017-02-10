@@ -471,6 +471,8 @@ pre {
 }
 
 /* Landing pages */
+
+/* Black */
 .color-black { 
     background-color: rgba(0,0,0,0.5);
     color: #fff !important;
@@ -484,14 +486,36 @@ pre {
     color: #fff;
 }
 
+/* White */
 .color-white { 
     background-color: rgba(255,255,255,0.5);
+    color: #000 !important;
+}
+
+.color-solid-white { 
+    background-color: rgba(255,255,255,1);
     color: #000 !important;
 }
 
 .color-white h1, .color-white h2, .color-white h3 { 
     color: black;
 }
+
+/* White */
+.color-grey { 
+    background-color: rgba(47,52,59,0.5);
+    color: #fff !important;
+}
+
+.color-solid-grey { 
+    background-color: rgba(47,52,59,1);
+    color: #fff !important;
+}
+
+.color-grey h1, .color-grey h2, .color-grey h3 { 
+    color: #fff;
+}
+
 
 .color-white h1, .color-black h1 {
     font-size: 80px;
@@ -510,14 +534,17 @@ pre {
     position:relative;
     background-size: cover;
 }
+
 .section-image-padding {
     padding: 100px 0 200px 0 !important;
     position:relative;
 }
+
 .sectionArrow {
     color: #000;
     font-size: 128px;
 }
+
 .color-black .sectionArrow {
     color: #fff; 
 }
@@ -526,6 +553,7 @@ pre {
     background-color: #fff;
     border: 0;
 }
+
 .section-image-block .tile .image {
     padding: 20px;
 }
@@ -537,14 +565,17 @@ pre {
     border-left: none;
     position: relative;
 }
+
 .no-video .video-container video,
 .touch .video-container video {
     display: none;
 }
+
 .no-video .video-container .poster,
 .touch .video-container .poster {
     display: block !important;
 }
+
 .video-container {
     position: relative;
     bottom: 0%;
@@ -554,11 +585,13 @@ pre {
     overflow: hidden;
     background: #000;
 }
+
 .video-container .poster img {
     width: 100%;
     bottom: 0;
     position: absolute;
 }
+
 .video-container .filter {
     z-index: 100;
     position: absolute;
@@ -566,14 +599,25 @@ pre {
     width: 100%;
     top: 300px;
     margin: auto 0;
-
 }
+
 .video-container video {
     position: absolute;
     z-index: 0;
     bottom: 0;
 }
+
 .video-container video.fillWidth {
     width: 100%;
 }
 
+/* Countdown timer */
+.color-black .countdown #timer {
+    background-color: transparent;
+    color: #fff;
+}
+
+.color-white .countdown #timer {
+    background-color: transparent;
+    color: #000;
+}

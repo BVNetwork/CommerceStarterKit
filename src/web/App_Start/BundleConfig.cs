@@ -31,6 +31,7 @@ namespace OxxCommerceStarterKit.Web
                         "~/Scripts/libraries/jquery.touchSwipe.min.js",
                         "~/Content/js/plugins/jquery.placeholder.js",
                         "~/Content/js/plugins/jquery.stellar.min.js",
+                        "~/Content/js/plugins/jquery.countdown.min.js",
                         "~/Content/js/plugins/jquery.shuffle.min.js"));
 
 
