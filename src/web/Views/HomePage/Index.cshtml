@@ -2,9 +2,13 @@
 @{
 	ViewBag.Title = Model.CurrentPage.Name;
 }
+
+@Html.PropertyFor(x => x.CurrentPage.ContentAreaWide, new { CssClass = "overflow-hidden clearfix" })
+
 <div id="frontpage">
 @Html.PropertyFor(x => x.CurrentPage.BodyContent, new { CssClass = "overflow-hidden clearfix" })
 </div>
+
 
 @section scripts {
 	@Scripts.Render("~/bundles/frontpage")

@@ -41,6 +41,15 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
 
         [Searchable(false)]
         [Display(
+            Name = "Wide content area",
+            Description = "Wide content area at front page top",
+            GroupName = SystemTabNames.Content,
+            Order = 5)]
+        [CultureSpecific]
+        public virtual ContentArea ContentAreaWide { get; set; }
+
+        [Searchable(false)]
+        [Display(
             Name = "TopLeftMenu",
             Description = "The menu at top left",
             GroupName = SystemTabNames.Settings,
