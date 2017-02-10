@@ -1170,6 +1170,7 @@ pre {
   font-size: 13px;
 }
 /* Landing pages */
+/* Black */
 .color-black {
   background-color: rgba(0, 0, 0, 0.5);
   color: #fff !important;
@@ -1182,14 +1183,33 @@ pre {
 .color-black h3 {
   color: #fff;
 }
+/* White */
 .color-white {
   background-color: rgba(255, 255, 255, 0.5);
+  color: #000 !important;
+}
+.color-solid-white {
+  background-color: #ffffff;
   color: #000 !important;
 }
 .color-white h1,
 .color-white h2,
 .color-white h3 {
   color: black;
+}
+/* White */
+.color-grey {
+  background-color: rgba(47, 52, 59, 0.5);
+  color: #fff !important;
+}
+.color-solid-grey {
+  background-color: #2f343b;
+  color: #fff !important;
+}
+.color-grey h1,
+.color-grey h2,
+.color-grey h3 {
+  color: #fff;
 }
 .color-white h1,
 .color-black h1 {
@@ -1269,4 +1289,13 @@ pre {
 }
 .video-container video.fillWidth {
   width: 100%;
+}
+/* Countdown timer */
+.color-black .countdown #timer {
+  background-color: transparent;
+  color: #fff;
+}
+.color-white .countdown #timer {
+  background-color: transparent;
+  color: #000;
 }

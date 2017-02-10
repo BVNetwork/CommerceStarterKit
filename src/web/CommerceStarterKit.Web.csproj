@@ -65,6 +65,7 @@
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
     <Compile Include="Models\Blocks\AdvancedContentBlock.cs" />
     <Compile Include="Models\Blocks\SectionBlock.cs" />
+    <Compile Include="Models\Blocks\SectionCountdownBlock.cs" />
     <Compile Include="Models\Blocks\SectionCoverrBlock.cs" />
     <Compile Include="Models\PageTypes\LandingPage.cs" />
     <Compile Include="Models\ViewModels\NewsletterWithProductsViewModel.cs" />
@@ -784,6 +785,7 @@
     <Content Include="Scripts\libraries\jquery-migrate-1.2.1.min.js" />
     <Content Include="Scripts\libraries\jquery-plugins.js" />
     <Content Include="Scripts\libraries\jquery-ui-1.10.4.custom.min.js" />
+    <Content Include="Scripts\libraries\jquery.countdown.min.js" />
     <Content Include="Scripts\libraries\jquery.equalheights.min.js" />
     <Content Include="Scripts\libraries\jquery.multiselect.min.js" />
     <Content Include="Scripts\libraries\jquery.touchSwipe.min.js" />
@@ -802,6 +804,7 @@
     <Content Include="Views\Shared\Blocks\SectionBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\SectionCoverrBlock.cshtml" />
     <Content Include="Views\Shared\Forms\ParagraphTextElementBlock.cshtml" />
+    <Content Include="Views\Shared\Blocks\SectionCountdownBlock.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="Views\Shared\Forms\ChoiceElementBlock.ascx" />
     <Content Include="Views\Shared\Forms\NumberElementBlock.ascx" />
