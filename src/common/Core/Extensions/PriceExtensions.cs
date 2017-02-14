@@ -105,7 +105,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
         /// <param name="variation">The variation to retrieve price from.</param>
         /// <param name="market">The market to get price for. If null, the current market is used.</param>
         /// <returns></returns>
-        public static string GetDisplayPrice(this VariationContent variation, IMarket market)
+        public static string GetDisplayPrice(this VariationContent variation, IMarket market = null)
         {
             Price price = variation.GetPrice(market);
             return price != null ? price.UnitPrice.ToString() : string.Empty;
