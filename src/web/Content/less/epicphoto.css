@@ -1197,7 +1197,7 @@ pre {
 .color-white h3 {
   color: black;
 }
-/* White */
+/* Grey */
 .color-grey {
   background-color: rgba(47, 52, 59, 0.5);
   color: #fff !important;
@@ -1211,17 +1211,57 @@ pre {
 .color-grey h3 {
   color: #fff;
 }
+/* Blue */
+.color-blue {
+  background-color: rgba(43, 168, 219, 0.5);
+  color: #fff !important;
+}
+.color-solid-blue {
+  background-color: #2ba8db;
+  color: #fff !important;
+}
+.color-blue h1,
+.color-blue h2,
+.color-blue h3 {
+  color: #fff;
+}
+/* Green */
+.color-green {
+  background-color: rgba(163, 199, 86, 0.5);
+  color: #fff !important;
+}
+.color-solid-green {
+  background-color: #a3c756;
+  color: #fff !important;
+}
+.color-green h1,
+.color-blue h2,
+.color-blue h3 {
+  color: #fff;
+}
 .color-white h1,
-.color-black h1 {
+.color-black h1,
+.color-blue h1,
+.color-green h1,
+.color-grey h1 {
   font-size: 80px;
 }
 .color-white h2,
-.color-black h2 {
+.color-black h2,
+.color-blue h2,
+.color-green h2,
+.color-grey h2 {
   font-size: 48px;
 }
 .color-white h3,
-.color-black h3 {
+.color-black h3,
+.color-blue h3,
+.color-green h3,
+.color-grey h3 {
   font-size: 36px;
+}
+.color-grey .btn {
+  background-color: #181b1f;
 }
 .section-image-block {
   padding: 100px 0 150px 0 !important;
@@ -1236,7 +1276,10 @@ pre {
   color: #000;
   font-size: 128px;
 }
-.color-black .sectionArrow {
+.color-black .sectionArrow,
+.color-black .sectionArrow,
+.color-green .sectionArrow,
+.color-grey .sectionArrow {
   color: #fff;
 }
 .section-image-block .tile {

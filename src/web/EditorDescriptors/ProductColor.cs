@@ -21,6 +21,7 @@ namespace OxxCommerceStarterKit.Web.EditorDescriptors
         Green,
         Brown,
         Grey,
-        Black
+        Black,
+        Transparent
     }
 }
