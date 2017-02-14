@@ -1,0 +1,42 @@
+﻿@using EPiServer.Commerce.Extensions
+@using EPiServer.Commerce.Marketing
+@model OxxCommerceStarterKit.Web.Controllers.Admin.CampaignViewModel
+@{
+    ViewBag.Title = "Campaigns";
+    Layout = "_layout.cshtml";
+}
+
+<div class="container" ng-app="" ng-controller="toolsController">
+    <div class="row">
+        <h1>EPiServer Commerce Developer Tools</h1>
+    </div>
+    <div class="row">
+        @if (Model.DiscountPrices.Any())
+        {
+            <div>
+                Discounts:
+                <ul>
+                    @foreach (DiscountedEntry dp in Model.DiscountPrices)
+                    {
+                        <li>
+                            @dp.EntryLink
+                            <ul>
+                                @foreach (var price in dp.DiscountPrices)
+                                {
+                                    <li>Default price: @price.DefaultPrice Price: @price.Price @price.Promotion.DiscountType.ToString()</li>
+                                }
+                            </ul>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        }
+        else
+        {
+            <div>
+                The product with code @Request.QueryString["code"].ToHtmlEncoded() does not have any discounts
+            </div>
+        }
+    </div>
+</div>

@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.ServiceLocation;
 using log4net.Util;
@@ -31,57 +32,21 @@ namespace OxxCommerceStarterKit.Core.Extensions
 {
     public static class PriceExtensions
     {
+        private static Injected<ReadOnlyPricingLoader> injectedPriceLoader;
+        private static Injected<IPromotionEngine> _promotionEngine;
+        private static Injected<ICurrentMarket> _currentMarket;
+        
 
-        public static int GetDefaultPriceAmount(this VariationContent variation)
+        public static DiscountPrice GetDiscountPrice(this VariationContent currentContent, IMarket market)
         {
-            ICurrentMarket currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
-            return GetDefaultPriceAmount(variation, currentMarket.GetCurrentMarket());
-        }
+            IMarket currentMarket = market;
+            if (market == null)
+                currentMarket = _currentMarket.Service.GetCurrentMarket();
 
-        public static int GetDefaultPriceAmount(this VariationContent variation, IMarket market)
-        {
-            Price price = variation.GetDefaultPriceMoney(market);
-            return price != null ? decimal.ToInt32(price.UnitPrice.Amount) : 0;
-        }
-
-        public static int GetDefaultPriceAmount(this List<VariationContent> variations, IMarket market = null)
-        {
-            Price price = variations.GetDefaultPriceMoney(market);
-            return price != null ? decimal.ToInt32(price.UnitPrice.Amount) : 0;
-        }
-
-        public static Price GetDefaultPrice(this VariationContent variation, IMarket market = null)
-        {
-            return variation.GetDefaultPriceMoney(market);
-        }
-
-        public static Price GetDefaultPrice(this List<VariationContent> variations, IMarket market = null)
-        {
-            if (variations.Any())
+            var discountedEntries = _promotionEngine.Service.GetDiscountPrices(currentContent.ContentLink, currentMarket);
+            if (discountedEntries.Any())
             {
-                return variations.FirstOrDefault().GetDefaultPrice(market);
-            }
-            return null;
-        }
-
-
-        /// <summary>
-        /// Gets the display price for the variation and market, including currency symbol.
-        /// </summary>
-        /// <param name="variation">The variation to retrieve price from.</param>
-        /// <param name="market">The market to get price for. If null, the current market is used.</param>
-        /// <returns></returns>
-        public static string GetDisplayPrice(this VariationContent variation, IMarket market = null)
-        {
-            Price price = variation.GetDefaultPriceMoney(market);
-            return price != null ? price.UnitPrice.ToString() : string.Empty;
-        }
-
-        public static string GetDisplayPrice(this List<VariationContent> variations, IMarket market = null)
-        {
-            if (variations.Any())
-            {
-                return variations.FirstOrDefault().GetDisplayPrice(market);
+                return discountedEntries.First().DiscountPrices.Last();
             }
             return null;
         }
@@ -89,226 +54,98 @@ namespace OxxCommerceStarterKit.Core.Extensions
         /// <summary>
         /// Gets price information for a variation as a Price object. You can get the monetary price from the UnitPrice member.
         /// </summary>
-        /// <param name="variation">The variation.</param>
+        /// <param name="pricing">The variation.</param>
         /// <param name="market">The market.</param>
         /// <returns></returns>
-        public static Price GetDefaultPriceMoney(this VariationContent variation, IMarket market = null)
+        public static Price GetPrice(this IPricing pricing, IMarket market)
+        {
+            if(pricing == null)
+            {
+                return null;
+            }
+
+            IMarket currentMarket = market;
+            if (market == null)
+                currentMarket = _currentMarket.Service.GetCurrentMarket();
+
+            return pricing.GetPrices(injectedPriceLoader.Service).FirstOrDefault(x => x.MarketId == currentMarket.MarketId);
+        }
+
+        public static Price GetDefaultPrice(this List<VariationContent> variations, IMarket market = null)
+        {
+            if (variations.Any())
+            {
+                foreach (var variation in variations)
+                {
+                    var price = variation.GetPrice(market);
+                    if (price != null)
+                    {
+                        return price;
+                    }
+                }
+            }
+            return null;
+        }
+
+        public static int GetDefaultPriceAmountWholeNumber(this VariationContent variation, IMarket market)
+        {
+            Price price = variation.GetPrice(market);
+            return price != null ? decimal.ToInt32(price.UnitPrice.Amount) : 0;
+        }
+
+        public static int GetDefaultPriceAmountWholeNumber(this List<VariationContent> variations, IMarket market)
+        {
+            Price price = variations.GetDefaultPrice(market);
+            return price != null ? decimal.ToInt32(price.UnitPrice.Amount) : 0;
+        }
+
+        /// <summary>
+        /// Gets the display price for the variation and market, including currency symbol.
+        /// </summary>
+        /// <param name="variation">The variation to retrieve price from.</param>
+        /// <param name="market">The market to get price for. If null, the current market is used.</param>
+        /// <returns></returns>
+        public static string GetDisplayPrice(this VariationContent variation, IMarket market)
+        {
+            Price price = variation.GetPrice(market);
+            return price != null ? price.UnitPrice.ToString() : string.Empty;
+        }
+
+        public static Price GetCustomerClubPrice(this VariationContent variation, IMarket market)
         {
             var prices = variation.GetPrices();
-          
-            if (prices != null)
+
+            Func<Price, bool> priceFilter = delegate(Price d)
             {
-                if(market != null)
-                    return prices.FirstOrDefault(x => x.MarketId.Equals(market.MarketId) && x.UnitPrice.Currency == market.DefaultCurrency && x.CustomerPricing.PriceTypeId == CustomerPricing.PriceType.AllCustomers);
-                return prices.FirstOrDefault(x => x.CustomerPricing.PriceTypeId == CustomerPricing.PriceType.AllCustomers);
-            }
-            return null;
-
-        }
-
-        public static Price GetDefaultPriceMoney(this List<VariationContent> variations, IMarket market = null)
-        {
-
-            if (variations.Any())
-            {
-                List<Price> prices = variations.Select(variant => GetDefaultPriceMoney(variant, market)).Where(x => x != null).ToList();
-
-                if (prices.Any())
-                {
-                    return prices.FirstOrDefault();
-                }
-            }
-            return null;
-
-        }
-
-        /// <summary>
-        /// Gets the discount price, if no discount is set, returns string.Empty
-        /// </summary>
-        /// <param name="variation">The variation.</param>
-        /// <param name="defaultPrice">The price to return if no discounted price can be found</param>
-        /// <param name="market">The market.</param>
-        /// <returns></returns>
-        public static string GetDiscountDisplayPrice(this VariationContent variation, Price defaultPrice, IMarket market = null)
-        {
-
-            if (market == null)
-            {
-                ICurrentMarket currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
-                market = currentMarket.GetCurrentMarket();
-            }
-            Func<PriceAndMarket, bool> priceFilter;
-            priceFilter = delegate(PriceAndMarket d)
-            {
-                // Find a non CustomerClub price, but still a price with a price code
-                return d.PriceCode != string.Empty &&
-                       !(d.PriceTypeId == CustomerPricing.PriceType.PriceGroup.ToString() &&
-                         d.PriceCode == Constants.CustomerGroup.CustomerClub);
+                return d.CustomerPricing.PriceCode != string.Empty &&
+                       (d.CustomerPricing.PriceTypeId == CustomerPricing.PriceType.PriceGroup &&
+                        d.CustomerPricing.PriceCode == Constants.CustomerGroup.CustomerClub);
             };
 
-            // Find a price with a price code that is not a customer club price
-            var discountedPrice = variation.GetPricesWithMarket(market).FirstOrDefault(priceFilter);
-
-            if (discountedPrice != null) 
-                return discountedPrice.UnitPrice.ToString();
-            return string.Empty;
-
-            
-            //if (defaultPrice == null)
-            //    return string.Empty;
-            //Price price;
-            //if(market == null)
-            //    price = StoreHelper.GetDiscountPrice(variation.LoadEntry(CatalogEntryResponseGroup.ResponseGroup.CatalogEntryFull));
-            //else
-            //    price = StoreHelper.GetDiscountPrice(variation.LoadEntry(CatalogEntryResponseGroup.ResponseGroup.CatalogEntryFull),string.Empty,string.Empty,market);
-            
-            //if(price == null)
-            //{
-            //    return string.Empty;
-            //}
-
-            //if (price.Money == defaultPrice.Money)
-            //    return string.Empty;
-
-            //return price.Money.Amount.ToString();
-        }
-
-        public static PriceAndMarket GetDiscountPrice(this VariationContent variation, IMarket market = null)
-        {
-
-            if (market == null)
+            if (prices.Any())
             {
-                ICurrentMarket currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
-                market = currentMarket.GetCurrentMarket();
+                var price = prices.FirstOrDefault(priceFilter);
+                return price;
             }
-            Func<PriceAndMarket, bool> priceFilter;
-            priceFilter = delegate(PriceAndMarket d)
-            {
-                // Find a non CustomerClub price, but still a price with a price code
-                return d.PriceCode != string.Empty &&
-                       !(d.PriceTypeId == CustomerPricing.PriceType.PriceGroup.ToString() &&
-                         d.PriceCode == Constants.CustomerGroup.CustomerClub);
-            };
 
-            // Find a price with a price code that is not a customer club price
-            var discountedPrice = variation.GetPricesWithMarket(market).FirstOrDefault(priceFilter);
-
-            return discountedPrice;
-        }
-
-        public static PriceAndMarket GetDiscountPrice(this List<VariationContent> variations, IMarket market = null)
-        {
-            if (variations.Any())
-            {
-                VariationContent variationContent = variations.FirstOrDefault(x => x.GetPricesWithMarket(market) != null);
-                return variationContent.GetDiscountPrice(market);
-            }
             return null;
         }
 
-
-        /// <summary>
-        /// Gets the discount price, if no discount is set, returns string.Empty
-        /// </summary>
-        /// <param name="variations">All variants for a product</param>
-        /// <param name="defaultPrice">The price to compare against</param>
-        /// <param name="market">The market.</param>
-        /// <returns></returns>
-        public static string GetDiscountDisplayPrice(this List<VariationContent> variations, Price defaultPrice, IMarket market = null)
+        public static decimal GetPriceAmountSafe(this Price price)
         {
-            if (variations.Any())
+            if(price == null)
             {
-                VariationContent variationContent = variations.FirstOrDefault(x => x.GetPricesWithMarket(market) != null);
-                return variationContent.GetDiscountDisplayPrice(defaultPrice, market);
+                return 0;
             }
-            return string.Empty;
+            return price.UnitPrice.Amount;
         }
-
-
-        //public static string GetDiscountedPrice(this List<VariationContent> variations, Price defaultPrice, IMarket market = null)
-        //{
-        //    // TODO: GetDiscountedPrice in find index: improvement point?? this gets the members club price in the search result as "the first variation that has a price with a pricecode"
-        //    if (variations.Any())
-        //    {
-        //        // Has price code, but is not for customer club
-        //        Func<PriceAndMarket, bool> priceFilter = d => d.PriceCode != string.Empty &&
-        //                !(d.PriceTypeId == Mediachase.Commerce.Pricing.CustomerPricing.PriceType.PriceGroup.ToString() &&
-        //                  d.PriceCode == Constants.CustomerGroup.CustomerClub);
-
-        //        List<VariationContent> variationsWithPrices = variations.Where(x => x.GetPricesWithMarket(market) != null).ToList();
-
-        //        if (variationsWithPrices.Any())
-        //        {
-        //            VariationContent variation = variationsWithPrices.FirstOrDefault();
-        //            var price = variation.GetPricesWithMarket(market).FirstOrDefault(priceFilter);
-        //            if (price != null) return price.Price;
-        //            return string.Empty;
-        //        }
-
-        //    }
-        //    return string.Empty;
-        //}
-
-        public static string GetCustomerClubDisplayPrice(this VariationContent variation, IMarket market = null)
+        public static string GetPriceAmountStringSafe(this Price price)
         {
-            if (market == null)
+            if (price == null)
             {
-                ICurrentMarket currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
-                market = currentMarket.GetCurrentMarket();
+                return string.Empty;
             }
-            Func<PriceAndMarket, bool> priceFilter = delegate(PriceAndMarket d)
-            {
-                return d.PriceCode != string.Empty &&
-                       (d.PriceTypeId == CustomerPricing.PriceType.PriceGroup.ToString() &&
-                        d.PriceCode == Constants.CustomerGroup.CustomerClub);
-            };
-
-           
-            var foundPrice = variation.GetPricesWithMarket(market).FirstOrDefault(priceFilter);
-
-
-            if (foundPrice != null) return foundPrice.UnitPrice.ToString();
-            return string.Empty;
-        }
-
-        public static PriceAndMarket GetCustomerClubPrice(this VariationContent variation, IMarket market = null)
-        {
-            if (market == null)
-            {
-                ICurrentMarket currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
-                market = currentMarket.GetCurrentMarket();
-            }
-            Func<PriceAndMarket, bool> priceFilter = delegate(PriceAndMarket d)
-            {
-                return d.PriceCode != string.Empty &&
-                       (d.PriceTypeId == CustomerPricing.PriceType.PriceGroup.ToString() &&
-                        d.PriceCode == Constants.CustomerGroup.CustomerClub);
-            };
-           
-            return variation.GetPricesWithMarket(market).FirstOrDefault(priceFilter);
-        }
-
-        public static string GetCustomerClubDisplayPrice(this List<VariationContent> variations, IMarket market = null)
-        {
-            var priceAndMarket = GetCustomerClubPrice(variations, market);
-            if (priceAndMarket != null)
-                return priceAndMarket.Price;
-            return string.Empty;
-        }
-
-        public static PriceAndMarket GetCustomerClubPrice(this List<VariationContent> variations, IMarket market = null)
-        {
-            if (variations.Any())
-            {
-                // Find first price for customer club
-                foreach (VariationContent variation in variations)
-                {
-                    var priceAndMarket = variation.GetCustomerClubPrice(market);
-                    if (priceAndMarket != null)
-                        return priceAndMarket;
-                }
-            }
-            return null;
+            return price.UnitPrice.ToString();
         }
     }
 

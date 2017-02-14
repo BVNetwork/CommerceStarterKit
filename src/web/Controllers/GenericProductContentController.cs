@@ -17,6 +17,7 @@ using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Inventory;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Web.Business;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -67,7 +68,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 {
                     model.GenericVariationViewModel =
                         CreateVariationViewModel<GenericSizeVariationContent>(variationItem);
-                    model.GenericVariationViewModel.PriceViewModel = GetPriceModel(variationItem);
+                    model.GenericVariationViewModel.PriceViewModel = variationItem.GetPriceModel();
                     model.ContentWithAssets = currentContent;
                 }
             }

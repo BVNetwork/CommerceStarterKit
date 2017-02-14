@@ -14,6 +14,7 @@ using System.Linq;
 using System.Web;
 using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
@@ -25,22 +26,19 @@ namespace OxxCommerceStarterKit.Web.Extensions
 {
     public static class PriceExtensions
     {
-        private static Injected<ReadOnlyPricingLoader> injectedPriceLoader; 
-        private static Injected<ICurrentMarket> injectedMarketService; 
-
+        private static Injected<ICurrentMarket> injectedMarketService;
+    
         public static PriceModel GetPriceModel(this VariationContent currentContent)
         {
+            return GetPriceModel(currentContent, injectedMarketService.Service.GetCurrentMarket());
+        }
+        public static PriceModel GetPriceModel(this VariationContent currentContent, IMarket market)
+        {
             PriceModel priceModel = new PriceModel();
-            priceModel.Price = GetPrice(currentContent);
-            priceModel.DiscountDisplayPrice = currentContent.GetDiscountDisplayPrice(currentContent.GetDefaultPrice());
-            priceModel.CustomerClubDisplayPrice = currentContent.GetCustomerClubDisplayPrice();
+            priceModel.DefaultPrice = currentContent.GetPrice(market);
+            priceModel.DiscountPrice = currentContent.GetDiscountPrice(market); 
+            priceModel.CustomerClubPrice = currentContent.GetCustomerClubPrice(market);
             return priceModel;
         }
-
-        public static Price GetPrice(IPricing pricing)
-        {            
-            return pricing.GetPrices(injectedPriceLoader.Service).FirstOrDefault(x => x.MarketId == injectedMarketService.Service.GetCurrentMarket().MarketId);
-        }
-
     }
 }

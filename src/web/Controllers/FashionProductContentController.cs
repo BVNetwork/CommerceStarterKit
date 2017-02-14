@@ -33,6 +33,7 @@ using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Web.Api;
 using OxxCommerceStarterKit.Web.Business;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -135,7 +136,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 				{
 					model.FashionItemViewModel =
 						CreateVariationViewModel<FashionItemContent>(fashionItem);
-                    model.FashionItemViewModel.PriceViewModel = GetPriceModel(fashionItem);
+                    model.FashionItemViewModel.PriceViewModel = fashionItem.GetPriceModel();
 					model.ContentWithAssets = currentContent;
 				}
 			}

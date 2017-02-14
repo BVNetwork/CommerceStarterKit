@@ -27,7 +27,9 @@ using Mediachase.Commerce.Catalog.Objects;
 using Mediachase.Commerce.Customers;
 using Mediachase.Search;
 using OxxCommerceStarterKit.Core.Extensions;
+using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -159,11 +161,9 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
             
             findProduct.Description = Info_Description;
             findProduct.Sizes = new List<string>() { this.Size };
-            EPiServer.Commerce.SpecializedProperties.Price defaultPrice = this.GetDefaultPrice();
-            findProduct.DefaultPrice = this.GetDisplayPrice(market);
-            findProduct.DefaultPriceAmount = this.GetDefaultPriceAmount(market);
-            findProduct.DiscountedPrice = this.GetDiscountDisplayPrice(defaultPrice, market);
-            findProduct.CustomerClubPrice = this.GetCustomerClubDisplayPrice(market);
+
+            findProduct.SetPriceData(this, market);
+
             findProduct.GrapeMixList = GetGrapeMixList();
 
             findProduct.Varieties = GrapeMix;
@@ -212,7 +212,7 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
                 BrandName = Facet_Brand,
                 Country = Country
             };
-            productListViewModel.PriceAmount = this.GetDefaultPriceAmount(market);
+            productListViewModel.PriceAmount = this.GetDefaultPriceAmountWholeNumber(market);
             return productListViewModel;
         }
 

@@ -145,7 +145,7 @@
     if (variation != null)
     {
         var priceModel = variation.GetPriceModel();
-        displayPrice = priceModel.Price.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture);
+        displayPrice = priceModel.DefaultPrice.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture);
         var buttonText = string.Format(menuFeatureActionText, displayPrice);
         <a class="btn btn-block" href="@urlResolver.GetUrl(entry.ContentLink)">@buttonText</a>
     }

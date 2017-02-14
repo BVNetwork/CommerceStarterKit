@@ -11,17 +11,23 @@ Copyright (C) 2013-2014 BV Network AS
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Web.Mvc;
 using EPiServer;
+using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.Framework.Blobs;
 using EPiServer.ServiceLocation;
+using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
 using OxxCommerceStarterKit.Web.Models.Files;
 
 namespace OxxCommerceStarterKit.Web.Controllers.Admin
 {
+
     [System.Web.Mvc.Authorize(Roles = "CmsAdmins")]
     public class DeveloperToolsController : Controller
     {
@@ -38,6 +44,23 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
         public ActionResult MetaFields()
         {
             return View("MetaFields");
+        }
+
+        public ActionResult Campaigns(string code)
+        {
+            var referenceConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
+            var variantLink = referenceConverter.GetContentLink(code);
+            //var repo = ServiceLocator.Current.GetInstance<IContentRepository>();
+            //var variant = repo.Get<VariationContent>(variantLink);
+
+            var promotionEngine = ServiceLocator.Current.GetInstance<IPromotionEngine>();
+            var currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
+            IEnumerable<DiscountedEntry> entries = promotionEngine.GetDiscountPrices(variantLink, currentMarket.GetCurrentMarket());
+            
+            CampaignViewModel campaignModel = new CampaignViewModel();
+            campaignModel.DiscountPrices = entries;
+
+            return View("Campaigns", campaignModel);
         }
 
 
@@ -194,4 +217,11 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             blobFactory.Delete(blobId);
         }
     }
+
+
+    public class CampaignViewModel
+    {
+        public IEnumerable<DiscountedEntry> DiscountPrices { get; set; }
+    }
+
 }

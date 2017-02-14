@@ -1,51 +1,28 @@
 ﻿@using OxxCommerceStarterKit.Core
+@using OxxCommerceStarterKit.Core.Extensions
 @model PriceModel
-
-@if (Model != null && Model.Price != null && Model.Price.UnitPrice.Amount > 0)
+@if (Model != null && Model.DefaultPrice != null && Model.DefaultPrice.UnitPrice.Amount > 0)
 {
-    bool hideText = false;
-    if (ViewData["hideText"] != null)
-    {
-        bool.TryParse(ViewData["hideText"].ToString(), out hideText);
-
-    }
     <div itemprop="price">
-        @if (hideText)
-        {
-            @Model.Price.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture)
-        }
-        else
-        {
+        @{
             var priceCss = "price";
-            if (!string.IsNullOrEmpty(Model.DiscountDisplayPrice))
+            if (Model.HasDiscount())
             {
                 priceCss = "old-price";
-                
+
             }
-            <div class="@priceCss"><text>@Html.Translate("/common/product/price") @Model.Price.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture)</text></div>
-
+            <div class="@priceCss"><text>@Html.Translate("/common/product/price") @Model.DefaultPrice.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture)</text></div>
         }
-
-        @if (!string.IsNullOrEmpty(Model.DiscountDisplayPrice))
+        @if (Model.HasDiscount())
         {
-            <div class="price">@Html.Translate("/common/product/sale_price"): @Model.DiscountDisplayPrice</div>
+            <div class="price">@Html.Translate("/common/product/sale_price"): @Model.DiscountPrice.Price.ToString()</div>
 
         }
-        else if (!string.IsNullOrEmpty(Model.CustomerClubDisplayPrice))
+        else if (Model.HasCustomerPrice())
         {
-            <div class="member-price">@Html.Translate("/common/product/member_price"): @Model.CustomerClubDisplayPrice</div>
+            <div class="member-price">@Html.Translate("/common/product/member_price"): @Model.CustomerClubPrice.GetPriceAmountStringSafe()</div>
 
         }
-        @*@if (Model.DiscountedPrice != null && Model.DiscountedPrice.CustomerPricing != null &&
-            Model.DiscountedPrice.CustomerPricing.PriceTypeId == Mediachase.Commerce.Pricing.CustomerPricing.PriceType.PriceGroup &&
-            Model.DiscountedPrice.CustomerPricing.PriceCode == Constants.CustomerGroup.CustomerClub)
-                {
-                    <span class="member-price">@Html.Translate("/common/product/member_price"): @Model.DiscountedPrice.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture)</span>
-                }
-                else if (Model.DiscountedPrice != null)
-                {
-                    <span class="sale-price">@Html.Translate("/common/product/sale_price"): @Model.DiscountedPrice.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture)</span>
-                }*@
     </div>
 }
 else

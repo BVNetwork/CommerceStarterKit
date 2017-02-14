@@ -19,6 +19,7 @@ using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Framework;
 using EPiServer.Framework.Localization;
+using EPiServer.Logging;
 using EPiServer.PlugIn;
 using EPiServer.Scheduler;
 using EPiServer.ServiceLocation;
@@ -60,8 +61,9 @@ namespace OxxCommerceStarterKit.Web.Jobs
 		private bool _stopSignaled;
 		readonly ReferenceConverter referenceConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
 		readonly IContentLoader contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
+        protected static ILogger _log = LogManager.GetLogger();
 
-		public FindIndexCatalog()
+        public FindIndexCatalog()
 		{
 			IsStoppable = true;
 		}
@@ -130,7 +132,16 @@ namespace OxxCommerceStarterKit.Web.Jobs
                         {
 							info.NumberOfProductsFoundAfterExpiredFilter++;
 
-                            var findProduct = content.GetFindProduct(market); 
+                            FindProduct findProduct = null;
+                            try
+                            {
+                                findProduct = content.GetFindProduct(market);
+                            }
+                            catch (Exception ex)
+                            {
+                                string msg = string.Format("Cannot generate FindProduct for {0}", content.Name);
+                                _log.Error(msg, ex);
+                            }
 
 							if (findProduct != null)
 							{

@@ -8,37 +8,43 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System.Linq;
-using EPiServer.Commerce.Catalog;
-using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.SpecializedProperties;
-using EPiServer.ServiceLocation;
-using Mediachase.Commerce;
-using Mediachase.Commerce.Website.Helpers;
 
 namespace OxxCommerceStarterKit.Web.Models.ViewModels
 {
-	public class PriceModel
+    public class PriceModel
 	{
-		public Price Price { get; set; }
-        public string DiscountDisplayPrice { get; set; }
+		public Price DefaultPrice { get; set; }
+		public DiscountPrice DiscountPrice { get; set; }
         public string CustomerClubDisplayPrice { get; set; }
+        public Price CustomerClubPrice { get; set; }
+
 
 		public PriceModel()
 		{
 
 		}
 
+        public bool HasDiscount()
+        {
+            return DiscountPrice != null;
+        }
+        public bool HasCustomerPrice()
+        {
+            return CustomerClubPrice != null;
+        }
+
 		public PriceModel(Price price)
 			: this()
 		{
 			if (price != null)
 			{
-				Price = price;
+				DefaultPrice = price;
 			}
 			else
 			{
-				Price = default(Price);
+				DefaultPrice = default(Price);
 			}
 		}
 

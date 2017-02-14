@@ -18,6 +18,7 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Models;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.Catalog.Base;
 using OxxCommerceStarterKit.Web.Models.FindModels;
@@ -76,34 +77,12 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
                 variations.Select(x => x.Size ?? string.Empty).Distinct().ToList();
             findProduct.Brand = this.Facet_Brand;
 
-            EPiServer.Commerce.SpecializedProperties.Price defaultPrice = productVariants.GetDefaultPrice(market);
+            findProduct.SetPriceData(productVariants, market);
 
-            findProduct.DefaultPrice = productVariants.GetDisplayPrice(market);
-            findProduct.DefaultPriceAmount = productVariants.GetDefaultPriceAmount(market);
-
-            PriceAndMarket discountPrice = productVariants.GetDiscountPrice(market);
-            findProduct.DiscountedPrice = GetDisplayPriceWithCheck(discountPrice);
-            findProduct.DiscountedPriceAmount = GetPriceWithCheck(discountPrice);
-
-            PriceAndMarket customerClubPrice = productVariants.GetCustomerClubPrice(market);
-            findProduct.CustomerClubPriceAmount = GetPriceWithCheck(customerClubPrice);
-            findProduct.CustomerClubPrice = GetDisplayPriceWithCheck(customerClubPrice);
-            
             findProduct.GenericVariants = variations;
 
             return findProduct;
         }
-
-        private double GetPriceWithCheck(PriceAndMarket price)
-        {
-            return price != null ? (double)price.UnitPrice.Amount : 0;
-        }
-
-        private string GetDisplayPriceWithCheck(PriceAndMarket price)
-        {
-            return price != null ? price.UnitPrice.ToString() : string.Empty;
-        }
-
 
         private List<GenericFindVariant> GetGenericVariants(IEnumerable<VariationContent> productVariants, IMarket market)
         {
@@ -141,21 +120,10 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
          
          public ProductListViewModel Populate(IMarket market)
          {
-             // TODO: A bit weak, will not identify other variations with discounts
-             // Works for models where all variations usually have the same price (and discount)
-             var variation = this.GetFirstVariation();
-
              ProductListViewModel productListViewModel = new ProductListViewModel(this, market, CustomerContext.Current.CurrentContact)
              {
                  BrandName = Facet_Brand,
-                 PriceString = variation.GetDisplayPrice(market),
-                 PriceAmount = variation.GetDefaultPriceAmount(market)
              };
-
-             // Discounts
-             var discountPriceAmount = variation.GetDiscountPrice();
-             productListViewModel.DiscountPriceAmount = GetPriceWithCheck(discountPriceAmount);
-             productListViewModel.DiscountPriceString = GetDisplayPriceWithCheck(discountPriceAmount);
 
              return productListViewModel;
          }

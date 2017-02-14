@@ -50,7 +50,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="modules\_protected\Sannsyn\Scripts\" />
-    <Folder Include="Views\ImportEPiServerData\" />
     <Folder Include="Views\PaymentBase\" />
     <Folder Include="Views\WineSKUPartial\" />
   </ItemGroup>
@@ -60,6 +59,8 @@
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\FindProductFilterSortOrderFactory.cs" />
+    <Compile Include="Extensions\FindProductExtensions.cs" />
+    <Compile Include="Extensions\PriceExtensions.cs" />
     <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
     <Compile Include="Models\Blocks\Base\SectionBlockBase.cs" />
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
@@ -805,6 +806,7 @@
     <Content Include="Views\Shared\Blocks\SectionCoverrBlock.cshtml" />
     <Content Include="Views\Shared\Forms\ParagraphTextElementBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\SectionCountdownBlock.cshtml" />
+    <Content Include="Views\DeveloperTools\Campaigns.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="Views\Shared\Forms\ChoiceElementBlock.ascx" />
     <Content Include="Views\Shared\Forms\NumberElementBlock.ascx" />
@@ -1653,7 +1655,6 @@
     <Compile Include="ModelBuilders\ReceiptViewModelBuilder.cs" />
     <Compile Include="Controllers\VideoFileController.cs" />
     <Compile Include="EditorDescriptors\TinyMcePlugins\AllowExtendedAttributes.cs" />
-    <Compile Include="Extensions\PriceExtensions.cs" />
     <Compile Include="Extensions\UrlExtentions.cs" />
     <Compile Include="HttpContextIdentityProvider.cs" />
     <Compile Include="IIdentityProvider.cs" />

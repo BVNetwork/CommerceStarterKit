@@ -18,6 +18,7 @@ using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Business.Analytics;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 
@@ -56,7 +57,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             DigitalCameraVariationViewModel viewModel = new DigitalCameraVariationViewModel(currentContent);
            
-            viewModel.PriceViewModel = GetPriceModel(currentContent);
+            viewModel.PriceViewModel = currentContent.GetPriceModel();
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
             if (viewModel.RelatedProductsContentArea == null)
             {
@@ -105,7 +106,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 null,
                 viewModel.CatalogVariationContent.Facet_Brand,
                 null, null, 0,
-                (double)viewModel.CatalogVariationContent.GetDefaultPriceAmount(_currentMarket.GetCurrentMarket()),
+                (double)viewModel.CatalogVariationContent.GetDefaultPriceAmountWholeNumber(_currentMarket.GetCurrentMarket()),
                 0
                 );
 

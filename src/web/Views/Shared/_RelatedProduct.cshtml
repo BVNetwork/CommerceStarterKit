@@ -2,17 +2,19 @@
 @using OxxCommerceStarterKit.Web.Models.ViewModels
 @model IProductViewModel<EPiServer.Commerce.Catalog.ContentTypes.ProductContent>
 <div class="product">
-	<a href="@Url.ContentUrl(Model.CatalogContent.ContentLink)">
+    <a href="@Url.ContentUrl(Model.CatalogContent.ContentLink)">
         <img src="@Html.AssetUrl(Model.CatalogContent)?preset=listsmall" />
-	</a>
-	<div class="price">
-		@{
-			var variants = Model.Variants.Value.Where(v => v.Price != null && 0 < v.Price.UnitPrice.Amount).ToList();
+    </a>
+    <div class="price">
+        @{
+            var variants = Model.Variants.Value.Where(v => v.Price != null && 0 < v.Price.UnitPrice.Amount).ToList();
 
-			if (variants.Any())
-			{
-				@Html.Partial("_Price", new PriceModel(variants.OrderByDescending(v => v.Price.UnitPrice).First().Price), new ViewDataDictionary(this.ViewData) { { "hideText", true } })
-			}
-		}
-	</div>
+            if (variants.Any())
+            {
+                <div itemprop="price">
+                    @variants.OrderByDescending(v => v.Price.UnitPrice).First().Price.UnitPrice.ToString(System.Globalization.CultureInfo.CurrentCulture)
+                </div>
+            }
+        }
+    </div>
 </div>

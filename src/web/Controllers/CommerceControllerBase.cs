@@ -16,6 +16,7 @@ using EPiServer;
 using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
 using EPiServer.Logging;
@@ -44,7 +45,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private static Injected<ICurrentMarket> _icurrentMarketService;
         private static Injected<ILinksRepository> _linksRepositoryService;
         private static Injected<IDefaultInventoryService> _inventoryService;
- 
 
         protected IContentLoader ContentLoader
         {
@@ -76,9 +76,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             get { return _inventoryService.Service; }
         }
 
-   
-
-   
+  
         protected static ILogger _log = LogManager.GetLogger();
 
         public void InitializeCatalogViewModel<TViewModel>(TViewModel model)
@@ -247,15 +245,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
             return -1;
         }
 
-        protected virtual PriceModel GetPriceModel(VariationContent currentContent)
-        {
-            PriceModel priceModel = new PriceModel();
-            priceModel.Price = GetPrice(currentContent);
-            priceModel.DiscountDisplayPrice = currentContent.GetDiscountDisplayPrice(currentContent.GetDefaultPrice());
-            priceModel.CustomerClubDisplayPrice = currentContent.GetCustomerClubDisplayPrice();
-            return priceModel;
-        }
-
-
+        
     }
 }

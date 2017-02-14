@@ -16,6 +16,7 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Models;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -70,32 +71,12 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
             findProduct.Color = Color != null ? new List<string>() { Color } : new List<string>();
             findProduct.Description = Description;
             findProduct.Overview = Overview;
-            EPiServer.Commerce.SpecializedProperties.Price defaultPrice = this.GetDefaultPrice();
-            findProduct.DefaultPrice = this.GetDisplayPrice(market);
-            findProduct.DefaultPriceAmount = this.GetDefaultPriceAmount(market);
 
-            PriceAndMarket discountPrice = this.GetDiscountPrice(market);
-            findProduct.DiscountedPriceAmount = GetPriceWithCheck(discountPrice);
-            findProduct.DiscountedPrice = GetDisplayPriceWithCheck(discountPrice);
-
-            PriceAndMarket customerClubPrice = this.GetCustomerClubPrice(market);
-            findProduct.CustomerClubPriceAmount = GetPriceWithCheck(customerClubPrice);
-            findProduct.CustomerClubPrice = GetDisplayPriceWithCheck(customerClubPrice);
+            findProduct.SetPriceData(this, market);
 
             findProduct.Brand = this.Facet_Brand;
             return findProduct;
         }
-
-        private double GetPriceWithCheck(PriceAndMarket price)
-        {
-            return price != null ? (double)price.UnitPrice.Amount : 0;
-        }
-
-        private string GetDisplayPriceWithCheck(PriceAndMarket price)
-        {
-            return price != null ? price.UnitPrice.ToString() : string.Empty;
-        }
-
 
         public bool ShouldIndex()
         {

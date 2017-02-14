@@ -24,5 +24,6 @@ namespace OxxCommerceStarterKit.Core.Models
         public string CurrencySymbol { get; set; }
         public string PriceTypeId { get; set; }
         public string PriceCode { get; set; }
+
     }
 }

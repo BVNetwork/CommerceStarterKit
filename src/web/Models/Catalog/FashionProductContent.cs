@@ -28,8 +28,10 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using Microsoft.Ajax.Utilities;
 using OxxCommerceStarterKit.Core.Extensions;
+using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.EditorDescriptors;
 using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.Catalog.Base;
 using OxxCommerceStarterKit.Web.Models.FindModels;
@@ -108,16 +110,8 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
             findProduct.SizesList = CreateSizeList(variations.Select(x => x.Size).Distinct().ToList(), SizeUnit,
                 sizeType);
 
-            EPiServer.Commerce.SpecializedProperties.Price defaultPrice = productVariants.GetDefaultPrice(market);
+            findProduct.SetPriceData(productVariants, market);
 
-            findProduct.DefaultPrice = productVariants.GetDisplayPrice(market);
-            findProduct.DefaultPriceAmount = productVariants.GetDefaultPriceAmount(market);
-            findProduct.DiscountedPrice = productVariants.GetDiscountDisplayPrice(defaultPrice, market);
-
-            // TODO: Set if not the same as default price
-            findProduct.DiscountedPriceAmount = 0;
-
-            findProduct.CustomerClubPrice = productVariants.GetCustomerClubDisplayPrice(market);
             findProduct.Variants = variations;
             findProduct.NewItemText = NewItemText;
             return findProduct;
@@ -160,10 +154,6 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
         }
 
 
-
-
-
-
         private List<string> CreateSizeList(List<string> sizes, string sizeUnit, string sizeType)
         {
             List<string> sizeList = new List<string>();
@@ -193,7 +183,7 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
                 PriceString = variation.GetDisplayPrice(market),
             };
             ICurrentMarket currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
-            productListViewModel.PriceAmount = variation.GetDefaultPriceAmount(currentMarket.GetCurrentMarket());
+            productListViewModel.PriceAmount = variation.GetDefaultPriceAmountWholeNumber(currentMarket.GetCurrentMarket());
             return productListViewModel;
         }
     }

@@ -26,6 +26,7 @@ using Mediachase.Commerce.Inventory;
 using Mediachase.Commerce.Pricing;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Business.Analytics;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 
@@ -62,7 +63,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         public ActionResult Index(WineSKUContent currentContent)
         {
             WineSKUViewModel wineSkuViewModel = new WineSKUViewModel(currentContent);
-            wineSkuViewModel.PriceViewModel = GetPriceModel(currentContent);
+            wineSkuViewModel.PriceViewModel = currentContent.GetPriceModel();
 
             TrackAnalytics(wineSkuViewModel);
 
@@ -83,7 +84,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 null,
                 wineSkuViewModel.CatalogContent.Facet_Brand,
                 null, null, 0,
-                (double) wineSkuViewModel.CatalogContent.GetDefaultPriceAmount(_currentMarket.GetCurrentMarket()),
+                (double) wineSkuViewModel.CatalogContent.GetDefaultPriceAmountWholeNumber(_currentMarket.GetCurrentMarket()),
                 0
                 );
 

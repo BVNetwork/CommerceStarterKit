@@ -20,6 +20,7 @@ using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Models;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.Catalog.Base;
 
@@ -34,8 +35,8 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             _urlResolver = ServiceLocator.Current.GetInstance<UrlResolver>();
         }
 
-        public ProductListViewModel(VariationContent content, 
-            IMarket currentMarket, 
+        public ProductListViewModel(VariationContent content,
+            IMarket currentMarket,
             CustomerContact currentContact) : this()
         {
             ImageUrl = content.GetDefaultImage();
@@ -48,7 +49,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 
         }
 
-        public ProductListViewModel(ProductContent content, 
+        public ProductListViewModel(ProductContent content,
             IMarket currentMarket,
             CustomerContact currentContact)
             : this()
@@ -58,8 +59,12 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             AllImageUrls = content.AssetUrls();
 
             PopulateCommonData(content, currentMarket, currentContact);
-
-
+            
+            var variation = content.GetFirstVariation();
+            if (variation != null)
+            {
+                PopulatePrices(variation, currentMarket);
+            }
         }
 
         protected void PopulateCommonData(EntryContentBase content, IMarket currentMarket, CustomerContact currentContact)
@@ -85,33 +90,22 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 
         protected void PopulatePrices(VariationContent content, IMarket currentMarket)
         {
-            PriceString = content.GetDisplayPrice(currentMarket);
-            PriceAmount = content.GetDefaultPriceAmount(currentMarket);
+            var priceModel = content.GetPriceModel(currentMarket);
 
-            var discountPriceAmount = content.GetDiscountPrice();
-            DiscountPriceAmount = GetPriceWithCheck(discountPriceAmount);
-            DiscountPriceString = GetDisplayPriceWithCheck(discountPriceAmount);
+            PriceString = priceModel.DefaultPrice.UnitPrice.ToString();
+            PriceAmount = priceModel.DefaultPrice.UnitPrice.Amount;
+
+            DiscountPriceAmount = priceModel.HasDiscount() ? priceModel.DiscountPrice.Price.Amount : 0;
+            DiscountPriceString = priceModel.HasDiscount() ? priceModel.DiscountPrice.Price.ToString() : "";
 
             DiscountPriceAvailable = DiscountPriceAmount > 0;
 
-            var customerClubPriceAmount = content.GetCustomerClubPrice();
-            CustomerClubMemberPriceAmount = GetPriceWithCheck(customerClubPriceAmount);
-            CustomerClubMemberPriceString = GetDisplayPriceWithCheck(customerClubPriceAmount);
+            CustomerClubMemberPriceAmount = priceModel.CustomerClubPrice.GetPriceAmountSafe();
+            CustomerClubMemberPriceString = priceModel.CustomerClubPrice.GetPriceAmountStringSafe();
 
             CustomerPriceAvailable = CustomerClubMemberPriceAmount > 0;
         }
 
-        
-
-        private double GetPriceWithCheck(PriceAndMarket price)
-        {
-            return price != null ? (double)price.UnitPrice.Amount : 0;
-        }
-
-        private string GetDisplayPriceWithCheck(PriceAndMarket price)
-        {
-            return price != null ? price.UnitPrice.ToString() : string.Empty;
-        }
 
         public string GetTrackingName()
         {
@@ -127,14 +121,14 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public string NewItemText { get; set; }
         public string Description { get; set; }
         public ContentReference ContentLink { get; set; }
-        
+
         // Pricing
         public string PriceString { get; set; }
-        public double PriceAmount { get; set; }
+        public decimal PriceAmount { get; set; }
         public string DiscountPriceString { get; set; }
-        public double DiscountPriceAmount { get; set; }
+        public decimal DiscountPriceAmount { get; set; }
         public string CustomerClubMemberPriceString { get; set; }
-        public double CustomerClubMemberPriceAmount { get; set; }
+        public decimal CustomerClubMemberPriceAmount { get; set; }
         public bool CustomerPriceAvailable { get; set; }
         public bool DiscountPriceAvailable { get; set; }
 
