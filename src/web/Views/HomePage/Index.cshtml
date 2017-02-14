@@ -2,9 +2,9 @@
 @{
 	ViewBag.Title = Model.CurrentPage.Name;
 }
-
+</div>
 @Html.PropertyFor(x => x.CurrentPage.ContentAreaWide, new { CssClass = "overflow-hidden clearfix" })
-
+<div class="container">
 <div id="frontpage">
 @Html.PropertyFor(x => x.CurrentPage.BodyContent, new { CssClass = "overflow-hidden clearfix" })
 </div>
