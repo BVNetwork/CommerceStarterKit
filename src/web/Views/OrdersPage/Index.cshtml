@@ -12,51 +12,61 @@
         <h2>@Html.Translate("/common/accountpages/orders_title")</h2>
         <!--Orders History-->
         <section class="order-history extra-space-bottom">
-                <div class="inner">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/number")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
-                                <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/date")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
-                                <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/status")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
-                                @*<th scope="col">Date <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>
+            <script type="text/javascript">
+                function openChat(e) {
+                    $zopim(function () {
+                        $zopim.livechat.window.show();
+                        $zopim.livechat.appendNotes("Customer wants help with order: " + e);
+                        $zopim.livechat.say('Hi, I would like to chat to you about my order with order number ' + e);
+                        $zopim.livechat.addTags('ordersupport');
+                    });
+                }
+            </script>
+            <div class="inner">
+                <table>
+                    <tbody>
+                    <tr>
+                        <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/number")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
+                        <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/date")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
+                        <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/status")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
+                        @*<th scope="col">Date <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>
                                     <th scope="col">Payment method <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>
                                     <th scope="col">Order status <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>*@
-                            </tr>
-                            @foreach (var order in Model.Orders)
-                            {
-                                var statusCss = "primary";
-                                if (order.Status == "InProgress")
-                                {
-                                    statusCss = "warning";
-                                }
-                                else if (order.Status == "Cancelled")
-                                {
-                                    statusCss = "danger";
-                                }
-                                <tr class="order" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
+                    </tr>
+                    @foreach (var order in Model.Orders)
+                    {
+                        var statusCss = "primary";
+                        if (order.Status == "InProgress")
+                        {
+                            statusCss = "warning";
+                        }
+                        else if (order.Status == "Cancelled")
+                        {
+                            statusCss = "danger";
+                        }
+                        <tr class="order" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
 
-                                    <td>
-                                        @order.OrderNumber @(!string.IsNullOrEmpty(order.ErpOrderNumber) ? " / " + order.ErpOrderNumber : "")
-                                    </td>
-                                    <td>
-                                        @order.OrderDate.ToString("dd.MM.yyyy")
-                                    </td>
-                                    <td class="status @statusCss">
-                                        <span>@order.Status</span>
-                                    </td>
+                            <td>
+                                @order.OrderNumber @(!string.IsNullOrEmpty(order.ErpOrderNumber) ? " / " + order.ErpOrderNumber : "")
+                            </td>
+                            <td>
+                                @order.OrderDate.ToString("dd.MM.yyyy")
+                            </td>
+                            <td class="status @statusCss">
+                                <span>@order.Status</span>
+                            </td>
 
-                                </tr>
-                                <tr class="order-details collapse" id="ordernumber-@order.OrderNumber">
-                                    <td colspan="3" class="order-details">
-                                        @Html.Partial("_ReceiptOrder", order)
+                        </tr>
+                        <tr class="order-details collapse" id="ordernumber-@order.OrderNumber">
+                            <td colspan="3" class="order-details">
+                                @Html.Partial("_ReceiptOrder", order)
 
-                                    </td>
-                                    @*@Html.Partial("_ReceiptOrder", order)*@
-                                    @*<a class="chevron pull-right" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
+                            </td>
+                            @*@Html.Partial("_ReceiptOrder", order)*@
+                            @*<a class="chevron pull-right" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
                                         <span class="glyphicon glyphicon-chevron-up"></span>
                                     </a>*@
-                                </tr>
+                        </tr>
                                 @*<div class="clearfix order-details collapse" id="ordernumber-@order.OrderNumber">
                                         <div class="receipt-page">
                                             <div class="cart">
@@ -67,10 +77,10 @@
                                             </div>
                                         </div>
                                     </div>*@
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                    }
+                    </tbody>
+                </table>
+            </div>
 
         </section><!--Orders History Close-->
 
