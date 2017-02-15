@@ -265,11 +265,19 @@ namespace OxxCommerceStarterKit.Core.Extensions
             if (content == null)
                 return 0;
 
+            if (content.TrackInventory == false)
+            {
+                return int.MaxValue;
+            }
+
             var inventoryService = ServiceLocator.Current.GetInstance<IDefaultInventoryService>();
             var inventory = inventoryService.GetForDefaultWarehouse(content.Code);
 
             if (inventory != null)
             {
+                if (inventory.IsTracked == false)
+                    return int.MaxValue;
+                
                 return inventory.PurchaseAvailableQuantity;
             }
             return 0;
