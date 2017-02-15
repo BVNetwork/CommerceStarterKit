@@ -5,6 +5,7 @@ using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.SpecializedProperties;
 using OxxCommerceStarterKit.Core.Attributes;
+using EPiServer;
 
 namespace OxxCommerceStarterKit.Web.Models.PageTypes
 {
@@ -63,6 +64,12 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
         [CultureSpecific]
         public virtual ContentArea ContentAreaWideBottom { get; set; }
 
+        [Display(
+            Name = "List view image",
+            GroupName = "Metadata",
+            Order = 1000)]
+        [UIHint(WebGlobal.SiteUIHints.MediaUrl)]
+        public virtual Url ListViewImage { get; set; }
 
     }
 }
