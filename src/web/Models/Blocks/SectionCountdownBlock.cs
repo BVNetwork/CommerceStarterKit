@@ -28,5 +28,14 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
 
         public virtual DateTime TargetDate { get; set; }
 
+        [Display(
+            Name = "Main body",
+            Description = "",
+            GroupName = SystemTabNames.Content,
+            Order = 510)]
+        public virtual XhtmlString MainBody { get; set; }
+
+
+
     }
 }
