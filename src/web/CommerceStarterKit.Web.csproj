@@ -808,6 +808,7 @@
     <Content Include="Views\Shared\Forms\ParagraphTextElementBlock.cshtml" />
     <Content Include="Views\Shared\Blocks\SectionCountdownBlock.cshtml" />
     <Content Include="Views\DeveloperTools\Campaigns.cshtml" />
+    <Content Include="Views\DeveloperTools\Forms.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="Views\Shared\Forms\ChoiceElementBlock.ascx" />
     <Content Include="Views\Shared\Forms\NumberElementBlock.ascx" />

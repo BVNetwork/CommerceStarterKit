@@ -1,0 +1,29 @@
+﻿@model OxxCommerceStarterKit.Web.Controllers.Admin.FormsViewModel
+@{
+    ViewBag.Title = "Campaigns";
+    Layout = "_layout.cshtml";
+}
+
+<div class="container" ng-app="" ng-controller="toolsController">
+    <div class="row">
+        <h1>EPiServer Commerce Developer Tools</h1>
+    </div>
+    <div class="row">
+        <h2>Forms</h2>
+        <ul>
+            @foreach (var form in Model.FormsInfo)
+            {
+                <li>
+                    @form.Info.Name
+                    <ul>
+                        @foreach (var email in form.ExtractEmails())
+                        {
+                            <li>@email</li>
+
+                        }
+                    </ul>
+                </li>
+            }
+        </ul>
+    </div>
+</div>

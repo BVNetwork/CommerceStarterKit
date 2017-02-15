@@ -19,6 +19,10 @@ using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Marketing;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
+using EPiServer.Forms.Core;
+using EPiServer.Forms.Core.Data;
+using EPiServer.Forms.Core.Models;
+using EPiServer.Forms.Core.Models.Internal;
 using EPiServer.Framework.Blobs;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
@@ -31,6 +35,9 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
     [System.Web.Mvc.Authorize(Roles = "CmsAdmins")]
     public class DeveloperToolsController : Controller
     {
+        private Injected<IFormRepository> _formRepository;
+        private Injected<IFormDataRepository> _formDataRepository;
+
         public ActionResult Index()
         {
             return View();
@@ -45,6 +52,27 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
         {
             return View("MetaFields");
         }
+        public ActionResult Forms()
+        {
+            FormsViewModel model = new FormsViewModel();
+            // No language restrictions
+            var formsInfo = _formRepository.Service.GetFormsInfo(null);
+            
+            // Get basic information of forms existing in the system.
+            // We ONLY find form in the root folder which designed for holding EPiServer forms.
+            foreach (var info in formsInfo)
+            {
+                //var dataCount = _formDataRepository.Service.GetSubmissionDataCount(new FormIdentity(info.FormGuid, null),
+                //    DateTime.MinValue, DateTime.MaxValue, true);
+                var submissionData = _formDataRepository.Service.GetSubmissionData(new FormIdentity(info.FormGuid, null), DateTime.MinValue,
+                    DateTime.MaxValue, true);
+                model.FormsInfo.Add(new FormInfoModel() {Info = info, Data = submissionData});
+
+            }
+            
+            return View("Forms", model);
+        }
+
 
         public ActionResult Campaigns(string code)
         {
@@ -56,7 +84,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             var promotionEngine = ServiceLocator.Current.GetInstance<IPromotionEngine>();
             var currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
             IEnumerable<DiscountedEntry> entries = promotionEngine.GetDiscountPrices(variantLink, currentMarket.GetCurrentMarket());
-            
+
             CampaignViewModel campaignModel = new CampaignViewModel();
             campaignModel.DiscountPrices = entries;
 
@@ -74,7 +102,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             StringBuilder sb = new StringBuilder();
             IBlobFactory blobFactory = ServiceLocator.Current.GetInstance<IBlobFactory>();
 
-            string[] idList = data.Split(new []{'\n'}, StringSplitOptions.RemoveEmptyEntries);
+            string[] idList = data.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (string uri in idList)
             {
                 Uri blobUri = new Uri(uri);
@@ -95,7 +123,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             StringBuilder sb = new StringBuilder();
 
             IEnumerable<ContentReference> contentReferences = null;
-            
+
             contentReferences = repo.GetDescendents(EPiServer.Core.ContentReference.GlobalBlockFolder);
             DeleteBlobs(contentReferences, repo, sb, blobFactory);
             DeleteContentInAssetFolders(contentReferences, assetHelper, repo, sb, blobFactory);
@@ -199,7 +227,7 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
 
                 }
             }
-            
+
         }
 
         private static void DeleteBlob(Blob blob, StringBuilder sb, IBlobFactory blobFactory)
@@ -224,4 +252,30 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
         public IEnumerable<DiscountedEntry> DiscountPrices { get; set; }
     }
 
+    public class FormsViewModel
+    {
+        public FormsViewModel()
+        {
+            FormsInfo = new List<FormInfoModel>();
+        }
+        public List<FormInfoModel> FormsInfo { get; set; }
+    }
+
+    public class FormInfoModel
+    {
+        public FormInfo Info { get; set; }
+        public IEnumerable<Submission> Data { get; set; }
+        public IEnumerable<string> ExtractEmails()
+        {
+            List<string> emails = new List<string>();
+            foreach (var submission in Data)
+            {
+                if (submission.Data.ContainsKey("email"))
+                {
+                    emails.Add(submission.Data["email"].ToString());
+                }
+            }
+            return emails;
+        }
+    }
 }
