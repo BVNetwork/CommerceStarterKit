@@ -3,8 +3,11 @@
 @import url('/content/less/styles.css');
 /*@fontSerif: "Georgia", "Serif";*/
 body {
-  background: white;
+  background: white !important;
   background-image: none;
+}
+body.epi-inline {
+  background: white !important;
 }
 .lead {
   EditMenuName: "Ingress";
