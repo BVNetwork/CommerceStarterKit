@@ -57,19 +57,20 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
             FormsViewModel model = new FormsViewModel();
             // No language restrictions
             var formsInfo = _formRepository.Service.GetFormsInfo(null);
-            
+
             // Get basic information of forms existing in the system.
             // We ONLY find form in the root folder which designed for holding EPiServer forms.
             foreach (var info in formsInfo)
             {
+                var friendlyNameInfos = _formRepository.Service.GetFriendlyNameInfos(new FormIdentity(info.FormGuid, null));
                 //var dataCount = _formDataRepository.Service.GetSubmissionDataCount(new FormIdentity(info.FormGuid, null),
                 //    DateTime.MinValue, DateTime.MaxValue, true);
                 var submissionData = _formDataRepository.Service.GetSubmissionData(new FormIdentity(info.FormGuid, null), DateTime.MinValue,
                     DateTime.MaxValue, true);
-                model.FormsInfo.Add(new FormInfoModel() {Info = info, Data = submissionData});
+                model.FormsInfo.Add(new FormInfoModel() { Info = info, NameInfos = friendlyNameInfos, Data = submissionData });
 
             }
-            
+
             return View("Forms", model);
         }
 
@@ -265,14 +266,32 @@ namespace OxxCommerceStarterKit.Web.Controllers.Admin
     {
         public FormInfo Info { get; set; }
         public IEnumerable<Submission> Data { get; set; }
+        public IEnumerable<FriendlyNameInfo> NameInfos { get; set; }
+
         public IEnumerable<string> ExtractEmails()
         {
+            List<string> emailFields = new List<string>();
+            foreach (var nameInfo in NameInfos)
+            {
+                string friendlyName = nameInfo.FriendlyName.ToLowerInvariant();
+                switch (friendlyName)
+                {
+                    case "email":
+                    case "e-mail":
+                        emailFields.Add(nameInfo.ElementId);
+                        break;
+                }
+            }
+
             List<string> emails = new List<string>();
             foreach (var submission in Data)
             {
-                if (submission.Data.ContainsKey("email"))
+                foreach (var field in emailFields)
                 {
-                    emails.Add(submission.Data["email"].ToString());
+                    if (submission.Data.ContainsKey(field))
+                    {
+                        emails.Add(submission.Data[field].ToString());
+                    }
                 }
             }
             return emails;

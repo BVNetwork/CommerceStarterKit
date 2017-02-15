@@ -16,6 +16,15 @@
                 <li>
                     @form.Info.Name
                     <ul>
+                        NameInfos
+                        @foreach (var nameInfo in form.NameInfos)
+                        {
+                            <li>@nameInfo.ElementId - @nameInfo.FormatType.ToString() - @nameInfo.FriendlyName - @nameInfo.Label</li>
+
+                        }
+                    </ul>
+                    Emails:
+                    <ul>
                         @foreach (var email in form.ExtractEmails())
                         {
                             <li>@email</li>
