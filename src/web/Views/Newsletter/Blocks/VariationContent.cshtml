@@ -15,8 +15,8 @@
 
 }
 
-<td class="info-block">
-    <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:separate !important;">
+<td class="info-block" style="vertical-align:top;padding-bottom:20px;">
+    <table cellpadding="0" cellspacing="0" width="100%" height="100%" style="border-collapse:separate !important;vertical-align:top;">
         <tr>
             <td class="block-rounded">
                 <table cellpadding="0" cellspacing="0" width="100%">
@@ -38,9 +38,8 @@
                         <td style="padding: 15px;">
                             <table cellspacing="0" cellpadding="0" width="100%">
                                 <tr>
-                                    <td style="text-align:left; width:155px">
+                                    <td style="text-align:left; width:155px;">
                                         <a href="@contentUrl"><span class="header-sm">@Model.DisplayName</span></a><br />
-                                        @Model.GetShortDescription()
                                     </td>
                                     <td style="text-align:right; vertical-align: top;">
                                         <strong>@Model.GetDisplayPrice()</strong>
