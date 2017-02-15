@@ -172,7 +172,8 @@
 					<brown>brown</brown>
 					<grey>grey</grey>
 					<black>black</black>
-				</colors>
+          <transparent>transparent</transparent>
+        </colors>
 				<about_the_product>About the product</about_the_product>
                 <details>Details</details>
 				<size_and_fit>Size &amp; fit</size_and_fit>

@@ -1201,7 +1201,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="EPiServer.Marketing.KPI, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Marketing.KPI.1.0.5\lib\EPiServer.Marketing.KPI.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Marketing.KPI.1.2.0\lib\EPiServer.Marketing.KPI.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="EPIServer.Marketing.Messaging, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
