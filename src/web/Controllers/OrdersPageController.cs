@@ -50,10 +50,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
 		private OrderViewModel CreateOrderViewModel(PurchaseOrderModel order)
 		{
             var model = new OrderViewModel(_currentMarket.GetCurrentMarket().DefaultCurrency.Format, order);
-			// TODO order-payment method
-			model.PaymentMethod = order.ProviderId;
+			
+            if (order.OrderForms.Any() && order.OrderForms.First().Payments.Any())
+            {
+                model.PaymentMethod = order.OrderForms.First().Payments.First().PaymentMethodName;
+            }
 
-			return model;
+            return model;
 		}
 	}
 }
