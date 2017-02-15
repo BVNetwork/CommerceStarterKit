@@ -3,7 +3,7 @@
 @import url('/content/less/styles.css');
 /*@fontSerif: "Georgia", "Serif";*/
 body {
-  background: transparent;
+  background: white;
   background-image: none;
 }
 .lead {
