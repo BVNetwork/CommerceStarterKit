@@ -58,12 +58,15 @@
     <Compile Include="Business\Events\OrderRepositoryCallback.cs" />
     <Compile Include="Business\Initialization\RemoveServerHeaderInitialization.cs" />
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
+    <Compile Include="Controllers\QuickBuyBlockController.cs" />
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\FindProductFilterSortOrderFactory.cs" />
     <Compile Include="Extensions\FindProductExtensions.cs" />
     <Compile Include="Extensions\PriceExtensions.cs" />
     <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
+    <Compile Include="ModelBuilders\QuickBuyViewModelBuilder.cs" />
     <Compile Include="Models\Blocks\Base\SectionBlockBase.cs" />
+    <Compile Include="Models\Blocks\QuickBuyBlock.cs" />
     <Compile Include="Models\Blocks\RecommendedProductsBlock.cs" />
     <Compile Include="Models\Blocks\AdvancedContentBlock.cs" />
     <Compile Include="Models\Blocks\SectionBlock.cs" />
@@ -71,6 +74,7 @@
     <Compile Include="Models\Blocks\SectionCoverrBlock.cs" />
     <Compile Include="Models\PageTypes\LandingPage.cs" />
     <Compile Include="Models\ViewModels\NewsletterWithProductsViewModel.cs" />
+    <Compile Include="Models\ViewModels\QuickBuyViewModel.cs" />
     <Compile Include="Promotion\BuyXFromCategoryGetProductForFree.cs" />
     <Compile Include="Services\IMetricsLoggingService.cs" />
     <Compile Include="Services\MetricsLoggingService.cs" />
@@ -810,6 +814,7 @@
     <Content Include="Views\Shared\Blocks\SectionCountdownBlock.cshtml" />
     <Content Include="Views\DeveloperTools\Campaigns.cshtml" />
     <Content Include="Views\DeveloperTools\Forms.cshtml" />
+    <Content Include="Views\QuickBuyBlock\Index.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="Views\Shared\Forms\ChoiceElementBlock.ascx" />
     <Content Include="Views\Shared\Forms\NumberElementBlock.ascx" />

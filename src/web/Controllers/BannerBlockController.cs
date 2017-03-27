@@ -23,7 +23,6 @@ using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Web.Business.ClientTracking;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
-using OxxCommerceStarterKit.Web.Models.ViewModels;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
