@@ -2,6 +2,21 @@
 <languages>
 	<language name="Norwegian" id="no">
 		<common>
+      <quickbuy>
+        <form>
+          <product>Velg Product</product>
+          <name>Navn</name>
+          <firstname>Fornavn</firstname>
+          <lastname>Etternavn</lastname>
+          <address>Adresse</address>
+          <zipcode>Postnummer</zipcode>
+          <city>Sted</city>
+          <phone>Telefon</phone>
+          <mail>E-post</mail>
+          <buy>Bestill nå</buy>
+          <success>Bestillingen er registrert med ordrenummer: </success>
+        </form>
+      </quickbuy>
       <linktext>
         <startpage>Til startsiden</startpage>
       </linktext>

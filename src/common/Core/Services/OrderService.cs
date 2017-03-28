@@ -14,6 +14,8 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web.Security;
 using AjaxControlToolkit;
+using EPiServer.Commerce.Order;
+using EPiServer.Find.Api.Querying.Queries;
 using Mediachase.Commerce.Customers;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
@@ -22,9 +24,11 @@ using OxxCommerceStarterKit.Core.Customers;
 using OxxCommerceStarterKit.Core.Email;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Objects;
-using OxxCommerceStarterKit.Core.Repositories.Interfaces;
 using OxxCommerceStarterKit.Core.Objects.SharedViewModels;
 using EPiServer.Logging;
+using Mediachase.Commerce;
+using Mediachase.Commerce.Orders.Dto;
+using OxxCommerceStarterKit.Core.Models;
 
 namespace OxxCommerceStarterKit.Core.Services
 {
@@ -35,13 +39,17 @@ namespace OxxCommerceStarterKit.Core.Services
         private readonly ICustomerFactory _customerFactory;
         private readonly IEmailService _emailService;
         private readonly IOrderSettings _orderSettings;
+        private readonly IOrderGroupFactory _orderGroupFactory;
+        private IMarket _market;
 
-        public OrderService(IOrderRepository orderRepository, ICustomerFactory customerFactory, IEmailService emailService, IOrderSettings orderSettings)
+        public OrderService(ICustomerFactory customerFactory, IEmailService emailService, IOrderSettings orderSettings, IOrderGroupFactory orderGroupFactory, IOrderRepository orderRepository, ICurrentMarket currentMarket)
         {
             _orderRepository = orderRepository;
             _customerFactory = customerFactory;
             _emailService = emailService;
             _orderSettings = orderSettings;
+            _orderGroupFactory = orderGroupFactory;
+            _market = currentMarket.GetCurrentMarket();
         }
 
         public PurchaseOrderModel GetOrderByTrackingNumber(string trackingNumber)
@@ -51,7 +59,8 @@ namespace OxxCommerceStarterKit.Core.Services
 
         public IEnumerable<PurchaseOrderModel> GetOrdersByUserId(Guid customerId)
         {
-            var orders = _orderRepository.GetOrdersByUserId(customerId);
+            var orders = _orderRepository.Load(customerId,"Default").OfType<PurchaseOrder>().ToList();
+            orders.AddRange(_orderRepository.Load(customerId, "QuickBuy").OfType<PurchaseOrder>().ToList());
             return orders == null ? Enumerable.Empty<PurchaseOrderModel>() : orders.Select(MapToModel).ToList();
         }
 
@@ -380,5 +389,79 @@ namespace OxxCommerceStarterKit.Core.Services
             return emailService.SendOrderReceipt(orderModel);
         }
 
+        public PurchaseOrderModel QuickBuyOrder(QuickBuyModel model, Guid customerId)
+        {
+            var cart = _orderRepository.LoadOrCreateCart<Cart>(customerId, Constants.Order.Cartname.Quickbuy);
+            var item = _orderGroupFactory.CreateLineItem(model.Sku, cart);          
+            item.Quantity = 1;            
+            
+
+            cart.GetFirstShipment().LineItems.Add(item);
+            cart.GetFirstShipment().ShippingAddress = CreateAddress(model, cart, "Shipping");
+            
+            cart.ValidateOrRemoveLineItems(ProcessValidationIssue);
+            cart.UpdatePlacedPriceOrRemoveLineItems(ProcessValidationIssue);
+            cart.UpdateInventoryOrRemoveLineItems(ProcessValidationIssue);
+            
+
+            cart.GetFirstForm().Payments.Add(CreateQuickBuyPayment(model, cart));
+            cart.GetFirstForm().Payments.FirstOrDefault().BillingAddress = CreateAddress(model, cart, "Billing");
+
+            cart.ProcessPayments();
+
+            cart.OrderNumberMethod = cart1 => GetInvoiceNumber();
+
+            var orderRef = _orderRepository.SaveAsPurchaseOrder(cart);
+
+            var order = _orderRepository.Load<PurchaseOrder>(orderRef.OrderGroupId);
+
+            OrderStatusManager.CompleteOrderShipment(order.GetFirstShipment() as Shipment);
+
+            _orderRepository.Save(order);
+
+            return MapToModel(order);
+        }
+
+        private string GetInvoiceNumber()
+        {
+            return "inv" + DateTime.Now.ToString("yyMMddHHmmssff");
+        }
+
+        private void ProcessValidationIssue(ILineItem lineItem, ValidationIssue issue)
+        {
+            
+        }
+
+        private IOrderAddress CreateAddress(QuickBuyModel model, Cart cart, string name)
+        {
+            var shippingAddress = _orderGroupFactory.CreateOrderAddress(cart);
+            shippingAddress.Id = name;
+            shippingAddress.LastName = model.LastName;
+            shippingAddress.FirstName = model.FirstName;
+            shippingAddress.Line1 = model.Address;
+            shippingAddress.PostalCode = model.ZipCode;
+            shippingAddress.City = model.City;
+            shippingAddress.CountryCode = "NOR";
+            return shippingAddress;            
+        }
+
+        private IPayment CreateQuickBuyPayment(QuickBuyModel model, IOrderGroup cart)
+        {
+            var payment = _orderGroupFactory.CreatePayment(cart);
+            var paymentMethod = PaymentManager.GetPaymentMethodsByMarket(_market.MarketId.Value)
+                    .PaymentMethod.Rows.OfType<PaymentMethodDto.PaymentMethodRow>()
+                    .FirstOrDefault(x => x.SystemKeyword.Equals("quickbuy", StringComparison.OrdinalIgnoreCase));
+
+            if (paymentMethod != null)
+            {
+                payment.PaymentMethodId = paymentMethod.PaymentMethodId;
+            }
+
+            payment.Amount = cart.GetTotal().Amount;
+            payment.PaymentType = PaymentType.Other;
+            payment.TransactionType = TransactionType.Sale.ToString();
+
+            return payment;
+        }
     }
 }

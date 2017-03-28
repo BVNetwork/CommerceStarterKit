@@ -11,6 +11,7 @@ Copyright (C) 2013-2014 BV Network AS
 using System;
 using System.Collections.Generic;
 using System.Security.Principal;
+using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Core.Objects.SharedViewModels;
 
 namespace OxxCommerceStarterKit.Core.Services
@@ -21,5 +22,6 @@ namespace OxxCommerceStarterKit.Core.Services
         IEnumerable<PurchaseOrderModel> GetOrdersByUserId(Guid customerId);
         void FinalizeOrder(string orderTrackingNumber, IIdentity identity);
         bool SendOrderReceipt(string trackingNumber);
+        PurchaseOrderModel QuickBuyOrder(QuickBuyModel model, Guid customerId);
     }
 }

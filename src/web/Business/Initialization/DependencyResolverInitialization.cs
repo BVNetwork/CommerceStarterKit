@@ -41,8 +41,7 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
             //Swap out the default ContentRenderer for our custom
             //container.For<IContentRenderer>().Use<ErrorHandlingContentRenderer>();
             container.For<ContentAreaRenderer>().Use<ContentAreaWithDefaultsRenderer>();
-            container.For<ICustomerAddressRepository>().Use<CustomerAddressRepository>();
-            container.For<IOrderRepository>().Use<OrderRepository>();
+            container.For<ICustomerAddressRepository>().Use<CustomerAddressRepository>();            
 	        container.For<IExportOrderService>().Use<ExportOrderService>();
         }
 

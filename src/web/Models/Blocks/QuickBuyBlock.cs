@@ -23,6 +23,10 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
 
         public virtual ContentReference Image { get; set; }
 
+        public virtual XhtmlString Content { get; set; }
 
+        public virtual XhtmlString Disclaimer { get; set; }
+
+        public virtual bool RequireDisclaimer { get; set; }
     }
 }

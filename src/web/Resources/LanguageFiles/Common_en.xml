@@ -2,6 +2,21 @@
 <languages>
 	<language name="English" id="en">
 		<common>
+      <quickbuy>
+        <form>
+          <product>Select Product</product>
+          <name>Name</name>
+          <firstname>First Name</firstname>
+          <lastname>Last Name</lastname>
+          <address>Address</address>
+          <zipcode>Zip Code</zipcode>
+          <city>City</city>
+          <phone>Phone</phone>
+          <mail>E-mail</mail>
+          <buy>Order Now</buy>
+          <success>Order registered with order number: </success>
+        </form>
+      </quickbuy>
       <linktext>
         <startpage>To Home</startpage>
       </linktext>

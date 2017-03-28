@@ -87,6 +87,11 @@ namespace OxxCommerceStarterKit.Core
         {
             public const string ShippingAddressName = "Shipping";
             public const string BillingAddressName = "Billing";
+
+            public static class Cartname
+            {
+                public const string Quickbuy = "Quickbuy";
+            }
         }
 
         public class AssociationTypes
