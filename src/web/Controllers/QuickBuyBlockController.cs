@@ -52,13 +52,20 @@ namespace OxxCommerceStarterKit.Web.Controllers
         [HttpPost]
         public ActionResult Index(QuickBuyBlock currentBlock, QuickBuyViewModel model)
         {
-            _cookieService.SaveCookie(model);
-            model = _modelBuilder.Build(currentBlock, model);
-            model.Sku = model.SelectedSku;
-            var order = _orderService.QuickBuyOrder(model, CustomerContext.Current.CurrentContactId);
-            model.Success = true;
-            model.OrderNumber = order.TrackingNumber;            
-            return Content( GetSuccessMarkup(order.TrackingNumber));
+            try
+            {
+                _cookieService.SaveCookie(model);
+                model = _modelBuilder.Build(currentBlock, model);
+                model.Sku = model.SelectedSku;
+                var order = _orderService.QuickBuyOrder(model, CustomerContext.Current.CurrentContactId);
+                model.Success = true;
+                model.OrderNumber = order.TrackingNumber;
+                return Content(GetSuccessMarkup(order.TrackingNumber));
+            }
+            catch (Exception ex)
+            {
+                return Content(GetErrorMarkup(ex));
+            }
         }
 
         private string GetSuccessMarkup(string trackingNumber)
@@ -73,6 +80,19 @@ namespace OxxCommerceStarterKit.Web.Controllers
                             </div>
                         </div>
                     </div>" , _localization.GetString("/common/quickbuy/form/success"), trackingNumber);
+        }
+        private string GetErrorMarkup(Exception ex)
+        {
+            return string.Format(@"<div class=""row padding-bottom"">
+                        <div class=""col-sm-12"">
+                            <div class=""alert alert-danger alert-dismissible show"" role=""alert"">
+                                <button type = ""button"" class=""close"" data-dismiss=""alert"" aria-label=""Close"">
+                                    <span aria-hidden=""true"">&times;</span>
+                                </button>
+                                <strong>Fail!</strong> {0} <br/>{1}
+                            </div>
+                        </div>
+                    </div>", ex.Message, ex.StackTrace);
         }
     }
 }
