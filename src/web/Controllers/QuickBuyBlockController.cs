@@ -61,7 +61,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 return PartialView("FullWidth",model);
             }
-            if (tag == WebGlobal.ContentAreaTags.HalfWidth)
+            if (tag == WebGlobal.ContentAreaTags.HalfWidth || tag == WebGlobal.ContentAreaTags.OneThirdWidth)
             {
                 return PartialView("Narrow", model);
             }
