@@ -410,8 +410,11 @@ namespace OxxCommerceStarterKit.Core.Services
 
             cart.GetFirstShipment().LineItems.Add(item);
             cart.GetFirstShipment().ShippingAddress = CreateAddress(model, cart, "Shipping");
-            
-            cart.GetFirstForm().CouponCodes.Add(model.CouponCode);
+
+            if (!string.IsNullOrEmpty(model.CouponCode))
+            {
+                cart.GetFirstForm().CouponCodes.Add(model.CouponCode);
+            }
 
             cart.ValidateOrRemoveLineItems(ProcessValidationIssue);
             cart.UpdatePlacedPriceOrRemoveLineItems(ProcessValidationIssue);            
