@@ -40,6 +40,8 @@
                     @Html.Hidden("SelectedSku", Model.Products.FirstOrDefault().Sku)
                 }
             }
+
+            @Html.Hidden("CouponCode", Model.CurrentBlock.CouponCode)
             <div class="form-group">
                 <label class="col-sm-2 control-label">@Html.Translate("/common/quickbuy/form/name")</label>
                 <div class="col-sm-5">

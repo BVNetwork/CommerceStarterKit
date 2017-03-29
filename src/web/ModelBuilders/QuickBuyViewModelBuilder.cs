@@ -23,7 +23,7 @@ namespace OxxCommerceStarterKit.Web.ModelBuilders
 
         public QuickBuyViewModel Build(QuickBuyBlock currentBlock, QuickBuyViewModel model)
         {
-            model.CurrentBlock = currentBlock;
+            model.CurrentBlock = currentBlock;            
             var productInfo =
                 currentBlock != null ? 
                 (currentBlock.CampaignProducts != null ? 

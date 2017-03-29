@@ -28,6 +28,7 @@
                     @Html.Hidden("SelectedSku", Model.Products.FirstOrDefault().Sku)
                 }
             }
+            @Html.Hidden("CouponCode", Model.CurrentBlock.CouponCode)
             <div class="form-group">
                 <label class="control-label">@Html.Translate("/common/quickbuy/form/firstname")</label>
                 @Html.EditorFor(x => x.FirstName, new { @class = "form-control input-sm", Placeholder = @Html.Translate("/common/quickbuy/form/firstname") })

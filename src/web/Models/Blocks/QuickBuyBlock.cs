@@ -12,13 +12,15 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
     {
         [Display(Name = "Promotion Id", GroupName = WebGlobal.GroupNames.Analytics)]
         public virtual string PromotionId { get; set; }
+
         [Display(Name = "Promotion Name", GroupName = WebGlobal.GroupNames.Analytics)]
         public virtual string PromotionName { get; set; }
+
         [Display(Name = "Promotion Banne Name", GroupName = WebGlobal.GroupNames.Analytics)]
         public virtual string PromotionBannerName { get; set; }
 
-        [Display(Name="Campaign Products")]
-        [AllowedTypes(new[] { typeof(VariationContent), typeof(ProductContent) })]
+        [Display(Name = "Campaign Products")]
+        [AllowedTypes(new[] {typeof(VariationContent), typeof(ProductContent)})]
         public virtual ContentArea CampaignProducts { get; set; }
 
         public virtual ContentReference Image { get; set; }
@@ -28,5 +30,7 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
         public virtual XhtmlString Disclaimer { get; set; }
 
         public virtual bool RequireDisclaimer { get; set; }
+
+        public virtual string CouponCode { get; set; }
     }
 }

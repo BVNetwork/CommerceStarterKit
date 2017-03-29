@@ -41,7 +41,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public ImageViewModel ImageContent { get; set; }
         public string Language { get; set; }
         public bool Success { get; set; }
-        public string OrderNumber { get; set; }
+        public string OrderNumber { get; set; }        
     }
 
     public class ProductInfo

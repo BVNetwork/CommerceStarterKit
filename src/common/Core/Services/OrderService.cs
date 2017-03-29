@@ -14,6 +14,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Web.Security;
 using AjaxControlToolkit;
+using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.Order;
 using EPiServer.Find.Api.Querying.Queries;
 using Mediachase.Commerce.Customers;
@@ -36,15 +37,24 @@ namespace OxxCommerceStarterKit.Core.Services
     {
         private static readonly ILogger Log = LogManager.GetLogger();
         private readonly IOrderRepository _orderRepository;
+        private readonly IPromotionEngine _promotionEngine;
         private readonly ICustomerFactory _customerFactory;
         private readonly IEmailService _emailService;
         private readonly IOrderSettings _orderSettings;
         private readonly IOrderGroupFactory _orderGroupFactory;
         private IMarket _market;
 
-        public OrderService(ICustomerFactory customerFactory, IEmailService emailService, IOrderSettings orderSettings, IOrderGroupFactory orderGroupFactory, IOrderRepository orderRepository, ICurrentMarket currentMarket)
+        public OrderService(ICustomerFactory customerFactory, 
+            IEmailService emailService, 
+            IOrderSettings orderSettings, 
+            IOrderGroupFactory orderGroupFactory, 
+            IOrderRepository orderRepository, 
+            ICurrentMarket currentMarket,
+            IPromotionEngine promotionEngine
+            )
         {
             _orderRepository = orderRepository;
+            _promotionEngine = promotionEngine;
             _customerFactory = customerFactory;
             _emailService = emailService;
             _orderSettings = orderSettings;
@@ -401,9 +411,12 @@ namespace OxxCommerceStarterKit.Core.Services
             cart.GetFirstShipment().LineItems.Add(item);
             cart.GetFirstShipment().ShippingAddress = CreateAddress(model, cart, "Shipping");
             
+            cart.GetFirstForm().CouponCodes.Add(model.CouponCode);
+
             cart.ValidateOrRemoveLineItems(ProcessValidationIssue);
-            cart.UpdatePlacedPriceOrRemoveLineItems(ProcessValidationIssue);
+            cart.UpdatePlacedPriceOrRemoveLineItems(ProcessValidationIssue);            
             cart.UpdateInventoryOrRemoveLineItems(ProcessValidationIssue);
+            _promotionEngine.Run(cart);
             
 
             cart.GetFirstForm().Payments.Add(CreateQuickBuyPayment(model, cart));

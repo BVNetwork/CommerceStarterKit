@@ -19,6 +19,8 @@ namespace OxxCommerceStarterKit.Core.Models
         public string City { get; set; }
         public string Sku { get; set; }
 
+        public string CouponCode { get; set; }
+
         public Frequency Frequency { get; set; }
 
 
