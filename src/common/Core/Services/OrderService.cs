@@ -82,7 +82,9 @@ namespace OxxCommerceStarterKit.Core.Services
                 BillingEmail = GetBillingEmail(purchaseOrder),
                 BillingPhone = GetBillingPhone(purchaseOrder),
                 ProviderId = purchaseOrder.ProviderId,
-                MarketId = purchaseOrder.MarketId
+                MarketId = purchaseOrder.MarketId,
+                Frequency = purchaseOrder.GetStringValue(Constants.Metadata.PurchaseOrder.Frequency,String.Empty),
+                LatestDelivery = purchaseOrder.GetDateTimeValue(Constants.Metadata.PurchaseOrder.LatestDelivery,null)                
             };
         }
 
@@ -415,12 +417,16 @@ namespace OxxCommerceStarterKit.Core.Services
 
             var order = _orderRepository.Load<PurchaseOrder>(orderRef.OrderGroupId);
 
+            order[Constants.Metadata.PurchaseOrder.Frequency] = model.Frequency.ToString();
+            order[Constants.Metadata.PurchaseOrder.LatestDelivery] = DateTime.Now.AddDays(5);
+
             OrderStatusManager.CompleteOrderShipment(order.GetFirstShipment() as Shipment);
 
             _orderRepository.Save(order);
 
             return MapToModel(order);
         }
+        
 
         private string GetInvoiceNumber()
         {

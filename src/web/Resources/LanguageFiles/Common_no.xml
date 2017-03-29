@@ -140,6 +140,7 @@
 				<order_table_headers>
 					<number>Ordrenr.:</number>
 					<date>Dato:</date>
+          <nextdate>Neste leveringsdato:</nextdate>
 					<status>Status:</status>
 				</order_table_headers>
 			</accountpages>

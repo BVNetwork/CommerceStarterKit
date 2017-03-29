@@ -15,6 +15,13 @@
           <mail>E-mail</mail>
           <buy>Order Now</buy>
           <success>Order registered with order number: </success>
+          <frequency>
+            <label>Subscription frequency</label>
+            <week>Every week</week>
+            <month>Every month</month>
+            <quarter>Every 3 months</quarter>
+            <halfyear>Every 6 months</halfyear>
+          </frequency>
         </form>
       </quickbuy>
       <linktext>
@@ -140,6 +147,7 @@
 				<order_table_headers>
 					<number>Order number:</number>
 					<date>Date:</date>
+          <nextdate>Next delivery date:</nextdate>
 					<status>Status:</status>
 				</order_table_headers>
 			</accountpages>

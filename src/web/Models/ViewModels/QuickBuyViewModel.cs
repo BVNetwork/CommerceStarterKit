@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using EPiServer.Validation.Internal;
 using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.Files;
@@ -12,11 +13,12 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
     {
         public QuickBuyViewModel()
         {
-
+            Frequencies = Enum.GetValues(typeof(Frequency)).Cast<Frequency>().ToList();
         }
 
         public QuickBuyViewModel(QuickBuyModel cookieModel)
-        {            
+        {
+            Frequencies = Enum.GetValues(typeof(Frequency)).Cast<Frequency>().ToList();
             FirstName = cookieModel.FirstName;
             LastName = cookieModel.LastName;
             Address = cookieModel.Address;
@@ -31,6 +33,8 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public bool ApproveDisclaimer { get; set; }
 
         public IEnumerable<ProductInfo> Products { get; set; }
+
+        public IEnumerable<Frequency> Frequencies { get; set; }
 
         public string SelectedSku { get; set; }
         public bool HasImage { get; set; }

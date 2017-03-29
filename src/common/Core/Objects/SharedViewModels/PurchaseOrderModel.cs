@@ -32,5 +32,7 @@ namespace OxxCommerceStarterKit.Core.Objects.SharedViewModels
         public string ProviderId { get; set; }
 
         public Mediachase.Commerce.MarketId MarketId { get; set; }
+        public string Frequency { get; set; }
+        public DateTime? LatestDelivery { get; set; }
     }
 }

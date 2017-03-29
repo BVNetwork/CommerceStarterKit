@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Web.Mvc;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
+using EPiServer.Editor;
 using EPiServer.Framework.Localization;
+using EPiServer.Logging;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Customers;
@@ -22,19 +25,26 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly IOrderService _orderService;
         private readonly LocalizationService _localization;
         private readonly ICookieService _cookieService;
+        private readonly ILogger _logger;
 
-        public QuickBuyBlockController(IGoogleAnalyticsTracker googleAnalyticsTracker, IQuickBuyModelBuilder modelBuilder, IOrderService orderService, LocalizationService localization, ICookieService cookieService)
+        public QuickBuyBlockController(IGoogleAnalyticsTracker googleAnalyticsTracker, IQuickBuyModelBuilder modelBuilder, IOrderService orderService, LocalizationService localization, ICookieService cookieService, ILogger logger)
         {
             _googleAnalyticsTracker = googleAnalyticsTracker;
             _modelBuilder = modelBuilder;
             _orderService = orderService;
             _localization = localization;
             _cookieService = cookieService;
+            _logger = logger;
         }
 
         
         public ActionResult Index(QuickBuyBlock currentBlock)
         {
+            
+            var tag = ControllerContext.ParentActionViewContext.ViewData["tag"] as string;
+            
+            _logger.Warning("Tag = " + (tag ?? "Tag is empty"));
+
             var cookieModel = _cookieService.GetFromCookie();
             QuickBuyViewModel model = new QuickBuyViewModel(cookieModel);            
 
@@ -46,21 +56,32 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 _googleAnalyticsTracker.TrackPromotionImpression(currentBlock.PromotionId, currentBlock.PromotionName, currentBlock.PromotionBannerName);
             }
 
+            if (tag == WebGlobal.ContentAreaTags.FullWidth)
+
+            {
+                return PartialView("FullWidth",model);
+            }
+            if (tag == WebGlobal.ContentAreaTags.HalfWidth)
+            {
+                return PartialView("Narrow", model);
+            }
+
             return PartialView(model);
         }
         
         [HttpPost]
-        public ActionResult Index(QuickBuyBlock currentBlock, QuickBuyViewModel model)
+        public ActionResult PlaceOrder(QuickBuyBlock currentBlock, QuickBuyViewModel model)
         {
             try
             {
-                _cookieService.SaveCookie(model);
                 model = _modelBuilder.Build(currentBlock, model);
-                model.Sku = model.SelectedSku;
-                var order = _orderService.QuickBuyOrder(model, CustomerContext.Current.CurrentContactId);
-                model.Success = true;
-                model.OrderNumber = order.TrackingNumber;
-                return Content(GetSuccessMarkup(order.TrackingNumber));
+                _logger.Debug("Saving information");
+                    _cookieService.SaveCookie(model);
+                    model.Sku = model.SelectedSku;
+                    var order = _orderService.QuickBuyOrder(model, CustomerContext.Current.CurrentContactId);
+                    model.Success = true;
+                    model.OrderNumber = order.TrackingNumber;
+                    return Content(GetSuccessMarkup(order.TrackingNumber));                
             }
             catch (Exception ex)
             {

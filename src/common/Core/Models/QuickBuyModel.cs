@@ -18,5 +18,17 @@ namespace OxxCommerceStarterKit.Core.Models
         public string ZipCode { get; set; }
         public string City { get; set; }
         public string Sku { get; set; }
+
+        public Frequency Frequency { get; set; }
+
+
+    }
+
+    public enum Frequency
+    {
+        Week,
+        Month,
+        Quarter,
+        HalfYear
     }
 }

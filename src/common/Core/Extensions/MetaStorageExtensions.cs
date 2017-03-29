@@ -8,6 +8,7 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
+using System;
 using Mediachase.Commerce.Storage;
 
 namespace OxxCommerceStarterKit.Core.Extensions
@@ -27,6 +28,18 @@ namespace OxxCommerceStarterKit.Core.Extensions
         public static string GetStringValue(this MetaStorageBase item, string fieldName, string defaultValue)
         {
             return item[fieldName] != null ? item[fieldName].ToString() : defaultValue;
+        }
+
+        public static DateTime? GetDateTimeValue(this MetaStorageBase item, string fieldName, DateTime? defaultValue)
+        {
+            try
+            {
+                return item[fieldName] != null ? Convert.ToDateTime(item[fieldName].ToString()) : defaultValue;
+            }
+            catch
+            {
+                return defaultValue;
+            }
         }
 
         public static int GetIntegerValue(this MetaStorageBase item, string fieldName, int defaultValue)

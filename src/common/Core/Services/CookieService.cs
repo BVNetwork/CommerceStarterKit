@@ -13,7 +13,7 @@ namespace OxxCommerceStarterKit.Core.Services
         public QuickBuyModel GetFromCookie()
         {
             var cookie = HttpContext.Current.Request.Cookies["QuickBuy"];
-            return cookie == null ? new QuickBuyModel() : JsonConvert.DeserializeObject<QuickBuyModel>(cookie.Value);
+            return cookie == null ? new QuickBuyModel() : JsonConvert.DeserializeObject<QuickBuyModel>(HttpUtility.HtmlDecode(cookie.Value));
         }
 
         public void SaveCookie(QuickBuyModel model)
@@ -21,7 +21,7 @@ namespace OxxCommerceStarterKit.Core.Services
             var cookie = HttpContext.Current.Request.Cookies["QuickBuy"] ?? new HttpCookie("QuickBuy");
             cookie.Expires = DateTime.Now.AddDays(1d);
             cookie.HttpOnly = true;
-            cookie.Value = JsonConvert.SerializeObject(model);
+            cookie.Value = HttpUtility.HtmlEncode(JsonConvert.SerializeObject(model));
             HttpContext.Current.Response.Cookies.Add(cookie);
         }
     }

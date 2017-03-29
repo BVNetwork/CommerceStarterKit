@@ -1354,3 +1354,7 @@ pre {
 .quickbuy .form-group {
   margin-bottom: 10px;
 }
+.quickbuy .input-sm {
+  height: inherit;
+  line-height: inherit;
+}

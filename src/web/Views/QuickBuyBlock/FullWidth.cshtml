@@ -5,7 +5,7 @@
 @model QuickBuyViewModel
 
 <div class="row">
-    @Html.PropertyFor(x=>x.CurrentBlock.Content)
+    @Html.PropertyFor(x => x.CurrentBlock.Content)
 </div>
 <div class="row">
     <div class="col-lg-4">
@@ -18,7 +18,7 @@
             }
         </div>
     </div>
-    <div class="col-lg-8">
+    <div class="col-lg-7">
         @using (Ajax.BeginForm("PlaceOrder", "QuickBuy", new AjaxOptions { UpdateTargetId = "result", InsertionMode = InsertionMode.InsertAfter, HttpMethod = "Post" }, new { @class = "quickbuy form-horizontal" }))
         {
 
@@ -49,12 +49,12 @@
                     @Html.EditorFor(x => x.LastName, new { @class = "form-control input-sm", Placeholder = @Html.Translate("/common/quickbuy/form/lastname") })
                 </div>
             </div>
-                <div class="form-group">
-                    <label class="col-sm-2 control-label">@Html.Translate("/common/quickbuy/form/address")</label>
-                    <div class="col-sm-10">
-                        @Html.EditorFor(x => x.Address, new { @class = "form-control input-sm", Placeholder = @Html.Translate("/common/quickbuy/form/address") })
-                    </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">@Html.Translate("/common/quickbuy/form/address")</label>
+                <div class="col-sm-10">
+                    @Html.EditorFor(x => x.Address, new { @class = "form-control input-sm", Placeholder = @Html.Translate("/common/quickbuy/form/address") })
                 </div>
+            </div>
                 <div class="form-group">
                     <label class="col-sm-2 control-label">@Html.Translate("/common/quickbuy/form/zipcode")/@Html.Translate("/common/quickbuy/form/city") </label>
                     <div class="col-sm-2">
@@ -77,15 +77,16 @@
                 <label class="col-sm-2 control-label">@Html.Translate("/common/quickbuy/form/frequency/label") </label>
                 <div class="col-sm-10">
                     @Html.DropDownListFor(x => x.Frequency, Model.Frequencies.Select(y => new SelectListItem() { Text = @Html.Translate("/common/quickbuy/form/frequency/" + y), Value = y.ToString() }), new { @class = "form-control input-sm", Placeholder = @Html.Translate("/common/quickbuy/form/mail") })
-                </div>              
-            </div>            
+                </div>
+            </div>
+
             if (Model.CurrentBlock.RequireDisclaimer)
             {
-                @Html.CheckBoxFor(x=>x.ApproveDisclaimer)
-                @Html.PropertyFor(x=>x.CurrentBlock.Disclaimer)
+                @Html.CheckBoxFor(x => x.ApproveDisclaimer)
+                @Html.PropertyFor(x => x.CurrentBlock.Disclaimer)
             }
 
-                <input type="submit" class="btn btn-default" value="@Html.Translate("/common/quickbuy/form/buy")" />
+            <input type="submit" class="btn btn-default" value="@Html.Translate("/common/quickbuy/form/buy")" />
 
 
                 <div id="result">
