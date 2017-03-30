@@ -44,6 +44,8 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public string OrderNumber { get; set; }     
         
         public int SuccessUrl { get; set; }
+
+        public string ActionLabel { get; set; }
     }
 
     public class ProductInfo
