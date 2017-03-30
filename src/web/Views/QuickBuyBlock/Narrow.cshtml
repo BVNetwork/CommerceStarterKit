@@ -9,7 +9,7 @@
 </div>
 <div class="row">
     <div class="col-lg-12">
-        @using (Ajax.BeginForm("PlaceOrder", "QuickBuy", new AjaxOptions { OnSuccess = "commercestarterkit.redirectToUrl('test')", UpdateTargetId = "result", InsertionMode = InsertionMode.InsertAfter, HttpMethod = "Post" }, new { @class = "quickbuy form-horizontal" }))
+        @using (Ajax.BeginForm("PlaceOrder", "QuickBuy", new AjaxOptions { OnSuccess = "commercestarterkit.redirectToUrl(data)", UpdateTargetId = "result", InsertionMode = InsertionMode.InsertAfter, HttpMethod = "Post" }, new { @class = "quickbuy form-horizontal" }))
         {
 
 
