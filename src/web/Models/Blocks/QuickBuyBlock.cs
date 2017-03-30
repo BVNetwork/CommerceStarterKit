@@ -2,12 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
-using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using OxxCommerceStarterKit.Core.Attributes;
 
 namespace OxxCommerceStarterKit.Web.Models.Blocks
 {
     [ContentType(DisplayName = "Quick Buy Block", GUID = "6f4844ab-6a2e-4384-a98f-2089f1571d87", Description = "")]
+    [SiteImageUrl(thumbnail: EditorThumbnail.CommerceGreen)]
     public class QuickBuyBlock : BlockData
     {
         [Display(Name = "Promotion Id", GroupName = WebGlobal.GroupNames.Analytics)]

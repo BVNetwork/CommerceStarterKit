@@ -130,6 +130,7 @@
     <Content Include="Content\fonts\Slide-icons.dev.svg" />
     <Content Include="Content\fonts\Slide-icons.svg" />
     <Content Include="Content\Images\commerce-shop-logo.png" />
+    <Content Include="Content\Images\EditorThumbnails\CommerceGreen-thumbnail.png" />
     <Content Include="Content\Images\EditorThumbnails\Commerce-thumbnail-green.png" />
     <Content Include="Content\Images\EditorThumbnails\Commerce-thumbnail.png" />
     <Content Include="Content\Images\EditorThumbnails\Content-thumbnail.png" />
