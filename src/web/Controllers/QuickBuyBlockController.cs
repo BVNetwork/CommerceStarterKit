@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Web.Mvc;
+using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Editor;
@@ -8,6 +9,7 @@ using EPiServer.Framework.Localization;
 using EPiServer.Logging;
 using EPiServer.Web;
 using EPiServer.Web.Mvc;
+using EPiServer.Web.Routing;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Core.Services;
@@ -23,16 +25,26 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly IGoogleAnalyticsTracker _googleAnalyticsTracker;
         private readonly IQuickBuyModelBuilder _modelBuilder;
         private readonly IOrderService _orderService;
+        private readonly IContentLoader _contentLoader;
         private readonly LocalizationService _localization;
+        private readonly UrlResolver _urlResolver;
         private readonly ICookieService _cookieService;
         private readonly ILogger _logger;
 
-        public QuickBuyBlockController(IGoogleAnalyticsTracker googleAnalyticsTracker, IQuickBuyModelBuilder modelBuilder, IOrderService orderService, LocalizationService localization, ICookieService cookieService, ILogger logger)
+        public QuickBuyBlockController(IGoogleAnalyticsTracker googleAnalyticsTracker, 
+            IQuickBuyModelBuilder modelBuilder, 
+            IOrderService orderService, 
+            IContentLoader contentLoader,
+            LocalizationService localization, 
+            UrlResolver urlResolver,
+            ICookieService cookieService, ILogger logger)
         {
             _googleAnalyticsTracker = googleAnalyticsTracker;
             _modelBuilder = modelBuilder;
             _orderService = orderService;
+            _contentLoader = contentLoader;
             _localization = localization;
+            _urlResolver = urlResolver;
             _cookieService = cookieService;
             _logger = logger;
         }
@@ -75,13 +87,19 @@ namespace OxxCommerceStarterKit.Web.Controllers
             try
             {
                 model = _modelBuilder.Build(currentBlock, model);
+
+                var page = _contentLoader.Get<PageData>(new ContentReference(model.SuccessUrl));
+                
                 _logger.Debug("Saving information");
                     _cookieService.SaveCookie(model);
                     model.Sku = model.SelectedSku;
                     var order = _orderService.QuickBuyOrder(model, CustomerContext.Current.CurrentContactId);
                     model.Success = true;
                     model.OrderNumber = order.TrackingNumber;
-                    return Content(GetSuccessMarkup(order.TrackingNumber));                
+
+                var url = _urlResolver.GetUrl(page.ContentLink) + "?order=" + order.TrackingNumber;
+
+                return Json(url);                
             }
             catch (Exception ex)
             {

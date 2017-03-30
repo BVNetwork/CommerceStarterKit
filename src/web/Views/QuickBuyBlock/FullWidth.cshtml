@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="col-lg-7">
-        @using (Ajax.BeginForm("PlaceOrder", "QuickBuy", new AjaxOptions { UpdateTargetId = "result", InsertionMode = InsertionMode.InsertAfter, HttpMethod = "Post" }, new { @class = "quickbuy form-horizontal" }))
+        @using (Ajax.BeginForm("PlaceOrder", "QuickBuy", new AjaxOptions { OnSuccess = "commercestarterkit.redirectToUrl(data)", UpdateTargetId = "result", InsertionMode = InsertionMode.InsertAfter, HttpMethod = "Post" }, new { @class = "quickbuy form-horizontal" }))
         {
 
 
@@ -41,6 +41,10 @@
                 }
             }
             @Html.Hidden("CouponCode", Model.CurrentBlock.CouponCode)
+            if (Model.CurrentBlock.RedirectPage != null)
+            {
+                @Html.Hidden("SuccessUrl", Model.CurrentBlock.RedirectPage.ID)
+            }
             <div class="form-group">
                 <label class="col-sm-2 control-label">@Html.Translate("/common/quickbuy/form/name")</label>
                 <div class="col-sm-5">
