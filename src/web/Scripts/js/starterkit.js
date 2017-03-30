@@ -394,6 +394,11 @@
                 vertical: true
             });
            
+        },
+
+        redirectToUrl: function (data) {
+            //console.log(data);
+            location.href = data;            
         }
        
 

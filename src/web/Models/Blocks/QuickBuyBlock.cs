@@ -32,5 +32,11 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
         public virtual bool RequireDisclaimer { get; set; }
 
         public virtual string CouponCode { get; set; }
+
+        [Display(Name="Submit label")]
+        public virtual string ButtonLabel { get; set; }
+        
+        [Display(Name="Redirect to page on success")]
+        public virtual ContentReference RedirectPage { get; set; }
     }
 }

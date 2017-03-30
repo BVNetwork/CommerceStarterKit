@@ -15,6 +15,7 @@ using Mediachase.Commerce;
 using OxxCommerceStarterKit.Core.Objects;
 using OxxCommerceStarterKit.Core.Objects.SharedViewModels;
 using OxxCommerceStarterKit.Core.Repositories.Interfaces;
+using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Web.Models.PageTypes.System;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 
@@ -23,20 +24,29 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	public class ReceiptPageController : PageControllerBase<ReceiptPage>
 	{
         private readonly ICurrentMarket _currentMarket;
+	    private readonly IOrderService _orderService;
 
 
-		public ReceiptPageController(ICurrentMarket currentMarket)
-		{
-		    _currentMarket = currentMarket;
-		}
+	    public ReceiptPageController(ICurrentMarket currentMarket, IOrderService orderService)
+	    {
+	        _currentMarket = currentMarket;
+	        _orderService = orderService;	        
+	    }
 
-		public ActionResult Index(ReceiptPage currentPage)
+		public ActionResult Index(ReceiptPage currentPage, string order)
 		{
 			ReceiptViewModel model = new ReceiptViewModel(currentPage);
 
-
-			// Dummy data to see how the cart looks like in edit
             model.Order = new OrderViewModel(_currentMarket.GetCurrentMarket().DefaultCurrency.Format);
+
+            if (!string.IsNullOrEmpty(order))
+		    {
+		        var invoice = _orderService.GetOrderByTrackingNumber(order);
+                model.Order = new OrderViewModel(_currentMarket.GetCurrentMarket().DefaultCurrency.Format, invoice);
+            }
+
+
+			// Dummy data to see how the cart looks like in edit            ;
 			if (EPiServer.Editor.PageEditing.PageIsInEditMode)
 			{
 				model.Order.OrderNumber = "PO01234";
@@ -80,6 +90,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
 			}
 
 			return View("ReceiptPage", model);
-		}
-	}
+		}	
+    }
 }

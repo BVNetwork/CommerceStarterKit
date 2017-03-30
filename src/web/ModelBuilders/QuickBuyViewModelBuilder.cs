@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Framework.Localization;
 using EPiServer.ServiceLocation;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.Files;
@@ -15,10 +16,12 @@ namespace OxxCommerceStarterKit.Web.ModelBuilders
     public class QuickBuyViewModelBuilder : IQuickBuyModelBuilder
     {
         private readonly IContentLoader _contentLoader;
+        private readonly LocalizationService _localizationService;
 
-        public QuickBuyViewModelBuilder(IContentLoader contentLoader)
+        public QuickBuyViewModelBuilder(IContentLoader contentLoader, LocalizationService localizationService)
         {
             _contentLoader = contentLoader;
+            _localizationService = localizationService;
         }
 
         public QuickBuyViewModel Build(QuickBuyBlock currentBlock, QuickBuyViewModel model)
@@ -36,6 +39,15 @@ namespace OxxCommerceStarterKit.Web.ModelBuilders
             if (currentBlock != null && currentBlock.Image != null)
                 model.ImageContent = new ImageViewModel(_contentLoader.Get<ImageFile>(currentBlock.Image),"en");
 
+            if (currentBlock != null)
+            {
+                model.ActionLabel = currentBlock.ButtonLabel ?? string.Empty;
+            }
+
+            if (string.IsNullOrEmpty(model.ActionLabel))
+            {
+                model.ActionLabel = _localizationService.GetString("/common/quickbuy/form/buy");
+            }
 
             return model;
         }
