@@ -17,33 +17,14 @@ using OxxCommerceStarterKit.Core.Repositories.Interfaces;
 
 namespace OxxCommerceStarterKit.Core.Repositories
 {
-    public class OrderRepository : IOrderRepository
+    public class OrderRepository
     {
         public PurchaseOrder GetOrderById(int orderGroupId)
         {
             return OrderContext.Current.GetPurchaseOrderById(orderGroupId);
         }
 
-        public PurchaseOrder GetOrderByTrackingNumber(string orderId)
-        {
-            string sqlMetaWhereClause = string.Format(@"META.TrackingNumber = '{0}'",
-                orderId);
-
-            var purchaseOrders = GetOrdersByMetaField(sqlMetaWhereClause, 1);
-
-            int orderIdNumeric = 0;
-            if (purchaseOrders == null || purchaseOrders.Count == 0 || int.TryParse(orderId, out orderIdNumeric))
-            {
-                return OrderContext.Current.GetPurchaseOrderById(orderIdNumeric);
-            }
-
-            if (purchaseOrders != null && purchaseOrders.Count > 0)
-            {
-                return purchaseOrders.FirstOrDefault();
-            }
-
-            return null;
-        }
+  
 
 		public List<PurchaseOrder> GetOrdersByUserId(Guid customerId)
 		{

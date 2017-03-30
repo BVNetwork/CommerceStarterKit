@@ -26,7 +26,7 @@ namespace OxxCommerceStarterKit.Web
                         // jqueryval
 						"~/Scripts/libraries/jquery.validate.min.js",
 						"~/Scripts/libraries/jquery.validate.unobtrusive.min.js",
-                        //, "~/Scripts/libraries/jquery.unobtrusive-ajax.min.js"
+                        "~/Scripts/libraries/jquery.unobtrusive-ajax.min.js",
                         // jqueryaddons
                         "~/Scripts/libraries/jquery.touchSwipe.min.js",
                         "~/Content/js/plugins/jquery.placeholder.js",

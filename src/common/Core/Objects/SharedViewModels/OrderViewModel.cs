@@ -20,6 +20,7 @@ using Mediachase.Commerce.Markets;
 using Mediachase.Commerce.Orders;
 using Newtonsoft.Json;
 using OxxCommerceStarterKit.Core.Extensions;
+using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Core.Services;
 
 namespace OxxCommerceStarterKit.Core.Objects.SharedViewModels
@@ -91,8 +92,18 @@ namespace OxxCommerceStarterKit.Core.Objects.SharedViewModels
             }
 
             ErpOrderNumber = order.BackendOrderNumber;
+
+            if (order.TrackingNumber.StartsWith("inv", StringComparison.OrdinalIgnoreCase))
+            {
+                Frequency = order.Frequency;
+                LatestDelivery = order.LatestDelivery;
+
+            }
         }
 
+        public DateTime? LatestDelivery { get; set; }
+
+        public string Frequency { get; set; }
 
         public string OrderNumber { get; set; }
         public DateTime OrderDate { get; set; }

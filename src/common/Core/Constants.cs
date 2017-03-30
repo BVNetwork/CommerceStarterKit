@@ -62,6 +62,9 @@ namespace OxxCommerceStarterKit.Core
                 public const string BackendOrderNumber = "BackendOrderNumber";
                 public const string PostNordTrackingId = "PostNordTrackingId";
 				public const string ClassName = "PurchaseOrder";
+			    public const string Frequency = "Frequency";
+			    public const string LatestDelivery = "LatestDelivery";
+
 			}
 
 			public static class Address
@@ -87,6 +90,11 @@ namespace OxxCommerceStarterKit.Core
         {
             public const string ShippingAddressName = "Shipping";
             public const string BillingAddressName = "Billing";
+
+            public static class Cartname
+            {
+                public const string Quickbuy = "Quickbuy";
+            }
         }
 
         public class AssociationTypes

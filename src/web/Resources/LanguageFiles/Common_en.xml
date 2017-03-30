@@ -2,6 +2,28 @@
 <languages>
 	<language name="English" id="en">
 		<common>
+      <quickbuy>
+        <form>
+          <product>Select Product</product>
+          <name>Name</name>
+          <firstname>First Name</firstname>
+          <lastname>Last Name</lastname>
+          <address>Address</address>
+          <zipcode>Zip Code</zipcode>
+          <city>City</city>
+          <phone>Phone</phone>
+          <mail>E-mail</mail>
+          <buy>Order Now</buy>
+          <success>Order registered with order number: </success>
+          <frequency>
+            <label>Subscription frequency</label>
+            <week>Every week</week>
+            <month>Every month</month>
+            <quarter>Every 3 months</quarter>
+            <halfyear>Every 6 months</halfyear>
+          </frequency>
+        </form>
+      </quickbuy>
       <linktext>
         <startpage>To Home</startpage>
       </linktext>
@@ -125,6 +147,7 @@
 				<order_table_headers>
 					<number>Order number:</number>
 					<date>Date:</date>
+          <nextdate>Next delivery date:</nextdate>
 					<status>Status:</status>
 				</order_table_headers>
 			</accountpages>

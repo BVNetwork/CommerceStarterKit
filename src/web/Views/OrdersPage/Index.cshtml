@@ -1,4 +1,5 @@
 ﻿@using System.Runtime.InteropServices
+@using OxxCommerceStarterKit.Core.Models
 @model OxxCommerceStarterKit.Web.Models.ViewModels.OrdersPageViewModel
 @{
     Layout = "~/Views/Shared/_MyPageLayout.cshtml";
@@ -33,17 +34,17 @@
                                     <th scope="col">Payment method <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>
                                     <th scope="col">Order status <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>*@
                     </tr>
-                    @foreach (var order in Model.Orders)
-                    {
-                        var statusCss = "primary";
-                        if (order.Status == "InProgress")
-                        {
-                            statusCss = "warning";
-                        }
-                        else if (order.Status == "Cancelled")
-                        {
-                            statusCss = "danger";
-                        }
+                  @foreach (var order in Model.Orders.Where(x => !x.OrderNumber.StartsWith("inv", StringComparison.OrdinalIgnoreCase)))
+                  {
+                      var statusCss = "primary";
+                      if (order.Status == "InProgress")
+                      {
+                          statusCss = "warning";
+                      }
+                      else if (order.Status == "Cancelled")
+                      {
+                          statusCss = "danger";
+                      }
                         <tr class="order" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
 
                             <td>
@@ -81,7 +82,98 @@
                     </tbody>
                 </table>
             </div>
+        
+            <div class="inner">
+                <h2>Subscriptions</h2>
+                <table>
+                    <tbody>
+                    <tr>
+                        <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/number")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
+                        <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/date")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
+                        <th scope="col">@Html.Translate("/common/accountpages/order_table_headers/nextdate")@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
+                        <th scope="col">&nbsp;@*<span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span>*@</th>
+                        @*<th scope="col">Date <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>
+                        <th scope="col">Payment method <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>
+                        <th scope="col">Order status <span class="toggles"><i class="fa fa-caret-up"></i><i class="fa fa-caret-down"></i></span></th>*@
+                    </tr>
+                    @foreach (var order in Model.Orders.Where(x => x.OrderNumber.StartsWith("inv", StringComparison.OrdinalIgnoreCase)))
+                    {
+                        var statusCss = "primary";
+                        //if (order.Status == "InProgress")
+                        //{
+                        //    statusCss = "warning";
+                        //}
+                        //else if (order.Status == "Cancelled")
+                        //{
+                        //    statusCss = "danger";
+                        //}
+                        <tr class="order" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
 
+                            <td>
+                                @order.OrderNumber @(!string.IsNullOrEmpty(order.ErpOrderNumber) ? " / " + order.ErpOrderNumber : "")
+                            </td>
+                            @{
+                                var date = (order.LatestDelivery != null ? order.LatestDelivery.Value.ToString("dd.MM.yyyy") : null) ?? @order.OrderDate.ToString("dd.MM.yyyy");                                
+                            }
+                            <td>
+                                @date  <span>(@order.Frequency)</span>
+                            </td>
+                            @{
+                                var noWeeks = 0;
+                                if (!string.IsNullOrEmpty(order.Frequency))
+                                {
+                                    var frequency = (Frequency) Enum.Parse(typeof(Frequency), order.Frequency);
+                                    switch (frequency)
+                                    {
+                                        case Frequency.Week:
+                                            noWeeks = 1;
+                                            break;
+                                        case Frequency.Month:
+                                            noWeeks = 4;
+                                            break;
+                                        case Frequency.Quarter:
+                                            noWeeks = 12;
+                                            break;
+                                        case Frequency.HalfYear:
+                                            noWeeks = 24;
+                                            break;
+                                    }
+                                }
+
+                                var nextDate = (order.LatestDelivery != null ? order.LatestDelivery.Value.AddDays(noWeeks * 7).ToString("dd.MM.yyyy") : null) ?? @order.OrderDate.AddDays(noWeeks * 7).ToString("dd.MM.yyyy");
+                            }
+                            <td>
+                                @nextDate 
+                            </td>
+                            <td class="status @statusCss">
+                                <span>Send now</span>
+                            </td>
+
+                        </tr>
+                        <tr class="order-details collapse" id="ordernumber-@order.OrderNumber">
+                            <td colspan="4" class="order-details">
+                                @Html.Partial("_ReceiptOrder", order)
+
+                            </td>
+                            @*@Html.Partial("_ReceiptOrder", order)*@
+                            @*<a class="chevron pull-right" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
+                                <span class="glyphicon glyphicon-chevron-up"></span>
+                            </a>*@
+                        </tr>
+                            @*<div class="clearfix order-details collapse" id="ordernumber-@order.OrderNumber">
+                            <div class="receipt-page">
+                                <div class="cart">
+                                    @Html.Partial("_ReceiptOrder", order)
+                                    <a class="chevron pull-right" data-toggle="collapse" data-target="#ordernumber-@order.OrderNumber">
+                                        <span class="glyphicon glyphicon-chevron-up"></span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>*@
+                    }
+                    </tbody>
+                </table>
+            </div>
         </section><!--Orders History Close-->
 
 

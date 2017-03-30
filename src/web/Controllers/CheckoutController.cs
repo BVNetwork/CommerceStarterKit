@@ -406,7 +406,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             var paymentMethods = PaymentManager.GetPaymentMethods(_currentMarket.GetCurrentMarket().DefaultLanguage.ToString());
             var paymentInfo = new PaymentSelection();
 
-            foreach (var paymentMethodRow in paymentMethods.PaymentMethod.OrderBy(p => p.Ordering))
+            foreach (var paymentMethodRow in paymentMethods.PaymentMethod.Where(x=>x.SystemKeyword != "quickbuy").OrderBy(p => p.Ordering))
             {
                 var methodInfo = new PaymentMethodInfo();
                 methodInfo.PaymentMethod = paymentMethodRow;

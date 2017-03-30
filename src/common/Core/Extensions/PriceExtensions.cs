@@ -39,16 +39,24 @@ namespace OxxCommerceStarterKit.Core.Extensions
 
         public static DiscountPrice GetDiscountPrice(this VariationContent currentContent, IMarket market)
         {
-            IMarket currentMarket = market;
-            if (market == null)
-                currentMarket = _currentMarket.Service.GetCurrentMarket();
-
-            var discountedEntries = _promotionEngine.Service.GetDiscountPrices(currentContent.ContentLink, currentMarket);
-            if (discountedEntries.Any())
+            try
             {
-                return discountedEntries.First().DiscountPrices.Last();
+                IMarket currentMarket = market;
+                if (market == null)
+                    currentMarket = _currentMarket.Service.GetCurrentMarket();
+
+                var discountedEntries = _promotionEngine.Service.GetDiscountPrices(currentContent.ContentLink,
+                    currentMarket);
+                if (discountedEntries.Any())
+                {
+                    return discountedEntries.First().DiscountPrices.Last();
+                }
+                return null;
             }
-            return null;
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         /// <summary>

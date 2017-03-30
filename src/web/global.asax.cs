@@ -174,6 +174,7 @@ namespace OxxCommerceStarterKit.Web
             public const string MetaData = "Metadata";
             public const string SiteSettings = "SiteSettings";
             public const string Specialized = "Specialized";
+            public const string Analytics = "Analytics";
         }
 
         public static class SiteUIHints
