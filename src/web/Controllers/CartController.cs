@@ -150,7 +150,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 var recommendedProductsForCart = this.GetRecommendations()
                     .Where(x => x.Area == "basketWidget")
-                    .SelectMany(x => x.RecommendedItems).ToList();
+                    .SelectMany(x => x.RecommendedItems)
+                    .Take(maxCount)
+                    .ToList();
 
                 List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
                 if (recommendedProductsForCart.Any())
