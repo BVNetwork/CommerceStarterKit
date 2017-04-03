@@ -92,6 +92,12 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         {
             var priceModel = content.GetPriceModel(currentMarket);
 
+            if (priceModel == null)
+                return;
+
+            if (priceModel.DefaultPrice == null)
+                return;
+
             PriceString = priceModel.DefaultPrice.UnitPrice.ToString();
             PriceAmount = priceModel.DefaultPrice.UnitPrice.Amount;
 

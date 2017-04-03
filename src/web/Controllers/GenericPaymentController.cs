@@ -18,6 +18,8 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Logging;
+using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Recommendations.Tracking;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
@@ -52,6 +54,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ICurrentMarket _currentMarket;
         private readonly ILogger _logger;
         private readonly IMetricsLoggingService _metricsLoggingService;
+        private readonly ITrackingService _trackingService;
+        private readonly TrackingDataFactory _trackingDataFactory;
 
         public GenericPaymentController(
             IContentRepository contentRepository,
@@ -60,7 +64,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
             ISiteSettingsProvider siteConfiguration,
             ICurrentMarket currentMarket,
             ILogger logger,
-            IMetricsLoggingService metricsLoggingService)
+            IMetricsLoggingService metricsLoggingService, 
+            ITrackingService trackingService, 
+            TrackingDataFactory trackingDataFactory)
+
         {
             _contentRepository = contentRepository;
             _orderService = orderService;
@@ -69,6 +76,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
             _currentMarket = currentMarket;
             _logger = logger;
             _metricsLoggingService = metricsLoggingService;
+            _trackingService = trackingService;
+            _trackingDataFactory = trackingDataFactory;
         }
 
         [RequireSSL]
@@ -134,9 +143,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
                 if (message.Length == 0)
                 {
-                    cartHelper.Cart.SaveAsPurchaseOrder();
+                    var purchaseOrder = cartHelper.Cart.SaveAsPurchaseOrder();
                     cartHelper.Cart.Delete();
                     cartHelper.Cart.AcceptChanges();
+
+                    // Track successfull order 
+                    var trackingData = _trackingDataFactory.CreateOrderTrackingData(purchaseOrder, HttpContext);
+                    var result = _trackingService.Send(trackingData, HttpContext);
                 }
 
                 System.Diagnostics.Trace.WriteLine("Loading Order: " + orderNumber);

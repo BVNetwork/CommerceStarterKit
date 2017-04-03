@@ -14,8 +14,12 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using EPiServer;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
+using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Recommendations.Tracking;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
@@ -42,19 +46,22 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ICurrentCustomerService _currentCustomerService;
         private readonly ICurrentMarket _currentMarket;
         private readonly ProductService _productService;
+        private readonly IContentLoader _contentLoader;
 
 
         public CartController(IPostNordClient postNordClient, 
             IRecommendedProductsService recommendationService, 
             ICurrentCustomerService currentCustomerService, 
             ICurrentMarket currentMarket,
-            ProductService productService)
+            ProductService productService,
+            IContentLoader contentLoader)
         {
             _postNordClient = postNordClient;
             _recommendationService = recommendationService;
             _currentCustomerService = currentCustomerService;
             _currentMarket = currentMarket;
             _productService = productService;
+            _contentLoader = contentLoader;
         }
 
         public async Task<JsonResult> GetDeliveryLocations(string streetAddress, string city, string postalCode)
@@ -124,6 +131,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         /// <summary>
         /// The main view for the cart.
         /// </summary>
+        [Tracking(TrackingType.Basket)]
         public ViewResult Index(CartSimpleModulePage currentPage)
         {
             CartModel model = new CartModel(currentPage);
@@ -140,27 +148,25 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             if (model.LineItems.Any())
             {
-                var recommendedProductsForCart =
-                    _recommendationService.GetRecommendedProductsForCart(_currentCustomerService.GetCurrentUserId(),
-                        model.LineItems.Select(x => x.Code).ToList(),
-                        maxCount,
-                        _currentMarket.GetCurrentMarket().DefaultLanguage
-                        );
+                var recommendedProductsForCart = this.GetRecommendations()
+                    .Where(x => x.Area == "basketWidget")
+                    .SelectMany(x => x.RecommendedItems).ToList();
+
                 List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
-                if (recommendedProductsForCart != null && recommendedProductsForCart.Products != null)
+                if (recommendedProductsForCart.Any())
                 {
-                    foreach (var product in recommendedProductsForCart.Products)
+                    foreach (var product in recommendedProductsForCart.Select(x => _contentLoader.Get<CatalogContentBase>(x)))
                     {
                         IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
                         if (modelInitializer != null)
                         {
                             var viewModel = _productService.GetProductListViewModel(modelInitializer);
-                            viewModel.TrackingName = recommendedProductsForCart.RecommenderName;
+                           // viewModel.TrackingName = recommendedProductsForCart.RecommenderName;
                             recommendedProductList.Add(viewModel);
                         }
                     }
                     model.Recommendations = recommendedProductList;
-                    model.RecommendationsTrackingName = recommendedProductsForCart.RecommenderName;
+                   // model.RecommendationsTrackingName = recommendedProductsForCart.RecommenderName;
                 }
             }
         }
