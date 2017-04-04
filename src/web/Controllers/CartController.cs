@@ -157,7 +157,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
                 if (recommendedProductsForCart.Any())
                 {
-                    foreach (var product in recommendedProductsForCart.Where(x => x != null).Select(x => _contentLoader.Get<CatalogContentBase>(x)))
+                    foreach (var product in recommendedProductsForCart.Where(x => x != null && x != ContentReference.EmptyReference).Select(x => _contentLoader.Get<CatalogContentBase>(x)))
                     {
                         IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
                         if (modelInitializer != null)
