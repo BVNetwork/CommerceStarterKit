@@ -24,20 +24,20 @@
 @if (Model.Recommendations.Any())
 {
     <div class="container">
-        <div class="row">
+
             <h2>Recommendations</h2>
             <p>Forgot something? Others that bought the products you have added to the cart were also interested in these products.</p>
-            <ul>
-                @foreach (var recommendation in Model.Recommendations)
-                {
-                    <div class="col-md-4 clearfix">
-                        @Html.Partial("../../Shared/ProductPartials/_ProductListView", recommendation)
-                    </div>
-                    }
-            </ul>
+
+        <div class="row">
+            @foreach (var recommendation in Model.Recommendations)
+            {
+                <div class="col-md-4 clearfix">
+                    @Html.Partial("../../Shared/ProductPartials/_ProductListView", recommendation)
+                </div>
+                }
         </div>
     </div>
-            }
+}
 
             @*<div class="row cart-commands buttons">
                 <div class="col-xs-12" ng-show="cartTotal === 0" ng-cloak>@Html.Translate("/common/cart/no_products")</div>

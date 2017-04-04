@@ -818,7 +818,6 @@
     <Content Include="Views\QuickBuyBlock\Index.cshtml" />
     <Content Include="Views\QuickBuyBlock\Narrow.cshtml" />
     <Content Include="Views\QuickBuyBlock\FullWidth.cshtml" />
-    <Content Include="Views\Shared\_RecommendedProducts.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="Views\Shared\Forms\ChoiceElementBlock.ascx" />
     <Content Include="Views\Shared\Forms\NumberElementBlock.ascx" />

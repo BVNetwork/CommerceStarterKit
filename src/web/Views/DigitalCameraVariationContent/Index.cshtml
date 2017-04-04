@@ -274,4 +274,15 @@
         </div>
     </div>
 </section><!--Tabs Widget Close-->
-@Html.Partial("_SimilarProducts", Model.CatalogVariationContent)
+
+@*@Html.Partial("_SimilarProducts", Model.CatalogVariationContent)*@
+
+<h2>Product alternatives</h2>
+<div class="row">
+    @foreach (var item in Model.ProductAlternatives)
+    {
+        <div class="col-md-4">
+            @Html.Partial("ProductPartials/_ProductListView", item)
+        </div>
+    }
+</div>

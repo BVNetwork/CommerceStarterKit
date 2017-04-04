@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Globalization;
+using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Recommendations.Tracking;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Services;
@@ -13,6 +16,7 @@ using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using Mediachase.Commerce;
+using Mediachase.Commerce.Catalog;
 using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Services;
 using Sannsyn.Episerver.Commerce;
@@ -27,6 +31,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ICurrentMarket _currentMarket;
         private readonly ProductService _productService;
         private readonly IContentLoader _contentLoader;
+        private readonly ITrackingService _trackingService;
+        private readonly TrackingDataFactory _trackingDataFactory;
+        private readonly ReferenceConverter _referenceConverter;
 
         public class RecommendedResult
         {
@@ -48,13 +55,19 @@ namespace OxxCommerceStarterKit.Web.Controllers
             ICurrentCustomerService currentCustomerService,
             ICurrentMarket currentMarket,
             ProductService productService,
-            IContentLoader contentLoader)
+            IContentLoader contentLoader,
+            ITrackingService trackingService,
+            TrackingDataFactory trackingDataFactory,
+            ReferenceConverter referenceConverter)
         {
             _recommendationService = recommendationService;
             _currentCustomerService = currentCustomerService;
             _currentMarket = currentMarket;
             _productService = productService;
             _contentLoader = contentLoader;
+            _trackingService = trackingService;
+            _trackingDataFactory = trackingDataFactory;
+            _referenceConverter = referenceConverter;
         }
 
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
@@ -65,9 +78,19 @@ namespace OxxCommerceStarterKit.Web.Controllers
             RecommendedResult recommendedResult = new RecommendedResult();
             var currentCustomer = CustomerContext.Current.CurrentContact;
 
-            var recommendedProducts = GetRecommendedProducts(currentBlock);
+            //   var recommendedProducts = GetRecommendedProducts(currentBlock);
 
-            foreach (var content in recommendedProducts.Products)
+            var trackingData = _trackingDataFactory.CreateHomeTrackingData(HttpContext);
+            var result = _trackingService.Send(trackingData, HttpContext);
+
+
+            var productRefs = result.SmartRecs
+                .SelectMany(x => x.Recs)
+                .Take(3)
+                .Select(x => _referenceConverter.GetContentLink(x.RefCode));
+
+
+            foreach (var content in productRefs.Select(x => _contentLoader.Get<CatalogContentBase>(x)))
             {
                 ProductListViewModel model = null;
                 VariationContent variation = content as VariationContent;
@@ -92,12 +115,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
                 if (model != null)
                 {
-                    model.TrackingName = recommendedProducts.RecommenderName;
+                  //  model.TrackingName = recommendedProducts.RecommenderName;
 
                     models.Add(model);
 
                     // Track
-                    ControllerContext.HttpContext.AddRecommendationExposure(new TrackedRecommendation() { ProductCode = model.Code, RecommenderName = recommendedProducts.RecommenderName });
+                 //   ControllerContext.HttpContext.AddRecommendationExposure(new TrackedRecommendation() { ProductCode = model.Code, RecommenderName = recommendedProducts.RecommenderName });
                     GoogleAnalyticsTracking tracker = new GoogleAnalyticsTracking(ControllerContext.HttpContext);
                     tracker.ProductImpression(
                         model.Code,
@@ -110,7 +133,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 }
             }
 
-            recommendedResult.TrackingName = recommendedProducts.RecommenderName;
+          //  recommendedResult.TrackingName = recommendedProducts.RecommenderName;
             recommendedResult.Heading = currentBlock.Heading;
             recommendedResult.Products = models;
 

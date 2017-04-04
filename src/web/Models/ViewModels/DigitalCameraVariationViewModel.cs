@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
-using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog.Objects;
-using Microsoft.Ajax.Utilities;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using Price = EPiServer.Commerce.SpecializedProperties.Price;
@@ -47,6 +40,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         }
         public bool IsSellable { get; set; }
         public PriceModel PriceViewModel { get; set; }
+        public List<ProductListViewModel> ProductAlternatives { get; set; }
     }
 
 

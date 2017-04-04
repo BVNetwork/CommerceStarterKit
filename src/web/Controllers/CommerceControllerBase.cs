@@ -147,19 +147,28 @@ namespace OxxCommerceStarterKit.Web.Controllers
             return model;
         }
 
-        public ContentArea CreateRelatedProductsContentArea(EntryContentBase catalogContent, string associationType)
+        public ContentArea CreateRelatedProductsContentArea(IEnumerable<ContentReference> references)
         {
-            IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
-            ContentArea relatedEntriesCA = new ContentArea();
-            List<EntryContentBase> relatedEntires = Enumerable.Where(associations, p => p.Group.Name.Equals(associationType))
-                    .Select(a => ContentLoader.Get<EntryContentBase>(a.Target)).ToList();
-            foreach (var relatedEntire in relatedEntires)
+            var relatedEntriesCa = new ContentArea();
+
+            foreach (var relatedEntire in references.Select(x => ContentLoader.Get<EntryContentBase>(x)))
             {
                 ContentAreaItem caItem = new ContentAreaItem();
                 caItem.ContentLink = relatedEntire.ContentLink;
-                relatedEntriesCA.Items.Add(caItem);
+                relatedEntriesCa.Items.Add(caItem);
             }
-            return relatedEntriesCA;
+
+            return relatedEntriesCa;
+        }
+
+        public ContentArea CreateRelatedProductsContentArea(EntryContentBase catalogContent, string associationType)
+        {
+            IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
+
+            var relatedEntires = associations.Where(p => p.Group.Name.Equals(associationType))
+                    .Select(a => a.Target);
+
+            return CreateRelatedProductsContentArea(relatedEntires);
         }
 
         private IEnumerable<TEntryContent> GetChildrenAndRelatedEntries<TEntryContent>(CatalogContentBase catalogContent)

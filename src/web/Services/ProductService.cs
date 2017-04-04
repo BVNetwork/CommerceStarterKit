@@ -15,6 +15,7 @@ using System.Web;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
+using EPiServer.Core;
 using EPiServer.DataAccess;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
@@ -53,6 +54,23 @@ namespace OxxCommerceStarterKit.Web.Services
                 return productContent.Populate(_currentMarket.GetCurrentMarket());
             return null;
         }
-       
+
+
+        public IEnumerable<ProductListViewModel> GetProductListViewModels(IEnumerable<ContentReference> contentReferences, int maxCount = 6)
+        {
+
+            foreach (var reference in contentReferences.Take(maxCount))
+            {
+                var product = _contentLoader.Get<CatalogContentBase>(reference) as IProductListViewModelInitializer;
+
+                if (product == null)
+                    continue;
+
+                var model = GetProductListViewModel(product);
+
+                if (model != null)
+                    yield return model;
+            }
+        }
     }
 }

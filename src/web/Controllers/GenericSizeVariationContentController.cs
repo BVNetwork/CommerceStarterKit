@@ -22,6 +22,7 @@ using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -33,21 +34,33 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private LocalizationService _localizationService;
         private ReadOnlyPricingLoader _readOnlyPricingLoader;
         private readonly IPriceDetailService _priceDetailService;
+        private readonly ProductService _productService;
+        private readonly IProductRecommendationService _productRecommendationService;
 
         public GenericSizeVariationContentController()
             : this(ServiceLocator.Current.GetInstance<LocalizationService>(),
             ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
             ServiceLocator.Current.GetInstance<ICurrentMarket>(),
-            ServiceLocator.Current.GetInstance<IPriceDetailService>()
+            ServiceLocator.Current.GetInstance<IPriceDetailService>(),
+            ServiceLocator.Current.GetInstance<ProductService>(),
+            ServiceLocator.Current.GetInstance<IProductRecommendationService>()
             )
         {
         }
-        public GenericSizeVariationContentController(LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket, IPriceDetailService priceDetailService)
+
+        public GenericSizeVariationContentController(LocalizationService localizationService, 
+            ReadOnlyPricingLoader readOnlyPricingLoader, 
+            ICurrentMarket currentMarket, 
+            IPriceDetailService priceDetailService,
+            ProductService productService,
+            IProductRecommendationService productRecommendationService)
         {
             _localizationService = localizationService;
             _readOnlyPricingLoader = readOnlyPricingLoader;
             _currentMarket = currentMarket;
             _priceDetailService = priceDetailService;
+            _productService = productService;
+            _productRecommendationService = productRecommendationService;
         }
 
         // GET: DigitalCameraSkuContent
@@ -55,23 +68,29 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             if (currentContent == null) throw new ArgumentNullException("currentContent");
 
+
+            var recs = _productRecommendationService.GetProductRecommendations(currentContent.Code, HttpContext);
+
             IVariationViewModel<GenericSizeVariationContent> viewModel = CreateVariationViewModel<GenericSizeVariationContent>(currentContent);
 
             viewModel.Media = GetMedia(currentContent);
             viewModel.PriceViewModel = currentContent.GetPriceModel();
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
+
             if (viewModel.RelatedProductsContentArea == null)
             {
-                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(currentContent, Constants.AssociationTypes.Default);
+                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"]);
             }
+
+            viewModel.ProductAlternatives = _productService.GetProductListViewModels(recs["productAlternativesWidget"], 3).ToList();
+
             viewModel.CartItem = new CartItemModel(currentContent) { CanBuyEntry = true };
             TrackAnalytics(viewModel);
 
             viewModel.IsSellable = IsSellable(currentContent);
             return View(viewModel);
         }
-
-
+      
         private List<MediaData> GetMedia(GenericSizeVariationContent currentContent)
         {
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();

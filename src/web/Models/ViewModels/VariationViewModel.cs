@@ -36,5 +36,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public List<MediaData> Media { get; set; }
         public CartItemModel CartItem { get; set; }
         public ContentArea RelatedProductsContentArea { get; set; }
+        public List<ProductListViewModel> ProductAlternatives { get; set; }
     }
 }
