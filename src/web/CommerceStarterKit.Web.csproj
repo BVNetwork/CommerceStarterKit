@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
+    <Compile Include="Business\RecommendationsInitialization.cs" />
     <Compile Include="Business\Events\OrderRepositoryCallback.cs" />
     <Compile Include="Business\Initialization\RemoveServerHeaderInitialization.cs" />
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
