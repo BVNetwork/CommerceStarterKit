@@ -151,7 +151,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             var relatedEntriesCa = new ContentArea();
 
-            foreach (var relatedEntire in references.Select(x => ContentLoader.Get<EntryContentBase>(x)))
+            foreach (var relatedEntire in references.Where(x => x != null).Select(x => ContentLoader.Get<EntryContentBase>(x)))
             {
                 ContentAreaItem caItem = new ContentAreaItem();
                 caItem.ContentLink = relatedEntire.ContentLink;
