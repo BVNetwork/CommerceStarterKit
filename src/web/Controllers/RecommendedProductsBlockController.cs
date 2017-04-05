@@ -56,15 +56,27 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
-           
+            List<ContentReference> productRefs = new List<ContentReference>(); 
+            List<ProductListViewModel> productViewModels = new List<ProductListViewModel>();
+
             var trackingData = _trackingDataFactory.CreateHomeTrackingData(HttpContext);
             var result = _trackingService.Send(trackingData, HttpContext);
-        
-            var productRefs = result.SmartRecs
-                .SelectMany(x => x.Recs)
-                .Select(x => _referenceConverter.GetContentLink(x.RefCode));
 
-            var productViewModels = _productService.GetProductListViewModels(productRefs, 3).ToList();
+            if (result.SmartRecs != null)
+            {
+                productRefs = result.SmartRecs
+                    .SelectMany(x => x.Recs)
+                    .Select(x => _referenceConverter.GetContentLink(x.RefCode)).ToList();
+            }
+
+            if (productRefs.Count < 3)
+            {
+                productRefs.AddRange(currentBlock.FallBackProducts);
+            }
+
+            productViewModels = _productService.GetProductListViewModels(productRefs, 3).ToList();
+
+            
 
             var recommendedResult = new RecommendedResult
             {
@@ -72,19 +84,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 Products = productViewModels
             };
 
-            // TrackGoogleAnalyticsImpressions(currentBlock, productViewModels);
+            TrackGoogleAnalyticsImpressions(currentBlock, productViewModels);
 
             return View("_recommendedProductsBlock", recommendedResult);
         }
-
-
-
-
-
-
-
-
-
 
 
         public class RecommendedResult

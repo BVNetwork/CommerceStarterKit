@@ -10,17 +10,12 @@ Copyright (C) 2013-2014 BV Network AS
 
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
 using System.Web.Mvc;
-using AuthorizeNet.APICore;
 using EPiServer;
-using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Logging;
 using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Tracking;
-using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
@@ -28,13 +23,9 @@ using Mediachase.Commerce.Website.Helpers;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Objects.SharedViewModels;
 using OxxCommerceStarterKit.Core.PaymentProviders;
-using OxxCommerceStarterKit.Core.PaymentProviders.DIBS;
-using OxxCommerceStarterKit.Core.PaymentProviders.Payment;
-using OxxCommerceStarterKit.Core.Repositories.Interfaces;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Business.Payment;
-using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.PageTypes.Payment;
 using OxxCommerceStarterKit.Web.Models.PageTypes.System;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -149,7 +140,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
                     // Track successfull order 
                     var trackingData = _trackingDataFactory.CreateOrderTrackingData(purchaseOrder, HttpContext);
-                    var result = _trackingService.Send(trackingData, HttpContext);
+                    _trackingService.Send(trackingData, HttpContext);
                 }
 
                 System.Diagnostics.Trace.WriteLine("Loading Order: " + orderNumber);

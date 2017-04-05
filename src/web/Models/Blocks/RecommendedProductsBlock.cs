@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using EPiServer.Commerce;
 using EPiServer.Core;
 using EPiServer.DataAnnotations;
@@ -34,5 +31,10 @@ namespace OxxCommerceStarterKit.Web.Models.Blocks
                Description = "The number of products to show in the list. Default is 6.",
                Order = 30)]
         public virtual int MaxCount { get; set; }
+
+        [Display(Name = "Fallback products",
+               Description = "",
+               Order = 30)]
+        public virtual IEnumerable<ContentReference> FallBackProducts { get; set; }
     }
 }

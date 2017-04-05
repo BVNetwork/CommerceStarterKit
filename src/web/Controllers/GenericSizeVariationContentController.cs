@@ -77,12 +77,20 @@ namespace OxxCommerceStarterKit.Web.Controllers
             viewModel.PriceViewModel = currentContent.GetPriceModel();
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
 
-            if (viewModel.RelatedProductsContentArea == null)
+            if (viewModel.RelatedProductsContentArea == null && recs.ContainsKey("productCrossSellsWidget"))
             {
                 viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"]);
             }
 
-            viewModel.ProductAlternatives = _productService.GetProductListViewModels(recs["productAlternativesWidget"], 3).ToList();
+            if (recs.ContainsKey("productAlternativesWidget"))
+            {
+                viewModel.ProductAlternatives =
+                    _productService.GetProductListViewModels(recs["productAlternativesWidget"], 3).ToList();
+            }
+            else
+            {
+                viewModel.ProductAlternatives = new List<ProductListViewModel>();
+            }
 
             viewModel.CartItem = new CartItemModel(currentContent) { CanBuyEntry = true };
             TrackAnalytics(viewModel);

@@ -14,6 +14,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
+using Castle.Components.DictionaryAdapter;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
@@ -22,7 +23,6 @@ using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Tracking;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Orders;
 using OxxCommerceStarterKit.Core.Objects;
 using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Interfaces;
@@ -31,8 +31,6 @@ using OxxCommerceStarterKit.Web.Business.Delivery;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
-using Sannsyn.Episerver.Commerce;
-using Sannsyn.Episerver.Commerce.Tracking;
 using LineItem = Mediachase.Commerce.Orders.LineItem;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -42,27 +40,66 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class CartController : PageController<CartSimpleModulePage>
     {
         private readonly IPostNordClient _postNordClient;
-        private readonly IRecommendedProductsService _recommendationService;
-        private readonly ICurrentCustomerService _currentCustomerService;
-        private readonly ICurrentMarket _currentMarket;
         private readonly ProductService _productService;
         private readonly IContentLoader _contentLoader;
 
 
         public CartController(IPostNordClient postNordClient, 
-            IRecommendedProductsService recommendationService, 
-            ICurrentCustomerService currentCustomerService, 
-            ICurrentMarket currentMarket,
             ProductService productService,
             IContentLoader contentLoader)
         {
             _postNordClient = postNordClient;
-            _recommendationService = recommendationService;
-            _currentCustomerService = currentCustomerService;
-            _currentMarket = currentMarket;
             _productService = productService;
             _contentLoader = contentLoader;
         }
+
+        /// <summary>
+        /// The main view for the cart.
+        /// </summary>
+        [Tracking(TrackingType.Basket)]
+        public ViewResult Index(CartSimpleModulePage currentPage)
+        {
+            CartModel model = new CartModel(currentPage);
+
+            // Get recommendations for the contents of the cart
+            List<ContentReference> recommendedProductsForCart = new List<ContentReference>();
+
+            recommendedProductsForCart = this.GetRecommendations()
+                   .Where(x => x.Area == "basketWidget")
+                   .SelectMany(x => x.RecommendedItems)
+                   .ToList();
+
+            PopulateRecommendations(model, recommendedProductsForCart, 3);
+
+            Track(model);
+
+            return View(model);
+        }
+
+
+        protected void PopulateRecommendations(CartModel model, List<ContentReference> recommendedProductsForCart, int maxCount = 6)
+        {
+            if (model.LineItems.Any())
+            {               
+                List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
+                if (recommendedProductsForCart.Any())
+                {
+                    foreach (var product in recommendedProductsForCart.Where(x => x != null && x != ContentReference.EmptyReference).Select(x => _contentLoader.Get<CatalogContentBase>(x)).Take(3))
+                    {
+                        IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
+                        if (modelInitializer != null)
+                        {
+                            var viewModel = _productService.GetProductListViewModel(modelInitializer);
+                            // viewModel.TrackingName = recommendedProductsForCart.RecommenderName;
+                            recommendedProductList.Add(viewModel);
+                        }
+                    }
+                    model.Recommendations = recommendedProductList;
+                    // model.RecommendationsTrackingName = recommendedProductsForCart.RecommenderName;
+                }
+            }
+        }
+
 
         public async Task<JsonResult> GetDeliveryLocations(string streetAddress, string city, string postalCode)
         {
@@ -128,50 +165,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         }
 
 
-        /// <summary>
-        /// The main view for the cart.
-        /// </summary>
-        [Tracking(TrackingType.Basket)]
-        public ViewResult Index(CartSimpleModulePage currentPage)
-        {
-            CartModel model = new CartModel(currentPage);
 
-            // Get recommendations for the contents of the cart
-            PopulateRecommendations(model, 3);
-
-            Track(model);
-
-            return View(model);
-        }
-
-        protected void PopulateRecommendations(CartModel model, int maxCount = 6)
-        {
-            if (model.LineItems.Any())
-            {
-                var recommendedProductsForCart = this.GetRecommendations()
-                    .Where(x => x.Area == "basketWidget")
-                    .SelectMany(x => x.RecommendedItems)
-                    .Take(maxCount)
-                    .ToList();
-
-                List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
-                if (recommendedProductsForCart.Any())
-                {
-                    foreach (var product in recommendedProductsForCart.Where(x => x != null && x != ContentReference.EmptyReference).Select(x => _contentLoader.Get<CatalogContentBase>(x)))
-                    {
-                        IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
-                        if (modelInitializer != null)
-                        {
-                            var viewModel = _productService.GetProductListViewModel(modelInitializer);
-                           // viewModel.TrackingName = recommendedProductsForCart.RecommenderName;
-                            recommendedProductList.Add(viewModel);
-                        }
-                    }
-                    model.Recommendations = recommendedProductList;
-                   // model.RecommendationsTrackingName = recommendedProductsForCart.RecommenderName;
-                }
-            }
-        }
 
         private void Track(CartModel model)
         {
