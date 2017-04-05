@@ -13,10 +13,10 @@ namespace OxxCommerceStarterKit.Web.Business
         public void Initialize(InitializationEngine context)
         {
 
-            // Add route
+            // Add catalog feed route
             RouteTable.Routes.MapHttpRoute(
-                "episerverapi",                                           // Route name
-                "episerverapi/getcatalogfeed/{id}",                            // URL with parameters
+                "episerverapi",
+                "episerverapi/getcatalogfeed/{id}",
                 new
                 {
                     controller = "CatalogFeedExport",
@@ -25,7 +25,9 @@ namespace OxxCommerceStarterKit.Web.Business
                 });
 
             var catalogFeedSettings = ServiceLocator.Current.GetInstance<CatalogFeedSettings>();
-            catalogFeedSettings.DescriptionPropertyName = "description";
+            catalogFeedSettings.DescriptionPropertyName = "Description";
+            catalogFeedSettings.AssetGroupName = "Default";
+            catalogFeedSettings.ExcludedAttributes = new[] { "Overview" };
         }
 
         public void Uninitialize(InitializationEngine context)

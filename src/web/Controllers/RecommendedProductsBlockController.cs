@@ -35,22 +35,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly TrackingDataFactory _trackingDataFactory;
         private readonly ReferenceConverter _referenceConverter;
 
-        public class RecommendedResult
-        {
-            public string Heading { get; set; }
-            public string TrackingName { get; set; }
-            public List<ProductListViewModel> Products { get; set; }
-
-            public string GetTrackingName(ProductListViewModel product)
-            {
-                if (string.IsNullOrEmpty(TrackingName) == false)
-                {
-                    return TrackingName + "_" + product.Code;
-                }
-                return string.Empty;
-            }
-        }
-
         public RecommendedProductsBlockController(IRecommendedProductsService recommendationService,
             ICurrentCustomerService currentCustomerService,
             ICurrentMarket currentMarket,
@@ -72,72 +56,72 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
-
-            List<ProductListViewModel> models = new List<ProductListViewModel>();
-
-            RecommendedResult recommendedResult = new RecommendedResult();
-            var currentCustomer = CustomerContext.Current.CurrentContact;
-
-            //   var recommendedProducts = GetRecommendedProducts(currentBlock);
-
+           
             var trackingData = _trackingDataFactory.CreateHomeTrackingData(HttpContext);
             var result = _trackingService.Send(trackingData, HttpContext);
-
-
+        
             var productRefs = result.SmartRecs
                 .SelectMany(x => x.Recs)
-                .Take(3)
                 .Select(x => _referenceConverter.GetContentLink(x.RefCode));
 
+            var productViewModels = _productService.GetProductListViewModels(productRefs, 3).ToList();
 
-            foreach (var content in productRefs.Select(x => _contentLoader.Get<CatalogContentBase>(x)))
+            var recommendedResult = new RecommendedResult
             {
-                ProductListViewModel model = null;
-                VariationContent variation = content as VariationContent;
-                if (variation != null)
-                {
-                    model = new ProductListViewModel(variation, _currentMarket.GetCurrentMarket(),
-                        currentCustomer);
-                }
-                else
-                {
-                    ProductContent product = content as ProductContent;
-                    if (product != null)
-                    {
-                        model = _productService.GetProductListViewModel(product as IProductListViewModelInitializer);
-                        if (model == null)
-                        {
-                            model = new ProductListViewModel(product, _currentMarket.GetCurrentMarket(),
-                                currentCustomer);
-                        }
-                    }
-                }
+                Heading = currentBlock.Heading,
+                Products = productViewModels
+            };
 
-                if (model != null)
-                {
-                  //  model.TrackingName = recommendedProducts.RecommenderName;
-
-                    models.Add(model);
-
-                    // Track
-                 //   ControllerContext.HttpContext.AddRecommendationExposure(new TrackedRecommendation() { ProductCode = model.Code, RecommenderName = recommendedProducts.RecommenderName });
-                    GoogleAnalyticsTracking tracker = new GoogleAnalyticsTracking(ControllerContext.HttpContext);
-                    tracker.ProductImpression(
-                        model.Code,
-                        model.DisplayName,
-                        null,
-                        model.BrandName,
-                        null,
-                        currentBlock.Heading);
-
-                }
-            }
-
-          //  recommendedResult.TrackingName = recommendedProducts.RecommenderName;
-            recommendedResult.Heading = currentBlock.Heading;
-            recommendedResult.Products = models;
+            // TrackGoogleAnalyticsImpressions(currentBlock, productViewModels);
 
             return View("_recommendedProductsBlock", recommendedResult);
+        }
+
+
+
+
+
+
+
+
+
+
+
+        public class RecommendedResult
+        {
+            public string Heading { get; set; }
+            public string TrackingName { get; set; }
+            public List<ProductListViewModel> Products { get; set; }
+
+            public string GetTrackingName(ProductListViewModel product)
+            {
+                if (string.IsNullOrEmpty(TrackingName) == false)
+                {
+                    return TrackingName + "_" + product.Code;
+                }
+                return string.Empty;
+            }
+        }
+
+
+        private void TrackGoogleAnalyticsImpressions(RecommendedProductsBlock currentBlock, List<ProductListViewModel> productViewModels)
+        {
+            foreach (var model in productViewModels)
+            {
+                //  model.TrackingName = recommendedProducts.RecommenderName;
+
+
+                // Track
+                //   ControllerContext.HttpContext.AddRecommendationExposure(new TrackedRecommendation() { ProductCode = model.Code, RecommenderName = recommendedProducts.RecommenderName });
+                GoogleAnalyticsTracking tracker = new GoogleAnalyticsTracking(ControllerContext.HttpContext);
+                tracker.ProductImpression(
+                    model.Code,
+                    model.DisplayName,
+                    null,
+                    model.BrandName,
+                    null,
+                    currentBlock.Heading);
+            }
         }
 
         private IRecommendations GetRecommendedProducts(RecommendedProductsBlock currentBlock)
