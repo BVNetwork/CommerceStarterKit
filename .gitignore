@@ -49,3 +49,4 @@ db/*
 !db/readme.md
 CommerceStarterKit.sln.ide/
 .vs/*
+src/appdata/blobs/
