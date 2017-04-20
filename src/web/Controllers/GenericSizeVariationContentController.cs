@@ -79,7 +79,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             if (viewModel.RelatedProductsContentArea == null && recs.ContainsKey("productCrossSellsWidget"))
             {
-                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"]);
+                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"].Select(x =>x.ContentLink));
             }
 
             if (recs.ContainsKey("productAlternativesWidget"))

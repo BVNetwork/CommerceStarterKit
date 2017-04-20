@@ -30,7 +30,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
     public interface IProductRecommendationService
     {
-        IDictionary<string, IEnumerable<ContentReference>> GetProductRecommendations(string productCode,
+        IDictionary<string, IEnumerable<Recommendation>> GetProductRecommendations(string productCode,
             HttpContextBase context);
     }
 
@@ -50,9 +50,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
             _referenceConverter = referenceConverter;
         }
 
-        public IDictionary<string, IEnumerable<ContentReference>> GetProductRecommendations(string productCode, HttpContextBase context)
+        public IDictionary<string, IEnumerable<Recommendation>> GetProductRecommendations(string productCode, HttpContextBase context)
         {
-            var returnValue = new Dictionary<string, IEnumerable<ContentReference>>();
+            var returnValue = new Dictionary<string, IEnumerable<Recommendation>>();
 
             var trackingData = _trackingDataFactory.CreateProductTrackingData(productCode, context);
             var result = _trackingService.Send(trackingData, context);
@@ -61,7 +61,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 foreach (var recommendation in result.SmartRecs)
                 {
-                    returnValue.Add(recommendation.Widget, recommendation.Recs.Select(x => _referenceConverter.GetContentLink(x.RefCode)));
+                    returnValue.Add(recommendation.Widget, recommendation.Recs.Select(x => new Recommendation(x.Id, _referenceConverter.GetContentLink(x.RefCode))));
                 }
             }
 
@@ -120,7 +120,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             if (viewModel.RelatedProductsContentArea == null && recs.ContainsKey("productCrossSellsWidget"))
             {
-                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"]);
+                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"].Select(x => x.ContentLink));
             }
 
             if (recs.ContainsKey("productAlternativesWidget"))

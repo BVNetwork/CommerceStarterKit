@@ -62,11 +62,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
             CartModel model = new CartModel(currentPage);
 
             // Get recommendations for the contents of the cart
-            List<ContentReference> recommendedProductsForCart = new List<ContentReference>();
-
-            recommendedProductsForCart = this.GetRecommendations()
+            List<Recommendation> recommendedProductsForCart =  this.GetRecommendationGroups()
                    .Where(x => x.Area == "basketWidget")
-                   .SelectMany(x => x.RecommendedItems)
+                   .SelectMany(x => x.Recommendations)
                    .ToList();
 
             PopulateRecommendations(model, recommendedProductsForCart, 3);
@@ -77,19 +75,23 @@ namespace OxxCommerceStarterKit.Web.Controllers
         }
 
 
-        protected void PopulateRecommendations(CartModel model, List<ContentReference> recommendedProductsForCart, int maxCount = 6)
+        protected void PopulateRecommendations(CartModel model, List<Recommendation> recommendedProductsForCart, int maxCount = 6)
         {
             if (model.LineItems.Any())
             {               
                 List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
                 if (recommendedProductsForCart.Any())
                 {
-                    foreach (var product in recommendedProductsForCart.Where(x => x != null && x != ContentReference.EmptyReference).Select(x => _contentLoader.Get<CatalogContentBase>(x)).Take(3))
+                    foreach (var recommendation in recommendedProductsForCart.Where(x => x != null && x.ContentLink != ContentReference.EmptyReference)
+                                                                                                .Take(3))
                     {
+                        var product = _contentLoader.Get<CatalogContentBase>(recommendation.ContentLink);
+
                         IProductListViewModelInitializer modelInitializer = product as IProductListViewModelInitializer;
                         if (modelInitializer != null)
                         {
                             var viewModel = _productService.GetProductListViewModel(modelInitializer);
+                            viewModel.RecommendationId = recommendation.RecommendationId;
                             // viewModel.TrackingName = recommendedProductsForCart.RecommenderName;
                             recommendedProductList.Add(viewModel);
                         }

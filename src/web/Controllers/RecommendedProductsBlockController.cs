@@ -56,7 +56,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
-            List<ContentReference> productRefs = new List<ContentReference>(); 
+            List<Recommendation> productRefs = new List<Recommendation>(); 
             List<ProductListViewModel> productViewModels = new List<ProductListViewModel>();
 
             var trackingData = _trackingDataFactory.CreateHomeTrackingData(HttpContext);
@@ -66,12 +66,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 productRefs = result.SmartRecs
                     .SelectMany(x => x.Recs)
-                    .Select(x => _referenceConverter.GetContentLink(x.RefCode)).ToList();
+                    .Select(x => new Recommendation(x.Id, _referenceConverter.GetContentLink(x.RefCode))).ToList();
             }
 
             if (productRefs.Count < 3)
             {
-                productRefs.AddRange(currentBlock.FallBackProducts);
+                productRefs.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation("0", x)));
             }
 
             productViewModels = _productService.GetProductListViewModels(productRefs, 3).ToList();

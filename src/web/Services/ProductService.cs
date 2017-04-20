@@ -17,6 +17,7 @@ using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.DataAccess;
+using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using OxxCommerceStarterKit.Core.Extensions;
@@ -56,17 +57,18 @@ namespace OxxCommerceStarterKit.Web.Services
         }
 
 
-        public IEnumerable<ProductListViewModel> GetProductListViewModels(IEnumerable<ContentReference> contentReferences, int maxCount = 6)
+        public IEnumerable<ProductListViewModel> GetProductListViewModels(IEnumerable<Recommendation> contentReferences, int maxCount = 6)
         {
 
             foreach (var reference in contentReferences.Take(maxCount))
             {
-                var product = _contentLoader.Get<CatalogContentBase>(reference) as IProductListViewModelInitializer;
+                var product = _contentLoader.Get<CatalogContentBase>(reference.ContentLink) as IProductListViewModelInitializer;
 
                 if (product == null)
                     continue;
 
                 var model = GetProductListViewModel(product);
+                model.RecommendationId = reference.RecommendationId;
 
                 if (model != null)
                     yield return model;

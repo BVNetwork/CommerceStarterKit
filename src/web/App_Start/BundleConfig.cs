@@ -72,7 +72,8 @@ namespace OxxCommerceStarterKit.Web
 				"~/Scripts/js/components/WebComponent/HotSpot.js",
 				"~/Scripts/js/components/ProductDialog.js",
 				"~/Scripts/js/components/SizeGuideDialog.js",
-				"~/Scripts/js/components/HelpDialog.js"));
+				"~/Scripts/js/components/HelpDialog.js",
+                "~/Scripts/js/components/Recommendations.js")); 
 
             // Note - //"~/Content/bootstrap.min.css", // Part of the template
             bundles.Add(new StyleBundle("~/content/css/css").Include(

@@ -152,6 +152,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public bool CurrentContactIsCustomerClubMember { get; set; }
         public bool InStock { get; set; }
         public string TrackingName { get; set; }
-
+        public string RecommendationId { get; set; }
     }
 }

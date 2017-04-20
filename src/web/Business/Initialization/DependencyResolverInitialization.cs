@@ -12,12 +12,14 @@ using System.Web.Mvc;
 using EPiServer.Cms.Shell;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
+using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc.Html;
 using OxxCommerceStarterKit.Core.Repositories;
 using OxxCommerceStarterKit.Core.Repositories.Interfaces;
 using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Interfaces;
+using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Business.Rendering;
 using StructureMap;
 
@@ -43,6 +45,7 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
             container.For<ContentAreaRenderer>().Use<ContentAreaWithDefaultsRenderer>();
             container.For<ICustomerAddressRepository>().Use<CustomerAddressRepository>();            
 	        container.For<IExportOrderService>().Use<ExportOrderService>();
+            container.For<IClickTrackingService>().Use<ClickTrackingService>();
         }
 
         public void Initialize(InitializationEngine context)
