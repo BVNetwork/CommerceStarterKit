@@ -68,7 +68,7 @@ namespace OxxCommerceStarterKit.Web.Services
                     continue;
 
                 var model = GetProductListViewModel(product);
-                model.RecommendationId = reference.RecommendationId;
+                model.RecommendationId = reference.RecommendationId.ToString();
 
                 if (model != null)
                     yield return model;

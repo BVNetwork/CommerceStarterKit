@@ -60,7 +60,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             List<ProductListViewModel> productViewModels = new List<ProductListViewModel>();
 
             var trackingData = _trackingDataFactory.CreateHomeTrackingData(HttpContext);
-            var result = _trackingService.Send(trackingData, HttpContext);
+            var result = _trackingService.Send(trackingData, HttpContext, RetrieveRecommendationMode.Enabled);
 
             if (result.SmartRecs != null)
             {
@@ -71,7 +71,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             if (productRefs.Count < 3)
             {
-                productRefs.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation("0", x)));
+                productRefs.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation(0, x)));
             }
 
             productViewModels = _productService.GetProductListViewModels(productRefs, 3).ToList();

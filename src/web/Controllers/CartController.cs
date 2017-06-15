@@ -91,7 +91,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                         if (modelInitializer != null)
                         {
                             var viewModel = _productService.GetProductListViewModel(modelInitializer);
-                            viewModel.RecommendationId = recommendation.RecommendationId;
+                            viewModel.RecommendationId = recommendation.RecommendationId.ToString();
                             // viewModel.TrackingName = recommendedProductsForCart.RecommenderName;
                             recommendedProductList.Add(viewModel);
                         }

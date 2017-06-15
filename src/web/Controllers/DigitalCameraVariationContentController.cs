@@ -55,7 +55,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             var returnValue = new Dictionary<string, IEnumerable<Recommendation>>();
 
             var trackingData = _trackingDataFactory.CreateProductTrackingData(productCode, context);
-            var result = _trackingService.Send(trackingData, context);
+            var result = _trackingService.Send(trackingData, context, RetrieveRecommendationMode.Enabled);
 
             if (result.SmartRecs != null)
             {

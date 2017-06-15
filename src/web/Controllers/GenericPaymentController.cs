@@ -140,7 +140,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
                     // Track successfull order 
                     var trackingData = _trackingDataFactory.CreateOrderTrackingData(purchaseOrder, HttpContext);
-                    _trackingService.Send(trackingData, HttpContext);
+                    _trackingService.Send(trackingData, HttpContext, RetrieveRecommendationMode.Disabled);
                 }
 
                 System.Diagnostics.Trace.WriteLine("Loading Order: " + orderNumber);
