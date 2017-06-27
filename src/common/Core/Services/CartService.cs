@@ -27,7 +27,7 @@ namespace OxxCommerceStarterKit.Core.Services
     public class CartService : ICartService
     {
         private readonly IPricingService _pricingService;
-        private readonly IOrderFactory _orderFactory;
+        private readonly IOrderGroupFactory _orderGroupFactory;
         private readonly ICurrentCustomerService _customerContext;
         private readonly IPlacedPriceProcessor _placedPriceProcessor;
         private readonly IInventoryProcessor _inventoryProcessor;
@@ -40,7 +40,7 @@ namespace OxxCommerceStarterKit.Core.Services
 
         public CartService(
             IPricingService pricingService,
-            IOrderFactory orderFactory,
+            IOrderGroupFactory orderGroupFactory,
             ICurrentCustomerService customerContext,
             IPlacedPriceProcessor placedPriceProcessor,
             IInventoryProcessor inventoryProcessor,
@@ -53,7 +53,7 @@ namespace OxxCommerceStarterKit.Core.Services
             )
         {
             _pricingService = pricingService;
-            _orderFactory = orderFactory;
+            _orderGroupFactory = orderGroupFactory;
             _customerContext = customerContext;
             _placedPriceProcessor = placedPriceProcessor;
             _inventoryProcessor = inventoryProcessor;
@@ -113,9 +113,9 @@ namespace OxxCommerceStarterKit.Core.Services
 
             if (lineItem == null)
             {
-                lineItem = _orderFactory.CreateLineItem(code);
+                lineItem = _orderGroupFactory.CreateLineItem(code, cart);
                 lineItem.Quantity = quantity;
-                cart.AddLineItem(lineItem, _orderFactory);
+                cart.AddLineItem(lineItem, _orderGroupFactory);
             }
             else
             {
@@ -148,12 +148,17 @@ namespace OxxCommerceStarterKit.Core.Services
             }
 
             cart.Currency = currency;
+
             foreach (var lineItem in cart.GetAllLineItems())
             {
                 //If there is an item which has no price in the new currency, a NullReference exception will be thrown.
                 //Mixing currencies in cart is not allowed.
                 //It's up to site's managers to ensure that all items have prices in allowed currency.
-                lineItem.PlacedPrice = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency).Value.Amount;
+                var money = _pricingService.GetPrice(lineItem.Code, cart.Market.MarketId, currency);
+                if (money != null)
+                {
+                    lineItem.PlacedPrice = money.Value.Amount;
+                }
             }
 
             ValidateCart(cart);
@@ -255,49 +260,49 @@ namespace OxxCommerceStarterKit.Core.Services
             ValidateCart(cart);
         }
 
-        private void UpdateLineItemSku(ICart cart, int shipmentId, string oldCode, string newCode, decimal quantity)
-        {
-            RemoveLineItem(cart, shipmentId, oldCode);
+        //private void UpdateLineItemSku(ICart cart, int shipmentId, string oldCode, string newCode, decimal quantity)
+        //{
+        //    RemoveLineItem(cart, shipmentId, oldCode);
 
-            //merge same sku's
-            var newLineItem = GetFirstLineItem(cart, newCode);
-            if (newLineItem != null)
-            {
-                var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
-                cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity);
-            }
-            else
-            {
-                newLineItem = _orderFactory.CreateLineItem(newCode);
-                newLineItem.Quantity = quantity;
-                cart.AddLineItem(newLineItem, _orderFactory);
+        //    //merge same sku's
+        //    var newLineItem = GetFirstLineItem(cart, newCode);
+        //    if (newLineItem != null)
+        //    {
+        //        var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+        //        cart.UpdateLineItemQuantity(shipment, newLineItem, newLineItem.Quantity + quantity);
+        //    }
+        //    else
+        //    {
+        //        newLineItem = _orderGroupFactory.CreateLineItem(newCode, cart);
+        //        newLineItem.Quantity = quantity;
+        //        cart.AddLineItem(newLineItem, _orderGroupFactory);
 
-                var price = _pricingService.GetCurrentPrice(newCode);
-                if (price.HasValue)
-                {
-                    newLineItem.PlacedPrice = price.Value.Amount;
-                }
-            }
+        //        var price = _pricingService.GetCurrentPrice(newCode);
+        //        if (price.HasValue)
+        //        {
+        //            newLineItem.PlacedPrice = price.Value.Amount;
+        //        }
+        //    }
 
-            ValidateCart(cart);
-        }
+        //    ValidateCart(cart);
+        //}
 
-        private void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity)
-        {
-            if (quantity == 0)
-            {
-                RemoveLineItem(cart, shipmentId, code);
-            }
-            var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
-            var lineItem = shipment.LineItems.FirstOrDefault(x => x.Code == code);
-            if (lineItem == null)
-            {
-                return;
-            }
+        //private void ChangeQuantity(ICart cart, int shipmentId, string code, decimal quantity)
+        //{
+        //    if (quantity == 0)
+        //    {
+        //        RemoveLineItem(cart, shipmentId, code);
+        //    }
+        //    var shipment = cart.GetFirstForm().Shipments.First(s => s.ShipmentId == shipmentId || shipmentId <= 0);
+        //    var lineItem = shipment.LineItems.FirstOrDefault(x => x.Code == code);
+        //    if (lineItem == null)
+        //    {
+        //        return;
+        //    }
 
-            cart.UpdateLineItemQuantity(shipment, lineItem, quantity);
-            ValidateCart(cart);
-        }
+        //    cart.UpdateLineItemQuantity(shipment, lineItem, quantity);
+        //    ValidateCart(cart);
+        //}
 
         private ILineItem GetFirstLineItem(ICart cart, string code)
         {
@@ -344,7 +349,7 @@ namespace OxxCommerceStarterKit.Core.Services
             _orderRepository.Save(cart);
 
             // TODO: Always returns success, if we get warnings, we need to show them
-            return new CartActionResult() { Success = true, Message = messages };
+            return new CartActionResult { Success = true, Message = messages };
         }
 
         private void AddPropertiesToLineItem(ILineItem cartItem, LineItem addedItem, EntryContentBase entryContent)
@@ -389,17 +394,17 @@ namespace OxxCommerceStarterKit.Core.Services
             return returnString;
         }
 
-        private string TryGetDisplayName(Entry entry)
-        {
-            if (entry.ItemAttributes["DisplayName"] != null &&
-                entry.ItemAttributes["DisplayName"].Value != null &&
-                !string.IsNullOrEmpty(entry.ItemAttributes["DisplayName"].Value.First()))
-            {
-                return entry.ItemAttributes["DisplayName"].Value.First().Trim();
-            }
+        //private string TryGetDisplayName(Entry entry)
+        //{
+        //    if (entry.ItemAttributes["DisplayName"] != null &&
+        //        entry.ItemAttributes["DisplayName"].Value != null &&
+        //        !string.IsNullOrEmpty(entry.ItemAttributes["DisplayName"].Value.First()))
+        //    {
+        //        return entry.ItemAttributes["DisplayName"].Value.First().Trim();
+        //    }
 
-            return entry.Name;
-        }
+        //    return entry.Name;
+        //}
 
         public List<LineItem> GetItems(string cart, string language)
         {
@@ -420,22 +425,30 @@ namespace OxxCommerceStarterKit.Core.Services
 
         public CartActionResult UpdateCart(string name, LineItem product)
         {
-            CartHelper ch = new CartHelper(name);
-            string messages = string.Empty;
+            var cart = LoadOrCreateCart(name);
+            string warningMessage = string.Empty;
 
-            var item = ch.LineItems.FirstOrDefault(i => i.Code == product.Code);
+            var lineItem = cart.GetAllLineItems().FirstOrDefault(i => i.Code == product.Code);
 
-            if (item != null)
+            if (lineItem != null)
             {
-                item.Quantity = product.Quantity > 0 ? product.Quantity : 0;
+                var shipment = cart.GetFirstShipment();
+                cart.UpdateLineItemQuantity(shipment, lineItem, product.Quantity > 0 ? product.Quantity : 0);
 
-                messages = RunWorkflowAndReturnFormattedMessage(ch.Cart, OrderGroupWorkflowManager.CartValidateWorkflowName);
+                var validationIssues = ValidateCart(cart);
 
-                ch.Cart.AcceptChanges();
+                foreach (var validationIssue in validationIssues)
+                {
+                    warningMessage += String.Format("Line Item with code {0} ", lineItem.Code);
+                    warningMessage = validationIssue.Value.Aggregate(warningMessage, (current, issue) => current + String.Format("{0}, ", issue));
+                    warningMessage = warningMessage.Substring(0, warningMessage.Length - 2);
+                }
+
+                _orderRepository.Save(cart);
             }
 
             // TODO: Should we always return success? What if the messages indicate otherwise?
-            return new CartActionResult() { Success = true, Message = messages };
+            return new CartActionResult() { Success = true, Message = warningMessage };
         }
 
         public decimal GetTotal(string name)
