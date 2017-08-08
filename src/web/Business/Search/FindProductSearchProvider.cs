@@ -1,15 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Framework;
-using EPiServer.Framework.Localization;
 using EPiServer.Globalization;
 using EPiServer.Logging;
-using EPiServer.ServiceLocation;
 using EPiServer.Shell;
 using EPiServer.Shell.Search;
 using EPiServer.Shell.Web.Mvc.Html;
@@ -29,31 +26,16 @@ namespace OxxCommerceStarterKit.Web.Business.Search
     [SearchProvider]
     public class FindProductUiSearchProvider : ISearchProvider
     {
-        private readonly ICatalogSystem _catalogSystem;
-        protected ILogger _log = LogManager.GetLogger();
-        private LocalizationService _localizationService;
-        private ICatalogSystem _catalogContext;
-        private ReferenceConverter _referenceConverter;
-        private IContentLoader _contentLoader;
+        protected ILogger Log = LogManager.GetLogger();
 
-        public FindProductUiSearchProvider(LocalizationService localizationService, ICatalogSystem catalogSystem)
-            : this(localizationService, 
-                   catalogSystem, 
-                   ServiceLocator.Current.GetInstance<ReferenceConverter>(), 
-                   ServiceLocator.Current.GetInstance<IContentLoader>())
-        {
-            _log.Debug("FindProductUiSearchProvider has been created.");
-        }
+        private readonly ReferenceConverter _referenceConverter;
+        private readonly IContentLoader _contentLoader;      
 
-        public FindProductUiSearchProvider(LocalizationService localizationService, ICatalogSystem catalogSystem, ReferenceConverter referenceConverter, IContentLoader contentLoader)
+        public FindProductUiSearchProvider(ReferenceConverter referenceConverter, IContentLoader contentLoader)
         {
-            _catalogSystem = catalogSystem;
-            _localizationService = localizationService;
-            _catalogContext = catalogSystem;
             _referenceConverter = referenceConverter;
             _contentLoader = contentLoader;
         }
-
 
         /// <summary>
         /// Executes a catalog search using EPiServer Find. This search works
@@ -73,10 +55,11 @@ namespace OxxCommerceStarterKit.Web.Business.Search
         {
             query.MaxResults = 20;
             string keyword = query.SearchQuery;
-            _log.Debug("Searching for: {0} using MaxResults: {1}", keyword, query.MaxResults);
+
+            Log.Debug("Searching for: {0} using MaxResults: {1}", keyword, query.MaxResults);
 
             CultureInfo currentCulture = ContentLanguage.PreferredCulture;
-            
+
             ITypeSearch<FindProduct> search = SearchClient.Instance.Search<FindProduct>();
             search = search.For(keyword)
                 // Search with stemming on name and code
@@ -88,7 +71,7 @@ namespace OxxCommerceStarterKit.Web.Business.Search
 
             SearchResults<FindProduct> results = search.GetResult();
 
-            _log.Debug("Find Search: {0} hits", results.TotalMatching);
+            Log.Debug("Find Search: {0} hits", results.TotalMatching);
 
             List<SearchResult> entryResults = new List<SearchResult>();
             foreach (FindProduct product in results)
@@ -96,28 +79,28 @@ namespace OxxCommerceStarterKit.Web.Business.Search
 
                 // Get Content
                 ContentReference contentLink = _referenceConverter.GetContentLink(product.Id, CatalogContentType.CatalogEntry, 0);
-                EntryContentBase content = _contentLoader.Get<EntryContentBase>(contentLink);
-                if(content != null)
+                EntryContentBase content;
+                if (_contentLoader.TryGet(contentLink, out content))
                 {
                     string url = GetEditUrl(content.ContentLink);
                     string preview = ""; // TextIndexer.StripHtml(product.Description.ToString(), 50);
 
-                    _log.Debug("Found: {0} - {1}", product.DisplayName, url);
+                    Log.Debug("Found: {0} - {1}", product.DisplayName, url);
                     SearchResult result = new SearchResult(url, string.Format("{0} ({1})", product.DisplayName, content.Code), preview);
                     result.IconCssClass = "epi-resourceIcon epi-resourceIcon-page";
                     result.Language = content.Language.Name;
-                    result.ToolTipElements.Add(new ToolTipElement() { Label = "Category", Value = product.CategoryName });
-                    result.ToolTipElements.Add(new ToolTipElement() { Label = "Main Category", Value = product.MainCategoryName });
+                    result.ToolTipElements.Add(new ToolTipElement { Label = "Category", Value = product.CategoryName });
+                    result.ToolTipElements.Add(new ToolTipElement { Label = "Main Category", Value = product.MainCategoryName });
                     if (product.Color != null)
                     {
                         foreach (string color in product.Color)
                         {
-                            result.ToolTipElements.Add(new ToolTipElement() { Label = "Color", Value = color });
+                            result.ToolTipElements.Add(new ToolTipElement { Label = "Color", Value = color });
                         }
                     }
                     if (product.Variants != null)
                     {
-                        result.ToolTipElements.Add(new ToolTipElement() { Label = "# of Variations", Value = product.Variants.Count().ToString() });
+                        result.ToolTipElements.Add(new ToolTipElement { Label = "# of Variations", Value = product.Variants.Count.ToString() });
                     }
 
                     result.Metadata.Add("parentId", content.ParentLink.ToString());
@@ -125,12 +108,12 @@ namespace OxxCommerceStarterKit.Web.Business.Search
                     result.Metadata.Add("Id", contentLink.ToString());
                     result.Metadata.Add("code", content.Code);
                     result.Metadata.Add("languageBranch", content.Language.Name);
-                    result.Metadata.Add("typeIdentifier", RuntimeModelExtensions.GetOriginalType(content).FullName.ToLower());
+                    result.Metadata.Add("typeIdentifier", content.GetOriginalType().FullName.ToLower());
                     entryResults.Add(result);
                 }
                 else
                 {
-                    _log.Debug("Cannot load: {0}", contentLink);
+                    Log.Debug("Cannot load: {0}", contentLink);
                 }
             }
             return entryResults;
