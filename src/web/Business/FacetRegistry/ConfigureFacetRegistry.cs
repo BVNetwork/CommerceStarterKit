@@ -10,7 +10,7 @@ namespace OxxCommerceStarterKit.Web.Business.FacetRegistry
 
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
-            context.Container.Configure(c => c.For<IFacetRegistry>().Use<FacetRegistry>());
+            context.StructureMap().Configure(c => c.For<IFacetRegistry>().Use<FacetRegistry>());
         }
 
         public void Initialize(InitializationEngine context)

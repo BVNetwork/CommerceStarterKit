@@ -102,12 +102,7 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
                 // This will pick the first catalog, and strip it from all urls (in and out)
                 var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
                 var referenceConverter = ServiceLocator.Current.GetInstance<ReferenceConverter>();
-                var languageSelectionFactory = ServiceLocator.Current.GetInstance<LanguageSelectorFactory>();
-                var routingSegmentLoader = ServiceLocator.Current.GetInstance<IRoutingSegmentLoader>();
-                var contentVersionRepo = ServiceLocator.Current.GetInstance<IContentVersionRepository>();
-                var urlSegmentRouter = ServiceLocator.Current.GetInstance<IUrlSegmentRouter>();
-                var contentLanguageSettingsHandler = ServiceLocator.Current.GetInstance<IContentLanguageSettingsHandler>();
-
+                
                 var firstCatalog =
                     contentLoader.GetChildren<CatalogContent>(referenceConverter.GetRootLink()).FirstOrDefault();
 
@@ -132,38 +127,40 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
 
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
+            var structureMap = context.StructureMap();
+
             // Important configuration. Determines the current market
             // TODO: Verify that you want to resolve the market from the language of the start page.
             //       You can also use the CurrentMarketProfile class to store the value in the session
-            context.Container.Configure(c => c.For<ICurrentMarket>().Singleton().Use<CurrentMarketFromStartPage>());
+            structureMap.Configure(c => c.For<ICurrentMarket>().Singleton().Use<CurrentMarketFromStartPage>());
 
-            context.Container.Configure(c => c.For<IResetPasswordService>().Use<ResetPasswordService>());
-            context.Container.Configure(c => c.For<IResetPasswordRepository>().Use<ResetPasswordRepository>());
-            context.Container.Configure(c => c.For<ICartService>().Use<CartService>());
+            structureMap.Configure(c => c.For<IResetPasswordService>().Use<ResetPasswordService>());
+            structureMap.Configure(c => c.For<IResetPasswordRepository>().Use<ResetPasswordRepository>());
+            structureMap.Configure(c => c.For<ICartService>().Use<CartService>());
 
-            context.Container.Configure(c => c.For<IEmailService>().Use<EmailService>());
-            context.Container.Configure(c => c.For<IEmailDispatcher>().Use<EmailDispatcher>());
-            context.Container.Configure(c => c.For<INotificationSettingsRepository>().Use<NotificationSettingsRepository>());
+            structureMap.Configure(c => c.For<IEmailService>().Use<EmailService>());
+            structureMap.Configure(c => c.For<IEmailDispatcher>().Use<EmailDispatcher>());
+            structureMap.Configure(c => c.For<INotificationSettingsRepository>().Use<NotificationSettingsRepository>());
 
             // Postal
-            context.Container.Configure(c => c.For<Postal.IEmailService>().Use<Postal.EmailService>());
-            context.Container.Configure(c => c.For<IEmailViewRenderer>().Use<EmailViewRenderer>());
-            context.Container.Configure(c => c.For<IEmailParser>().Use<EmailParser>());
+            structureMap.Configure(c => c.For<Postal.IEmailService>().Use<Postal.EmailService>());
+            structureMap.Configure(c => c.For<IEmailViewRenderer>().Use<EmailViewRenderer>());
+            structureMap.Configure(c => c.For<IEmailParser>().Use<EmailParser>());
 
-            context.Container.Configure(c => c.For<IReceiptViewModelBuilder>().Singleton().Use<ReceiptViewModelBuilder>());
-            context.Container.Configure(c => c.For<IDibsPaymentProcessor>().Singleton().Use<DibsPaymentProcessor>());
-            context.Container.Configure(c => c.For<ICustomerFactory>().Singleton().Use<CustomerFactory>());
-            context.Container.Configure(c => c.For<ISiteSettingsProvider>().Singleton().Use<SiteConfiguration>());
-            context.Container.Configure(c => c.For<IGoogleAnalyticsTracker>().Singleton().Use<GoogleAnalyticsTracker>());
-            context.Container.Configure(c => c.For<IIdentityProvider>().Singleton().Use<HttpContextIdentityProvider>());
-            context.Container.Configure(c => c.For<IOrderService>().Singleton().Use<OrderService>());
-            context.Container.Configure(c => c.For<IPaymentCompleteHandler>().Singleton().Use<PaymentCompleteHandler>());
-            context.Container.Configure(c => c.For<IHttpContextProvider>().Singleton().Use<HttpContextProvider>());
-            context.Container.Configure(c => c.For<IPostNordClient>().Singleton().Use<PostNordClient>());
-            context.Container.Configure(c => c.For<IStockUpdater>().Use<StockUpdater>());
+            structureMap.Configure(c => c.For<IReceiptViewModelBuilder>().Singleton().Use<ReceiptViewModelBuilder>());
+            structureMap.Configure(c => c.For<IDibsPaymentProcessor>().Singleton().Use<DibsPaymentProcessor>());
+            structureMap.Configure(c => c.For<ICustomerFactory>().Singleton().Use<CustomerFactory>());
+            structureMap.Configure(c => c.For<ISiteSettingsProvider>().Singleton().Use<SiteConfiguration>());
+            structureMap.Configure(c => c.For<IGoogleAnalyticsTracker>().Singleton().Use<GoogleAnalyticsTracker>());
+            structureMap.Configure(c => c.For<IIdentityProvider>().Singleton().Use<HttpContextIdentityProvider>());
+            structureMap.Configure(c => c.For<IOrderService>().Singleton().Use<OrderService>());
+            structureMap.Configure(c => c.For<IPaymentCompleteHandler>().Singleton().Use<PaymentCompleteHandler>());
+            structureMap.Configure(c => c.For<IHttpContextProvider>().Singleton().Use<HttpContextProvider>());
+            structureMap.Configure(c => c.For<IPostNordClient>().Singleton().Use<PostNordClient>());
+            structureMap.Configure(c => c.For<IStockUpdater>().Use<StockUpdater>());
 
             // Include this price service to get random prices
-            // context.Container.Configure(c => c.For<IPriceService>().Singleton().Use<OxxCommerceStarterKit.PriceService.RandomPriceService>());
+            // structureMap.Configure(c => c.For<IPriceService>().Singleton().Use<OxxCommerceStarterKit.PriceService.RandomPriceService>());
         }
     }
 }

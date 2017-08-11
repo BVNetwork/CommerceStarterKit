@@ -835,22 +835,22 @@
     <value>Shipping</value>
   </data>
   <data name="OrderNote_AddNewLineItemPattern" xml:space="preserve">
-    <value>New SKU ({0} of {1}) added to the shipment (id = {2}), order total changed to {3}</value>
+    <value>New SKU ({0} of {1}) added to the shipment #{2}, order total changed to {3}</value>
   </data>
   <data name="OrderNote_ChangeLineItemPattern" xml:space="preserve">
-    <value>Sku ({0} of {1}) is changed on the shipment (id = {2}), order total changed to {3}</value>
+    <value>Sku ({0} of {1}) is changed on the shipment #{2}, order total changed to {3}</value>
   </data>
   <data name="OrderNote_ChangeReturnStatusPattern" xml:space="preserve">
     <value>Order return with #{0}  status changed to {1}</value>
   </data>
   <data name="OrderNote_ChangeShipmentStatusPattern" xml:space="preserve">
-    <value>Shipment (id = {0}) status changes to {1}</value>
+    <value>Shipment {0} status changes to {1}</value>
   </data>
   <data name="OrderNote_DeleteLineItemPattern" xml:space="preserve">
-    <value>Sku ({0} of {1}) is removed from the shipment (id = {2}), order total changed to {3}</value>
+    <value>Sku ({0} of {1}) is removed from the shipment #{2}, order total changed to {3}</value>
   </data>
   <data name="OrderNote_MoveLineItemPattern" xml:space="preserve">
-    <value>Sku ({0} of {1}) is moved to shipment (id = {2})</value>
+    <value>Sku ({0} of {1}) is moved to shipment #{2}</value>
   </data>
   <data name="OrderNote_ReturnLineItemPattern" xml:space="preserve">
     <value>Sku ({0} of {1}) is returned to Return #{2} by reason {3}</value>
@@ -1255,7 +1255,7 @@
     <value>Order Market</value>
   </data>
   <data name="Order_PurchaseOrder_PaymentLess" xml:space="preserve">
-    <value>The payment total and the order total do not not match. Please adjust your payment.</value>
+    <value>The payment total and the order total do not match. Please adjust your payment.</value>
   </data>
   <data name="Payment_Market_Selected" xml:space="preserve">
     <value>Selected Markets for Payment Method</value>
@@ -1322,5 +1322,8 @@
   </data>
   <data name="Shipment_Id" xml:space="preserve">
     <value>Shipment Id</value>
+  </data>
+  <data name="GiftItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
+    <value>The gift {0} has not enough quantity in stock and was removed from your cart.</value>
   </data>
 </root>

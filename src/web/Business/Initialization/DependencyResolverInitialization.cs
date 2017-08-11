@@ -32,14 +32,12 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
         public void ConfigureContainer(ServiceConfigurationContext context)
         {
             
-            context.Container.Configure(ConfigureContainer);
-            DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.Container));
-            
+            context.StructureMap().Configure(ConfigureContainer);
+            DependencyResolver.SetResolver(new StructureMapDependencyResolver(context.StructureMap()));            
         }
 
         private static void ConfigureContainer(ConfigurationExpression container)
-        {
-            
+        {            
             //Swap out the default ContentRenderer for our custom
             //container.For<IContentRenderer>().Use<ErrorHandlingContentRenderer>();
             container.For<ContentAreaRenderer>().Use<ContentAreaWithDefaultsRenderer>();
