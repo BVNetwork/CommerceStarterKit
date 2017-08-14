@@ -41,13 +41,6 @@ namespace OxxCommerceStarterKit.Web.Services
             _currentMarket = currentMarket;
         }
 
-        //public ProductListViewModel GetProductListViewModel(WineSKUContent wineSkuContent)
-        //{
-        //    IProductListViewModelInitializer modelInitializer = wineSkuContent as IProductListViewModelInitializer;
-        //    if (modelInitializer != null)
-        //        return modelInitializer.Populate();
-        //    return null;
-        //}
 
         public ProductListViewModel GetProductListViewModel(IProductListViewModelInitializer productContent)
         {
@@ -62,16 +55,20 @@ namespace OxxCommerceStarterKit.Web.Services
 
             foreach (var reference in contentReferences.Take(maxCount))
             {
-                var product = _contentLoader.Get<CatalogContentBase>(reference.ContentLink) as IProductListViewModelInitializer;
+                CatalogContentBase content;
 
-                if (product == null)
+                if (!_contentLoader.TryGet(reference.ContentLink, out content))
                     continue;
 
-                var model = GetProductListViewModel(product);
+                var productListViewModelInitializer = content as IProductListViewModelInitializer;
+
+                if (productListViewModelInitializer == null)
+                    continue;
+
+                var model = GetProductListViewModel(productListViewModelInitializer);
                 model.RecommendationId = reference.RecommendationId.ToString();
 
-                if (model != null)
-                    yield return model;
+                yield return model;
             }
         }
     }

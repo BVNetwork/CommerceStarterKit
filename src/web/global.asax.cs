@@ -19,8 +19,8 @@ using System.Web.Routing;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
 using EPiServer.Web;
+using ImageResizer.Configuration;
 using Newtonsoft.Json;
-using OxxCommerceStarterKit.Web.Controllers;
 
 
 namespace OxxCommerceStarterKit.Web
@@ -79,6 +79,19 @@ namespace OxxCommerceStarterKit.Web
             // Security - remove information headers
             MvcHandler.DisableMvcResponseHeader = true;
 
+            Config.Current.Pipeline.PostRewrite += Pipeline_Rewrite;
+        }
+
+        private void Pipeline_Rewrite(IHttpModule sender, HttpContext context, IUrlEventArgs e)
+        {
+            if (e.VirtualPath.StartsWith("/globalassets/catalogs/", StringComparison.OrdinalIgnoreCase) &&
+                e.QueryString["preset"] == null &&
+                e.QueryString["Height"] == null &&
+                e.QueryString["Width"] == null)
+            {
+                e.QueryString["Height"] = "500";
+                e.QueryString["Width"] = "500";
+            }
         }
 
 
