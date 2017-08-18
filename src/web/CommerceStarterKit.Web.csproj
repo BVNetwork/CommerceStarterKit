@@ -62,10 +62,10 @@
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
     <Compile Include="Controllers\QuickBuyBlockController.cs" />
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
+    <Compile Include="EditorDescriptors\RecommendationsMode.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\FindProductFilterSortOrderFactory.cs" />
     <Compile Include="Extensions\FindProductExtensions.cs" />
     <Compile Include="Extensions\PriceExtensions.cs" />
-    <Compile Include="Jobs\AddSannsynScoreToFindJob.cs" />
     <Compile Include="ModelBuilders\QuickBuyViewModelBuilder.cs" />
     <Compile Include="Models\Blocks\Base\SectionBlockBase.cs" />
     <Compile Include="Models\Blocks\QuickBuyBlock.cs" />
@@ -469,7 +469,6 @@
     <Content Include="modules\TextTVChannel\Views\Pages\TextTVPageTemplate.aspx" />
     <Content Include="modules\_protected\MenuPin\ClientResources\Scripts\MenuPin\MenuPinForFind.js" />
     <Content Include="modules\_protected\MenuPin\ClientResources\Scripts\MenuPin\MenuPinInit.js" />
-    <Content Include="modules\_protected\Sannsyn\Styles\SannsynAdminStyle.css" />
     <Content Include="NotFound.aspx" />
     <Content Include="Plugins\CommerceTools\Prices\UpdatePrices.aspx" />
     <Content Include="Plugins\CommerceTools\static\css\bootstrap-datepicker.css" />
@@ -540,14 +539,11 @@
     <Content Include="modules\_protected\EPiServer.Cms.AddOns.Blocks\web.config" />
     <Content Include="modules\_protected\EPiServer.Cms.AddOns.Blocks\module.config" />
     <Content Include="modules\_protected\EPiServer.Cms.AddOns.Blocks\EPiServer.Cms.AddOns.Blocks.zip" />
-    <Content Include="modules\_protected\Sannsyn\Views\_SannsynLayout.cshtml" />
-    <Content Include="modules\_protected\Sannsyn\Views\web.config" />
-    <Content Include="modules\_protected\Sannsyn\Views\SannsynOverview\Index.cshtml" />
-    <Content Include="modules\_protected\Sannsyn\Views\SannsynAdmin\Index.cshtml" />
-    <Content Include="modules\_protected\Sannsyn\module.config" />
     <Content Include="modules\_protected\EPiServer.Marketing.Testing\EPiServer.Marketing.Testing.zip" />
     <Content Include="modules\_protected\EPiServer.Forms.UI\EPiServer.Forms.UI.zip" />
-    <Content Include="modules\_protected\EPiServer.Forms\Views\ElementBlocks\Web.config" />
+    <Content Include="modules\_protected\EPiServer.Forms\Views\ElementBlocks\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="modules\_protected\EPiServer.Forms\Forms.config" />
     <Content Include="modules\_protected\EPiServer.Forms\EPiServer.Forms.zip" />
     <Content Include="modules\epicode.newsletter\plugin\Web.config" />
@@ -1446,10 +1442,6 @@
       <HintPath>..\..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Sannsyn.Episerver.Commerce, Version=2.2.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Sannsyn.Episerver.Commerce.2.2.0\lib\net45\Sannsyn.Episerver.Commerce.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="StackifyLib, Version=1.24.6127.11631, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\StackifyLib.1.25.2\lib\net45\StackifyLib.dll</HintPath>
       <Private>True</Private>
@@ -1974,10 +1966,6 @@
     <ProjectReference Include="..\CommerceStarterKit.Interfaces\CommerceStarterKit.Interfaces.csproj">
       <Project>{3db4fc74-4a88-4a75-b272-ff5b6e6ab874}</Project>
       <Name>CommerceStarterKit.Interfaces</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\CommerceStarterKit.Sannsyn\CommerceStarterKit.Sannsyn.csproj">
-      <Project>{e95ae6e5-6fbe-4456-a528-481350865e28}</Project>
-      <Name>CommerceStarterKit.Sannsyn</Name>
     </ProjectReference>
     <ProjectReference Include="..\CommerceStarterKit.PriceService\CommerceStarterKit.PriceService.csproj">
       <Project>{b0cd90ad-3a55-4e03-8f67-a1ae885098ba}</Project>

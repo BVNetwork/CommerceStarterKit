@@ -269,6 +269,13 @@
 				<not_registered>Din e-postadresse er ikke registrert i vårt system</not_registered>
 				<newsletter_text>Meld deg av nyhetsbrevet</newsletter_text>
 			</newsletter_unsubscribe>
+      <recommendations>
+        <mode>
+          <Disabled>Deaktivert</Disabled>
+          <TrackingOnly>Kun sporing</TrackingOnly>
+          <TrackingAndRecommendations>Sporing og anbefalinger</TrackingAndRecommendations>
+        </mode>
+      </recommendations>
 		</common>
 	</language>
 </languages>

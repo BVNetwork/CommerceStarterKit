@@ -278,6 +278,13 @@
 				<not_registered>Your email address is not registered in our system</not_registered>
 				<newsletter_text>Unsubscribe</newsletter_text>
 			</newsletter_unsubscribe>
+      <recommendations>
+        <mode>
+          <Disabled>Disabled</Disabled>
+          <TrackingOnly>TrackingOnly</TrackingOnly>
+          <TrackingAndRecommendations>TrackingAndRecommendations</TrackingAndRecommendations>
+        </mode>
+      </recommendations>
 		</common>
 	</language>
 </languages>

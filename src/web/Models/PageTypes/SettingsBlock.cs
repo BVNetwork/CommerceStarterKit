@@ -8,17 +8,14 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System;
 using System.ComponentModel.DataAnnotations;
-using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.Shell.ObjectEditing;
-using EPiServer.SpecializedProperties;
 using EPiServer.Web;
+using OxxCommerceStarterKit.Web.EditorDescriptors;
 using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
-using OxxCommerceStarterKit.Web.Models.Blocks;
 
 namespace OxxCommerceStarterKit.Web.Models.PageTypes
 {
@@ -173,6 +170,10 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
             Order = 240)]
         [SelectOne(SelectionFactoryType = typeof(ColorSchemeSelectionFactory))]
         public virtual string Scheme { get; set; }
+
+        [Display(Order = 250, GroupName = SystemTabNames.Settings)]
+        [SelectOne(SelectionFactoryType = typeof(RecommendationsModeSelectionFactory))]
+        public virtual string RecommendationsMode { get; set; }
 
     }
 }
