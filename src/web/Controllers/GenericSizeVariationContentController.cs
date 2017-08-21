@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using EPiServer;
-using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
-using EPiServer.Framework.Localization;
 using EPiServer.Framework.Web.Mvc;
 using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Inventory;
-using Mediachase.Commerce.Pricing;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Business;
@@ -31,36 +26,18 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class GenericSizeVariationContentController : CommerceControllerBase<GenericSizeVariationContent>
     {
         private readonly ICurrentMarket _currentMarket;
-        private LocalizationService _localizationService;
-        private ReadOnlyPricingLoader _readOnlyPricingLoader;
-        private readonly IPriceDetailService _priceDetailService;
         private readonly ProductService _productService;
-        private readonly IProductRecommendationService _productRecommendationService;
+        private readonly IRecommendationsService _recommendationsService;
 
-        public GenericSizeVariationContentController()
-            : this(ServiceLocator.Current.GetInstance<LocalizationService>(),
-            ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
-            ServiceLocator.Current.GetInstance<ICurrentMarket>(),
-            ServiceLocator.Current.GetInstance<IPriceDetailService>(),
-            ServiceLocator.Current.GetInstance<ProductService>(),
-            ServiceLocator.Current.GetInstance<IProductRecommendationService>()
-            )
-        {
-        }
 
-        public GenericSizeVariationContentController(LocalizationService localizationService, 
-            ReadOnlyPricingLoader readOnlyPricingLoader, 
+        public GenericSizeVariationContentController(
             ICurrentMarket currentMarket, 
-            IPriceDetailService priceDetailService,
             ProductService productService,
-            IProductRecommendationService productRecommendationService)
+            IRecommendationsService recommendationsService)
         {
-            _localizationService = localizationService;
-            _readOnlyPricingLoader = readOnlyPricingLoader;
             _currentMarket = currentMarket;
-            _priceDetailService = priceDetailService;
             _productService = productService;
-            _productRecommendationService = productRecommendationService;
+            _recommendationsService = recommendationsService;
         }
 
         // GET: DigitalCameraSkuContent
@@ -68,24 +45,21 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             if (currentContent == null) throw new ArgumentNullException("currentContent");
 
-
-            var recs = _productRecommendationService.GetProductRecommendations(currentContent.Code, HttpContext);
-
             IVariationViewModel<GenericSizeVariationContent> viewModel = CreateVariationViewModel<GenericSizeVariationContent>(currentContent);
 
             viewModel.Media = GetMedia(currentContent);
             viewModel.PriceViewModel = currentContent.GetPriceModel();
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
 
-            if (viewModel.RelatedProductsContentArea == null && recs.ContainsKey("productCrossSellsWidget"))
+            var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);
+            if (viewModel.RelatedProductsContentArea == null && result.ContainsKey("productCrossSellsWidget"))
             {
-                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"].Select(x =>x.ContentLink));
+                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(result["productCrossSellsWidget"].Select(x => x.ContentLink));
             }
 
-            if (recs.ContainsKey("productAlternativesWidget"))
+            if (result.ContainsKey("productAlternativesWidget"))
             {
-                viewModel.ProductAlternatives =
-                    _productService.GetProductListViewModels(recs["productAlternativesWidget"], 3).ToList();
+                viewModel.ProductAlternatives = _productService.GetProductListViewModels(result["productAlternativesWidget"], 3).ToList();
             }
             else
             {

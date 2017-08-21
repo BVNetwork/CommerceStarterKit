@@ -1,21 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
-using EPiServer.Framework.Localization;
 using EPiServer.Framework.Web.Mvc;
-using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
-using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Pricing;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Business;
@@ -28,81 +20,24 @@ using OxxCommerceStarterKit.Web.Services;
 namespace OxxCommerceStarterKit.Web.Controllers
 {
 
-    public interface IProductRecommendationService
-    {
-        IDictionary<string, IEnumerable<Recommendation>> GetProductRecommendations(string productCode,
-            HttpContextBase context);
-    }
-
-    [ServiceConfiguration(typeof(IProductRecommendationService))]
-    public class ProductRecommentationService : IProductRecommendationService
-    {
-        private readonly ITrackingService _trackingService;
-        private readonly TrackingDataFactory _trackingDataFactory;
-        private readonly ReferenceConverter _referenceConverter;
-
-        public ProductRecommentationService(ITrackingService trackingService,
-            TrackingDataFactory trackingDataFactory,
-            ReferenceConverter referenceConverter)
-        {
-            _trackingService = trackingService;
-            _trackingDataFactory = trackingDataFactory;
-            _referenceConverter = referenceConverter;
-        }
-
-        public IDictionary<string, IEnumerable<Recommendation>> GetProductRecommendations(string productCode, HttpContextBase context)
-        {
-            var returnValue = new Dictionary<string, IEnumerable<Recommendation>>();
-
-            var trackingData = _trackingDataFactory.CreateProductTrackingData(productCode, context);
-            var result = _trackingService.Send(trackingData, context, RetrieveRecommendationMode.Enabled);
-
-            if (result.SmartRecs != null)
-            {
-                foreach (var recommendation in result.SmartRecs)
-                {
-                    returnValue.Add(recommendation.Widget, recommendation.Recs.Select(x => new Recommendation(x.Id, _referenceConverter.GetContentLink(x.RefCode))));
-                }
-            }
-
-            return returnValue;
-        }
-    }
-
+   
     [TemplateDescriptor(Inherited = true)]
     [RequireClientResources]
     public class DigitalCameraVariationContentController : CommerceControllerBase<DigitalCameraVariationContent>
     {
-         private readonly ICurrentMarket _currentMarket;
-        private LocalizationService _localizationService;
-        private ReadOnlyPricingLoader _readOnlyPricingLoader;
-        private readonly IPriceDetailService _priceDetailService;
+        private readonly ICurrentMarket _currentMarket;
         private readonly ProductService _productService;
-        private readonly IProductRecommendationService _productRecommendationService;
+        private readonly IRecommendationsService _recommendationsService;
 
-        public DigitalCameraVariationContentController()
-			: this(ServiceLocator.Current.GetInstance<LocalizationService>(),
-			ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
-			ServiceLocator.Current.GetInstance<ICurrentMarket>(),
-            ServiceLocator.Current.GetInstance<IPriceDetailService>(),
-            ServiceLocator.Current.GetInstance<ProductService>(),
-            ServiceLocator.Current.GetInstance<IProductRecommendationService>()
-			)
-		{
-		}
-        public DigitalCameraVariationContentController(LocalizationService localizationService, 
-            ReadOnlyPricingLoader readOnlyPricingLoader, 
-            ICurrentMarket currentMarket, 
-            IPriceDetailService priceDetailService, 
+       
+        public DigitalCameraVariationContentController(
+            ICurrentMarket currentMarket,              
             ProductService productService,
-            IProductRecommendationService productRecommendationService)
+            IRecommendationsService recommendationsService)
         {
-            _localizationService = localizationService;
-            _readOnlyPricingLoader = readOnlyPricingLoader;
             _currentMarket = currentMarket;
-            _priceDetailService = priceDetailService;
             _productService = productService;
-            _productRecommendationService = productRecommendationService;
+            _recommendationsService = recommendationsService;
         }
 
         
@@ -111,22 +46,21 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             if (currentContent == null) throw new ArgumentNullException("currentContent");
 
-            var recs = _productRecommendationService.GetProductRecommendations(currentContent.Code, HttpContext);
-
             DigitalCameraVariationViewModel viewModel = new DigitalCameraVariationViewModel(currentContent);
           
             viewModel.PriceViewModel = currentContent.GetPriceModel();
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
 
-            if (viewModel.RelatedProductsContentArea == null && recs.ContainsKey("productCrossSellsWidget"))
+
+            var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);
+            if (viewModel.RelatedProductsContentArea == null && result.ContainsKey("productCrossSellsWidget"))
             {
-                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(recs["productCrossSellsWidget"].Select(x => x.ContentLink));
+                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(result["productCrossSellsWidget"].Select(x => x.ContentLink));
             }
 
-            if (recs.ContainsKey("productAlternativesWidget"))
+            if (result.ContainsKey("productAlternativesWidget"))
             {
-                viewModel.ProductAlternatives =
-                    _productService.GetProductListViewModels(recs["productAlternativesWidget"], 3).ToList();
+                viewModel.ProductAlternatives = _productService.GetProductListViewModels(result["productAlternativesWidget"], 3).ToList();
             }
             else
             {

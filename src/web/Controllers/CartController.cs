@@ -14,7 +14,6 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
-using Castle.Components.DictionaryAdapter;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
@@ -22,10 +21,7 @@ using EPiServer.Framework.DataAnnotations;
 using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Recommendations.Tracking;
 using EPiServer.Web.Mvc;
-using Mediachase.Commerce;
 using OxxCommerceStarterKit.Core.Objects;
-using OxxCommerceStarterKit.Core.Services;
-using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Business.Delivery;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
@@ -62,7 +58,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             CartModel model = new CartModel(currentPage);
 
             // Get recommendations for the contents of the cart
-            List<Recommendation> recommendedProductsForCart =  this.GetRecommendationGroups()
+            var recommendedProductsForCart =  this.GetRecommendationGroups()
                    .Where(x => x.Area == "basketWidget")
                    .SelectMany(x => x.Recommendations)
                    .ToList();

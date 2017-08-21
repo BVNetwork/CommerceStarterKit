@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
@@ -10,17 +8,14 @@ using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
 using EPiServer.Framework.Localization;
 using EPiServer.Framework.Web.Mvc;
-using EPiServer.ServiceLocation;
 using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Core;
-using Mediachase.Commerce.Inventory;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
+using OxxCommerceStarterKit.Web.Services;
 using SelectListItem = OxxCommerceStarterKit.Web.Models.ViewModels.SelectListItem;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -30,26 +25,39 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class GenericProductContentController : CommerceControllerBase<GenericProductContent>
     {
 		private readonly LocalizationService _localizationService;
-		private readonly ReadOnlyPricingLoader _readOnlyPricingLoader;
-		private readonly ICurrentMarket _currentMarket;
+        private readonly ProductService _productService;
+        private readonly IRecommendationsService _recommendationsService;
 
-        public GenericProductContentController()
-			: this(ServiceLocator.Current.GetInstance<LocalizationService>(),
-			ServiceLocator.Current.GetInstance<ReadOnlyPricingLoader>(),
-			ServiceLocator.Current.GetInstance<ICurrentMarket>()
-			)
-		{
-		}
-        public GenericProductContentController(LocalizationService localizationService, ReadOnlyPricingLoader readOnlyPricingLoader, ICurrentMarket currentMarket)
+        public GenericProductContentController(
+            LocalizationService localizationService, 
+            ReadOnlyPricingLoader readOnlyPricingLoader, 
+            ICurrentMarket currentMarket, 
+            ProductService productService,
+            IRecommendationsService recommendationsService)
 		{			
 			_localizationService = localizationService;
-			_readOnlyPricingLoader = readOnlyPricingLoader;
-			_currentMarket = currentMarket;
+		    _productService = productService;
+		    _recommendationsService = recommendationsService;
 		}
 
         public ViewResult Index(GenericProductContent currentContent, HomePage currentPage, string size)
         {
             var model = GetProductViewModel(currentContent, currentPage, size);
+
+            var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);
+            if (result.ContainsKey("productCrossSellsWidget"))
+            {
+                model.RelatedProductsContentArea = CreateRelatedProductsContentArea(result["productCrossSellsWidget"].Select(x => x.ContentLink));
+            }
+
+            if (result.ContainsKey("productAlternativesWidget"))
+            {
+                model.ProductAlternatives = _productService.GetProductListViewModels(result["productAlternativesWidget"], 3).ToList();
+            }
+            else
+            {
+                model.ProductAlternatives = new List<ProductListViewModel>();
+            }
 
             return View(model);
         }
@@ -66,12 +74,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 var variationItem = GetSelectedItem(size, variationItems);
                 if (variationItem != null)
                 {
-                    model.GenericVariationViewModel =
-                        CreateVariationViewModel<GenericSizeVariationContent>(variationItem);
+                    model.GenericVariationViewModel = CreateVariationViewModel(variationItem);
                     model.GenericVariationViewModel.PriceViewModel = variationItem.GetPriceModel();
                     model.ContentWithAssets = currentContent;
                 }
             }
+
             CreateSizeListItems(model, variationItems);
 
             // check if this product is sellable
