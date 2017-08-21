@@ -75,12 +75,14 @@
     <Compile Include="Models\Blocks\SectionCountdownBlock.cs" />
     <Compile Include="Models\Blocks\SectionCoverrBlock.cs" />
     <Compile Include="Models\PageTypes\LandingPage.cs" />
+    <Compile Include="Models\ViewModels\HomePageViewModel.cs" />
     <Compile Include="Models\ViewModels\NewsletterWithProductsViewModel.cs" />
     <Compile Include="Models\ViewModels\QuickBuyViewModel.cs" />
     <Compile Include="Promotion\BuyXFromCategoryGetProductForFree.cs" />
     <Compile Include="Services\IMetricsLoggingService.cs" />
     <Compile Include="Services\MetricsLoggingService.cs" />
     <Compile Include="Services\Recommendations.cs" />
+    <Compile Include="Services\RecommendationsService.cs" />
     <Compile Include="Services\RecommendedProductsService.cs" />
     <Content Include="ClientResources\Images\icons\layoutIcons24x24.png" />
     <Content Include="ClientResources\Scripts\editors\StringList.js" />
@@ -818,6 +820,7 @@
     <Content Include="Views\QuickBuyBlock\Index.cshtml" />
     <Content Include="Views\QuickBuyBlock\Narrow.cshtml" />
     <Content Include="Views\QuickBuyBlock\FullWidth.cshtml" />
+    <Content Include="Views\HomePage\_HomePageRecommendations.cshtml" />
     <None Include="WarmMeUp\WarmMeUp.exe" />
     <Content Include="Views\Shared\Forms\ChoiceElementBlock.ascx" />
     <Content Include="Views\Shared\Forms\NumberElementBlock.ascx" />

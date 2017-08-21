@@ -10,18 +10,16 @@ Copyright (C) 2013-2014 BV Network AS
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
-using EPiServer.Filters;
 using EPiServer.Framework.DataAnnotations;
-using EPiServer.GoogleAnalytics.Helpers;
-using EPiServer.Security;
+using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Web.Mvc;
-using Mediachase.Commerce.Customers;
-using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -29,14 +27,17 @@ namespace OxxCommerceStarterKit.Web.Controllers
     [TemplateDescriptor()]
     public class HomePageController : PageControllerBase<HomePage>
     {
-		private readonly IContentLoader _contentLoader;
 
-        public HomePageController(IContentLoader contentLoader)
-        {            
-			_contentLoader = contentLoader;
+        private readonly ProductService _productService;
+        private readonly IRecommendationsService _recommendationsService;
+
+        public HomePageController(IContentLoader contentLoader, ProductService productService, IRecommendationsService recommendationsService)
+        {
+            _productService = productService;
+            _recommendationsService = recommendationsService;
         }
 
-        public ViewResult Index(PageData currentPage)
+        public ViewResult Index(HomePage currentPage)
         {
             var virtualPath = String.Format("~/Views/{0}/Index.cshtml", currentPage.GetOriginalType().Name);
             if (System.IO.File.Exists(Request.MapPath(virtualPath)) == false)
@@ -44,16 +45,16 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 virtualPath = "Index";
             }
 
-            var model = CreatePageViewModel(currentPage);
+            var model = new HomePageViewModel(currentPage);
+
+            var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext)?.ToList() ?? new List<Recommendation>();
+            if (result.Any())
+                model.RecommendationsForHomePage = _productService.GetProductListViewModels(result, 3).ToList();
+
             var editHints = ViewData.GetEditHints<Chrome, HomePage>();
             editHints.AddConnection(c => c.GlobalFooterContent, p => p.GlobalFooterContent);
-            // Since we're handling the logo property a bit different (url comes from view model)
-            // we need to refresh the page when it changes.
-            // editHints.AddFullRefreshFor(c => c.LogoImage);
-
 
             return View(virtualPath, model);
         }
-
     }
 }

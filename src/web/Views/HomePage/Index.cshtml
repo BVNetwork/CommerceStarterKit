@@ -1,20 +1,34 @@
-﻿@model OxxCommerceStarterKit.Web.Models.ViewModels.IPageViewModel<OxxCommerceStarterKit.Web.Models.PageTypes.HomePage>
+﻿@model HomePageViewModel
+
 @{
-	ViewBag.Title = Model.CurrentPage.Name;
+    ViewBag.Title = Model.CurrentPage.Name;
 }
+
 </div>
+
+
+@if (Model.ShowRecommendations)
+{
+    @Html.Partial("_HomePageRecommendations", Model)
+}
+
+
 @Html.PropertyFor(x => x.CurrentPage.ContentAreaWide, new { CssClass = "overflow-hidden clearfix" })
+
+
 <div class="container">
+<!-- start new container -->
+
 <div id="frontpage">
-@Html.PropertyFor(x => x.CurrentPage.BodyContent, new { CssClass = "overflow-hidden clearfix" })
+    @Html.PropertyFor(x => x.CurrentPage.BodyContent, new { CssClass = "overflow-hidden clearfix" })
 </div>
 
 
 @section scripts {
-	@Scripts.Render("~/bundles/frontpage")
-<script type="text/javascript">
-    $(function () { commercestarterkit.FrontPage.init('#frontpage'); });
-</script>
+    @Scripts.Render("~/bundles/frontpage")
+    <script type="text/javascript">
+        $(function () { commercestarterkit.FrontPage.init('#frontpage'); });
+    </script>
 }
 
 @section BodyStart {

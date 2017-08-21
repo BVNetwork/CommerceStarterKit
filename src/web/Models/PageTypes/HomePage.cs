@@ -17,6 +17,7 @@ using EPiServer.SpecializedProperties;
 using EPiServer.Web;
 using OxxCommerceStarterKit.Core.Attributes;
 using OxxCommerceStarterKit.Web.Models.Blocks;
+using OxxCommerceStarterKit.Web.Models.Blocks.Base;
 
 namespace OxxCommerceStarterKit.Web.Models.PageTypes
 {
@@ -47,7 +48,7 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
             Order = 5)]
         [CultureSpecific]
         public virtual ContentArea ContentAreaWide { get; set; }
-
+      
         [Searchable(false)]
         [Display(
             Name = "TopLeftMenu",
@@ -109,5 +110,22 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
             GroupName = SystemTabNames.Settings,
             Order = 100)]
         public virtual SettingsBlock Settings { get; set; }
+
+
+        [CultureSpecific]
+        [Display(
+            Name = "Recommendations header",
+            Description = "Section header",
+            GroupName = SystemTabNames.Content,
+            Order = 500)]
+        public virtual string RecommendationsHeader { get; set; }
+
+
+        [Display(
+            Name = "Recommendations section",
+            Description = "Section header",
+            GroupName = SystemTabNames.Content,
+            Order = 510)]
+        public virtual        SectionBlockBase RecommendationSection { get; set; }
     }
 }
