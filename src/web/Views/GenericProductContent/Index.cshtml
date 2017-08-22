@@ -127,13 +127,24 @@
 
         </div>
         <div class="col-md-2 hide-for-small hidden-xs">
-            @if (Model.RelatedProductsContentArea != null && (Model.RelatedProductsContentArea.Items != null && Model.RelatedProductsContentArea.Items.Any()))
-            {
+           @if (Model.ProductCrossSell != null && Model.ProductCrossSell.Any())
+           {
+                <ul class="relatedProducts">
+                    @foreach (var VARIABLE in Model.ProductCrossSell)
+                    {
+                        <li class="block genericproductcontent narrow relatedProducts">
+                            @Html.Partial("ProductPartials/_ProductListViewRelatedProducts", VARIABLE)
+                        </li>
+                    }
+                </ul>
+           }
+           else if (Model.RelatedProductsContentArea != null && (Model.RelatedProductsContentArea.Items != null && Model.RelatedProductsContentArea.Items.Any()))
+           {
                 @*<div class="panel-heading">
-                    <span class="panel-title">@Html.Translate("/common/product/cross_sell")</span>
-                </div>*@
+                        <span class="panel-title">@Html.Translate("/common/product/cross_sell")</span>
+                    </div>*@
                 @Html.PropertyFor(x => x.RelatedProductsContentArea, new { CustomTag = "ul", ChildrenCustomTagName = "li", cssClass = "relatedProducts", Tag = "relatedProducts" })
-            }
+           }
         </div>
     </div>
 

@@ -14,23 +14,8 @@ using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.EditorDescriptors;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 
-namespace OxxCommerceStarterKit.Web.Services
+namespace OxxCommerceStarterKit.Web.Business.Recommendations
 {
-    public interface IRecommendationsService
-    {
-        IEnumerable<Recommendation> GetRecommendationsForHomePage(HttpContextBase context);
-
-        IEnumerable<Recommendation> GetRecommendationsForCategoryPage(NodeContent node, HttpContextBase context);
-
-        IDictionary<string, IEnumerable<Recommendation>> GetRecommendationsForProductPage(string productCode, HttpContextBase context);
-
-        IEnumerable<Recommendation> GetRecommendationsForBasketPage(HttpContextBase context);
-
-        IEnumerable<Recommendation> GetRecommendationsForSearchPage(string term, IEnumerable<string> productCodes, HttpContextBase context);
-
-        void TrackOrder(IPurchaseOrder purchaseOrder, HttpContextBase context);
-    }
-
     [ServiceConfiguration(typeof(IRecommendationsService))]
     public class RecommendationsService : IRecommendationsService
     {

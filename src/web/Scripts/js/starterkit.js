@@ -19,7 +19,6 @@
 
 
 		init: function () {
-		    console.log("init");
 		    this.initImageGallery();
 		    this._language = Oxx.AjaxUtils.language;
 			this._$wishlist = $('.wishlist-counter');
@@ -188,7 +187,6 @@
 		retrieveCartCounters: function() {
 			if(this._$cartCounter.length > 0 || this._$wishlistCounter.length > 0) {
 			    // TODO: Why not AngularJS Service?
-			    console.log("retrieveCartCounters for " + this._language);
 			    $.get('/' + this._language + '/api/cart/getCounters?_=' + new Date().getTime().toString(), undefined,
 					$.proxy(this._onRetrieveCartCountersCallback, this), 'json');
 			}
@@ -406,7 +404,6 @@
 
 
     // init commercestarterkit on DOM ready
-    console.log("Pre init");
 	$($.proxy(commercestarterkit.init, commercestarterkit));
 
 

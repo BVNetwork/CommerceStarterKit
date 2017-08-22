@@ -5,7 +5,7 @@ using EPiServer.Framework.Initialization;
 using EPiServer.Recommendations.Commerce.CatalogFeed;
 using EPiServer.ServiceLocation;
 
-namespace OxxCommerceStarterKit.Web.Business
+namespace OxxCommerceStarterKit.Web.Business.Recommendations
 {
     [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
     public class RecommendationsInitialization : IInitializableModule

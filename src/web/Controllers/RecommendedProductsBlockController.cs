@@ -6,6 +6,7 @@ using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Business.Analytics;
+using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers

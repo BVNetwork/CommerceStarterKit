@@ -14,6 +14,7 @@ using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Business.Analytics;
+using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -26,17 +27,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class GenericSizeVariationContentController : CommerceControllerBase<GenericSizeVariationContent>
     {
         private readonly ICurrentMarket _currentMarket;
-        private readonly ProductService _productService;
         private readonly IRecommendationsService _recommendationsService;
 
 
-        public GenericSizeVariationContentController(
-            ICurrentMarket currentMarket, 
-            ProductService productService,
-            IRecommendationsService recommendationsService)
+        public GenericSizeVariationContentController(ICurrentMarket currentMarket, IRecommendationsService recommendationsService)
         {
             _currentMarket = currentMarket;
-            _productService = productService;
             _recommendationsService = recommendationsService;
         }
 
@@ -45,34 +41,23 @@ namespace OxxCommerceStarterKit.Web.Controllers
         {
             if (currentContent == null) throw new ArgumentNullException("currentContent");
 
-            IVariationViewModel<GenericSizeVariationContent> viewModel = CreateVariationViewModel<GenericSizeVariationContent>(currentContent);
+            var viewModel = CreateVariationViewModel(currentContent);
 
             viewModel.Media = GetMedia(currentContent);
             viewModel.PriceViewModel = currentContent.GetPriceModel();
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
 
-            var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);
-            if (viewModel.RelatedProductsContentArea == null && result.ContainsKey("productCrossSellsWidget"))
-            {
-                viewModel.RelatedProductsContentArea = CreateRelatedProductsContentArea(result["productCrossSellsWidget"].Select(x => x.ContentLink));
-            }
-
-            if (result.ContainsKey("productAlternativesWidget"))
-            {
-                viewModel.ProductAlternatives = _productService.GetProductListViewModels(result["productAlternativesWidget"], 3).ToList();
-            }
-            else
-            {
-                viewModel.ProductAlternatives = new List<ProductListViewModel>();
-            }
+            var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);           
+            viewModel.ProductCrossSell = CreateProductListViewModels(result, "productCrossSellsWidget", 6);
+            viewModel.ProductAlternatives = CreateProductListViewModels(result, "productAlternativesWidget", 3);
 
             viewModel.CartItem = new CartItemModel(currentContent) { CanBuyEntry = true };
             TrackAnalytics(viewModel);
 
             viewModel.IsSellable = IsSellable(currentContent);
             return View(viewModel);
-        }
-      
+        }        
+
         private List<MediaData> GetMedia(GenericSizeVariationContent currentContent)
         {
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
@@ -81,7 +66,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             foreach (ContentReference mediaReference in mediaReferences)
             {
                 MediaData file;
-                if (contentLoader.TryGet<MediaData>(mediaReference, out file))
+                if (contentLoader.TryGet(mediaReference, out file))
                 {
                     mediaData.Add(file);
                 }
@@ -92,9 +77,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
         IEnumerable<IVariationViewModel<VariationContent>> CreateRelatedVariationViewModelCollection(CatalogContentBase catalogContent, string associationType)
         {
             IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
-            IEnumerable<IVariationViewModel<VariationContent>> productViewModels =
-                Enumerable.Where(associations, p => p.Group.Name.Equals(associationType) && IsVariation<VariationContent>(p.Target))
-                    .Select(a => CreateVariationViewModel(ContentLoader.Get<VariationContent>(a.Target)));
+
+            var productViewModels = associations
+                .Where(p => p.Group.Name.Equals(associationType) && IsVariation<VariationContent>(p.Target))
+                .Select(a => CreateVariationViewModel(ContentLoader.Get<VariationContent>(a.Target)));
 
             return productViewModels;
         }
@@ -103,11 +89,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private bool IsVariation<T>(ContentReference target) where T : VariationContent
         {
             T content;
-            if (ContentLoader.TryGet<T>(target, out content))
+            if (ContentLoader.TryGet(target, out content))
             {
-                List<T> contents = new List<T>();
-                contents.Add(content);
-                var c = contents.FilterForDisplay<T>().FirstOrDefault();
+                var contents = new List<T> { content };
+                var c = contents.FilterForDisplay().FirstOrDefault();
                 return c != null;
             }
             return false;
@@ -125,10 +110,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 viewModel.CatalogContent.DisplayName,
                 null,
                 null,
-                null, null, 0,
-                (double)viewModel.CatalogContent.GetDefaultPriceAmountWholeNumber(_currentMarket.GetCurrentMarket()),
-                0
-                );
+                null, 
+                null, 
+                0,
+                viewModel.CatalogContent.GetDefaultPriceAmountWholeNumber(_currentMarket.GetCurrentMarket()));
 
             // TODO: Track related products as impressions
 

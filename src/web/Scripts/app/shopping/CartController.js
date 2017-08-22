@@ -77,7 +77,6 @@
 				description: description,
 				articleNumber: articleNumber
 			};
-            console.log($scope.product);
         };
 
 

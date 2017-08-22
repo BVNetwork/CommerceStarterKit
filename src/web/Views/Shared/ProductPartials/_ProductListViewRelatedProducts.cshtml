@@ -6,13 +6,12 @@
 <div class="productRow">
     <div class="tile">
         @Html.Partial("ProductPartials/_PriceLabel")
-        <a href="@Model.ProductUrl">
+        <a href="@Model.ProductUrl" data-recommendation-id="@Model.RecommendationId">
             <img id="anim-img-@Model.ContentLink" class="image img-responsive" src="@Model.ImageUrl?preset=listmedium" />
         </a>
 
         <div class="footer">
-            <a href="@Model.ProductUrl"><h3 class="name">@Model.DisplayName</h3></a>
-            
+            <a href="@Model.ProductUrl"><h3 class="name">@Model.DisplayName</h3></a>            
         </div>
     </div>
 </div>

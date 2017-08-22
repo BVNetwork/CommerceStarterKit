@@ -25,6 +25,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <UseGlobalApplicationHostFile>true</UseGlobalApplicationHostFile>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,10 +56,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
-    <Compile Include="Business\RecommendationsInitialization.cs" />
+    <Compile Include="Business\Recommendations\RecommendationsInitialization.cs" />
     <Compile Include="Business\Events\OrderRepositoryCallback.cs" />
     <Compile Include="Business\Initialization\RemoveServerHeaderInitialization.cs" />
     <Compile Include="Business\Recommendations\ClickTrackingService.cs" />
+    <Compile Include="Business\Recommendations\IRecommendationsService.cs" />
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
     <Compile Include="Controllers\QuickBuyBlockController.cs" />
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
@@ -82,7 +84,7 @@
     <Compile Include="Services\IMetricsLoggingService.cs" />
     <Compile Include="Services\MetricsLoggingService.cs" />
     <Compile Include="Services\Recommendations.cs" />
-    <Compile Include="Services\RecommendationsService.cs" />
+    <Compile Include="Business\Recommendations\RecommendationsService.cs" />
     <Compile Include="Services\RecommendedProductsService.cs" />
     <Content Include="ClientResources\Images\icons\layoutIcons24x24.png" />
     <Content Include="ClientResources\Scripts\editors\StringList.js" />
@@ -1675,7 +1677,6 @@
     <Compile Include="Controllers\GenericSizeVariationContentController.cs" />
     <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Controllers\GenericPaymentController.cs" />
-    <Compile Include="Controllers\FashionProductPartialController.cs" />
     <Compile Include="Business\ClientTracking\GoogleAnalyticsTracker.cs" />
     <Compile Include="Business\Payment\IDibsPaymentProcessor.cs" />
     <Compile Include="Business\ClientTracking\IGoogleAnalyticsTracker.cs" />
@@ -1761,9 +1762,6 @@
     <Compile Include="Controllers\DefaultPageController.cs" />
     <Compile Include="Controllers\DibsPaymentController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
-    <Compile Include="Controllers\FashionProductContentController.cs" />
-    <Compile Include="Controllers\FashionStoreLandingNodeController.cs" />
-    <Compile Include="Controllers\FashionStoreSubLandingNodeController.cs" />
     <Compile Include="Controllers\HotSpotsEditorController.cs" />
     <Compile Include="Controllers\ImageFileController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -1779,7 +1777,6 @@
     <Compile Include="Controllers\ProductTeaserBlockController.cs" />
     <Compile Include="Controllers\ReceiptPageController.cs" />
     <Compile Include="Controllers\RegisterPageController.cs" />
-    <Compile Include="Controllers\WineSKUContentController.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\ColorSelectionFactory.cs" />
     <Compile Include="EditorDescriptors\HotSpotsEditorDescriptor.cs" />
     <Compile Include="EditorDescriptors\ProductColor.cs" />

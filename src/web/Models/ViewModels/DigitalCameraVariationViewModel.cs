@@ -41,6 +41,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public bool IsSellable { get; set; }
         public PriceModel PriceViewModel { get; set; }
         public List<ProductListViewModel> ProductAlternatives { get; set; }
+        public List<ProductListViewModel> ProductCrossSell { get; set; }
     }
 
 

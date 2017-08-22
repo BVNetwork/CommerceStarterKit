@@ -2,22 +2,16 @@
 @using EPiServer.ServiceLocation
 @using EPiServer.Web
 @using EPiServer.Web.Routing
-@using OxxCommerceStarterKit.Web.Helpers
-@model OxxCommerceStarterKit.Web.Models.ViewModels.IVariationViewModel<OxxCommerceStarterKit.Web.Models.Catalog.GenericSizeVariationContent>
+
+@model IVariationViewModel<GenericSizeVariationContent>
 
 @{
-    var id = System.Guid.NewGuid();
+    var id = Guid.NewGuid();
     var urlResolver = ServiceLocator.Current.GetInstance<UrlResolver>();
     var currentLanguage = Model.CatalogContent.Language.IetfLanguageTag;
     var media = Model.Media;
-    var defaultCollapsedState = "collapse";
-    bool isInEditMode = Html.IsInEditMode();
-    if (isInEditMode)
-    {
-        defaultCollapsedState = "collapse in";
-    }
-
 }
+
 @helper GetImageTag(MediaData media, string size, UrlResolver urlResolver)
 {
     var url = urlResolver.GetUrl(media.ContentLink, null, new VirtualPathArguments() { ContextMode = ContextMode.Default });
@@ -115,12 +109,24 @@
 
         </div>
         <div class="col-md-2 hide-for-small hidden-xs">
-            @if (Model.RelatedProductsContentArea != null && (Model.RelatedProductsContentArea.Items != null && Model.RelatedProductsContentArea.Items.Any()))
+            
+            @if(Model.ProductCrossSell != null && Model.ProductCrossSell.Any())
+            {
+                <ul class="relatedProducts">
+                    @foreach (var VARIABLE in Model.ProductCrossSell)
+                    {
+                        <li class="block genericproductcontent narrow relatedProducts">
+                            @Html.Partial("ProductPartials/_ProductListViewRelatedProducts", VARIABLE)
+                        </li>
+                    }
+                </ul>
+            }
+            else if (Model.RelatedProductsContentArea != null && (Model.RelatedProductsContentArea.Items != null && Model.RelatedProductsContentArea.Items.Any())) 
             {
                 @*<div class="panel-heading">
                     <span class="panel-title">@Html.Translate("/common/product/cross_sell")</span>
                 </div>*@
-                @Html.PropertyFor(x => x.RelatedProductsContentArea, new { CustomTag = "ul", ChildrenCustomTagName = "li", cssClass = "relatedProducts", Tag = "relatedProducts" })
+                @Html.PropertyFor(x => x.RelatedProductsContentArea, new {CustomTag = "ul", ChildrenCustomTagName = "li", cssClass = "relatedProducts", Tag = "relatedProducts"})
             }
         </div>
         <div>
@@ -128,10 +134,6 @@
         </div>
         
     </div>
-
-
-
-
 
 
     <script type="text/javascript">

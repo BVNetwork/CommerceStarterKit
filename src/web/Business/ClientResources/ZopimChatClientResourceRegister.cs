@@ -1,21 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using System.Web;
+﻿using System.Security.Principal;
 using EPiServer.Framework.Web.Resources;
 using EPiServer.Security;
-using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Customers;
-using Mediachase.Commerce.Security;
 
 namespace OxxCommerceStarterKit.Web.Business.ClientResources
 {
-    [ClientResourceRegister]
 
-    public class ZopimChatClientResourceRegister : IClientResourceRegister
+    [ClientResourceRegistrator]
+    public class ZopimChatClientResourceRegister : IClientResourceRegistrator
     {
-        public void RegisterResources(IRequiredClientResourceList requiredResources, HttpContextBase context)
+
+        public void RegisterResources(IRequiredClientResourceList requiredResources)
         {
             IPrincipal currentPrincipal = PrincipalInfo.CurrentPrincipal;
             if (currentPrincipal != null && currentPrincipal.Identity.IsAuthenticated)
@@ -24,10 +19,12 @@ namespace OxxCommerceStarterKit.Web.Business.ClientResources
                 if (contact != null)
                 {
                     string script = @"
+if (typeof $zopim !== 'undefined') {
    $zopim(function(){
            $zopim.livechat.setEmail('" + contact.Email + @"');
            $zopim.livechat.setName('" + contact.FirstName + " " + contact.LastName + @"');
     });
+}
 ";
                     requiredResources.RequireScriptInline(script).AtFooter();
                 }

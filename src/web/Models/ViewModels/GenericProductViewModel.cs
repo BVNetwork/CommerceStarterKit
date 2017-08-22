@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using EPiServer.Core;
 using EPiServer.ServiceLocation;
 using OxxCommerceStarterKit.Core.Extensions;
@@ -45,5 +42,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public bool IsSellable { get; set; }
 
         public List<ProductListViewModel> ProductAlternatives { get; set; }
+        public List<ProductListViewModel> ProductCrossSell { get; set; }
     }
 }

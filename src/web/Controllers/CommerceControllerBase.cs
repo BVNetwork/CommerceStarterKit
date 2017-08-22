@@ -11,29 +11,23 @@ Copyright (C) 2013-2014 BV Network AS
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using EPiServer;
 using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
-using EPiServer.Commerce.Marketing;
 using EPiServer.Commerce.SpecializedProperties;
 using EPiServer.Core;
 using EPiServer.Logging;
+using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc;
-
 using Mediachase.Commerce;
-using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Core;
-using Mediachase.Commerce.Inventory;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Web.Business;
-using OxxCommerceStarterKit.Web.Helpers;
-using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -45,6 +39,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private static Injected<ICurrentMarket> _icurrentMarketService;
         private static Injected<ILinksRepository> _linksRepositoryService;
         private static Injected<IDefaultInventoryService> _inventoryService;
+        private static Injected<ProductService> _productService;
 
         protected IContentLoader ContentLoader
         {
@@ -76,7 +71,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
             get { return _inventoryService.Service; }
         }
 
-  
+        protected ProductService ProductService
+        {
+            get { return _productService.Service; }
+        }
+
+
         protected static ILogger _log = LogManager.GetLogger();
 
         public void InitializeCatalogViewModel<TViewModel>(TViewModel model)
@@ -147,11 +147,17 @@ namespace OxxCommerceStarterKit.Web.Controllers
             return model;
         }
 
-        public ContentArea CreateRelatedProductsContentArea(IEnumerable<ContentReference> references)
+        public ContentArea CreateRelatedProductsContentArea(EntryContentBase catalogContent, string associationType)
         {
+            IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
+
+            var relatedEntires = associations.Where(p => p.Group.Name.Equals(associationType))
+                    .Where(x => x.Target != null && x.Target != ContentReference.EmptyReference)
+                    .Select(x => ContentLoader.Get<EntryContentBase>(x.Target));
+
             var relatedEntriesCa = new ContentArea();
 
-            foreach (var relatedEntire in references.Where(x => x != null && x != ContentReference.EmptyReference).Select(x => ContentLoader.Get<EntryContentBase>(x)))
+            foreach (var relatedEntire in relatedEntires)
             {
                 ContentAreaItem caItem = new ContentAreaItem();
                 caItem.ContentLink = relatedEntire.ContentLink;
@@ -161,14 +167,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
             return relatedEntriesCa;
         }
 
-        public ContentArea CreateRelatedProductsContentArea(EntryContentBase catalogContent, string associationType)
+        protected List<ProductListViewModel> CreateProductListViewModels(IDictionary<string, IEnumerable<Recommendation>> result, string widgetName, int count)
         {
-            IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
+            if (result.ContainsKey(widgetName))
+            {
+                return ProductService.GetProductListViewModels(result[widgetName], count).ToList();
+            }
 
-            var relatedEntires = associations.Where(p => p.Group.Name.Equals(associationType))
-                    .Select(a => a.Target);
-
-            return CreateRelatedProductsContentArea(relatedEntires);
+            return new List<ProductListViewModel>();
         }
 
         private IEnumerable<TEntryContent> GetChildrenAndRelatedEntries<TEntryContent>(CatalogContentBase catalogContent)
@@ -219,41 +225,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 .FirstOrDefault(x => x.MarketId == CurrentMarket.GetCurrentMarket().MarketId);
             return price != null &&
                 price.UnitPrice != null;
-        }
-
-        /// <summary>
-        /// Get the size guide for the product
-        /// </summary>
-        /// <param name="currentContent"></param>
-        /// <returns></returns>
-        protected int GetSizeGuide(FashionProductContent currentContent)
-        {
-            int output = UrlHelpers.GetReferenceFromUrl(currentContent.SizeGuide);
-            if (output > 0)
-            {
-                return output;
-            }
-
-            var ancestors = ContentLoader.GetAncestors(currentContent.ContentLink);
-            foreach (var ancestor in ancestors)
-            {
-                var content = ContentLoader.Get<IContent>(ancestor.ContentLink);
-                if (content is FashionStoreSubLandingNodeContent)
-                {
-                    output = UrlHelpers.GetReferenceFromUrl(((FashionStoreSubLandingNodeContent)content).SizeGuide);
-                }
-                else if (content is FashionStoreLandingNodeContent)
-                {
-                    output = UrlHelpers.GetReferenceFromUrl(((FashionStoreLandingNodeContent)content).SizeGuide);
-                }
-                if (output > 0)
-                {
-                    return output;
-                }
-            }
-            return -1;
-        }
-
-        
+        }        
     }
 }

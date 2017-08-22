@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
 using EPiServer.Framework.Localization;
 using EPiServer.Framework.Web.Mvc;
-using Mediachase.Commerce;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Web.Business;
+using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
@@ -25,18 +24,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class GenericProductContentController : CommerceControllerBase<GenericProductContent>
     {
 		private readonly LocalizationService _localizationService;
-        private readonly ProductService _productService;
         private readonly IRecommendationsService _recommendationsService;
 
-        public GenericProductContentController(
-            LocalizationService localizationService, 
-            ReadOnlyPricingLoader readOnlyPricingLoader, 
-            ICurrentMarket currentMarket, 
-            ProductService productService,
-            IRecommendationsService recommendationsService)
+        public GenericProductContentController(LocalizationService localizationService, IRecommendationsService recommendationsService)
 		{			
 			_localizationService = localizationService;
-		    _productService = productService;
 		    _recommendationsService = recommendationsService;
 		}
 
@@ -45,19 +37,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
             var model = GetProductViewModel(currentContent, currentPage, size);
 
             var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);
-            if (result.ContainsKey("productCrossSellsWidget"))
-            {
-                model.RelatedProductsContentArea = CreateRelatedProductsContentArea(result["productCrossSellsWidget"].Select(x => x.ContentLink));
-            }
-
-            if (result.ContainsKey("productAlternativesWidget"))
-            {
-                model.ProductAlternatives = _productService.GetProductListViewModels(result["productAlternativesWidget"], 3).ToList();
-            }
-            else
-            {
-                model.ProductAlternatives = new List<ProductListViewModel>();
-            }
+            model.ProductCrossSell = CreateProductListViewModels(result, "productCrossSellsWidget", 6);
+            model.ProductAlternatives = CreateProductListViewModels(result, "productAlternativesWidget", 3);
 
             return View(model);
         }
@@ -65,7 +46,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private GenericProductViewModel GetProductViewModel(GenericProductContent currentContent, HomePage currentPage, string size)
         {
             var model = CreateGenericProductViewModel(currentContent, currentPage);
-
 
             var variationItems = GetProductVariants(model);
             // Get current fashion item

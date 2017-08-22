@@ -1,6 +1,5 @@
-﻿@using System.Runtime.InteropServices
-@using OxxCommerceStarterKit.Core.Models
-@model OxxCommerceStarterKit.Web.Models.ViewModels.OrdersPageViewModel
+﻿@using OxxCommerceStarterKit.Core.Models
+@model OrdersPageViewModel
 @{
     Layout = "~/Views/Shared/_MyPageLayout.cshtml";
     ViewBag.Title = Model.CurrentPage.Name;
@@ -15,12 +14,14 @@
         <section class="order-history extra-space-bottom">
             <script type="text/javascript">
                 function openChat(e) {
-                    $zopim(function () {
-                        $zopim.livechat.window.show();
-                        $zopim.livechat.appendNotes("Customer wants help with order: " + e);
-                        $zopim.livechat.say('Hi, I would like to chat to you about my order with order number ' + e);
-                        $zopim.livechat.addTags('ordersupport');
-                    });
+                    if (typeof $zopim !== 'undefined') {
+                        $zopim(function () {
+                            $zopim.livechat.window.show();
+                            $zopim.livechat.appendNotes("Customer wants help with order: " + e);
+                            $zopim.livechat.say('Hi, I would like to chat to you about my order with order number ' + e);
+                            $zopim.livechat.addTags('ordersupport');
+                        });                        
+                    }
                 }
             </script>
             <div class="inner">

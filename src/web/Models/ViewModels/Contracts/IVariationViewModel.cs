@@ -32,5 +32,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         CartItemModel CartItem { get; set; }
         ContentArea RelatedProductsContentArea { get; set; }
         List<ProductListViewModel> ProductAlternatives { get; set; }
+        List<ProductListViewModel> ProductCrossSell { get; set; }
     }
 }
