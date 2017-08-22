@@ -8,7 +8,7 @@
 
     clickTracking: function (evt) {
         var recommendationId = $(evt.delegateTarget).data("recommendation-id");
-        Recommendations.setCookie("EPiServer_Perform_RecommendationId", recommendationId, 60);//set lifetime of this cookie to only 1 minute.
+        Recommendations.setCookie("EPiServer_Commerce_RecommendationId", recommendationId, 60);//set lifetime of this cookie to only 1 minute.
     },
 
     keyboardHandle: function (evt) {

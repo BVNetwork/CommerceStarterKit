@@ -9,12 +9,10 @@ Copyright (C) 2013-2014 BV Network AS
 */
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Framework.DataAnnotations;
-using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
@@ -47,9 +45,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             var model = new HomePageViewModel(currentPage);
 
-            var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext)?.ToList() ?? new List<Recommendation>();
-            if (result.Any())
+            var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext);
+            if (result != null)
+            {
                 model.RecommendationsForHomePage = _productService.GetProductListViewModels(result, 3).ToList();
+            }
 
             var editHints = ViewData.GetEditHints<Chrome, HomePage>();
             editHints.AddConnection(c => c.GlobalFooterContent, p => p.GlobalFooterContent);

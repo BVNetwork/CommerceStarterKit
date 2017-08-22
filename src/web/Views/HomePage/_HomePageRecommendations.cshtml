@@ -1,6 +1,11 @@
 ﻿@model HomePageViewModel
 
 
+@if (Model.ShowRecommendations)
+{
+    return;
+}
+
 <div class="overflow-hidden clearfix">
     <div class="block sectionblock narrow">
         <div class="color-@Model.CurrentPage.RecommendationSection.ColorSection color-solid-@Model.CurrentPage.RecommendationSection.ColorSection">
@@ -15,15 +20,14 @@
                                 <div class="overflow-hidden clearfix">
                                     <div class="block recommendedproductsblock narrow SectionContent">
                                         <div class="row">
-                                            @if (Model.RecommendationsForHomePage != null && Model.RecommendationsForHomePage.Any())
+
+                                            @foreach (var product in Model.RecommendationsForHomePage)
                                             {
-                                                foreach (var product in Model.RecommendationsForHomePage)
-                                                {
-                                                    <div class="col-md-4">
-                                                        @Html.Partial("ProductPartials/_ProductListView", product)
-                                                    </div>
-                                                }
+                                                <div class="col-md-4">
+                                                    @Html.Partial("ProductPartials/_ProductListView", product)
+                                                </div>
                                             }
+
                                         </div>
                                     </div>
                                 </div>

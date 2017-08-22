@@ -7,10 +7,8 @@
 </div>
 
 
-@if (Model.ShowRecommendations)
-{
-    @Html.Partial("_HomePageRecommendations", Model)
-}
+
+@Html.Partial("_HomePageRecommendations", Model)
 
 
 @Html.PropertyFor(x => x.CurrentPage.ContentAreaWide, new { CssClass = "overflow-hidden clearfix" })
