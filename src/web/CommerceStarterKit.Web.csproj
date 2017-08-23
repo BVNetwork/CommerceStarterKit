@@ -52,7 +52,6 @@
   <ItemGroup>
     <Folder Include="modules\_protected\Sannsyn\Scripts\" />
     <Folder Include="Views\PaymentBase\" />
-    <Folder Include="Views\WineSKUPartial\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
@@ -61,6 +60,7 @@
     <Compile Include="Business\Initialization\RemoveServerHeaderInitialization.cs" />
     <Compile Include="Business\Recommendations\ClickTrackingService.cs" />
     <Compile Include="Business\Recommendations\IRecommendationsService.cs" />
+    <Compile Include="Controllers\ProductPartialController.cs" />
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
     <Compile Include="Controllers\QuickBuyBlockController.cs" />
     <Compile Include="Controllers\RecommendedProductsBlockController.cs" />
@@ -835,7 +835,6 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Shared\_TopMenu.cshtml" />
-    <Content Include="Views\FashionStoreSubLandingNodeContent\Index.cshtml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\Blocks\SocialMediaLinkBlock.cshtml" />
     <Content Include="Views\Shared\_MainMenu.cshtml" />
@@ -861,11 +860,9 @@
     <Content Include="Views\Login\RequestPassword.cshtml" />
     <Content Include="Views\Login\SentForgotPassword.cshtml" />
     <Content Include="Views\Login\ResetPassword.cshtml" />
-    <Content Include="Views\FashionProductContent\_Product.cshtml" />
     <Content Include="Views\Login\Edit.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\string.cshtml" />
     <Content Include="Views\Shared\_SocialBar.cshtml" />
-    <Content Include="Views\FashionStyleContent\Index.cshtml" />
     <Content Include="Views\ChangePassword\PasswordChanged.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\password.cshtml" />
     <Content Include="Views\Checkout\Index.cshtml" />
@@ -940,7 +937,6 @@
     <Content Include="Views\CommerceReports\Index.cshtml" />
     <Content Include="Views\CommerceReports\MappedAssets.cshtml" />
     <Content Include="Views\CommerceReports\LatestOrders.cshtml" />
-    <Content Include="Views\WineSKUContent\Index.cshtml" />
     <Content Include="Views\DeveloperTools\MetaClass.cshtml" />
     <Content Include="Views\DeveloperTools\Index.cshtml" />
     <Content Include="Views\Shared\ProductPartials\_ProductListView.cshtml" />
@@ -1922,7 +1918,6 @@
     <Content Include="Views\DefaultPage\Index.mobile.cshtml" />
     <Content Include="Views\DepartmentNodeWithItemsContent\Index.cshtml" />
     <Content Include="Views\DepartmentNodeWithProductsContent\Index.cshtml" />
-    <Content Include="Views\FashionProductContent\Index.cshtml" />
     <Content Include="Views\HomePage\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_AssetImageLink.cshtml" />
