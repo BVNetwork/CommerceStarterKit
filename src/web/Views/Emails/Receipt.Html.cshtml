@@ -1,5 +1,11 @@
 ﻿@using System.Web.Mvc.Html
 @model OxxCommerceStarterKit.Web.Services.Email.Models.Receipt
+@helper Recommendation(string email, int wid, int rno) {
+    <a href="https://partnerdemo.peerius.com/tracker/er/link.page?e=@email&site=episervernorway&wid=@wid&rno=@rno"><img src="https://partnerdemo.peerius.com/tracker/er/image.page?e=@email&site=episervernorway&wid=@wid&rno=@rno" alt="Just for you" title="Just for you" /></a>
+
+    <!-- product information link and image  for recommendation #1 -->
+    <a href="https://partnerdemo.peerius.com/tracker/er/link.page?e=@email&site=episervernorway&wid=@wid&rno=@rno"><img src="https://partnerdemo.peerius.com/tracker/er/productinfo.page?e=@email&site=episervernorway&wid=@wid&rno=@rno" alt="Just for you" title="Just for you" /></a>
+}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,7 +21,7 @@
 
     <style type="text/css" media="screen">
         @@media screen {
-            /* Thanks Outlook 2013! http://goo.gl/XLxpyl */
+            /* Thanks Outlook 2013! */
             * {
                 font-family: 'Oxygen', 'Helvetica Neue', 'Arial', 'sans-serif' !important;
             }
@@ -241,6 +247,41 @@
                     </table>
                 </center>
             </td>
+        </tr>
+        <tr>
+            <td align="center" valign="top" width="100%" style="background-color: #f7f7f7;" class="content-padding">
+                <center>
+                    <table cellspacing="0" cellpadding="0" width="600" class="w320">
+                        <tr>
+                            <td class="header-lg">
+                                Recommendations for you
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="free-text">
+                                Want even more? Check out these personalized recommendations just for you!
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="w320">
+                                <table cellpadding="0" cellspacing="0" width="100%">
+                                    <tr>
+                                        <td class="mini-container-left">
+                                            <!-- RECOMMENDATION #1 -->
+                                            @Recommendation(Model.To, 77751, 0)
+                                        </td>
+                                        <td class="mini-container-right">
+                                            <!-- RECOMMENDATION #2 -->
+                                            @Recommendation(Model.To, 77751, 1)
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </center>
+            </td>
+
         </tr>
         <tr>
             <td align="center" valign="top" width="100%" style="background-color: #f7f7f7; height: 100px;">
