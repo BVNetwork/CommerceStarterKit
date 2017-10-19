@@ -160,7 +160,7 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
             //_log.Debug("Loaded {0} entries in category {1} using CatalogContentLoader", loadedEntries, node.Name);
 
             // Get child nodes the same way done by the UI
-            IList<GetChildrenReferenceResult> catalogNodes = contentLoader.GetCatalogNodes(node.ContentLink);
+            IList<CatalogGetChildrenReferenceResult> catalogNodes = contentLoader.GetCatalogNodes(node.ContentLink);
             _log.Debug("Loaded {0} categories in category {1} using CatalogContentLoader", catalogNodes.Count, node.Name);
             foreach (GetChildrenReferenceResult catalogNode in catalogNodes)
             {
