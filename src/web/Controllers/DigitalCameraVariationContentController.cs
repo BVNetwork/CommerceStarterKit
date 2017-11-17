@@ -26,13 +26,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class DigitalCameraVariationContentController : CommerceControllerBase<DigitalCameraVariationContent>
     {
         private readonly ICurrentMarket _currentMarket;
-        private readonly IRecommendationsService _recommendationsService;
+        private readonly IRecommendationService _recommendationService;
 
        
-        public DigitalCameraVariationContentController(ICurrentMarket currentMarket, IRecommendationsService recommendationsService)
+        public DigitalCameraVariationContentController(ICurrentMarket currentMarket, IRecommendationService recommendationService)
         {
             _currentMarket = currentMarket;
-            _recommendationsService = recommendationsService;
+            _recommendationService = recommendationService;
         }
 
         
@@ -46,7 +46,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             viewModel.PriceViewModel = currentContent.GetPriceModel();
             viewModel.AllVariationSameStyle = CreateRelatedVariationViewModelCollection(currentContent, Constants.AssociationTypes.SameStyle);
 
-            var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);
+            var result = _recommendationService.GetRecommendationsForProductPage(currentContent.Code, HttpContext, currentContent);
             viewModel.ProductCrossSell = CreateProductListViewModels(result, "productCrossSellsWidget", 6);
             viewModel.ProductAlternatives = CreateProductListViewModels(result, "productAlternativesWidget", 3);
 

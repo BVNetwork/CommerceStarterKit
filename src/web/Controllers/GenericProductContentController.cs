@@ -14,7 +14,6 @@ using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Catalog;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
-using OxxCommerceStarterKit.Web.Services;
 using SelectListItem = OxxCommerceStarterKit.Web.Models.ViewModels.SelectListItem;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -24,19 +23,19 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class GenericProductContentController : CommerceControllerBase<GenericProductContent>
     {
 		private readonly LocalizationService _localizationService;
-        private readonly IRecommendationsService _recommendationsService;
+        private readonly IRecommendationService _recommendationService;
 
-        public GenericProductContentController(LocalizationService localizationService, IRecommendationsService recommendationsService)
+        public GenericProductContentController(LocalizationService localizationService, IRecommendationService recommendationService)
 		{			
 			_localizationService = localizationService;
-		    _recommendationsService = recommendationsService;
+		    _recommendationService = recommendationService;
 		}
 
         public ViewResult Index(GenericProductContent currentContent, HomePage currentPage, string size)
         {
             var model = GetProductViewModel(currentContent, currentPage, size);
 
-            var result = _recommendationsService.GetRecommendationsForProductPage(currentContent.Code, HttpContext);
+            var result = _recommendationService.GetRecommendationsForProductPage(currentContent.Code, HttpContext, currentContent);
             model.ProductCrossSell = CreateProductListViewModels(result, "productCrossSellsWidget", 6);
             model.ProductAlternatives = CreateProductListViewModels(result, "productAlternativesWidget", 3);
 

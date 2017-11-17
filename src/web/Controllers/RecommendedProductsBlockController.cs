@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Web.Mvc;
-using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -15,9 +13,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
     {
 
         private readonly ProductService _productService;
-        private readonly IRecommendationsService _recommendationsService;
+        private readonly IRecommendationService _recommendationsService;
 
-        public RecommendedProductsBlockController(ProductService productService, IRecommendationsService recommendationsService)
+        public RecommendedProductsBlockController(ProductService productService, IRecommendationService recommendationsService)
         {
             _productService = productService;
 
@@ -27,24 +25,24 @@ namespace OxxCommerceStarterKit.Web.Controllers
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
            
-            var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext)?.ToList() ?? new List<Recommendation>();
+            //var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext)?.ToList() ?? new List<Recommendation>();
           
-            if (result.Count < 3)
-            {
-                result.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation(0, x)));
-            }
+            //if (result.Count < 3)
+            //{
+            //    result.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation(0, x)));
+            //}
 
-            var productViewModels = _productService.GetProductListViewModels(result, 3).ToList();
+          //  var productViewModels = _productService.GetProductListViewModels(result, 3).ToList();
            
-            var recommendedResult = new RecommendedResult
-            {
-                Heading = currentBlock.Heading,
-                Products = productViewModels
-            };
+            //var recommendedResult = new RecommendedResult
+            //{
+            //    Heading = currentBlock.Heading,
+            //    Products = productViewModels
+            //};
 
-            TrackGoogleAnalyticsImpressions(currentBlock, productViewModels);
+            //TrackGoogleAnalyticsImpressions(currentBlock, productViewModels);
 
-            return View("_recommendedProductsBlock", recommendedResult);
+            return View("_recommendedProductsBlock", null);
         }
 
 

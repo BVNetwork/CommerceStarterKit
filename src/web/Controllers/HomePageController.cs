@@ -27,12 +27,12 @@ namespace OxxCommerceStarterKit.Web.Controllers
     {
 
         private readonly ProductService _productService;
-        private readonly IRecommendationsService _recommendationsService;
+        private readonly IRecommendationService _recommendationService;
 
-        public HomePageController(IContentLoader contentLoader, ProductService productService, IRecommendationsService recommendationsService)
+        public HomePageController(IContentLoader contentLoader, ProductService productService, IRecommendationService recommendationService)
         {
             _productService = productService;
-            _recommendationsService = recommendationsService;
+            _recommendationService = recommendationService;
         }
 
         public ViewResult Index(HomePage currentPage)
@@ -45,7 +45,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             var model = new HomePageViewModel(currentPage);
 
-            var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext);
+            var result = _recommendationService.GetRecommendationsForHomePage(HttpContext, currentPage);
             if (result != null)
             {
                 model.RecommendationsForHomePage = _productService.GetProductListViewModels(result, 3).ToList();

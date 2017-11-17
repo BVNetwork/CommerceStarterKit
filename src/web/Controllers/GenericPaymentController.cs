@@ -14,8 +14,8 @@ using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Editor;
 using EPiServer.Logging;
-using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
+//using EPiServer.Recommendations.Commerce.Tracking;
+//using EPiServer.Recommendations.Tracking;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Orders;
 using Mediachase.Commerce.Orders.Managers;
@@ -32,6 +32,7 @@ using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels.Payment;
 using LineItem = OxxCommerceStarterKit.Core.Objects.LineItem;
 using OxxCommerceStarterKit.Core.Services;
+using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
@@ -45,8 +46,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ICurrentMarket _currentMarket;
         private readonly ILogger _logger;
         private readonly IMetricsLoggingService _metricsLoggingService;
-        private readonly ITrackingService _trackingService;
-        private readonly TrackingDataFactory _trackingDataFactory;
+        private readonly IRecommendationService _recommendationService;
 
         public GenericPaymentController(
             IContentRepository contentRepository,
@@ -55,10 +55,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
             ISiteSettingsProvider siteConfiguration,
             ICurrentMarket currentMarket,
             ILogger logger,
-            IMetricsLoggingService metricsLoggingService, 
-            ITrackingService trackingService, 
-            TrackingDataFactory trackingDataFactory)
-
+            IMetricsLoggingService metricsLoggingService,
+            IRecommendationService recommendationService)
         {
             _contentRepository = contentRepository;
             _orderService = orderService;
@@ -67,8 +65,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             _currentMarket = currentMarket;
             _logger = logger;
             _metricsLoggingService = metricsLoggingService;
-            _trackingService = trackingService;
-            _trackingDataFactory = trackingDataFactory;
+            _recommendationService = recommendationService;
         }
 
         [RequireSSL]
@@ -139,8 +136,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     cartHelper.Cart.AcceptChanges();
 
                     // Track successfull order 
-                    var trackingData = _trackingDataFactory.CreateOrderTrackingData(purchaseOrder, HttpContext);
-                    _trackingService.Send(trackingData, HttpContext, RetrieveRecommendationMode.Disabled);
+                    //var trackingData = _trackingDataFactory.CreateOrderTrackingData(purchaseOrder, HttpContext);
+                    //_trackingService.Send(trackingData, HttpContext, RetrieveRecommendationMode.Disabled);
+                    _recommendationService.TrackOrder(purchaseOrder, HttpContext, CurrentPage);
                 }
 
                 System.Diagnostics.Trace.WriteLine("Loading Order: " + orderNumber);

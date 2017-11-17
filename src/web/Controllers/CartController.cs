@@ -18,8 +18,11 @@ using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Framework.DataAnnotations;
-using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
+using EPiServer.Personalization.Commerce.Extensions;
+using EPiServer.Personalization.Commerce.Tracking;
+using EPiServer.Tracking.Commerce;
+//using EPiServer.Recommendations.Commerce.Tracking;
+//using EPiServer.Recommendations.Tracking;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Core.Objects;
 using OxxCommerceStarterKit.Web.Business.Analytics;
@@ -52,13 +55,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
         /// <summary>
         /// The main view for the cart.
         /// </summary>
-        [Tracking(TrackingType.Basket)]
+        [CommerceTracking(TrackingType.Basket)]
         public ViewResult Index(CartSimpleModulePage currentPage)
         {
             CartModel model = new CartModel(currentPage);
 
             // Get recommendations for the contents of the cart
-            var recommendedProductsForCart =  this.GetRecommendationGroups()
+            var recommendedProductsForCart = this.GetRecommendationGroups()
                    .Where(x => x.Area == "basketWidget")
                    .SelectMany(x => x.Recommendations)
                    .ToList();
@@ -74,7 +77,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         protected void PopulateRecommendations(CartModel model, List<Recommendation> recommendedProductsForCart, int maxCount = 6)
         {
             if (model.LineItems.Any())
-            {               
+            {
                 List<ProductListViewModel> recommendedProductList = new List<ProductListViewModel>();
                 if (recommendedProductsForCart.Any())
                 {

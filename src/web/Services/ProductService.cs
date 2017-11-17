@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Recommendations.Commerce.Tracking;
+using EPiServer.Personalization.Commerce.Tracking;
 using Mediachase.Commerce;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 

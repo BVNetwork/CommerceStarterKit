@@ -2,18 +2,18 @@ using System.Web.Http;
 using System.Web.Routing;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
-using EPiServer.Recommendations.Commerce.CatalogFeed;
+using EPiServer.Personalization.Commerce.CatalogFeed;
 using EPiServer.ServiceLocation;
 
 namespace OxxCommerceStarterKit.Web.Business.Recommendations
 {
     [ModuleDependency(typeof(EPiServer.Web.InitializationModule))]
-    public class RecommendationsInitialization : IInitializableModule
+    public class RecommendationInitialization : IInitializableModule
     {
         public void Initialize(InitializationEngine context)
         {
 
-            // Add catalog feed route
+            //// Add catalog feed route
             RouteTable.Routes.MapHttpRoute(
                 "episerverapi",
                 "episerverapi/getcatalogfeed/{id}",

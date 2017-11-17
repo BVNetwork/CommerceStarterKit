@@ -5,10 +5,11 @@ using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Order;
 using EPiServer.Core;
-using EPiServer.Recommendations.Commerce.Tracking;
-using EPiServer.Recommendations.Tracking;
-using EPiServer.Recommendations.Tracking.Data;
+using EPiServer.Personalization.Commerce.Tracking;
 using EPiServer.ServiceLocation;
+using EPiServer.Tracking.Commerce;
+using EPiServer.Tracking.Commerce.Data;
+using EPiServer.Tracking.Core;
 using Mediachase.Commerce.Catalog;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.EditorDescriptors;
@@ -16,8 +17,8 @@ using OxxCommerceStarterKit.Web.Models.PageTypes;
 
 namespace OxxCommerceStarterKit.Web.Business.Recommendations
 {
-    [ServiceConfiguration(typeof(IRecommendationsService))]
-    public class RecommendationsService : IRecommendationsService
+    [ServiceConfiguration(typeof(IRecommendationService))]
+    public class RecommendationService : IRecommendationService
     {
         private readonly TrackingDataFactory _trackingDataFactory;
         private readonly ITrackingService _trackingService;
@@ -25,7 +26,7 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
 
         private readonly RecommendationsMode _mode;
 
-        public RecommendationsService(TrackingDataFactory trackingDataFactory, ITrackingService trackingService, ReferenceConverter referenceConverter, IContentLoader contentLoader)
+        public RecommendationService(TrackingDataFactory trackingDataFactory, ITrackingService trackingService, ReferenceConverter referenceConverter, IContentLoader contentLoader)
         {
             _trackingDataFactory = trackingDataFactory;
             _trackingService = trackingService;
@@ -35,52 +36,54 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
             _mode = homePage.Settings.RecommendationsMode.ToEnum(RecommendationsMode.Disabled);
         }
 
-        public IEnumerable<Recommendation> GetRecommendationsForHomePage(HttpContextBase context)
+        public IEnumerable<Recommendation> GetRecommendationsForHomePage(HttpContextBase context, IContent content)
         {
-            var trackingData = _trackingDataFactory.CreateHomeTrackingData(context);
-            return GetRecommendations(trackingData, context)?.Values.FirstOrDefault();
+            HomeTrackingData trackingData = _trackingDataFactory.CreateHomeTrackingData(context);
+            return GetRecommendations(trackingData, context, content)?.Values.FirstOrDefault();
         }
 
-        public IEnumerable<Recommendation> GetRecommendationsForCategoryPage(NodeContent node, HttpContextBase context)
+        public IEnumerable<Recommendation> GetRecommendationsForCategoryPage(NodeContent node, HttpContextBase context, IContent content)
         {
             var trackingData = _trackingDataFactory.CreateCategoryTrackingData(node, context);
-            return GetRecommendations(trackingData, context)?.Values.FirstOrDefault();
+            return GetRecommendations(trackingData, context, content)?.Values.FirstOrDefault();
         }
 
-        public IDictionary<string, IEnumerable<Recommendation>> GetRecommendationsForProductPage(string productCode, HttpContextBase context)
+        public IDictionary<string, IEnumerable<Recommendation>> GetRecommendationsForProductPage(string productCode, HttpContextBase context, IContent content)
         {
             var trackingData = _trackingDataFactory.CreateProductTrackingData(productCode, context);
-            return GetRecommendations(trackingData, context);
+            return GetRecommendations(trackingData, context, content);
         }
 
-        public IEnumerable<Recommendation> GetRecommendationsForBasketPage(HttpContextBase context)
+        public IEnumerable<Recommendation> GetRecommendationsForBasketPage(HttpContextBase context, IContent content)
         {
             var trackingData = _trackingDataFactory.CreateCartTrackingData(context);
-            return GetRecommendations(trackingData, context)?.Values.FirstOrDefault();
+            return GetRecommendations(trackingData, context, content)?.Values.FirstOrDefault();
         }
 
-        public IEnumerable<Recommendation> GetRecommendationsForSearchPage(string term, IEnumerable<string> productCodes, HttpContextBase context)
+        public IEnumerable<Recommendation> GetRecommendationsForSearchPage(string term, IEnumerable<string> productCodes, HttpContextBase context, IContent content)
         {
             var trackingData = _trackingDataFactory.CreateSearchTrackingData(term, productCodes, context);
-            return GetRecommendations(trackingData, context)?.Values.FirstOrDefault();
+            return GetRecommendations(trackingData, context, content)?.Values.FirstOrDefault();
         }
 
-        public void TrackOrder(IPurchaseOrder purchaseOrder, HttpContextBase context)
+        public void TrackOrder(IPurchaseOrder purchaseOrder, HttpContextBase context, IContent content)
         {
             var trackingData = _trackingDataFactory.CreateOrderTrackingData(purchaseOrder, context);
-            _trackingService.Send(trackingData, context, RetrieveRecommendationMode.Disabled);
+            _trackingService.Track(trackingData, context, content);
         }
 
-        private IDictionary<string, IEnumerable<Recommendation>> GetRecommendations(TrackingDataBase trackingData, HttpContextBase context)
+        private IDictionary<string, IEnumerable<Recommendation>> GetRecommendations(CommerceTrackingData trackingData, HttpContextBase context, IContent content)
         {
+
             var returnValue = new Dictionary<string, IEnumerable<Recommendation>>();
 
             if (_mode == RecommendationsMode.Disabled)
                 return returnValue;
 
-            var result = _trackingService.Send(trackingData, context, RetrieveRecommendationMode.Enabled);
+            var result = _trackingService.Track(trackingData, context, content);
 
-            if (_mode == RecommendationsMode.TrackingOnly && context.Request.QueryString["showrecs"] == null)
+            if (result == null ||
+                _mode == RecommendationsMode.TrackingOnly && context.Request.QueryString["showrecs"] == null)
                 return returnValue;
 
             if (result.SmartRecs != null)
