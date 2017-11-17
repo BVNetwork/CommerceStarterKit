@@ -55,6 +55,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
+    <Compile Include="Business\JsonChannel\JsonPageDataController.cs" />
+    <Compile Include="Business\JsonChannel\HeadlessChannel.cs" />
+    <Compile Include="Business\JsonChannel\JsonCatalogContentController.cs" />
     <Compile Include="Business\Recommendations\RecommendationInitialization.cs" />
     <Compile Include="Business\Events\OrderRepositoryCallback.cs" />
     <Compile Include="Business\Initialization\RemoveServerHeaderInitialization.cs" />
@@ -1276,6 +1279,9 @@
     <Reference Include="ImageResizer.Plugins.EPiServerBlobReader, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ImageResizer.Plugins.EPiServerBlobReader.2.0.1\lib\net452\ImageResizer.Plugins.EPiServerBlobReader.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="JOS.ContentSerializer, Version=1.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\JOS.ContentSerializer.1.0.1\lib\net452\JOS.ContentSerializer.dll</HintPath>
     </Reference>
     <Reference Include="log4net, Version=1.2.13.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
