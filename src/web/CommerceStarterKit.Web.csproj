@@ -60,6 +60,7 @@
     <Compile Include="Business\Initialization\RemoveServerHeaderInitialization.cs" />
     <Compile Include="Business\Recommendations\RecommendationContext.cs" />
     <Compile Include="Business\Recommendations\IRecommendationService.cs" />
+    <Compile Include="Business\Rss\FeedResult.cs" />
     <Compile Include="Controllers\ProductPartialController.cs" />
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
     <Compile Include="Controllers\QuickBuyBlockController.cs" />

@@ -11,6 +11,8 @@ Copyright (C) 2013-2014 BV Network AS
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel.Syndication;
+using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Commerce.Catalog;
 using EPiServer.Commerce.Catalog.ContentTypes;
@@ -22,11 +24,14 @@ using EPiServer.Personalization.Commerce.Tracking;
 //using EPiServer.Recommendations.Commerce.Tracking;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc;
+using EPiServer.Web.Mvc.Html;
 using Mediachase.Commerce;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Web.Business;
+using OxxCommerceStarterKit.Web.Business.Rss;
+using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
 
@@ -226,6 +231,36 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 .FirstOrDefault(x => x.MarketId == CurrentMarket.GetCurrentMarket().MarketId);
             return price != null &&
                 price.UnitPrice != null;
-        }        
+        }
+
+        public ActionResult Rss(EntryContentBase currentContent)
+        {
+
+            if (Request.Url != null)
+            {
+                string pageBaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host,
+                    Request.Url.IsDefaultPort ? string.Empty : ":" + Request.Url.Port);
+                
+                var imageUrl = string.Empty;
+                if (currentContent.CommerceMediaCollection.Any())
+                {
+                    imageUrl = Url.ContentUrl(currentContent.CommerceMediaCollection.First().AssetLink);
+                }
+
+                var description = string.Empty;
+                if (currentContent["Overview"] != null)
+                {
+                    description = ((XhtmlString) currentContent["Overview"]).ToHtmlString().StripHtml();
+                }
+
+                var feed = new SyndicationFeed(currentContent.Name, description, new Uri(Request.Url.AbsoluteUri), null)
+                {                    
+                    ImageUrl = new Uri(pageBaseUrl + imageUrl), 
+                };
+
+                return new FeedResult(new Rss20FeedFormatter(feed));
+            }
+            return null;
+        }
     }
 }

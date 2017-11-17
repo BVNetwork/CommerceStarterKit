@@ -11,16 +11,23 @@ Copyright (C) 2013-2014 BV Network AS
 using System;
 using System.Linq;
 using System.Reflection;
+using System.ServiceModel.Syndication;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
+using EPiServer.Find.Cms;
+using EPiServer.Find.Framework;
 using EPiServer.Logging;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc;
+using EPiServer.Web.Mvc.Html;
 using OxxCommerceStarterKit.Web.Business;
+using OxxCommerceStarterKit.Web.Business.Rss;
+
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
+using OxxCommerceStarterKit.Web.Extensions;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -139,5 +146,23 @@ namespace OxxCommerceStarterKit.Web.Controllers
 				.FirstOrDefault();
 		}
 
-	}
+	    public ActionResult Rss(PageData currentPage)
+	    {
+
+	        var childPages = _contentLoaderService.Service.GetChildren<PageData>(currentPage.ContentLink);
+
+            if (Request.Url != null)
+	        {
+	            string pageBaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host,
+	                Request.Url.IsDefaultPort ? string.Empty : ":" + Request.Url.Port);
+                var postItems = childPages.Select(
+                    p => new SyndicationItem(p.Name, p["Intro"]?.ToString().StripHtml(), new Uri(pageBaseUrl + Url.ContentUrl(p.ContentLink))));
+
+                var feed = new SyndicationFeed(currentPage.Name, currentPage["Intro"]?.ToString().StripHtml(), new Uri(Request.Url.AbsoluteUri), postItems);
+
+	            return new FeedResult(new Rss20FeedFormatter(feed));
+	        }
+	        return null;
+	    }	    
+    }
 }

@@ -8,18 +8,25 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.ServiceModel.Syndication;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
+using EPiServer.Find;
+using EPiServer.Find.Cms;
+using EPiServer.Find.Framework;
 using EPiServer.ServiceLocation;
 using EPiServer.SpecializedProperties;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Core.Extensions;
+using OxxCommerceStarterKit.Web.Business.Rss;
 using OxxCommerceStarterKit.Web.Extensions;
+using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels.Simple;
@@ -74,6 +81,40 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             return View(model);
         }
+
+        public ActionResult Rss(ShoppingCategoryPage currentContent)
+        {
+
+            if (Request.Url != null)
+            {
+                var result = SearchClient.Instance.Search<FindProduct>()
+                    .AddFilterForIntList(GetCommerceNodeIdList(currentContent).Select(x => x.ID), "ParentCategoryId")
+                    .Filter(x => x.Language.Match(currentContent.Language.TwoLetterISOLanguageName))
+                    .Take(25)
+                    .Select(x => new
+                    {
+                        x.Name,
+                        Overview = x.Overview.AsCropped(250),
+                        x.ProductUrl
+                    })
+                    .GetResult();
+
+                var items = result.Select(p => new SyndicationItem(p.Name, p.Overview, new Uri(p.ProductUrl)));
+
+                var description = string.Empty;
+
+                if (currentContent.PageSubHeader != null)
+                {
+                    description = currentContent.PageSubHeader.ToHtmlString().StripHtml();
+                }
+
+                var feed = new SyndicationFeed(currentContent.Name, description, new Uri(Request.Url.AbsoluteUri), items);
+
+                return new FeedResult(new Rss20FeedFormatter(feed));
+            }
+            return null;
+        }
+
         private string GetMainCategoryFromParentPage(ContentReference parentReference, CultureInfo languageInfo)
         {
             var parentPage = _contentLoader.Get<PageData>(parentReference, new LanguageSelector(languageInfo.Name)) as ShoppingCategoryPage;
