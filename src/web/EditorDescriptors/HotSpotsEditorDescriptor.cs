@@ -18,7 +18,7 @@ namespace OxxCommerceStarterKit.Web.EditorDescriptors
 	{
 		public HotSpotsEditorDescriptor()
 		{
-			this.ClientEditingClass = "app.editors.HotSpotsEditor";
+			this.ClientEditingClass = "app/editors/HotSpotsEditor";
 		}
 
 

@@ -478,6 +478,7 @@
     <Content Include="modules\_protected\MenuPin\ClientResources\Scripts\MenuPin\MenuPinForFind.js" />
     <Content Include="modules\_protected\MenuPin\ClientResources\Scripts\MenuPin\MenuPinInit.js" />
     <Content Include="NotFound.aspx" />
+    <Content Include="nuget\nuget.exe" />
     <Content Include="Plugins\CommerceTools\Prices\UpdatePrices.aspx" />
     <Content Include="Plugins\CommerceTools\static\css\bootstrap-datepicker.css" />
     <Content Include="Plugins\CommerceTools\static\css\bootstrap-datepicker3.css" />
@@ -705,6 +706,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="readme.txt" />
     <Content Include="Resources\LanguageFiles\Common_en.xml">
       <SubType>Designer</SubType>
     </Content>
@@ -1172,6 +1174,9 @@
     <Reference Include="EPiServer.ImageLibrary, Version=10.10.4.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.Core.10.10.4\lib\net45\EPiServer.ImageLibrary.dll</HintPath>
     </Reference>
+    <Reference Include="Episerver.Labs.Cognitive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Episerver.Labs.Cognitive.0.9.0\lib\net461\Episerver.Labs.Cognitive.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Licensing, Version=10.10.4.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Framework.10.10.4\lib\net45\EPiServer.Licensing.dll</HintPath>
     </Reference>
@@ -1345,6 +1350,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.ProjectOxford.Vision, Version=1.0.372.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.ProjectOxford.Vision.1.0.372\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Microsoft.ProjectOxford.Vision.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.ReportViewer.Common, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\..\packages\Microsoft.ReportViewer.Common.10.0.40219.1\lib\Microsoft.ReportViewer.Common.dll</HintPath>
