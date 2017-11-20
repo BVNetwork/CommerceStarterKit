@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
@@ -23,9 +24,12 @@ namespace OxxCommerceStarterKit.Web.Api
 
             if (dataset != null)
             {
-                if (!string.IsNullOrWhiteSpace(dataset.Email))
+              
+                var email = HttpUtility.UrlEncode(dataset.Email);
+
+                if (!string.IsNullOrWhiteSpace(email))
                 {
-                    var url = GetUrl(dataset.Email);
+                    var url = GetUrl(email);
 
                     using (var client = new System.Net.Http.HttpClient())
                     {
@@ -35,7 +39,7 @@ namespace OxxCommerceStarterKit.Web.Api
                             var content = await response.Content.ReadAsStringAsync();
 
                             if (_logger.Service.IsInformationEnabled())
-                                _logger.Service.Log(Level.Information, "WebhookSubscribe " + content);
+                                _logger.Service.Log(Level.Information, "Email: " + email + " Result:" + content);
 
                             return content;
                         }
@@ -48,7 +52,7 @@ namespace OxxCommerceStarterKit.Web.Api
 
         private static string GetUrl(string email)
         {
-           // var urlFormat = ConfigurationManager.AppSettings["CampaignSubscribeUrl"];
+
             var key = ConfigurationManager.AppSettings["CampaignKey"];
             var bmOptInId = ConfigurationManager.AppSettings["CampaignOptInId"];
             var bmOptinSource = ConfigurationManager.AppSettings["CampaignOptInSource"];

@@ -27,14 +27,15 @@
             if (IsEmail(email)) {
                 $.ajax({
                     dataType: 'json',
-                    url: '@NewsLetterConfiguration.GetModuleBaseDir()/api/subscription/subscribe?email=' + email,
+                    contentType: 'application/json',
+                    data: JSON.stringify({Email : email}),
+                    url: '/en/api/campaign/WebhookSubscribe',
                     type: 'POST'
                 })
                     .done(function (data) {
-                        var success = data.subscriptionResult;
-                        if (success) {
+                        
+                        if (data == 'ok') {
                             $('#@successId').removeClass('hidden');
-                            // $('#@txtId').val('');
                         } else {
                             $('#@failedId').removeClass('hidden');
                         }
