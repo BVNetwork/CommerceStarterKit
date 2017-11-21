@@ -8,18 +8,13 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using EPiServer.Shell.ObjectEditing;
-using EPiServer.Web;
 using OxxCommerceStarterKit.Core.Attributes;
-using OxxCommerceStarterKit.Web.EditorDescriptors;
 using OxxCommerceStarterKit.Web.Models.Blocks;
-using OxxCommerceStarterKit.Web.Models.CustomProperties;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels.Contracts;
 

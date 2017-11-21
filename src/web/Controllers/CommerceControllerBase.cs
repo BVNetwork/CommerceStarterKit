@@ -258,7 +258,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     ImageUrl = new Uri(pageBaseUrl + imageUrl), 
                 };
 
-                return new FeedResult(new Rss20FeedFormatter(feed));
+                return new FeedResult(new Atom10FeedFormatter(feed));
             }
             return null;
         }

@@ -65,6 +65,7 @@
     <Compile Include="Business\Recommendations\RecommendationContext.cs" />
     <Compile Include="Business\Recommendations\IRecommendationService.cs" />
     <Compile Include="Business\Rss\FeedResult.cs" />
+    <Compile Include="Business\Rss\SyndicationFeedExtensions.cs" />
     <Compile Include="Controllers\ProductPartialController.cs" />
     <Compile Include="Controllers\GenericCampaignPartialController.cs" />
     <Compile Include="Controllers\QuickBuyBlockController.cs" />

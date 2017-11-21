@@ -20,8 +20,6 @@ using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Framework;
-using EPiServer.ServiceLocation;
-using EPiServer.SpecializedProperties;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Business.Rss;
@@ -95,11 +93,18 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     {
                         x.Name,
                         Overview = x.Overview.AsCropped(250),
+                        x.DefaultImageUrl,
                         x.ProductUrl
                     })
                     .GetResult();
 
-                var items = result.Select(p => new SyndicationItem(p.Name, p.Overview, new Uri(p.ProductUrl)));
+                var items = new List<SyndicationItem>();
+                foreach (var p in result)
+                {
+                    var item = new SyndicationItem(p.Name, p.Overview, new Uri(p.ProductUrl));
+                    item.SetMediaContent(p.DefaultImageUrl + "?preset=listmedium");
+                    items.Add(item);
+                }
 
                 var description = string.Empty;
 
@@ -109,8 +114,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 }
 
                 var feed = new SyndicationFeed(currentContent.Name, description, new Uri(Request.Url.AbsoluteUri), items);
+                feed.AddYahooMediaNamespace();
 
-                return new FeedResult(new Rss20FeedFormatter(feed));
+                return new FeedResult(new Atom10FeedFormatter(feed));
             }
             return null;
         }
