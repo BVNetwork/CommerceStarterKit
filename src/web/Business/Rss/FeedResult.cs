@@ -6,6 +6,7 @@ using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace OxxCommerceStarterKit.Web.Business.Rss
 {
@@ -31,7 +32,7 @@ namespace OxxCommerceStarterKit.Web.Business.Rss
                 throw new ArgumentNullException("context");
 
             HttpResponseBase response = context.HttpContext.Response;
-            response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/rss+xml";
+            response.ContentType = !string.IsNullOrEmpty(ContentType) ? ContentType : "application/xml";
 
             if (ContentEncoding != null)
                 response.ContentEncoding = ContentEncoding;

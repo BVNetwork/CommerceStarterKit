@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.ServiceModel.Syndication;
+using System.Text;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
@@ -102,7 +103,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 foreach (var p in result)
                 {
                     var item = new SyndicationItem(p.Name, p.Overview, new Uri(p.ProductUrl));
-                    item.SetMediaContent(p.DefaultImageUrl + "?preset=listmedium");
+                    item.SetEnclosure(p.DefaultImageUrl + "?preset=listmedium");
                     items.Add(item);
                 }
 
@@ -114,9 +115,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 }
 
                 var feed = new SyndicationFeed(currentContent.Name, description, new Uri(Request.Url.AbsoluteUri), items);
-                feed.AddYahooMediaNamespace();
 
-                return new FeedResult(new Atom10FeedFormatter(feed));
+                return new FeedResult(new Rss20FeedFormatter(feed));
             }
             return null;
         }

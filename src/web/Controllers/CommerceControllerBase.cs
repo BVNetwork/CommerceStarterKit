@@ -238,7 +238,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             if (Request.Url != null)
             {
-                string pageBaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host,
+                string pageBaseUrl = string.Format("{0}://{1}{2}", "https", Request.Url.Host,
                     Request.Url.IsDefaultPort ? string.Empty : ":" + Request.Url.Port);
                 
                 var imageUrl = string.Empty;
@@ -258,7 +258,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     ImageUrl = new Uri(pageBaseUrl + imageUrl), 
                 };
 
-                return new FeedResult(new Atom10FeedFormatter(feed));
+                return new FeedResult(new Rss20FeedFormatter(feed));
             }
             return null;
         }

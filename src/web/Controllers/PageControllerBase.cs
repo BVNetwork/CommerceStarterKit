@@ -149,7 +149,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             if (Request.Url != null)
 	        {
-	            string pageBaseUrl = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host,
+	            string pageBaseUrl = string.Format("{0}://{1}{2}", "https", Request.Url.Host,
 	                Request.Url.IsDefaultPort ? string.Empty : ":" + Request.Url.Port);
 
                 var items = new List<SyndicationItem>();
@@ -163,7 +163,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
                     var itemImageUrl = childPage["ListViewImage"] != null ? pageBaseUrl + urlHelper.ContentUrl((Url)childPage["ListViewImage"]) + "?preset=listmedium" : string.Empty;
                     if(!string.IsNullOrWhiteSpace(itemImageUrl))
-                        item.SetMediaContent(itemImageUrl);
+                        item.SetEnclosure(itemImageUrl);
 
                     items.Add(item);
 	            }
@@ -171,11 +171,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	            var intro = currentPage["Intro"] != null ? currentPage["Intro"].ToString().StripHtml() : string.Empty;
 	            var imageUrl = currentPage["ListViewImage"] != null ? pageBaseUrl + urlHelper.ContentUrl((Url)currentPage["ListViewImage"]) + "?preset=listmedium" : string.Empty;
                 var feed = new SyndicationFeed(currentPage.Name, intro, new Uri(Request.Url.AbsoluteUri), items);
+	            feed.LastUpdatedTime = currentPage.Changed;
                 if(!string.IsNullOrWhiteSpace(imageUrl))
                     feed.ImageUrl = new Uri(imageUrl);
-	            feed.AddYahooMediaNamespace();
 
-                return new FeedResult(new Atom10FeedFormatter(feed));
+                return new FeedResult(new Rss20FeedFormatter(feed));
 	        }
 	        return null;
 	    }	    
