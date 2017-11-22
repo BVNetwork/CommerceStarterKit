@@ -42,9 +42,7 @@ namespace OxxCommerceStarterKit.Web.Business.Rss
         {
             XNamespace ns = YahooMediaNamespace;
             item.ElementExtensions.Add(new SyndicationElementExtension(
-                new XElement(
-                    ns + "content",
-                    new XAttribute("url", url))));
+                new XElement(ns + "content", url)));
         }
     }
 }
