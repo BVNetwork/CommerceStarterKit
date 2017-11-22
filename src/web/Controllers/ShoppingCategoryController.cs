@@ -107,7 +107,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 {
                     var productUrl = p.ProductUrl.StartsWith("https") ? p.ProductUrl : pageBaseUrl + p.ProductUrl;
                     var item = new SyndicationItem(p.Name, p.Overview, new Uri(productUrl));
-                    item.SetEnclosure(p.DefaultImageUrl + "?preset=listmedium");
+                    var imageUrl = p.DefaultImageUrl.StartsWith("https")
+                        ? p.DefaultImageUrl
+                        : pageBaseUrl + p.DefaultImageUrl;
+                    item.SetEnclosure(imageUrl + "?preset=listmedium");
                     items.Add(item);
                 }
 
