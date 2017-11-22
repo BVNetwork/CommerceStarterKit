@@ -86,6 +86,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             if (Request.Url != null)
             {
+                string pageBaseUrl = string.Format("{0}://{1}{2}", "https", Request.Url.Host,
+                    Request.Url.IsDefaultPort ? string.Empty : ":" + Request.Url.Port);
+
                 var result = SearchClient.Instance.Search<FindProduct>()
                     .AddFilterForIntList(GetCommerceNodeIdList(currentContent).Select(x => x.ID), "ParentCategoryId")
                     .Filter(x => x.Language.Match(currentContent.Language.TwoLetterISOLanguageName))
@@ -102,7 +105,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 var items = new List<SyndicationItem>();
                 foreach (var p in result)
                 {
-                    var item = new SyndicationItem(p.Name, p.Overview, new Uri(p.ProductUrl));
+                    var productUrl = p.ProductUrl.StartsWith("https") ? p.ProductUrl : pageBaseUrl + p.ProductUrl;
+                    var item = new SyndicationItem(p.Name, p.Overview, new Uri(productUrl));
                     item.SetEnclosure(p.DefaultImageUrl + "?preset=listmedium");
                     items.Add(item);
                 }
