@@ -50,7 +50,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="modules\_protected\Sannsyn\Scripts\" />
     <Folder Include="Views\PaymentBase\" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +87,9 @@
     <Compile Include="Models\ViewModels\HomePageViewModel.cs" />
     <Compile Include="Models\ViewModels\NewsletterWithProductsViewModel.cs" />
     <Compile Include="Models\ViewModels\QuickBuyViewModel.cs" />
+    <Compile Include="modules\_protected\Perform\PerformMenuProvider.cs" />
+    <Compile Include="modules\_protected\Perform\PerformController.cs" />
+    <Compile Include="modules\_protected\Perform\PerformViewModel.cs" />
     <Compile Include="Promotion\BuyXFromCategoryGetProductForFree.cs" />
     <Compile Include="Services\IEspService.cs" />
     <Compile Include="Services\IMetricsLoggingService.cs" />
@@ -591,6 +593,8 @@
     <Content Include="modules\_protected\Shell\Shell.zip" />
     <Content Include="modules\_protected\CMS\web.config" />
     <Content Include="modules\_protected\CMS\CMS.zip" />
+    <Content Include="modules\_protected\Perform\modules.config" />
+    <Content Include="modules\_protected\Perform\Views\Index.cshtml" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
