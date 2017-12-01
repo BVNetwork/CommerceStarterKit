@@ -10,26 +10,22 @@ Copyright (C) 2013-2014 BV Network AS
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
 using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Framework.Localization;
-using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data;
-using Mediachase.Commerce;
 using Mediachase.Commerce.Core;
 using Mediachase.Commerce.Customers;
-using Mediachase.Commerce.Security;
 using OxxCommerceStarterKit.Core;
-using OxxCommerceStarterKit.Core.Email;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Objects;
-using OxxCommerceStarterKit.Core.Repositories.Interfaces;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
-using OxxCommerceStarterKit.Web.Services.Email;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -37,13 +33,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	{
 		private readonly UrlResolver _urlResolver;
 		private readonly LocalizationService _localizationService;
-	    private readonly IEmailService _emailService;
+	   // private readonly IEmailService _emailService;
+	    private readonly IEspService _espService;
 
-		public RegisterPageController(UrlResolver urlResolver, LocalizationService localizationService, IEmailService emailService)
+	    public RegisterPageController(UrlResolver urlResolver, LocalizationService localizationService, IEspService espService)
 		{
 			_urlResolver = urlResolver;
 			_localizationService = localizationService;
-		    _emailService = emailService;
+            _espService = espService;
 		}
 
 		public ActionResult Index(RegisterPage currentPage)
@@ -160,10 +157,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 customer = CustomerContact.CreateInstance(user);
             }
 
-            customer.FirstName = registerForm.Address.FirstName;
-			customer.LastName = registerForm.Address.LastName;
-			customer.SetPhoneNumber(registerForm.Phone);
-			customer.FullName = string.Format("{0} {1}", customer.FirstName, customer.LastName);
+            //customer.FirstName = registerForm.Address.FirstName;
+			//customer.LastName = registerForm.Address.LastName;
+			//customer.SetPhoneNumber(registerForm.Phone);
+			//customer.FullName = string.Format("{0} {1}", customer.FirstName, customer.LastName);
 			customer.SetHasPassword(true);
 
 			// member club
@@ -172,35 +169,72 @@ namespace OxxCommerceStarterKit.Web.Controllers
 				customer.CustomerGroup = Constants.CustomerGroup.CustomerClub;
 			}
 
+            // Newsletter 
+		    if (registerForm.ConfirmSms || registerForm.ConfirmNewsletter)
+		    {
+                var options = string.Empty;
+		        if (registerForm.ConfirmSms && registerForm.ConfirmNewsletter)
+		        {
+		            options = "sms,email";
+		        }
+                else if (registerForm.ConfirmSms)
+		        {
+		            options = "sms";
+                }
+		        else if (registerForm.ConfirmNewsletter)
+		        {
+		            options = "email";
+		        }
+
+                var optionsList = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("interests", options) };
+
+		        if (!string.IsNullOrWhiteSpace(registerForm.FirstName))
+		        {
+		            optionsList.Add(new KeyValuePair<string, string>("firstname", registerForm.FirstName));
+		        }
+
+		        if (!string.IsNullOrWhiteSpace(registerForm.LastName))
+		        {
+		            optionsList.Add(new KeyValuePair<string, string>("lastname", registerForm.LastName));
+		        }
+
+                Task.Run(() => Subscribe(emailAddress, optionsList));		        
+		    }
+
 			// categories
 			customer.SetCategories(SelectedCategories);
 
 			customer.SaveChanges();
 
-			var CustomerAddressRepository = ServiceLocator.Current.GetInstance<ICustomerAddressRepository>();
-			CustomerAddressRepository.SetCustomer(customer);
+			//var CustomerAddressRepository = ServiceLocator.Current.GetInstance<ICustomerAddressRepository>();
+			//CustomerAddressRepository.SetCustomer(customer);
 
-			// copy address fields to shipping address
-			registerForm.Address.CheckAndSetCountryCode();
+			//// copy address fields to shipping address
+			//registerForm.Address.CheckAndSetCountryCode();
 
-			var ShippingAddress = (Address)registerForm.Address.Clone();
-			ShippingAddress.IsPreferredShippingAddress = true;
-			CustomerAddressRepository.Save(ShippingAddress);
+			//var ShippingAddress = (Address)registerForm.Address.Clone();
+			//ShippingAddress.IsPreferredShippingAddress = true;
+			//CustomerAddressRepository.Save(ShippingAddress);
 
-			registerForm.Address.IsPreferredBillingAddress = true;
-			CustomerAddressRepository.Save(registerForm.Address);
+			//registerForm.Address.IsPreferredBillingAddress = true;
+			//CustomerAddressRepository.Save(registerForm.Address);
 
-			LoginController.CreateAuthenticationCookie(ControllerContext.HttpContext, emailAddress, Mediachase.Commerce.Core.AppContext.Current.ApplicationName, false);
+			LoginController.CreateAuthenticationCookie(ControllerContext.HttpContext, emailAddress, AppContext.Current.ApplicationName, false);
 
-			bool mail_sent = SendWelcomeEmail(registerForm.UserName, currentPage);
+			//bool mail_sent = SendWelcomeEmail(registerForm.UserName, currentPage);
 
 			return Redirect(_urlResolver.GetUrl(ContentReference.StartPage));
 		}
 
 
-		public bool SendWelcomeEmail(string email, RegisterPage currentPage = null)
-		{
-		    return _emailService.SendWelcomeEmail(email);
-		}
-	}
+		//public bool SendWelcomeEmail(string email, RegisterPage currentPage = null)
+		//{
+		//    return _emailService.SendWelcomeEmail(email);
+		//}
+
+	    private async Task Subscribe(string email, List<KeyValuePair<string, string>> keyValuePairs)
+	    {
+	         await _espService.Subscribe(email, keyValuePairs);
+	    }
+    }
 }

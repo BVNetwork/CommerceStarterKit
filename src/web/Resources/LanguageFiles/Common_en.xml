@@ -39,37 +39,39 @@
 				<open_menu>Open menu</open_menu>
 				<close_dialog>Close</close_dialog>
 			</layout>
-			<account>
-				<loginheader>Existing account</loginheader>
-				<registerheader>Registrer new account</registerheader>
-				<username>Email:</username>
-				<password>Password:</password>
-				<password_repeat>Confirm password:</password_repeat>
-				<username_placeholder>Enter email address</username_placeholder>
-				<password_placeholder>Enter password</password_placeholder>
-				<password_repeat_placeholder>Repeat password</password_repeat_placeholder>
-				<rememberme>Remember me</rememberme>
-				<signin>Log in</signin>
-				<signout>Log out</signout>
-				<register>Register user</register>
-				<forgot_password>Forgot passord</forgot_password>
-				<reset_password>Reset password</reset_password>
-				<login_error>Incorrect username or password</login_error>
-				<register_error_unique_username>The email address is already registered</register_error_unique_username>
-				<register_error>Invalid username</register_error>
-				<too_weak_password>The password is too weak</too_weak_password>
-				<nonexisting_account>Your email address is not registered</nonexisting_account>
-				<interests>
-					<title>Interests areas:</title>
-					<man>Men</man>
-					<woman>Women</woman>
-				</interests>
-				<memberclub>
-					<join_label>Join member club:</join_label>
-					<join_club_option>Yes</join_club_option>
-					<dont_join_club_option>No</dont_join_club_option>
-				</memberclub>
-			</account>
+      <account>
+        <loginheader>Existing account</loginheader>
+        <registerheader>Registrer new account</registerheader>
+        <username>Email:</username>
+        <password>Password:</password>
+        <password_repeat>Confirm password:</password_repeat>
+        <username_placeholder>Enter email address</username_placeholder>
+        <password_placeholder>Enter password</password_placeholder>
+        <password_repeat_placeholder>Repeat password</password_repeat_placeholder>
+        <rememberme>Remember me</rememberme>
+        <signin>Log in</signin>
+        <signout>Log out</signout>
+        <register>Register user</register>
+        <forgot_password>Forgot passord</forgot_password>
+        <reset_password>Reset password</reset_password>
+        <login_error>Incorrect username or password</login_error>
+        <register_error_unique_username>The email address is already registered</register_error_unique_username>
+        <register_error>Invalid username</register_error>
+        <too_weak_password>The password is too weak</too_weak_password>
+        <nonexisting_account>Your email address is not registered</nonexisting_account>
+        <interests>
+          <title>Interests areas:</title>
+          <man>Men</man>
+          <woman>Women</woman>
+        </interests>
+        <memberclub>
+          <join_label>Join member club:</join_label>
+          <join_club_option>Yes</join_club_option>
+          <dont_join_club_option>No</dont_join_club_option>
+        </memberclub>
+        <signupnewsletter>I would like exclusive offers and news by email.</signupnewsletter>
+        <signupsms>I would like exclusive offers and news by sms.</signupsms>
+      </account>
 			<cart>
 				<move_to_wishlist>Move to wishlist</move_to_wishlist>
 				<move_wishlist_to_cart>Move entire wishlist to the shopping cart</move_wishlist_to_cart>
@@ -128,8 +130,8 @@
 					<repeat_password>Repeat New Password</repeat_password>
 					<zip>Zipcode</zip>
 				</placeholder>
-				<firstname_label>First Name</firstname_label>
-				<lastname_label>Surname</lastname_label>
+				<firstname_label>First name</firstname_label>
+				<lastname_label>Last name</lastname_label>
 				<address_label>Address</address_label>
 				<zipcode_label>Zip Code</zipcode_label>
 				<city_label>City</city_label>

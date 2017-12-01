@@ -6,6 +6,7 @@ using System.Web.Http;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
 using Newtonsoft.Json.Linq;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Api
 {
@@ -13,10 +14,13 @@ namespace OxxCommerceStarterKit.Web.Api
     {
 
         private Injected<ILogger> _logger;
-
+        private Injected<IEspService> _espService;
+      
         [HttpPost]
         public async Task<string> WebhookSubscribe([FromBody]JToken jsonbody)
         {
+            var returnValue = string.Empty;
+
             if(_logger.Service.IsInformationEnabled())
                 _logger.Service.Log(Level.Information, "WebhookSubscribe");
 
@@ -24,40 +28,12 @@ namespace OxxCommerceStarterKit.Web.Api
 
             if (dataset != null)
             {
-              
-                var email = HttpUtility.UrlEncode(dataset.Email);
+                var email = dataset.Email;
 
-                if (!string.IsNullOrWhiteSpace(email))
-                {
-                    var url = GetUrl(email);
-
-                    using (var client = new System.Net.Http.HttpClient())
-                    {
-                        using (var response = await client.GetAsync(new Uri(url)))
-                        {
-                            
-                            var content = await response.Content.ReadAsStringAsync();
-
-                            if (_logger.Service.IsInformationEnabled())
-                                _logger.Service.Log(Level.Information, "Email: " + email + " Result:" + content);
-
-                            return content;
-                        }
-                    }
-                }
+                await _espService.Service.Subscribe(email, null);
             }
 
-            return string.Empty;
-        }
-
-        private static string GetUrl(string email)
-        {
-
-            var key = ConfigurationManager.AppSettings["CampaignKey"];
-            var bmOptInId = ConfigurationManager.AppSettings["CampaignOptInId"];
-            var bmOptinSource = ConfigurationManager.AppSettings["CampaignOptInSource"];
-
-            return string.Format("https://api.broadmail.de/http/form/{0}/subscribe?bmOptInId={1}&bmRecipientId={2}&bmOptinSource={3}", key, bmOptInId, email, bmOptinSource);
+            return returnValue;
         }
 
         internal class EmailResult

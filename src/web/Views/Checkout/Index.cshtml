@@ -1,132 +1,119 @@
 ﻿@using System.Text.RegularExpressions
 @using OxxCommerceStarterKit.Web.Models.ViewModels
-@model OxxCommerceStarterKit.Web.Models.ViewModels.CheckoutViewModel
+@model CheckoutViewModel
 @{
     ViewBag.Title = Model.CurrentPage.Name;
 }
 @using (Html.BeginForm())
 {
     <section ng-controller="CartController" ng-init="initCart('Default', '@Model.Language')" class="cart-page checkout" id="checkoutpage">
-        <h1>@Model.CurrentPage.Name</h1>
+        
 
         <div class="col-lg-8 col-md-8 col-sm-8">
-            <h3>@Html.Translate("/common/accountpages/billing_address_title")</h3>
+            
+            <h1>@Model.CurrentPage.Name</h1>
+
+          
             <div class="billing-address">
-            @Html.EditorFor(m => m.BillingAddress)
+                @Html.EditorFor(m => m.BillingAddress)
                 <div class="row">
                     <div class="form-group col-lg-6 col-md-6 col-sm-6">
                         @Html.LabelFor(m => m.Email, Html.Translate("/common/accountpages/email_label"))
-                        @Html.EditorFor(m => m.Email, new { @class = "form-control email" })
+                        @Html.EditorFor(m => m.Email, new {@class = "form-control email"})
                         @Html.ValidationMessageFor(m => m.Email)
                     </div>
                     <div class="form-group col-lg-6 col-md-6 col-sm-6">
                         @Html.LabelFor(m => m.Phone, Html.Translate("/common/accountpages/phone_label"))
-                        @Html.EditorFor(m => m.Phone, new { @class = "form-control phone" })
+                        @Html.EditorFor(m => m.Phone, new {@class = "form-control phone"})
                         @Html.ValidationMessageFor(m => m.Phone)
                     </div>
                 </div>
             </div>
-            <div class="form-group copy-fields">
+            @*<div class="form-group copy-fields">
                 <label>
                     <input type="checkbox" ng-model="copyBillingFields" ng-change="copyBillingFieldsToShippingFields()" />
                     @Html.Translate("/common/checkout/copy_address_fields")
                 </label>
-            </div>
-            <h3>@Html.Translate("/common/accountpages/shipping_address_title")</h3>
+            </div>*@
+            @*<h3>@Html.Translate("/common/accountpages/shipping_address_title")</h3>
             <div class="shipping-address">
                 @Html.EditorFor(m => m.ShippingAddress, "AddressWithDeliveryServicePoint")
-            </div>
-                <div id="registration" class="row">
-                    <div class="col-xs-12">
-
-                        <div class="form-group join-member-club">
-                            <span>@Html.Translate("/common/account/memberclub/join_label")</span>
-                            <label>
+            </div>*@
+            <div id="registration" class="row">
 
 
-                                @Html.RadioButtonFor(m => m.MemberClub, true, new { @class = "iradio" })
-                                @Html.Translate("/common/account/memberclub/join_club_option")
 
-
-                            </label>
-                            <label>
-                                @Html.RadioButtonFor(m => m.MemberClub, false)
-                                @Html.Translate("/common/account/memberclub/dont_join_club_option")
-
-                            </label>
-                        </div>
-
-                        <div class="form-group interests" @(Model.MemberClub ? "" : "style=display:none;")>
-                            <strong>@Html.Translate("/common/account/interests/title")</strong><br />
-                            @if (Model.AvailableCategories != null)
-                            {
-                                foreach (var c in Model.AvailableCategories)
-                                {
-                                    <label>
-                                        <input type="checkbox" name="SelectedCategories" value="@c.Key" @(Model.SelectedCategories != null && Model.SelectedCategories.Any(x => x.ToString() == c.Key) ? "checked=checked" : "") />
-                                        @Html.TranslateFallback("/common/account/interests/" + c.Value.ToLower(), c.Value)
-                                    </label><br />
-                                }
-                            }
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <h3>@Html.LabelFor(m => m.Password, Html.Translate("/common/checkout/create_password"))</h3>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.Password)
+                                @Html.EditorFor(m => m.Password, new {@class = "form-control new-password"})
+                                @Html.ValidationMessageFor(m => m.Password)
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(m => m.ConfirmPassword)
+                                @Html.EditorFor(m => m.ConfirmPassword, new {@class = "form-control repeat-password"})
+                                @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                            </div>
                         </div>
                     </div>
-
-
-                    @* if Klarna is present *@
-                    @*@if (Model.PaymentSelection.PaymentMethods.Any(x => x.PaymentMethodId == new Guid("8dca4a96-a5bb-4e85-82a4-2754f04c2117") ||
-                                                               x.PaymentMethodId == new Guid("c2ea88f8-c702-4331-819e-0e77e7ac5450")))
-                    {
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="ssn">
-                                    <h3>@Html.LabelFor(m => m.SocialSecurityNumber, Html.Translate("/common/checkout/ssn_label"))</h3>
-                                    @Html.EditorFor(m => m.SocialSecurityNumber)
-                                    @Html.ValidationMessageFor(m => m.SocialSecurityNumber)
-                                    <div class="ssn-text">
-                                        @Html.Translate("/common/checkout/ssn_text")
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    }*@
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <h3>@Html.LabelFor(m => m.Password, Html.Translate("/common/checkout/create_password"))</h3>
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.Password)
-                                    @Html.EditorFor(m => m.Password, new { @class = "form-control new-password" })
-                                    @Html.ValidationMessageFor(m => m.Password)
-                                </div>
-                                <div class="form-group">
-                                    @Html.LabelFor(m => m.ConfirmPassword)
-                                    @Html.EditorFor(m => m.ConfirmPassword, new { @class = "form-control repeat-password" })
-                                    @Html.ValidationMessageFor(m => m.ConfirmPassword)
-                                </div>
-                            </div>
-                        </div>
-                    }
-
-                </div>
-
-
-                @* General errors*@
-
-                @if (ViewData.ModelState.ContainsKey(string.Empty) && 0 < ViewData.ModelState[string.Empty].Errors.Count)
-                {
-                    foreach (var e in ViewData.ModelState[string.Empty].Errors)
-                    {
-                        <div class="row">
-                            <div class="col-xs-12">
-                                <span class="field-validation-error">@e.ErrorMessage</span>
-                            </div>
-                        </div>
-                    }
                 }
 
+            </div>
+
+
+            @* General errors*@
+
+            @if (ViewData.ModelState.ContainsKey(string.Empty) && 0 < ViewData.ModelState[string.Empty].Errors.Count)
+            {
+                foreach (var e in ViewData.ModelState[string.Empty].Errors)
+                {
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <span class="field-validation-error">@e.ErrorMessage</span>
+                        </div>
+                    </div>
+                }
+            }
+
+           
+            <div class="row">
+                <div class="col-xs-12 terms pull-right text-right">
+                    @{
+                        // TODO: Refactor to remove regexp
+                        string terms = Html.Translate("/common/checkout/terms_label");
+                        if (Model.TermsArticle != null)
+                        {
+                            terms = Regex.Replace(terms, @"^([^{]*)[{]([^}]+)[}](.*)$", "$1 <a href=\"javascript:;\" data-reference=\"" + Model.TermsArticle.ID + "\">$2</a> $3");
+                        }
+                        terms = terms.Replace("{", "").Replace("}", "");
+                    }
+                    <label>@Html.CheckBoxFor(m => m.AcceptedTerms) @Html.Raw(terms)</label>
+                    <div class="terms-error text-danger" style="display: none;">
+                        @Html.Translate("/common/checkout/terms_error")
+                    </div>
+                </div>                
 
             </div>
+
+
+
+            <div class="row">
+
+                <div class="buttons pull-right">
+                    <div class="col-xs-12">
+                        <input type="submit" value="@Html.Translate("/common/checkout/place_order")" class="btn btn-success"/>
+                    </div>
+                </div>
+            </div>
+                
+          
+
+
+        </div>
 
         <!--Right Column-->
         <div class="col-lg-3 col-lg-offset-1 col-md-4 col-sm-4">
@@ -166,31 +153,7 @@
                 </div>
             </div>
             
-            <div class="row">
-                <div class="col-xs-12 terms">
-                    @{
-                // TODO: Refactor to remove regexp
-                string terms = Html.Translate("/common/checkout/terms_label");
-                if (Model.TermsArticle != null)
-                {
-                    terms = Regex.Replace(terms, @"^([^{]*)[{]([^}]+)[}](.*)$", "$1 <a href=\"javascript:;\" data-reference=\"" + Model.TermsArticle.ID + "\">$2</a> $3");
-                }
-                terms = terms.Replace("{", "").Replace("}", "");
-                    }
-                    <label>@Html.CheckBoxFor(m => m.AcceptedTerms) @Html.Raw(terms)</label>
-                    <div class="terms-error" style="display: none;">
-                        @Html.Translate("/common/checkout/terms_error")
-                    </div>
-                </div>
-            </div>
-
-
-
-            <div class="row buttons">
-                <div class="col-xs-12">
-                    <input type="submit" value="@Html.Translate("/common/checkout/place_order")" class="btn btn-success" />
-                </div>
-            </div>
+           
         </div>
     </section>
 }
@@ -200,7 +163,6 @@
     <script type="text/javascript">
         $(function () {
             commercestarterkit.CheckoutPage.init('#checkoutpage');
-            commercestarterkit.Registration.init('#registration');
         });
     </script>
 }

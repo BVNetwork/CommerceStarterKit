@@ -55,6 +55,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\CampaignController.cs" />
+    <Compile Include="Business\Recommendations\CustomUserDataService.cs" />
+    <Compile Include="Services\CampaignEspService.cs" />
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
     <Compile Include="Business\JsonChannel\JsonPageDataController.cs" />
     <Compile Include="Business\JsonChannel\HeadlessChannel.cs" />
@@ -87,6 +89,7 @@
     <Compile Include="Models\ViewModels\NewsletterWithProductsViewModel.cs" />
     <Compile Include="Models\ViewModels\QuickBuyViewModel.cs" />
     <Compile Include="Promotion\BuyXFromCategoryGetProductForFree.cs" />
+    <Compile Include="Services\IEspService.cs" />
     <Compile Include="Services\IMetricsLoggingService.cs" />
     <Compile Include="Services\MetricsLoggingService.cs" />
     <Compile Include="Services\Recommendations.cs" />
@@ -744,6 +747,7 @@
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
+    <Content Include="Scripts\js\Components\Terms.js" />
     <Content Include="Scripts\js\Components\Coverr.js" />
     <Content Include="Scripts\js\Components\Recommendations.js" />
     <Content Include="Scripts\js\Oxx\AjaxUtils.js" />

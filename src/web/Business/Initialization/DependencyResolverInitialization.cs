@@ -21,6 +21,7 @@ using OxxCommerceStarterKit.Core.Services;
 using OxxCommerceStarterKit.Interfaces;
 using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Business.Rendering;
+using OxxCommerceStarterKit.Web.Services;
 using StructureMap;
 
 namespace OxxCommerceStarterKit.Web.Business.Initialization
@@ -44,6 +45,8 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
             container.For<ICustomerAddressRepository>().Use<CustomerAddressRepository>();            
 	        container.For<IExportOrderService>().Use<ExportOrderService>();
             container.For<IRecommendationContext>().Use<RecommendationContext>();
+            container.For<IUserDataService>().Use<CustomUserDataService>();
+            container.For<IEspService>().Use<CampaignEspService>();
         }
 
         public void Initialize(InitializationEngine context)

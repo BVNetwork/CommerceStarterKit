@@ -1,6 +1,6 @@
 ﻿@using OxxCommerceStarterKit.Web.Helpers
 @model OxxCommerceStarterKit.Web.Models.ViewModels.IPageViewModel<OxxCommerceStarterKit.Web.Models.PageTypes.ArticlePage>
-<div class="col-lg-12">
+<div>
     @if (Html.IsInEditMode())
     {
         <h1 @Html.EditAttributes(x => x.CurrentPage.PageTitle)>

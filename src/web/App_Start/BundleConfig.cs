@@ -43,7 +43,8 @@ namespace OxxCommerceStarterKit.Web
 				"~/Scripts/js/components/Registration.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/registration").Include(
-				"~/Scripts/js/components/Registration.js"));
+				"~/Scripts/js/components/Registration.js",
+			    "~/Scripts/js/components/Terms.js"));
 
             // Note! Bootstrap needs to run after jQuery, or we'll get trouble
 

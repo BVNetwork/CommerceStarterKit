@@ -1358,3 +1358,11 @@ pre {
   height: inherit;
   line-height: inherit;
 }
+.modal-body {
+  color: #000;
+}
+.modal-body h1,
+.modal-body h2,
+.modal-body h3 {
+  color: #000;
+}

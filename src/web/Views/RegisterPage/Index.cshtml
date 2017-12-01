@@ -1,4 +1,4 @@
-﻿@model OxxCommerceStarterKit.Web.Models.ViewModels.RegisterPageViewModel
+﻿@model RegisterPageViewModel
 @{
 	ViewBag.Title = Model.CurrentPage.Name;
 }
@@ -14,6 +14,10 @@
 @section scripts {
 	@Scripts.Render("~/bundles/registration")
 	<script type="text/javascript">
-        $(function () { commercestarterkit.Registration.init(); });
+        $(function() {
+            commercestarterkit.Registration.init();
+            commercestarterkit.Terms.init('#registration');
+        });
+
 	</script>
 }

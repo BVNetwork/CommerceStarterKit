@@ -23,41 +23,55 @@
 			@Html.PasswordFor(m => m.PasswordConfirm, new { placeholder = @Html.Translate("/common/account/password_repeat_placeholder"), @class = "form-control" })
 			@Html.ValidationMessageFor(m => m.PasswordConfirm, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/password_repeat_placeholder").Replace(":", "")))
 		</div>
-		<div class="address-field">
-			@Html.EditorFor(m => m.Address)
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(m => m.Phone)
-			@Html.TextBoxFor(m => m.Phone, new { placeholder = @Html.Translate("/common/accountpages/placeholder/phone"), @class = "form-control" })
-		</div>
 
+	    <div class="address-field"> 
+	        <div class="row">
+	            <div class="form-group col-lg-6 col-md-6 col-sm-6">
+	                @Html.LabelFor(m => m.FirstName)
+	                @Html.EditorFor(m => m.FirstName, new { @class = "form-control firstname" })
+	                @Html.ValidationMessageFor(m => m.FirstName)
+	            </div>
+	            <div class="form-group col-lg-6 col-md-6 col-sm-6">
+	                @Html.LabelFor(m => m.LastName)
+	                @Html.EditorFor(m => m.LastName, new { @class = "form-control lastname" })
+	                @Html.ValidationMessageFor(m => m.LastName)
+	            </div>
+	        </div>
+        </div> 
+	   
+        <div class="form-group join-member-club">
+	       
+                        
+	    <label>
+            <span>@Html.Translate("/common/account/memberclub/join_label")</span>
+            @Html.RadioButtonFor(m => m.MemberClub, true)
+            @Html.Translate("/common/account/memberclub/join_club_option")
+        </label>
+        <label>
+            @Html.RadioButtonFor(m => m.MemberClub, false)
+            @Html.Translate("/common/account/memberclub/dont_join_club_option")
+        </label>
+	    </div>
+        
 
-		<div class="form-group join-member-club">
-			<label>
-				<span>@Html.Translate("/common/account/memberclub/join_label")</span>
-				@Html.RadioButtonFor(m => m.MemberClub, true)
-				@Html.Translate("/common/account/memberclub/join_club_option")
-			</label>
-			<label>
-				@Html.RadioButtonFor(m => m.MemberClub, false)
-				@Html.Translate("/common/account/memberclub/dont_join_club_option")
-			</label>
-		</div>
-
-		<div class="form-group interests" @(Model.MemberClub ? "" : "style=display:none;")>
-			<strong>@Html.Translate("/common/account/interests/title")</strong><br />
-			@if (Model.AvailableCategories != null)
-			{
-				foreach (var c in Model.AvailableCategories)
-				{
-					<label>
-						<input type="checkbox" name="SelectedCategories" value="@c.Key" @(Model.SelectedCategories != null && Model.SelectedCategories.Any(x => x.ToString() == c.Key) ? "checked=checked" : "") />
-						@Html.TranslateFallback("/common/account/interests/" + c.Value.ToLower(), c.Value)
-					</label><br />
-				}
-			}
-		</div>
-
+	    <div class="form-group interests" @(Model.MemberClub ? "" : "style=display:none;")> 
+	        <div class="form-group join-member-club">
+	            @Html.CheckBoxFor(m => m.ConfirmNewsletter)
+	            <span>@Html.Translate("/common/account/signupnewsletter")</span>	   
+	        </div>
+            
+	        <div class="form-group join-member-club">
+	            @Html.CheckBoxFor(m => m.ConfirmSms)
+	            <span>@Html.Translate("/common/account/signupsms")</span>	   
+	        </div>
+            
+	        <div class="terms">
+	            <a href="javascript:;" data-reference="1197">Terms and conditions</a>            
+	            <div class="terms-error" style="display: none;">
+	                @Html.Translate("/common/checkout/terms_error")
+	            </div>
+	        </div>
+	    </div> 
 
 		<div class="form-group">
 			@Html.ValidationMessageFor(m => m.ValidationMessage)

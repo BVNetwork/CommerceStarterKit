@@ -38,16 +38,17 @@ namespace OxxCommerceStarterKit.Core.Objects
 
 		public string ValidationMessage { get; set; }
 
-
-		[LocalizedDisplayName("/common/accountpages/phone_label")]
-		[DataType(DataType.Text)]
-		public string Phone { get; set; }
-
-		public Address Address { get; set; }
-
 		public bool MemberClub { get; set; }
 
 		public Dictionary<string, string> AvailableCategories { get; set; }
 		public int[] SelectedCategories { get; set; }
+	    public bool ConfirmNewsletter { get; set; }
+	    public bool ConfirmSms { get; set; }
+
+	    [LocalizedDisplayName("/common/accountpages/firstname_label")]
+        public string FirstName { get; set; }
+
+	    [LocalizedDisplayName("/common/accountpages/lastname_label")]
+        public string LastName { get; set; }
 	}
 }

@@ -163,7 +163,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             if (ModelState.IsValid)
             {
                 var billingAddress = model.BillingAddress.ToOrderAddress(Constants.Order.BillingAddressName);
-                var shippingAddress = model.ShippingAddress.ToOrderAddress(Constants.Order.ShippingAddressName);
+                var shippingAddress = model.BillingAddress.ToOrderAddress(Constants.Order.ShippingAddressName);
                 string username = model.Email.Trim();
                 billingAddress.Email = username;
                 billingAddress.DaytimePhoneNumber = model.Phone;
@@ -328,26 +328,26 @@ namespace OxxCommerceStarterKit.Web.Controllers
             {
                 ModelState.AddModelError("BillingAddress.PostalCode", string.Format(requiredString, _localizationService.GetString("/common/accountpages/city_label")));
             }
-            if (string.IsNullOrEmpty(model.ShippingAddress.FirstName))
-            {
-                ModelState.AddModelError("ShippingAddress.FirstName", string.Format(requiredString, _localizationService.GetString("/common/accountpages/firstname_label")));
-            }
-            if (string.IsNullOrEmpty(model.ShippingAddress.LastName))
-            {
-                ModelState.AddModelError("ShippingAddress.LastName", string.Format(requiredString, _localizationService.GetString("/common/accountpages/lastname_label")));
-            }
-            if (string.IsNullOrEmpty(model.ShippingAddress.StreetAddress))
-            {
-                ModelState.AddModelError("ShippingAddress.StreetAddress", string.Format(requiredString, _localizationService.GetString("/common/accountpages/address_label")));
-            }
-            if (string.IsNullOrEmpty(model.ShippingAddress.ZipCode))
-            {
-                ModelState.AddModelError("ShippingAddress.Zip", string.Format(requiredString, _localizationService.GetString("/common/accountpages/zipcode_label")));
-            }
-            if (string.IsNullOrEmpty(model.ShippingAddress.City))
-            {
-                ModelState.AddModelError("ShippingAddress.PostalCode", string.Format(requiredString, _localizationService.GetString("/common/accountpages/city_label")));
-            }
+            //if (string.IsNullOrEmpty(model.ShippingAddress.FirstName))
+            //{
+            //    ModelState.AddModelError("ShippingAddress.FirstName", string.Format(requiredString, _localizationService.GetString("/common/accountpages/firstname_label")));
+            //}
+            //if (string.IsNullOrEmpty(model.ShippingAddress.LastName))
+            //{
+            //    ModelState.AddModelError("ShippingAddress.LastName", string.Format(requiredString, _localizationService.GetString("/common/accountpages/lastname_label")));
+            //}
+            //if (string.IsNullOrEmpty(model.ShippingAddress.StreetAddress))
+            //{
+            //    ModelState.AddModelError("ShippingAddress.StreetAddress", string.Format(requiredString, _localizationService.GetString("/common/accountpages/address_label")));
+            //}
+            //if (string.IsNullOrEmpty(model.ShippingAddress.ZipCode))
+            //{
+            //    ModelState.AddModelError("ShippingAddress.Zip", string.Format(requiredString, _localizationService.GetString("/common/accountpages/zipcode_label")));
+            //}
+            //if (string.IsNullOrEmpty(model.ShippingAddress.City))
+            //{
+            //    ModelState.AddModelError("ShippingAddress.PostalCode", string.Format(requiredString, _localizationService.GetString("/common/accountpages/city_label")));
+            //}
 
             /*if (string.IsNullOrEmpty(model.ShippingAddress.DeliveryServicePoint))
             {
