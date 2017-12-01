@@ -91,6 +91,7 @@ namespace OxxCommerceStarterKit.Web
             {
                 e.QueryString["Height"] = "500";
                 e.QueryString["Width"] = "500";
+                e.QueryString["scale"] = "both";
             }
         }
 
