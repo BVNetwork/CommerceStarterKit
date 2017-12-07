@@ -595,6 +595,9 @@
     <Content Include="modules\_protected\CMS\CMS.zip" />
     <Content Include="modules\_protected\Perform\modules.config" />
     <Content Include="modules\_protected\Perform\Views\Index.cshtml" />
+    <Content Include="modules\_protected\EPiServer.Labs.LanguageManager\module.config" />
+    <Content Include="modules\_protected\EPiServer.Labs.LanguageManager\EPiServer.LanguageManager.config" />
+    <Content Include="modules\_protected\EPiServer.Labs.LanguageManager\EPiServer.Labs.LanguageManager.zip" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -1185,6 +1188,9 @@
     </Reference>
     <Reference Include="Episerver.Labs.Cognitive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Episerver.Labs.Cognitive.0.9.0\lib\net461\Episerver.Labs.Cognitive.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Labs.LanguageManager, Version=3.0.3.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Labs.LanguageManager.3.0.3\lib\EPiServer.Labs.LanguageManager.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Licensing, Version=10.10.4.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Framework.10.10.4\lib\net45\EPiServer.Licensing.dll</HintPath>
