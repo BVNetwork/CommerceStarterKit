@@ -144,7 +144,8 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
                 str = EnsureEmailAddress(name, host);
             }
             
-            return str != null ? HttpUtility.UrlEncode(str) : null;
+
+            return str != null ? str.Replace("+", "%2B") : null;
         }
 
         /// <summary>
