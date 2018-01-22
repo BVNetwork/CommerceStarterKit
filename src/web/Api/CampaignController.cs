@@ -13,7 +13,7 @@ namespace OxxCommerceStarterKit.Web.Api
     public class CampaignController : BaseApiController
     {
 
-        private Injected<ILogger> _logger;
+        private static readonly ILogger _logger = LogManager.GetLogger();
         private Injected<IEspService> _espService;
       
         [HttpPost]
@@ -21,8 +21,8 @@ namespace OxxCommerceStarterKit.Web.Api
         {
             var returnValue = string.Empty;
 
-            if(_logger.Service.IsInformationEnabled())
-                _logger.Service.Log(Level.Information, "WebhookSubscribe");
+            if(_logger.IsInformationEnabled())
+                _logger.Log(Level.Information, "WebhookSubscribe");
 
             var dataset = jsonbody.ToObject<EmailResult>();
 

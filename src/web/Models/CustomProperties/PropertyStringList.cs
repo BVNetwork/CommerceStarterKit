@@ -64,11 +64,5 @@ namespace OxxCommerceStarterKit.Web.Models.CustomProperties
 
             }
         }
-
-        public override IPropertyControl CreatePropertyControl()
-        {
-            //No support for legacy edit mode
-            return null;
-        }
     }
 }

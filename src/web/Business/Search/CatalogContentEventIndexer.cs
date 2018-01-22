@@ -23,7 +23,7 @@ namespace OxxCommerceStarterKit.Web.Business.Search
 {
     public class CatalogContentEventIndexer
     {
-        private readonly ILogger _log;
+        private static readonly ILogger _log = LogManager.GetLogger();
         private readonly IContentEvents _contentEvents;
 
         /// <summary>
@@ -32,9 +32,8 @@ namespace OxxCommerceStarterKit.Web.Business.Search
         public static bool IndexingEnabled = true;
 
 
-        public CatalogContentEventIndexer(ILogger logger, IContentEvents contentEvents)
+        public CatalogContentEventIndexer(IContentEvents contentEvents)
         {
-            _log = logger;
             _contentEvents = contentEvents;
         }
 

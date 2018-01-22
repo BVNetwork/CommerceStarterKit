@@ -10,7 +10,7 @@ Copyright (C) 2013-2014 BV Network AS
 
 using System;
 using System.ComponentModel.DataAnnotations;
-using BVNetwork.EPiSendMail;
+//using BVNetwork.EPiSendMail;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
@@ -27,7 +27,7 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
 	   GroupName = WebGlobal.GroupNames.Default
        )]
     [SiteImageUrl(thumbnail: EditorThumbnail.Social)]
-	public class NewsletterPage : NewsletterBase
+	public class NewsletterPage // : NewsletterBase
 	{
 
 		[Display(

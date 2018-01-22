@@ -44,7 +44,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly ISiteSettingsProvider _siteConfiguration;
         private readonly IPaymentCompleteHandler _paymentCompleteHandler;
         private readonly ICurrentMarket _currentMarket;
-        private readonly ILogger _logger;
+        private static readonly ILogger _logger = LogManager.GetLogger();
         private readonly IMetricsLoggingService _metricsLoggingService;
         private readonly IRecommendationService _recommendationService;
 
@@ -54,7 +54,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
             IPaymentCompleteHandler paymentCompleteHandler,
             ISiteSettingsProvider siteConfiguration,
             ICurrentMarket currentMarket,
-            ILogger logger,
             IMetricsLoggingService metricsLoggingService,
             IRecommendationService recommendationService)
         {
@@ -63,7 +62,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
             _siteConfiguration = siteConfiguration;
             _paymentCompleteHandler = paymentCompleteHandler;
             _currentMarket = currentMarket;
-            _logger = logger;
             _metricsLoggingService = metricsLoggingService;
             _recommendationService = recommendationService;
         }

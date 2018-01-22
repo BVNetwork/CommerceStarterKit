@@ -22,7 +22,7 @@ namespace OxxCommerceStarterKit.Web.Api
 	public class CartController : BaseApiController
 	{
 
-	    private Injected<ILogger> _logger; 
+	    private static readonly ILogger _logger; 
 		private Injected<ICartService> Cart;
 
 		[HttpGet]
@@ -63,7 +63,7 @@ namespace OxxCommerceStarterKit.Web.Api
             }
             catch (Exception e)
             {
-                _logger.Service.Error("Failed to get cart", e);
+                _logger.Error("Failed to get cart", e);
                 Cart.Service.UpdateShipping(cart);
                 return new CartResult() {Success = false};
             }            

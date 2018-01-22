@@ -41,14 +41,13 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	    private readonly IIdentityProvider _identityProvider;
 	    private readonly IReceiptViewModelBuilder _receiptViewModelBuilder;
 	    private readonly IGoogleAnalyticsTracker _googleAnalyticsTracker;
-	    private readonly ILogger _logger;
+	    private static readonly ILogger _logger = LogManager.GetLogger();
 	    private readonly IMetricsLoggingService _metricsLoggingService;
 
 	    public DibsPaymentController(IIdentityProvider identityProvider, 
             IContentRepository contentRepository, 
             IDibsPaymentProcessor paymentProcessor, IReceiptViewModelBuilder receiptViewModelBuilder, 
             IGoogleAnalyticsTracker googleAnalyticsTracker, 
-            ILogger logger,
             IMetricsLoggingService metricsLoggingService)
 		{
 		    _identityProvider = identityProvider;
@@ -56,7 +55,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
 		    _paymentProcessor = paymentProcessor;
 		    _receiptViewModelBuilder = receiptViewModelBuilder;
 	        _googleAnalyticsTracker = googleAnalyticsTracker;
-	        _logger = logger;
 		    _metricsLoggingService = metricsLoggingService;
 		}
 

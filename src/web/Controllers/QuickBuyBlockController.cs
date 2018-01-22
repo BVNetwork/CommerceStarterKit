@@ -29,7 +29,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private readonly LocalizationService _localization;
         private readonly UrlResolver _urlResolver;
         private readonly ICookieService _cookieService;
-        private readonly ILogger _logger;
+        private static readonly ILogger _logger = LogManager.GetLogger();
 
         public QuickBuyBlockController(IGoogleAnalyticsTracker googleAnalyticsTracker, 
             IQuickBuyModelBuilder modelBuilder, 
@@ -37,7 +37,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             IContentLoader contentLoader,
             LocalizationService localization, 
             UrlResolver urlResolver,
-            ICookieService cookieService, ILogger logger)
+            ICookieService cookieService)
         {
             _googleAnalyticsTracker = googleAnalyticsTracker;
             _modelBuilder = modelBuilder;
@@ -46,7 +46,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
             _localization = localization;
             _urlResolver = urlResolver;
             _cookieService = cookieService;
-            _logger = logger;
         }
 
         

@@ -80,12 +80,10 @@ namespace CommerceStarterKit.Web.Controllers
             _identityProvider = new Mock<IIdentityProvider>();
             _receiptViewModelBuilderMock = new Mock<IReceiptViewModelBuilder>();
             _googleAnalyticsTracker = new Mock<IGoogleAnalyticsTracker>();
-            _logger = new Mock<ILogger>();
             _permanentLinkMapper = new Mock<IPermanentLinkMapper>();
 
             _sut = new DibsPaymentController(_identityProvider.Object, _contentRepositoryMock.Object, _dibsPaymentProcessorMock.Object, _receiptViewModelBuilderMock.Object, 
                 _googleAnalyticsTracker.Object, 
-                _logger.Object, 
                 null
                 );
         }

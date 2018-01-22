@@ -1,27 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Mail;
-using System.Net.Mime;
 using System.Text;
-using System.Web;
 using EPiServer.Logging;
 using EPiServer.ServiceLocation;
-using EPiServer.Web;
 using OxxCommerceStarterKit.Web.Services.Email.Models;
 
 namespace OxxCommerceStarterKit.Web.Services.Email
 {
-	public class EmailDispatcher : IEmailDispatcher
+    public class EmailDispatcher : IEmailDispatcher
 	{
-		private readonly ILogger _logger;
-
-		public EmailDispatcher(ILogger logger)
-		{
-			_logger = logger;
-		}
+		private static readonly ILogger _logger = LogManager.GetLogger();
 
 		public SendEmailResponse SendEmail(Postal.Email email)
 		{
