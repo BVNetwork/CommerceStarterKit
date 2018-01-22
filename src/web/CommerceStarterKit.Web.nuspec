@@ -11,13 +11,4 @@
         <description>The main web site for the Commerce Starter Kit</description>
         <tags>episerver commerce starterkit</tags>
     </metadata>
-    <files>
-        <!-- These files are added in addition to the ones in the project.
-             See: http://docs.octopusdeploy.com/display/OD/OctoPack+to+include+BuildEvent+files
-        -->
-        <file src="modules\**\*.*"
-              target="modules\" />
-        <file src="modulesbin\**\*.*"
-              target="modulesbin\" />
-    </files>
 </package>
