@@ -77,7 +77,7 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
 
             var returnValue = new Dictionary<string, IEnumerable<Recommendation>>();
 
-            if (_mode == RecommendationsMode.Disabled)
+            if (_mode == RecommendationsMode.Disabled || DoNotTrack(context))
                 return returnValue;
 
             var result = _trackingService.Track(trackingData, context, content);
@@ -95,6 +95,14 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
             }
 
             return returnValue;
+        }
+
+        private bool DoNotTrack(HttpContextBase context)
+        {
+            if (context.Request.UserAgent.Contains("StatusCake"))
+                return true;
+
+            return false;
         }
     }
 }
