@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AjaxControlToolkit, Version=3.0.30930.28736, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\AjaxControlToolkit.dll</HintPath>
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\AjaxControlToolkit.dll</HintPath>
     </Reference>
     <Reference Include="AuthorizeNet, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\AuthorizeNet.1.9.4\lib\AuthorizeNet.dll</HintPath>
@@ -50,14 +50,14 @@
     <Reference Include="EPiServer.ApplicationModules, Version=11.3.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Framework.11.3.2\lib\net461\EPiServer.ApplicationModules.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Business.Commerce, Version=11.6.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\EPiServer.Business.Commerce.dll</HintPath>
+    <Reference Include="EPiServer.Business.Commerce, Version=11.7.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\EPiServer.Business.Commerce.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Cms.AspNet, Version=11.3.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.AspNet.11.3.2\lib\net461\EPiServer.Cms.AspNet.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Commerce.Internal.Migration, Version=11.6.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\EPiServer.Commerce.Internal.Migration.dll</HintPath>
+    <Reference Include="EPiServer.Commerce.Internal.Migration, Version=11.7.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\EPiServer.Commerce.Internal.Migration.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Configuration, Version=11.3.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.AspNet.11.3.2\lib\net461\EPiServer.Configuration.dll</HintPath>
@@ -109,53 +109,53 @@
     <Reference Include="Lucene.Net">
       <HintPath>..\..\packages\Lucene.Net.3.0.3\lib\NET40\Lucene.Net.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.BusinessFoundation, Version=11.6.1.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.BusinessFoundation.dll</HintPath>
+    <Reference Include="Mediachase.BusinessFoundation, Version=11.7.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.BusinessFoundation.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.BusinessFoundation.Data, Version=11.6.1.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.BusinessFoundation.Data.dll</HintPath>
+    <Reference Include="Mediachase.BusinessFoundation.Data, Version=11.7.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.BusinessFoundation.Data.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Commerce, Version=11.6.1.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Commerce.dll</HintPath>
+    <Reference Include="Mediachase.Commerce, Version=11.7.0.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Commerce.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Commerce.Marketing.Validators, Version=11.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Commerce.Marketing.Validators.dll</HintPath>
+    <Reference Include="Mediachase.Commerce.Marketing.Validators, Version=11.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Commerce.Marketing.Validators.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Commerce.Plugins.Payment, Version=11.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
+    <Reference Include="Mediachase.Commerce.Plugins.Payment, Version=11.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Commerce.Plugins.Payment.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Commerce.Plugins.Shipping, Version=11.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Commerce.Plugins.Shipping.dll</HintPath>
+    <Reference Include="Mediachase.Commerce.Plugins.Shipping, Version=11.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Commerce.Plugins.Shipping.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Commerce.Website, Version=11.6.1.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Commerce.Website.dll</HintPath>
+    <Reference Include="Mediachase.Commerce.Website, Version=11.7.0.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Commerce.Website.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Commerce.Workflow, Version=11.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Commerce.Workflow.dll</HintPath>
+    <Reference Include="Mediachase.Commerce.Workflow, Version=11.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Commerce.Workflow.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.DataProvider, Version=11.6.1.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.DataProvider.dll</HintPath>
+    <Reference Include="Mediachase.DataProvider, Version=11.7.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.DataProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.FileUploader, Version=11.6.1.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.FileUploader.dll</HintPath>
+    <Reference Include="Mediachase.FileUploader, Version=11.7.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.FileUploader.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.MetaDataPlus, Version=11.6.1.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.MetaDataPlus.dll</HintPath>
+    <Reference Include="Mediachase.MetaDataPlus, Version=11.7.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.MetaDataPlus.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Search, Version=11.6.1.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Search.dll</HintPath>
+    <Reference Include="Mediachase.Search, Version=11.7.0.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Search.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Search.Extensions, Version=11.6.1.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Search.Extensions.dll</HintPath>
+    <Reference Include="Mediachase.Search.Extensions, Version=11.7.0.0, Culture=neutral, PublicKeyToken=6e58b501b34abce3, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Search.Extensions.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.Search.LuceneSearchProvider, Version=11.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.Search.LuceneSearchProvider.dll</HintPath>
+    <Reference Include="Mediachase.Search.LuceneSearchProvider, Version=11.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.Search.LuceneSearchProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.SqlDataProvider, Version=11.6.1.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.SqlDataProvider.dll</HintPath>
+    <Reference Include="Mediachase.SqlDataProvider, Version=11.7.0.0, Culture=neutral, PublicKeyToken=41d2e7a615ba286c, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.SqlDataProvider.dll</HintPath>
     </Reference>
-    <Reference Include="Mediachase.WebConsoleLib, Version=11.6.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.6.1\lib\net461\Mediachase.WebConsoleLib.dll</HintPath>
+    <Reference Include="Mediachase.WebConsoleLib, Version=11.7.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Commerce.Core.11.7.0\lib\net461\Mediachase.WebConsoleLib.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -164,9 +164,8 @@
     <Reference Include="Moq">
       <HintPath>..\..\packages\Moq.4.2.1409.1722\lib\net40\Moq.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="nsoftware.IBizPay, Version=4.1.3575.0, Culture=neutral, PublicKeyToken=cdc168f89cffe9cf, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Commerce.Core.10.8.0\lib\net45\nsoftware.IBizPay.dll</HintPath>
@@ -185,9 +184,8 @@
     <Reference Include="Should">
       <HintPath>..\..\packages\Should.1.1.20\lib\Should.dll</HintPath>
     </Reference>
-    <Reference Include="StructureMap, Version=3.1.9.463, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\structuremap-signed.3.1.9.463\lib\net40\StructureMap.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="StructureMap, Version=4.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\StructureMap.4.5.2\lib\net45\StructureMap.dll</HintPath>
     </Reference>
     <Reference Include="StructureMap.Net4, Version=3.1.9.463, Culture=neutral, PublicKeyToken=e60ad81abae3c223, processorArchitecture=MSIL">
       <HintPath>..\..\packages\structuremap-signed.3.1.9.463\lib\net40\StructureMap.Net4.dll</HintPath>
