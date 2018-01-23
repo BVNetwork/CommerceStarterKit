@@ -24,7 +24,7 @@ using OxxCommerceStarterKit.Web.Services.Email;
 namespace OxxCommerceStarterKit.Web.Controllers
 {
 	[TemplateDescriptor()]
-	public class NewsletterController : PageController<ArticlePage>
+	public class NewsletterController : PageController<NewsletterPage>
     {
         private readonly INotificationSettingsRepository _notificationSettingsRepository;
         public NewsletterController(INotificationSettingsRepository notificationSettingsRepository)

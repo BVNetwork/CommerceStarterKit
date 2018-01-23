@@ -27,7 +27,7 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
 	   GroupName = WebGlobal.GroupNames.Default
        )]
     [SiteImageUrl(thumbnail: EditorThumbnail.Social)]
-	public class NewsletterPage // : NewsletterBase
+	public class NewsletterPage : PageData// : NewsletterBase
 	{
 
 		[Display(
