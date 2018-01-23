@@ -157,8 +157,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 customer = CustomerContact.CreateInstance(user);
             }
 
-            //customer.FirstName = registerForm.Address.FirstName;
-			//customer.LastName = registerForm.Address.LastName;
+            customer.FirstName = registerForm.FirstName;
+			customer.LastName = registerForm.LastName;
 			//customer.SetPhoneNumber(registerForm.Phone);
 			//customer.FullName = string.Format("{0} {1}", customer.FirstName, customer.LastName);
 			customer.SetHasPassword(true);

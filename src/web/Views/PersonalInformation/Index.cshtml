@@ -11,40 +11,43 @@
 	{
 		@Html.AntiForgeryToken()
 		<h2>@Html.Translate("/common/accountpages/personal_data_title")</h2>
-		<div class="row">
+
+	    <div class="account-contact-details">
+	        <div class="row">
+	            <div class="col-sm-6">
+	                <div class="form-group">
+	                    @Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.FirstName)
+	                    @Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.FirstName, new { @class = "form-control firstname" })
+	                </div>
+	                <div class="form-group">
+	                    @Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.LastName)
+	                    @Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.LastName, new { @class = "form-control lastname" })
+	                </div>
+	            </div>
+	            <div class="col-sm-6">
+	                <div class="form-group">
+	                    @Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.Email)
+	                    @Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.Email, new { @class = "form-control email" })
+	                </div>
+	                <div class="form-group">
+	                    @Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.PhoneNumber)
+	                    @Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.PhoneNumber, new { @class = "form-control phone" })
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+
+	    <div class="row">
 			<div class="col-sm-6 address-field">
-				<h3>@Html.Translate("/common/accountpages/billing_address_title")</h3>
+				<h2>@Html.Translate("/common/accountpages/billing_address_title")</h2>
 				@Html.EditorFor(m => m.PersonalSettingsForm.BillingAddress)
 			</div>
 			<div class="col-sm-6 address-field">
-				<h3>@Html.Translate("/common/accountpages/shipping_address_title")</h3>
+				<h2>@Html.Translate("/common/accountpages/shipping_address_title")</h2>
 				@Html.EditorFor(m => m.PersonalSettingsForm.ShippingAddress)
 			</div>
 		</div>
-		<div class="account-contact-details">
-			<div class="row">
-				<div class="col-sm-6">
-					<div class="form-group">
-						@Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.FirstName)
-						@Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.FirstName, new { @class = "form-control firstname" })
-					</div>
-					<div class="form-group">
-						@Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.LastName)
-						@Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.LastName, new { @class = "form-control lastname" })
-					</div>
-				</div>
-				<div class="col-sm-6">
-					<div class="form-group">
-						@Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.Email)
-						@Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.Email, new { @class = "form-control email" })
-					</div>
-					<div class="form-group">
-						@Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.PhoneNumber)
-						@Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.PhoneNumber, new { @class = "form-control phone" })
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<div class="clearfix">
 			<input type="submit" value="@Html.Translate("/common/accountpages/save")" class="btn btn-primary" />
 		</div>

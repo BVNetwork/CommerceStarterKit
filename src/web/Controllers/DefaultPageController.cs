@@ -20,6 +20,7 @@ using EPiServer.Security;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Web.Business.Analytics;
+using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 
@@ -28,15 +29,20 @@ namespace OxxCommerceStarterKit.Web.Controllers
     [TemplateDescriptor(Inherited = true)]
     public class DefaultPageController : PageControllerBase<PageData>
     {
-		private readonly IContentLoader _contentLoader;        
+		private readonly IContentLoader _contentLoader;
 
-        public DefaultPageController(IContentLoader contentLoader )
+        private readonly MyEventSender _myEventSender;
+
+        public DefaultPageController(IContentLoader contentLoader, MyEventSender myEventSender )
         {            
-			_contentLoader = contentLoader;		    
+			_contentLoader = contentLoader;
+            _myEventSender = myEventSender;
         }
 
         public ViewResult Index(PageData currentPage)
         {
+            _myEventSender.Track();
+
             var viewPath = GetViewForPageType(currentPage);
 
             var model = CreatePageViewModel(currentPage);
