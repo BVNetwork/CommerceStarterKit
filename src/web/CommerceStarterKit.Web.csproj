@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Api\CampaignController.cs" />
     <Compile Include="Business\Recommendations\CustomUserDataService.cs" />
+    <Compile Include="Business\Recommendations\MyEventSender.cs" />
     <Compile Include="Services\CampaignEspService.cs" />
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
     <Compile Include="Business\JsonChannel\JsonPageDataController.cs" />

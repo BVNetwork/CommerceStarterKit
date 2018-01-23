@@ -101,7 +101,10 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
         {
             if (context.Request.UserAgent.Contains("StatusCake"))
                 return true;
+            if (context.Request.UserAgent.Contains("CloudFlare-AlwaysOnline"))
+                return true;
 
+            
             return false;
         }
     }
