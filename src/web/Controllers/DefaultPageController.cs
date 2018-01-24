@@ -8,18 +8,11 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Core;
 using EPiServer.Filters;
 using EPiServer.Framework.DataAnnotations;
-using EPiServer.GoogleAnalytics.Helpers;
-using EPiServer.Security;
-using EPiServer.Web.Mvc;
-using Mediachase.Commerce.Customers;
-using OxxCommerceStarterKit.Web.Business.Analytics;
 using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
