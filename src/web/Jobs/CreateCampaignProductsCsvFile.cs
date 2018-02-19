@@ -31,6 +31,8 @@ using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using CsvHelper;
 using System.IO;
+using EPiServer.Find.Cms;
+using EPiServer.Find.Helpers.Text;
 
 namespace OxxCommerceStarterKit.Web.Jobs
 {
@@ -246,11 +248,17 @@ namespace OxxCommerceStarterKit.Web.Jobs
             findProduct.ParentCategoryName.Reverse();
             category = string.Join("#", findProduct.ParentCategoryName);
             text1 = findProduct.Name;
-            //if (findProduct.Description != null && findProduct.Description.IsEmpty == false)
-            //{
-            //    text2 = findProduct.Description.ToString();
-            //}
-            if(string.IsNullOrEmpty(findProduct.DiscountedPrice) == false)
+            if (findProduct.Description != null && findProduct.Description.IsEmpty == false)
+            {
+                text2 = findProduct.Description.AsViewedByAnonymous();
+                text2 = text2.StripHtml();
+                if (text2.Length > 450)
+                {
+                    text2 = text2.Substring(0, 450);
+                }
+
+            }
+            if (string.IsNullOrEmpty(findProduct.DiscountedPrice) == false)
             {
                 text5 = findProduct.DiscountedPrice;
                 text6 = findProduct.DefaultPrice;
