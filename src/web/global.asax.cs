@@ -102,19 +102,7 @@ namespace OxxCommerceStarterKit.Web
         /// <param name="config">The configuration.</param>
         public static void RegisterApis(HttpConfiguration config)
         {
-          
-
-            config.Routes.MapHttpRoute(
-             "Api", // Route name 
-             "api/{controller}/{action}/{id}", // URL with parameters 
-             new { id = RouteParameter.Optional } // Parameter defaults 
-            );
-
-            config.Routes.MapHttpRoute(
-             "LanguageAwareApi", // Route name 
-             "{language}/api/{controller}/{action}/{id}", // URL with parameters 
-             new { id = RouteParameter.Optional } // Parameter defaults
-            );
+            // Routes added in ApiRouteInitialization
 
             // We only support JSON
             var appXmlType = GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");

@@ -115,6 +115,7 @@
 				<title>Hi {0}!</title>
 				<personal_data_title>Your account information</personal_data_title>
 				<change_password_title>Change password</change_password_title>
+			    <address_title>Address:</address_title>
 				<shipping_address_title>Delivery Address:</shipping_address_title>
 				<billing_address_title>Invoce Address:</billing_address_title>
 				<placeholder>
@@ -124,7 +125,7 @@
 					<zipcode>Zipcode</zipcode>
 					<city>City</city>
 					<email>Email</email>
-					<phone>Phone (with country prefix)</phone>
+					<phone>Phone</phone>
 					<old_password>Current Password</old_password>
 					<new_password>New Password</new_password>
 					<repeat_password>Repeat New Password</repeat_password>
@@ -157,7 +158,7 @@
 				<placeholder>
 					<socialsecuritynumber>Enter social security number</socialsecuritynumber>
 					<email>Enter email address</email>
-					<phone>Phone (with country prefix)</phone>
+					<phone>Phone</phone>
 					<password>Password</password>
 					<confirmpassword>Confirm password</confirmpassword>
 				</placeholder>

@@ -44,5 +44,12 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
 			Order = 40)]
 		[CultureSpecific]
 		public virtual XhtmlString EmailBody { get; set; }
-	}
+
+	    [Display(
+	        Name = "Post register page",
+	        GroupName = SystemTabNames.Content,
+	        Order = 50)]
+	    [CultureSpecific]
+	    public virtual ContentReference PostRegisterPage { get; set; }
+    }
 }
