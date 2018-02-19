@@ -24,6 +24,7 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
                     id = RouteParameter.Optional
                 });
 
+
             var catalogFeedSettings = ServiceLocator.Current.GetInstance<CatalogFeedSettings>();
             catalogFeedSettings.DescriptionPropertyName = "Description";
             catalogFeedSettings.AssetGroupName = "Default";
