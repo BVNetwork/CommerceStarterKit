@@ -39,8 +39,9 @@ namespace OxxCommerceStarterKit.Web.Controllers
 		public ActionResult Index(PersonalInformationPage currentPage, PersonalSettingsForm personalSettingsForm)
         {
             PersonalInformationViewModel model = new PersonalInformationViewModel(currentPage);
-			var currentMarket = ServiceLocator.Current.GetInstance<ICurrentMarket>();
 
+            personalSettingsForm.ContactInformation.FirstName = personalSettingsForm.BillingAddress.FirstName;
+            personalSettingsForm.ContactInformation.LastName = personalSettingsForm.BillingAddress.LastName;
             model.PersonalSettingsForm = personalSettingsForm;
 
 
@@ -49,13 +50,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             CustomerAddressRepository addressRepository = new CustomerAddressRepository();
 			
-			personalSettingsForm.BillingAddress.CheckAndSetCountryCode();
-			personalSettingsForm.BillingAddress.IsPreferredBillingAddress = true;
-            addressRepository.Save(personalSettingsForm.BillingAddress);
+		
+			//personalSettingsForm.ShippingAddress.CheckAndSetCountryCode();
+   //         personalSettingsForm.ShippingAddress.IsPreferredShippingAddress = true;
+   //         addressRepository.Save(personalSettingsForm.ShippingAddress);
 
-			personalSettingsForm.ShippingAddress.CheckAndSetCountryCode();
-			personalSettingsForm.ShippingAddress.IsPreferredShippingAddress = true;
-            addressRepository.Save(personalSettingsForm.ShippingAddress);
+            personalSettingsForm.BillingAddress.CheckAndSetCountryCode();
+            personalSettingsForm.BillingAddress.IsPreferredBillingAddress = true;
+            addressRepository.Save(personalSettingsForm.BillingAddress);
 
             if (Request.IsAjaxRequest())
             {

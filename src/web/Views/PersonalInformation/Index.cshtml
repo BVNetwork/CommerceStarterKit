@@ -12,9 +12,17 @@
 		@Html.AntiForgeryToken()
 		<h2>@Html.Translate("/common/accountpages/personal_data_title")</h2>
 
+	  
+
+	    <div class="row">
+			<div class="col-sm-6 address-field">
+				@Html.EditorFor(m => m.PersonalSettingsForm.BillingAddress)
+			</div>
+		</div>
+
 	    <div class="account-contact-details">
 	        <div class="row">
-	            <div class="col-sm-6">
+	            @*<div class="col-sm-6">
 	                <div class="form-group">
 	                    @Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.FirstName)
 	                    @Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.FirstName, new { @class = "form-control firstname" })
@@ -23,7 +31,7 @@
 	                    @Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.LastName)
 	                    @Html.EditorFor(m => m.PersonalSettingsForm.ContactInformation.LastName, new { @class = "form-control lastname" })
 	                </div>
-	            </div>
+	            </div>*@
 	            <div class="col-sm-6">
 	                <div class="form-group">
 	                    @Html.LabelFor(m => m.PersonalSettingsForm.ContactInformation.Email)
@@ -37,20 +45,11 @@
 	        </div>
 	    </div>
 
-	    <div class="row">
-			<div class="col-sm-6 address-field">
-				<h2>@Html.Translate("/common/accountpages/billing_address_title")</h2>
-				@Html.EditorFor(m => m.PersonalSettingsForm.BillingAddress)
-			</div>
-			<div class="col-sm-6 address-field">
-				<h2>@Html.Translate("/common/accountpages/shipping_address_title")</h2>
-				@Html.EditorFor(m => m.PersonalSettingsForm.ShippingAddress)
-			</div>
-		</div>
+	    <div class="clearfix">
+	        <input type="submit" value="@Html.Translate("/common/accountpages/save")" class="btn btn-primary" />
+	    </div>
 
-		<div class="clearfix">
-			<input type="submit" value="@Html.Translate("/common/accountpages/save")" class="btn btn-primary" />
-		</div>
+	    
 	}
 
 </div>
