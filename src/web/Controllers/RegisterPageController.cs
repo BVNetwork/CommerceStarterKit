@@ -169,10 +169,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
 				customer.CustomerGroup = Constants.CustomerGroup.CustomerClub;
 			}
 
+		    var options = string.Empty;
             // Newsletter 
-		    if (registerForm.ConfirmSms || registerForm.ConfirmNewsletter)
+            if (registerForm.ConfirmSms || registerForm.ConfirmNewsletter)
 		    {
-                var options = string.Empty;
+                
 		        if (registerForm.ConfirmSms && registerForm.ConfirmNewsletter)
 		        {
 		            options = "sms,email";
@@ -223,8 +224,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
 			//bool mail_sent = SendWelcomeEmail(registerForm.UserName, currentPage);
 
-			return Redirect(_urlResolver.GetUrl(ContentReference.StartPage));
-		}
+            if(!string.IsNullOrWhiteSpace(options) && CurrentPage.PostRegisterPage != null)			   
+		        return Redirect(_urlResolver.GetUrl(CurrentPage.PostRegisterPage));
+
+		    return Redirect(_urlResolver.GetUrl(ContentReference.StartPage));
+        }
 
 
 		//public bool SendWelcomeEmail(string email, RegisterPage currentPage = null)
