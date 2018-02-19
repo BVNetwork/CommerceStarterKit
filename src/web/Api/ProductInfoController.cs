@@ -35,7 +35,8 @@ namespace OxxCommerceStarterKit.Web.Api
                     {
                         x.Code,
                         x.Name,
-                        Overview = x.Overview.AsCropped(250),
+                        Overview = x.Overview.AsCropped(450),
+                        Description = x.Description.AsCropped(450),
                         x.DefaultImageUrl,
                         x.ProductUrl
                     }
@@ -58,8 +59,9 @@ namespace OxxCommerceStarterKit.Web.Api
                 XmlNode elementNode = doc.CreateElement("element");
                 doc.AppendChild(elementNode);
 
-                AddProperty(doc, "id", product.Code, elementNode);
-                AddProperty(doc, "text1", product.Overview, elementNode);
+                AddProperty(doc, "id", product.Code, elementNode);               
+                AddProperty(doc, "text1", product.Overview, elementNode);               
+                AddProperty(doc, "text2", product.Description, elementNode);                             
                 AddProperty(doc, "link1Text", product.Name, elementNode);
                 AddProperty(doc, "link1Url", product.ProductUrl, elementNode);
                 AddProperty(doc, "image1ImageUrl", product.DefaultImageUrl, elementNode);
