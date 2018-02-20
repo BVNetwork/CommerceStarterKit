@@ -61,6 +61,9 @@
     <Compile Include="Business\Recommendations\CustomUserDataService.cs" />
     <Compile Include="Business\Recommendations\MyEventSender.cs" />
     <Compile Include="Jobs\CreateCampaignProductsCsvFile.cs" />
+    <Compile Include="modules\_protected\Campaign\CampaignController.cs" />
+    <Compile Include="modules\_protected\Campaign\CampaignMenuProvider.cs" />
+    <Compile Include="modules\_protected\Campaign\CampaignViewModel.cs" />
     <Compile Include="Services\CampaignEspService.cs" />
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
     <Compile Include="Business\JsonChannel\JsonPageDataController.cs" />
@@ -523,6 +526,8 @@
     <Content Include="modules\_protected\EPiServer.Social\EPiServer.Social.zip" />
     <Content Include="modules\_protected\CookieDropBlock\Views\web.config" />
     <Content Include="modules\_protected\CookieDropBlock\Views\CookieDropBlock.cshtml" />
+    <Content Include="modules\_protected\Campaign\modules.config" />
+    <Content Include="modules\_protected\Campaign\Views\Index.cshtml" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
