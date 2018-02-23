@@ -77,7 +77,7 @@
         EntryContentBase product = contentLoader.Get<EntryContentBase>(featurePage.FeatureProduct.MenuFeatureLink);
         <li class="offer">
             <div class="col-1">
-                <p class="p-style2">@featurePage.FeatureProduct.MenuFeatureText</p>
+                <p class="p-style2">@Html.Raw(featurePage.FeatureProduct.MenuFeatureText)</p>
             </div>
             <div class="col-2">
                 @SetImageTag(product, urlResolver)
