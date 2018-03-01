@@ -8,22 +8,6 @@
 
 	@using (Html.BeginForm("Register", "RegisterPage", ViewContext.GetCombinedRouteValues(new { }), FormMethod.Post, UrlHelpers.AnonymousObjectToHtmlAttributes(new { id = "loginForm" })))
 	{
-		<div class="form-group">
-			@Html.LabelFor(m => m.UserName)
-			@Html.TextBoxFor(m => m.UserName, new { placeholder = @Html.Translate("/common/account/username_placeholder"), autocomplete = "off", @class = "form-control" })
-			@Html.ValidationMessageFor(m => m.UserName, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/username").Replace(":", "")))
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(m => m.Password)
-			@Html.PasswordFor(m => m.Password, new { placeholder = @Html.Translate("/common/account/password_placeholder"), @class = "form-control" })
-			@Html.ValidationMessageFor(m => m.Password, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/password").Replace(":", "")))
-		</div>
-		<div class="form-group">
-			@Html.LabelFor(m => m.PasswordConfirm)
-			@Html.PasswordFor(m => m.PasswordConfirm, new { placeholder = @Html.Translate("/common/account/password_repeat_placeholder"), @class = "form-control" })
-			@Html.ValidationMessageFor(m => m.PasswordConfirm, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/password_repeat_placeholder").Replace(":", "")))
-		</div>
-
 	    <div class="address-field"> 
 	        <div class="row">
 	            <div class="form-group col-lg-6 col-md-6 col-sm-6">
@@ -37,22 +21,40 @@
 	                @Html.ValidationMessageFor(m => m.LastName)
 	            </div>
 	        </div>
-        </div> 
-	   
-        <div class="form-group join-member-club">
-	       
-                        
-	    <label>
-            <span>@Html.Translate("/common/account/memberclub/join_label")</span>
-            @Html.RadioButtonFor(m => m.MemberClub, true)
-            @Html.Translate("/common/account/memberclub/join_club_option")
-        </label>
-        <label>
-            @Html.RadioButtonFor(m => m.MemberClub, false)
-            @Html.Translate("/common/account/memberclub/dont_join_club_option")
-        </label>
+	    </div> 
+
+	    <div class="form-group">
+	        @Html.LabelFor(m => m.UserName)
+	        @Html.TextBoxFor(m => m.UserName, new { placeholder = @Html.Translate("/common/account/username_placeholder"), autocomplete = "off", @class = "form-control" })
+	        @Html.ValidationMessageFor(m => m.UserName, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/username").Replace(":", "")))
 	    </div>
-        
+	    <div class="form-group">
+	        @Html.LabelFor(m => m.Phone)
+	        @Html.TextBoxFor(m => m.Phone, new { placeholder = @Html.Translate("/common/account/phone_placeholder"), autocomplete = "off", @class = "form-control" })
+	        @Html.ValidationMessageFor(m => m.UserName, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/username").Replace(":", "")))
+	    </div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Password)
+			@Html.PasswordFor(m => m.Password, new { placeholder = @Html.Translate("/common/account/password_placeholder"), @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.Password, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/password").Replace(":", "")))
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.PasswordConfirm)
+			@Html.PasswordFor(m => m.PasswordConfirm, new { placeholder = @Html.Translate("/common/account/password_repeat_placeholder"), @class = "form-control" })
+			@Html.ValidationMessageFor(m => m.PasswordConfirm, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/password_repeat_placeholder").Replace(":", "")))
+		</div>
+	   
+        <div class="form-group join-member-club">                        
+	        <label>
+                <span>@Html.Translate("/common/account/memberclub/join_label")</span>
+                @Html.RadioButtonFor(m => m.MemberClub, true)
+                @Html.Translate("/common/account/memberclub/join_club_option")
+            </label>
+            <label>
+                @Html.RadioButtonFor(m => m.MemberClub, false)
+                @Html.Translate("/common/account/memberclub/dont_join_club_option")
+            </label>
+	    </div>        
 
 	    <div class="form-group interests" @(Model.MemberClub ? "" : "style=display:none;")> 
 	        <div class="form-group join-member-club">

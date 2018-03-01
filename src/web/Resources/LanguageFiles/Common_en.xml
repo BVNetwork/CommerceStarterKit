@@ -43,9 +43,11 @@
         <loginheader>Existing account</loginheader>
         <registerheader>Registrer new account</registerheader>
         <username>Email:</username>
+        <phone>Mobile:</phone>
         <password>Password:</password>
         <password_repeat>Confirm password:</password_repeat>
         <username_placeholder>Enter email address</username_placeholder>
+        <phone_placeholder>Enter mobile number</phone_placeholder>
         <password_placeholder>Enter password</password_placeholder>
         <password_repeat_placeholder>Repeat password</password_repeat_placeholder>
         <rememberme>Remember me</rememberme>
@@ -125,7 +127,7 @@
 					<zipcode>Zipcode</zipcode>
 					<city>City</city>
 					<email>Email</email>
-					<phone>Phone</phone>
+					<phone>Mobile</phone>
 					<old_password>Current Password</old_password>
 					<new_password>New Password</new_password>
 					<repeat_password>Repeat New Password</repeat_password>

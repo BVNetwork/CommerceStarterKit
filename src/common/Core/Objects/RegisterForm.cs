@@ -50,5 +50,7 @@ namespace OxxCommerceStarterKit.Core.Objects
 
 	    [LocalizedDisplayName("/common/accountpages/lastname_label")]
         public string LastName { get; set; }
+
+	    public string Phone { get; set; }
 	}
 }

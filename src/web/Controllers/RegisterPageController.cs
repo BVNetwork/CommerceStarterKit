@@ -16,6 +16,7 @@ using System.Web.Security;
 using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Framework.Localization;
+using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Core;
@@ -23,6 +24,8 @@ using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Objects;
+using OxxCommerceStarterKit.Core.Repositories;
+using OxxCommerceStarterKit.Core.Repositories.Interfaces;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Services;
@@ -117,7 +120,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     customer1 = CustomerContact.CreateInstance(user);
                 }
 
-
                 if (customer1.GetHasPassword())
 				{
 					ModelState.AddModelError("RegisterForm.ValidationMessage", _localizationService.GetString("/common/account/register_error_unique_username"));
@@ -149,18 +151,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
 				user.ChangePassword(pass, password);
 			}
 
-			var customer = CustomerContext.Current.GetContactForUser(user);
+			var customer = CustomerContext.Current.GetContactForUser(user) ?? CustomerContact.CreateInstance(user);
 
-            if (customer == null)
-            {
-
-                customer = CustomerContact.CreateInstance(user);
-            }
-
-            customer.FirstName = registerForm.FirstName;
+		    customer.FirstName = registerForm.FirstName;
 			customer.LastName = registerForm.LastName;
-			//customer.SetPhoneNumber(registerForm.Phone);
-			//customer.FullName = string.Format("{0} {1}", customer.FirstName, customer.LastName);
+			customer.SetPhoneNumber(registerForm.Phone);
 			customer.SetHasPassword(true);
 
 			// member club
@@ -168,70 +163,80 @@ namespace OxxCommerceStarterKit.Web.Controllers
 			{
 				customer.CustomerGroup = Constants.CustomerGroup.CustomerClub;
 			}
+		    customer.SaveChanges();
 
-		    var options = string.Empty;
-            // Newsletter 
-            if (registerForm.ConfirmSms || registerForm.ConfirmNewsletter)
+		    var customer2 = CustomerContext.Current.GetContactForUser(user);
+            customer2.SetPhoneNumber(registerForm.Phone);
+		    customer2.SetCategories(SelectedCategories);
+            customer2.SaveChanges();
+
+            var subscribe = Subscribe(registerForm, emailAddress);
+
+            var customerAddressRepository = ServiceLocator.Current.GetInstance<ICustomerAddressRepository>();
+            customerAddressRepository.SetCustomer(customer2);
+
+		    // copy fields to billing address
+            var address = new Address
 		    {
-                
-		        if (registerForm.ConfirmSms && registerForm.ConfirmNewsletter)
-		        {
-		            options = "sms,email";
-		        }
-                else if (registerForm.ConfirmSms)
-		        {
-		            options = "sms";
-                }
-		        else if (registerForm.ConfirmNewsletter)
-		        {
-		            options = "email";
-		        }
+		        FirstName = customer2.FirstName,
+		        LastName = customer2.LastName,
+		        IsPreferredBillingAddress = true
+		    };
+		    address.CheckAndSetCountryCode();
+            customerAddressRepository.Save(address);
 
-                var optionsList = new List<KeyValuePair<string, string>> { new KeyValuePair<string, string>("interests", options) };
-
-		        if (!string.IsNullOrWhiteSpace(registerForm.FirstName))
-		        {
-		            optionsList.Add(new KeyValuePair<string, string>("firstname", registerForm.FirstName));
-		        }
-
-		        if (!string.IsNullOrWhiteSpace(registerForm.LastName))
-		        {
-		            optionsList.Add(new KeyValuePair<string, string>("lastname", registerForm.LastName));
-		        }
-
-                Task.Run(() => Subscribe(emailAddress, optionsList));		        
-		    }
-
-			// categories
-			customer.SetCategories(SelectedCategories);
-
-			customer.SaveChanges();
-
-			//var CustomerAddressRepository = ServiceLocator.Current.GetInstance<ICustomerAddressRepository>();
-			//CustomerAddressRepository.SetCustomer(customer);
-
-			//// copy address fields to shipping address
-			//registerForm.Address.CheckAndSetCountryCode();
-
-			//var ShippingAddress = (Address)registerForm.Address.Clone();
-			//ShippingAddress.IsPreferredShippingAddress = true;
-			//CustomerAddressRepository.Save(ShippingAddress);
-
-			//registerForm.Address.IsPreferredBillingAddress = true;
-			//CustomerAddressRepository.Save(registerForm.Address);
-
-			LoginController.CreateAuthenticationCookie(ControllerContext.HttpContext, emailAddress, AppContext.Current.ApplicationName, false);
+            LoginController.CreateAuthenticationCookie(ControllerContext.HttpContext, emailAddress, AppContext.Current.ApplicationName, false);
 
 			//bool mail_sent = SendWelcomeEmail(registerForm.UserName, currentPage);
 
-            if(!string.IsNullOrWhiteSpace(options) && CurrentPage.PostRegisterPage != null)			   
+            if(subscribe && CurrentPage.PostRegisterPage != null)			   
 		        return Redirect(_urlResolver.GetUrl(CurrentPage.PostRegisterPage));
 
 		    return Redirect(_urlResolver.GetUrl(ContentReference.StartPage));
         }
 
+	    private bool Subscribe(RegisterForm registerForm, string emailAddress)
+	    {
+	        var options = string.Empty;
+	        // Newsletter 
+	        if (registerForm.ConfirmSms || registerForm.ConfirmNewsletter)
+	        {
+	            if (registerForm.ConfirmSms && registerForm.ConfirmNewsletter)
+	            {
+	                options = "sms,email";
+	            }
+	            else if (registerForm.ConfirmSms)
+	            {
+	                options = "sms";
+	            }
+	            else if (registerForm.ConfirmNewsletter)
+	            {
+	                options = "email";
+	            }
 
-		//public bool SendWelcomeEmail(string email, RegisterPage currentPage = null)
+	            var optionsList =
+	                new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("interests", options)};
+
+	            if (!string.IsNullOrWhiteSpace(registerForm.FirstName))
+	            {
+	                optionsList.Add(new KeyValuePair<string, string>("firstname", registerForm.FirstName));
+	            }
+
+	            if (!string.IsNullOrWhiteSpace(registerForm.LastName))
+	            {
+	                optionsList.Add(new KeyValuePair<string, string>("lastname", registerForm.LastName));
+	            }
+
+	            optionsList.Add(new KeyValuePair<string, string>("mobile", "0047" + registerForm.Phone));
+
+	            Task.Run(() => Subscribe(emailAddress, optionsList));
+	        }
+
+	        return !string.IsNullOrWhiteSpace(options);
+	    }
+
+
+	    //public bool SendWelcomeEmail(string email, RegisterPage currentPage = null)
 		//{
 		//    return _emailService.SendWelcomeEmail(email);
 		//}
