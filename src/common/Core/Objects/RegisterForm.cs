@@ -19,7 +19,8 @@ namespace OxxCommerceStarterKit.Core.Objects
 		[LocalizedDisplayName("/common/account/username")]
 		[DataType(DataType.Text)]
 		[Required]
-		public string UserName { get; set; }
+		[EmailAddress(ErrorMessage = "Invalid Email Address")]
+        public string UserName { get; set; }
 
 		[LocalizedDisplayName("/common/account/password")]
 		[DataType(DataType.Password)]
@@ -51,6 +52,8 @@ namespace OxxCommerceStarterKit.Core.Objects
 	    [LocalizedDisplayName("/common/accountpages/lastname_label")]
         public string LastName { get; set; }
 
-	    public string Phone { get; set; }
+	    [LocalizedDisplayName("/common/account/phone")]
+        [Required]
+        public string Phone { get; set; }
 	}
 }

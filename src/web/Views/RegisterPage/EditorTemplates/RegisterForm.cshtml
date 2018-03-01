@@ -26,12 +26,12 @@
 	    <div class="form-group">
 	        @Html.LabelFor(m => m.UserName)
 	        @Html.TextBoxFor(m => m.UserName, new { placeholder = @Html.Translate("/common/account/username_placeholder"), autocomplete = "off", @class = "form-control" })
-	        @Html.ValidationMessageFor(m => m.UserName, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/username").Replace(":", "")))
+	        @Html.ValidationMessageFor(m => m.UserName, string.Format(Html.Translate("/common/validation/required"), "Valid email "))
 	    </div>
 	    <div class="form-group">
 	        @Html.LabelFor(m => m.Phone)
 	        @Html.TextBoxFor(m => m.Phone, new { placeholder = @Html.Translate("/common/account/phone_placeholder"), autocomplete = "off", @class = "form-control" })
-	        @Html.ValidationMessageFor(m => m.UserName, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/username").Replace(":", "")))
+	        @Html.ValidationMessageFor(m => m.Phone, string.Format(Html.Translate("/common/validation/required"), Html.Translate("/common/account/phone").Replace(":", "")))
 	    </div>
 		<div class="form-group">
 			@Html.LabelFor(m => m.Password)
