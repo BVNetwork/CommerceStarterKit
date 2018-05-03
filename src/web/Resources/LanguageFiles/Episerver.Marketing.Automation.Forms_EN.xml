@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<!--Please copy this lang file into /wwwroot/lang folder-->
+<languages>
+  <language name="English" id="en">
+    <episerver>
+      <forms>
+        <externalsystems>
+          <episerver.marketing.automation.forms.implementation.mappings.masystemdatabases>
+            <displayname>MA System Database</displayname>
+          </episerver.marketing.automation.forms.implementation.mappings.masystemdatabases>
+        </externalsystems>
+      </forms>
+    </episerver>
+  </language>
+</languages>

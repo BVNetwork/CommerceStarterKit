@@ -528,6 +528,12 @@
     <Content Include="modules\_protected\CookieDropBlock\Views\CookieDropBlock.cshtml" />
     <Content Include="modules\_protected\Campaign\modules.config" />
     <Content Include="modules\_protected\Campaign\Views\Index.cshtml" />
+    <Content Include="modules\_protected\EPiServer.DynamicContent\module.config" />
+    <Content Include="modules\_protected\EPiServer.DynamicContent\EPiServer.DynamicContent.zip" />
+    <Content Include="modules\_protected\EPiServer.ConnectForMarketingAutomation\module.config" />
+    <Content Include="modules\_protected\EPiServer.ConnectForMarketingAutomation\EPiServer.ConnectForMarketingAutomation.zip" />
+    <Content Include="modules\_protected\EPiServer.ConnectForCampaign\EPiServer.ConnectForCampaign.zip" />
+    <Content Include="modules\_protected\EPiServer.ConnectForCampaign\Campaign.config" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -654,6 +660,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Resources\LanguageFiles\Display.xml" />
+    <Content Include="Resources\LanguageFiles\Episerver.Marketing.Automation.Forms_EN.xml" />
     <Content Include="Resources\LanguageFiles\Errors.xml" />
     <Content Include="Resources\LanguageFiles\EditorHints.xml" />
     <Content Include="Resources\LanguageFiles\ContentTypes.xml">
@@ -1049,11 +1056,23 @@
     <Reference Include="EPiServer.Configuration, Version=11.3.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.AspNet.11.3.2\lib\net461\EPiServer.Configuration.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.ConnectForCampaign.Core, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.ConnectForCampaign.1.1.0\lib\EPiServer.ConnectForCampaign.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.ConnectForCampaign.Implementation, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.ConnectForCampaign.1.1.0\lib\EPiServer.ConnectForCampaign.Implementation.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.ConnectForCampaign.Services, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.ConnectForCampaign.1.1.0\lib\EPiServer.ConnectForCampaign.Services.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Data, Version=11.3.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Framework.11.3.2\lib\net461\EPiServer.Data.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Data.Cache, Version=11.3.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Framework.11.3.2\lib\net461\EPiServer.Data.Cache.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.DynamicContent, Version=1.0.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.DynamicContent.1.0.0\lib\net461\EPiServer.DynamicContent.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Enterprise, Version=11.3.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.Core.11.3.2\lib\net461\EPiServer.Enterprise.dll</HintPath>
@@ -1069,9 +1088,6 @@
     </Reference>
     <Reference Include="EPiServer.Find.Cms, Version=12.7.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Find.Cms.12.7.1\lib\net461\EPiServer.Find.Cms.dll</HintPath>
-    </Reference>
-    <Reference Include="EPiServer.Find.Commerce, Version=10.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Find.Commerce.10.1.0\lib\net461\EPiServer.Find.Commerce.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Find.Framework, Version=12.7.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Find.Framework.12.7.1\lib\net461\EPiServer.Find.Framework.dll</HintPath>
@@ -1130,6 +1146,9 @@
     <Reference Include="EPiServer.Logging.Log4Net, Version=2.2.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Logging.Log4Net.2.2.0\lib\net461\EPiServer.Logging.Log4Net.dll</HintPath>
     </Reference>
+    <Reference Include="Episerver.Marketing.Automation.Forms, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Marketing.Automation.Forms.1.4.0\lib\Episerver.Marketing.Automation.Forms.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Marketing.KPI, Version=2.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Marketing.KPI.2.5.0\lib\net461\EPiServer.Marketing.KPI.dll</HintPath>
     </Reference>
@@ -1144,6 +1163,9 @@
     </Reference>
     <Reference Include="EPiServer.Marketing.Testing.Web, Version=2.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Marketing.Testing.2.5.0\lib\net461\EPiServer.Marketing.Testing.Web.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.MarketingAutomationIntegration, Version=4.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Episerver.ConnectForMarketingAutomation.4.4.0\lib\EPiServer.MarketingAutomationIntegration.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Packaging, Version=3.4.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Packaging.3.4.0\lib\net461\EPiServer.Packaging.dll</HintPath>

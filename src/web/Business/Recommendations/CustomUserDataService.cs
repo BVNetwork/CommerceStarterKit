@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
+using EPiServer.ConnectForCampaign.Core.Implementation;
 using EPiServer.Framework;
 using EPiServer.Tracking.Commerce;
 using Mediachase.Commerce.Customers;
@@ -11,6 +12,13 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
 {
     public class CustomUserDataService : IUserDataService
     {
+        private readonly IVisitorIdentifyProvider _visitorIdentifyProvider;
+
+        public CustomUserDataService(IVisitorIdentifyProvider visitorIdentifyProvider)
+        {
+            _visitorIdentifyProvider = visitorIdentifyProvider;
+        }
+
         private static string EnsureEmailAddress(string userNameOrEmail, string hostName)
         {
             if (string.IsNullOrEmpty(userNameOrEmail))
@@ -70,6 +78,7 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
         /// <returns>The email address or null if no user logged in.</returns>
         public string GetUserEmail(HttpContextBase httpContext)
         {
+
             string email;
             string name;
             string host;
@@ -144,6 +153,8 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
                 str = EnsureEmailAddress(name, host);
             }
             
+            if(string.IsNullOrWhiteSpace(str))
+                str = _visitorIdentifyProvider.GetVisitorIdentifier();
 
             return str != null ? str.Replace("+", "%2B") : null;
         }
