@@ -16,6 +16,8 @@
     var contentLoader = EPiServer.ServiceLocation.ServiceLocator.Current.GetInstance<EPiServer.IContentLoader>();
     var homePage = contentLoader.Get<HomePage>(new ContentReference(ContentReference.StartPage.ID));
 
+    var currentUrl = HttpContext.Current.Request.Url.AbsolutePath;
+
     var loginPage = Model.LoginPage != null ? contentLoader.Get<LoginPage>(Model.LoginPage) : null;
     var accountPage = Model.AccountPage != null ? contentLoader.Get<PageData>(Model.AccountPage) : null;
     var wishlistPage = homePage.Settings.WishListPage != null ? contentLoader.Get<PageData>(homePage.Settings.WishListPage) : null;
@@ -99,7 +101,7 @@
                     }
                     else
                     {
-                        <a class="login-btn btn-outlined-invert" href="@Url.ContentUrl(loginPage.ContentLink)"><i class="icon-profile"></i> <span>@loginPage.Name</span></a>
+                        <a class="login-btn btn-outlined-invert" href="@Url.ContentUrl(loginPage.ContentLink)?ReturnUrl=@(HttpUtility.UrlEncode(currentUrl))"><i class="icon-profile"></i> <span>@loginPage.Name</span></a>
                     }
                 }
             }
