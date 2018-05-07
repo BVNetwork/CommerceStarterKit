@@ -47,5 +47,9 @@ namespace OxxCommerceStarterKit.Core.Objects
         public Address ShippingAddress { get; set; }
              
         public ContactInformation ContactInformation { get; set; }
+
+        public bool ConsentEmail { get; set; } 
+ 
+        public bool ConsentSms { get; set; } 
     }
 }

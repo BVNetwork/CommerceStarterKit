@@ -9,10 +9,12 @@ Copyright (C) 2013-2014 BV Network AS
 */
 
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Security;
+using EPiServer.ConnectForCampaign.Services.Implementation;
 using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Framework.Localization;
@@ -38,12 +40,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
 		private readonly LocalizationService _localizationService;
 	   // private readonly IEmailService _emailService;
 	    private readonly IEspService _espService;
+	    private readonly IRecipientService _recipientService;
 
-	    public RegisterPageController(UrlResolver urlResolver, LocalizationService localizationService, IEspService espService)
+	    public RegisterPageController(UrlResolver urlResolver, LocalizationService localizationService, IEspService espService, IRecipientService recipientService)
 		{
 			_urlResolver = urlResolver;
 			_localizationService = localizationService;
             _espService = espService;
+		    _recipientService = recipientService;
 		}
 
 		public ActionResult Index(RegisterPage currentPage)
@@ -187,8 +191,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             LoginController.CreateAuthenticationCookie(ControllerContext.HttpContext, emailAddress, AppContext.Current.ApplicationName, false);
 
-			//bool mail_sent = SendWelcomeEmail(registerForm.UserName, currentPage);
-
             if(subscribe && CurrentPage.PostRegisterPage != null)			   
 		        return Redirect(_urlResolver.GetUrl(CurrentPage.PostRegisterPage));
 
@@ -198,7 +200,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	    private bool Subscribe(RegisterForm registerForm, string emailAddress)
 	    {
 	        var options = string.Empty;
-	        // Newsletter 
+            
 	        if (registerForm.ConfirmSms || registerForm.ConfirmNewsletter)
 	        {
 	            if (registerForm.ConfirmSms && registerForm.ConfirmNewsletter)
@@ -214,36 +216,18 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	                options = "email";
 	            }
 
-	            var optionsList =
-	                new List<KeyValuePair<string, string>> {new KeyValuePair<string, string>("interests", options)};
-
-	            if (!string.IsNullOrWhiteSpace(registerForm.FirstName))
+	            var values = new 
 	            {
-	                optionsList.Add(new KeyValuePair<string, string>("firstname", registerForm.FirstName));
-	            }
+	                interests = options,
+	                firstname = registerForm.FirstName, 
+	                lastname = registerForm.LastName,
+	                mobile = "0047" + registerForm.Phone
+	            };
 
-	            if (!string.IsNullOrWhiteSpace(registerForm.LastName))
-	            {
-	                optionsList.Add(new KeyValuePair<string, string>("lastname", registerForm.LastName));
-	            }
-
-	            optionsList.Add(new KeyValuePair<string, string>("mobile", "0047" + registerForm.Phone));
-
-	            Task.Run(() => Subscribe(emailAddress, optionsList));
+	            Task.Run(() => _espService.Subscribe(emailAddress, values));
 	        }
 
 	        return !string.IsNullOrWhiteSpace(options);
-	    }
-
-
-	    //public bool SendWelcomeEmail(string email, RegisterPage currentPage = null)
-		//{
-		//    return _emailService.SendWelcomeEmail(email);
-		//}
-
-	    private async Task Subscribe(string email, List<KeyValuePair<string, string>> keyValuePairs)
-	    {
-	         await _espService.Subscribe(email, keyValuePairs);
 	    }
     }
 }
