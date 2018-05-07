@@ -156,7 +156,7 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
             if(string.IsNullOrWhiteSpace(str))
                 str = _visitorIdentifyProvider.GetVisitorIdentifier();
 
-            return str != null ? str.Replace("+", "%2B") : null;
+            return str;
         }
 
         /// <summary>
