@@ -1099,6 +1099,9 @@
     <Reference Include="EPiServer.Find.Cms, Version=12.7.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Find.Cms.12.7.1\lib\net461\EPiServer.Find.Cms.dll</HintPath>
     </Reference>
+    <Reference Include="EPiServer.Find.Commerce, Version=10.1.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Find.Commerce.10.1.2\lib\net461\EPiServer.Find.Commerce.dll</HintPath>
+    </Reference>
     <Reference Include="EPiServer.Find.Framework, Version=12.7.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Find.Framework.12.7.1\lib\net461\EPiServer.Find.Framework.dll</HintPath>
     </Reference>
