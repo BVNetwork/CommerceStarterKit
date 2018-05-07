@@ -427,6 +427,15 @@
     <Content Include="modules\_protected\CookieDropBlock\Images\block-type-thumbnail-cookiedrop.png" />
     <Content Include="modules\_protected\EPiServer.Marketing.Testing\abcapture\capture.js" />
     <Content Include="modules\_protected\EPiServer.Marketing.Testing\abcapture\phantomjs.exe" />
+    <Content Include="modules\_protected\SiteAttentionModule\ClientResources\Scripts\CommandProviders\SiteAttentionCommandProvider.js" />
+    <Content Include="modules\_protected\SiteAttentionModule\ClientResources\Scripts\Components\SiteAttentionWidget.js" />
+    <Content Include="modules\_protected\SiteAttentionModule\ClientResources\Scripts\SiteAttentionContent.js" />
+    <Content Include="modules\_protected\SiteAttentionModule\ClientResources\Scripts\SiteAttentionModule.js" />
+    <Content Include="modules\_protected\SiteAttentionModule\ClientResources\Styles\SiteAttentionStyle.css" />
+    <Content Include="modules\_protected\SiteAttentionModule\Resources\Images\SpriteTools.png" />
+    <Content Include="modules\_protected\SiteAttentionModule\Resources\Images\ToolButtonBg.gif" />
+    <Content Include="modules\_protected\SiteAttentionModule\Resources\Styles\SiteAttention.css" />
+    <Content Include="modules\_protected\SiteAttentionModule\SiteAttentionAdmin.aspx" />
     <Content Include="NotFound.aspx" />
     <Content Include="nuget\nuget.exe" />
     <Content Include="Plugins\CommerceTools\Prices\UpdatePrices.aspx" />
@@ -534,6 +543,7 @@
     <Content Include="modules\_protected\EPiServer.ConnectForMarketingAutomation\EPiServer.ConnectForMarketingAutomation.zip" />
     <Content Include="modules\_protected\EPiServer.ConnectForCampaign\EPiServer.ConnectForCampaign.zip" />
     <Content Include="modules\_protected\EPiServer.ConnectForCampaign\Campaign.config" />
+    <Content Include="modules\_protected\SiteAttentionModule\module.config" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -1349,6 +1359,9 @@
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="SiteAttentionModule, Version=3.2.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SiteAttentionModule.3.2.1.0\lib\net461\SiteAttentionModule.dll</HintPath>
     </Reference>
     <Reference Include="StackifyLib, Version=1.24.6127.11631, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\StackifyLib.1.25.2\lib\net45\StackifyLib.dll</HintPath>

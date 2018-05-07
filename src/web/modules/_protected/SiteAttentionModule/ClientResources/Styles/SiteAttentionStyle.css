@@ -1,0 +1,9 @@
+#SAPL {
+    height: 100%;
+}
+
+#SAPL #SiteAttention {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
