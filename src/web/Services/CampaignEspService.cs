@@ -40,11 +40,16 @@ namespace OxxCommerceStarterKit.Web.Services
         private readonly string _bmOptInId = ConfigurationManager.AppSettings["CampaignOptInId"];
         private readonly string _bmOptinSource = ConfigurationManager.AppSettings["CampaignOptInSource"];
         private readonly string _httpApiBaseUrl = ConfigurationManager.AppSettings["CampaignHttpBaseUrl"];
+
+        private readonly string _bmSingleOptInId = ConfigurationManager.AppSettings["CampaignSingleOptInId"];
+        private readonly string _bmSingleOptinSource = ConfigurationManager.AppSettings["CampaignOptInSource"];
+        private readonly string _httpSingleApiBaseUrl = ConfigurationManager.AppSettings["CampaignHttpBaseUrl"];
+
         private readonly long _recipientListId; 
 
         public async Task<string> Subscribe(string email, object values)
         {
-            var queryString = ToQueryString(values);
+            var queryString = values == null ? string.Empty : ToQueryString(values);
 
             var encodedEmail = HttpUtility.UrlEncode(email);
  
@@ -55,6 +60,23 @@ namespace OxxCommerceStarterKit.Web.Services
                 _bmOptinSource,
                 queryString
                 ); 
+ 
+            return await GetAsync(url);
+        }
+
+        public async Task<string> SingleOptIn(string email, object values)
+        {
+            var queryString = values == null ? string.Empty : ToQueryString(values);
+
+            var encodedEmail = HttpUtility.UrlEncode(email);
+ 
+            var url = string.Format("{0}/subscribe?bmOptInId={1}&bmRecipientId={2}&bmOptinSource={3}&bmOverwrite=true&{4}", 
+                _httpSingleApiBaseUrl,
+                _bmSingleOptInId, 
+                encodedEmail, 
+                _bmSingleOptinSource,
+                queryString
+            ); 
  
             return await GetAsync(url);
         }

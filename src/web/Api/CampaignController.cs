@@ -30,7 +30,7 @@ namespace OxxCommerceStarterKit.Web.Api
             {
                 var email = dataset.Email;
 
-                await _espService.Service.Subscribe(email, null);
+                await _espService.Service.SingleOptIn(email, null);
             }
 
             return returnValue;
