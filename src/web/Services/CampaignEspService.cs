@@ -42,8 +42,8 @@ namespace OxxCommerceStarterKit.Web.Services
         private readonly string _httpApiBaseUrl = ConfigurationManager.AppSettings["CampaignHttpBaseUrl"];
 
         private readonly string _bmSingleOptInId = ConfigurationManager.AppSettings["CampaignSingleOptInId"];
-        private readonly string _bmSingleOptinSource = ConfigurationManager.AppSettings["CampaignOptInSource"];
-        private readonly string _httpSingleApiBaseUrl = ConfigurationManager.AppSettings["CampaignHttpBaseUrl"];
+        private readonly string _bmSingleOptinSource = ConfigurationManager.AppSettings["CampaignSingleOptInSource"];
+        private readonly string _httpSingleApiBaseUrl = ConfigurationManager.AppSettings["CampaignSingleHttpBaseUrl"];
 
         private readonly long _recipientListId; 
 
