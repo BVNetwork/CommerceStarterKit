@@ -9,10 +9,12 @@
     <div class="container">
         <div class="row">
             <!--Items List-->
-            <div class="col-lg-9 col-md-9">
+            <div class="col-lg-9 col-md-9 form-group">
                 <h1 class="title">@Html.PropertyFor(m => m.CurrentPage.Name)</h1>
                 @Html.Partial("PagePartials/_ItemList", new CartItemListViewModel() { HideMoveToCart = true })
-                <button class="btn btn-default pull-right" ng-click="emptyCart('Default')">@Html.Translate("/common/cart/empty_cart")</button>
+                <div  class="">
+                    <button class="btn btn-default pull-right" ng-click="emptyCart('Default')">@Html.Translate("/common/cart/empty_cart")</button>
+                </div>
             </div>
             <div class="col-lg-3 col-md-3">
                 @Html.Partial("PagePartials/_CartTotal")
