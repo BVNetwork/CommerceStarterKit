@@ -110,22 +110,5 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
             GroupName = SystemTabNames.Settings,
             Order = 100)]
         public virtual SettingsBlock Settings { get; set; }
-
-
-        [CultureSpecific]
-        [Display(
-            Name = "Recommendations header",
-            Description = "Section header",
-            GroupName = SystemTabNames.Content,
-            Order = 500)]
-        public virtual string RecommendationsHeader { get; set; }
-
-
-        [Display(
-            Name = "Recommendations section",
-            Description = "Section header",
-            GroupName = SystemTabNames.Content,
-            Order = 510)]
-        public virtual        SectionBlockBase RecommendationSection { get; set; }
     }
 }
