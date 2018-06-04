@@ -12,6 +12,11 @@
     {
         trackingClickEvent = "onclick=\"trackRecClick('" + Model.GetTrackingName() + "')\"";
     }
+    string imgClass = "";
+    if (ViewData["size"] != null)
+    {
+        imgClass = "small";
+    }
 
 
     <div class="productRow col-sm-12">
@@ -19,15 +24,14 @@
             @Html.Partial("ProductPartials/_Badges")
             @Html.Partial("ProductPartials/_PriceLabel")
             <a href="@Model.ProductUrl" data-recommendation-id="@Model.RecommendationId">
-                <img id="anim-img-@Model.ContentLink" class="image img-responsive" src="@Model.ImageUrl?preset=largethumbnail"/>
+                <img id="anim-img-@Model.ContentLink" class="image img-responsive @imgClass" src="@Model.ImageUrl?preset=largethumbnail"/>
             </a>
 
             <div class="footer">
                 <a href="@Model.ProductUrl" data-recommendation-id="@Model.RecommendationId">
-                    <h3 class="name">@Model.DisplayName</h3>
+                    <h3 class="name">@displayName</h3>
                 </a>
                 <div class="tools">
-
 
                     <div class="rate">
                         <span class="@(rating >= 0.5 ? "active" : "")@(rating == 0.5 ? " half" : "")"></span>
@@ -36,7 +40,7 @@
                         <span class="@(rating >= 3.5 ? "active" : "")@(rating == 3.5 ? " half" : "")"></span>
                         <span class="@(rating >= 4.5 ? "active" : "")@(rating == 4.5 ? " half" : "")"></span>
                     </div>
-                    <div class="add-to-cart-form" ng-controller="BuyController" ng-init="init('@chrome.Language','@Model.Code','@Model.DisplayName.Replace("'", "")',1 ,'','', 'anim-img-@Model.ContentLink')">
+                    <div class="add-to-cart-form" ng-controller="BuyController" ng-init="init('@chrome.Language','@Model.Code','@displayName',1 ,'','', 'anim-img-@Model.ContentLink')">
 
                         @if (Model.IsVariation)
                         {

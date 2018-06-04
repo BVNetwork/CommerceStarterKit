@@ -82,7 +82,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 if (recommendedProductsForCart.Any())
                 {
                     foreach (var recommendation in recommendedProductsForCart.Where(x => x != null && x.ContentLink != ContentReference.EmptyReference)
-                                                                                                .Take(3))
+                                                                                                .Take(4))
                     {
                         var product = _contentLoader.Get<CatalogContentBase>(recommendation.ContentLink);
 

@@ -25,24 +25,31 @@
             @*<button class="btn btn-default pull-right" ng-click="emptyCart('Default')">@Html.Translate("/common/cart/empty_cart")</button>*@
         </div>
         @*<input type="submit" class="btn btn-primary btn-sm btn-block" name="update-cart" value="Update shopping cart">
-        <input type="submit" class="btn btn-success btn-block" name="to-checkout" value="Proceed to checkout">*@
+            <input type="submit" class="btn btn-success btn-block" name="to-checkout" value="Proceed to checkout">*@
     </div>
-    <h3>@Html.Translate("/common/cart/coupon_codes/add_label")</h3>
-    <div class="coupon">
-        <div class="form-group">
-            <label class="sr-only" for="id678126">@Html.Translate("/common/cart/coupon_codes/add_label")</label>
-            @*<label class="sr-only" for="coupon-code">Enter coupon code</label>*@
-            <input id="id678126" class="form-control" type="text" ng-model="discountCode" />
-            @*<input type="text" class="form-control" id="coupon-code" name="coupon-code" placeholder="Enter coupon code">*@
-        </div>  
-        <input type="submit" class="btn btn-primary btn-sm btn-block" ng-click="addDiscountCode($event)" name="apply-coupon" value="@Html.Translate("/common/cart/coupon_codes/add")">
-        <div class="applied-codes" ng-show="discountCodes">
-            <span>@Html.Translate("/common/cart/coupon_codes/applied_label")</span>
-            <span ng-repeat="discount in discountCodes">{{ ($first) ? discount.Code : ( ', ' + discount.Code) }}</span>
-        </div>
-    </div>
-    <div ng-show="messages" class="alert alert-warning" role="alert" ng-bind-html="renderHtml(messages)"></div>
 
+    <div class="form-group">
+        <button class="btn btn-info btn-sm btn-block" type="button" data-toggle="collapse" data-target="#coupon" aria-expanded="false" aria-controls="coupon">
+            @Html.Translate("/common/cart/coupon_codes/add_label")
+        </button>
+        
+        <div class="coupon collapse" id="coupon">
+            <h3>Coupon code:</h3>
+            <div class="form-group">
+                <label class="sr-only" for="id678126">@Html.Translate("/common/cart/coupon_codes/add_label")</label>
+                @*<label class="sr-only" for="coupon-code">Enter coupon code</label>*@
+                <input id="id678126" class="form-control" type="text" ng-model="discountCode" />
+                @*<input type="text" class="form-control" id="coupon-code" name="coupon-code" placeholder="Enter coupon code">*@
+            </div>
+            <input type="submit" class="btn btn-primary btn-sm btn-block" ng-click="addDiscountCode($event)" name="apply-coupon" value="@Html.Translate("/common/cart/coupon_codes/add")">
+            <div class="applied-codes" ng-show="discountCodes.length">
+                <span>@Html.Translate("/common/cart/coupon_codes/applied_label")</span>
+                <span ng-repeat="discount in discountCodes">{{ ($first) ? discount.Code : ( ', ' + discount.Code) }}</span>
+            </div>
+
+            <div ng-show="messages" class="alert alert-warning" role="alert" ng-bind-html="renderHtml(messages)"></div>
+        </div>
+    </div>   
 </div>
 
 

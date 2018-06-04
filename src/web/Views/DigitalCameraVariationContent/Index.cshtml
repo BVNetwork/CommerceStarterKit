@@ -65,7 +65,7 @@
                 }
             </div>
             @{ double rating = Model.CatalogVariationContent.AverageRating; }
-        
+
             <div class="rate">
                 <span class="@(rating >= 0.5 ? "active" : "")@(rating == 0.5 ? " half" : "")"></span>
                 <span class="@(rating >= 1.5 ? "active" : "")@(rating == 1.5 ? " half" : "")"></span>
@@ -107,7 +107,6 @@
                 <span itemprop="productID">
                     @Model.CatalogVariationContent.Code
                 </span>
-
             </p>
             <div class="row">
                 <div class="col-lg-4 col-md-4 col-sm-5">
@@ -134,7 +133,7 @@
                 @*<div class="panel-heading">
                         <span class="panel-title">@Html.Translate("/common/product/cross_sell")</span>
                     </div>*@
-                @Html.PropertyFor(x => x.RelatedProductsContentArea, new {CustomTag = "ul", ChildrenCustomTagName = "li", cssClass = "relatedProducts", Tag = "relatedProducts"})
+                @Html.PropertyFor(x => x.RelatedProductsContentArea, new { CustomTag = "ul", ChildrenCustomTagName = "li", cssClass = "relatedProducts", Tag = "relatedProducts" })
             }
         </div>
         <div>
@@ -151,11 +150,21 @@
 
 </section>
 
+<h2>Product alternatives</h2>
+<div class="row">
+    @foreach (var item in Model.ProductAlternatives)
+    {
+        <div class="col-md-3">
+            @Html.Partial("ProductPartials/_ProductListView", item, new ViewDataDictionary { { "size", "small" }, { "chrome", (Chrome)ViewBag.Chrome } })
+        </div>
+    }
+</div>
+
 <!--Tabs Widget-->
 <section class="tabs-widget">
     <!-- Nav tabs -->
     <ul class="nav nav-tabs">
-        
+
         <li class="active"><a data-target="#descr" data-toggle="tab">Overview</a></li>
         <li><a data-target="#specs" data-toggle="tab">@Html.Translate("/common/product/details")</a></li>
         <li><a data-target="#reviews" data-toggle="tab">Reviews</a></li>
@@ -269,7 +278,7 @@
         </div>
 
 
-     
+
 
         <!--Tab3 (Reviews)-->
         <div class="tab-pane fade" id="reviews">
@@ -281,15 +290,5 @@
         </div>
     </div>
 </section><!--Tabs Widget Close-->
-
 @*@Html.Partial("_SimilarProducts", Model.CatalogVariationContent)*@
 
-<h2>Product alternatives</h2>
-<div class="row">
-    @foreach (var item in Model.ProductAlternatives)
-    {
-        <div class="col-md-4">
-            @Html.Partial("ProductPartials/_ProductListView", item)
-        </div>
-    }
-</div>

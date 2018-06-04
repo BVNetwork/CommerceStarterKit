@@ -106,7 +106,7 @@
 				<quantity_suffix>Items</quantity_suffix>
         <empty>Your shopping cart is empty</empty>
 				<coupon_codes>
-					<add_label>Coupon code:</add_label>
+					<add_label>Add Coupon code</add_label>
 					<add>Add</add>
 					<applied_label>Applied coupon codes: </applied_label>
 					<error_already_used>Coupon code is already applied</error_already_used>

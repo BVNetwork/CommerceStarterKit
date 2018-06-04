@@ -48,7 +48,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             var result = _recommendationService.GetRecommendationsForProductPage(currentContent.Code, HttpContext, currentContent);
             viewModel.ProductCrossSell = CreateProductListViewModels(result, "productCrossSellsWidget", 6);
-            viewModel.ProductAlternatives = CreateProductListViewModels(result, "productAlternativesWidget", 3);
+            viewModel.ProductAlternatives = CreateProductListViewModels(result, "productAlternativesWidget", 4);
 
             TrackAnalytics(viewModel);
 

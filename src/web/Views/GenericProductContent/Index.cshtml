@@ -127,8 +127,8 @@
 
         </div>
         <div class="col-md-2 hide-for-small hidden-xs">
-           @if (Model.ProductCrossSell != null && Model.ProductCrossSell.Any())
-           {
+            @if (Model.ProductCrossSell != null && Model.ProductCrossSell.Any())
+            {
                 <ul class="relatedProducts">
                     @foreach (var VARIABLE in Model.ProductCrossSell)
                     {
@@ -137,14 +137,14 @@
                         </li>
                     }
                 </ul>
-           }
-           else if (Model.RelatedProductsContentArea != null && (Model.RelatedProductsContentArea.Items != null && Model.RelatedProductsContentArea.Items.Any()))
-           {
+            }
+            else if (Model.RelatedProductsContentArea != null && (Model.RelatedProductsContentArea.Items != null && Model.RelatedProductsContentArea.Items.Any()))
+            {
                 @*<div class="panel-heading">
                         <span class="panel-title">@Html.Translate("/common/product/cross_sell")</span>
                     </div>*@
                 @Html.PropertyFor(x => x.RelatedProductsContentArea, new { CustomTag = "ul", ChildrenCustomTagName = "li", cssClass = "relatedProducts", Tag = "relatedProducts" })
-           }
+            }
         </div>
     </div>
 
@@ -160,6 +160,19 @@
     </script>
 
 </section>
+
+
+
+<h2>Product alternatives</h2>
+<div class="row">
+    @foreach (var item in Model.ProductAlternatives)
+    {
+        <div class="col-md-3">
+            @Html.Partial("ProductPartials/_ProductListView", item, new ViewDataDictionary { { "size", "small" }, { "chrome", (Chrome)ViewBag.Chrome } })
+        </div>
+    }
+</div>
+
 <!--Tabs Widget-->
 <section class="tabs-widget">
     <!-- Nav tabs -->
@@ -194,16 +207,6 @@
         </div>
     </div>
 </section><!--Tabs Widget Close-->
-
-<h2>Product alternatives</h2>
-<div class="row">
-    @foreach (var item in Model.ProductAlternatives)
-    {
-        <div class="col-md-4">
-            @Html.Partial("ProductPartials/_ProductListView", item)
-        </div>
-    }
-</div>
 
 
 @section Head {

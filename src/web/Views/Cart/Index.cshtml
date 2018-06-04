@@ -25,16 +25,16 @@
 {
     <div class="container">
 
-            <h2>You may also like</h2>
-            <p>Forgot something? Others that bought the products you have added to the cart were also interested in these products.</p>
+            @*<h2>You may also like</h2>*@
+            <h4>Forgot something? Others that bought the products you have added to the cart were also interested in these products.</h4>
 
         <div class="row">
             @foreach (var recommendation in Model.Recommendations)
             {
-                <div class="col-md-4 clearfix">
-                    @Html.Partial("../../Shared/ProductPartials/_ProductListView", recommendation)
+                <div class="col-md-3 clearfix">
+                    @Html.Partial("../../Shared/ProductPartials/_ProductListView", recommendation, new ViewDataDictionary {{ "size", "small"}, {"chrome", (Chrome)ViewBag.Chrome } })
                 </div>
-                }
+            }
         </div>
     </div>
 }
