@@ -24,6 +24,7 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
         private readonly ITrackingService _trackingService;
         private readonly ReferenceConverter _referenceConverter;
 
+        private readonly HomePage _homePage;
         private readonly RecommendationsMode _mode;
 
         public RecommendationService(TrackingDataFactory trackingDataFactory, ITrackingService trackingService, ReferenceConverter referenceConverter, IContentLoader contentLoader)
@@ -32,14 +33,14 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
             _trackingService = trackingService;
             _referenceConverter = referenceConverter;
 
-            var homePage = contentLoader.Get<HomePage>(ContentReference.StartPage);
-            _mode = homePage.Settings.RecommendationsMode.ToEnum(RecommendationsMode.Disabled);
+            _homePage = contentLoader.Get<HomePage>(ContentReference.StartPage);
+            _mode = _homePage.Settings.RecommendationsMode.ToEnum(RecommendationsMode.Disabled);
         }
 
         public IEnumerable<Recommendation> GetRecommendationsForHomePage(HttpContextBase context, IContent content)
         {
             HomeTrackingData trackingData = _trackingDataFactory.CreateHomeTrackingData(context);
-            return GetRecommendations(trackingData, context, content)?.Values.FirstOrDefault();
+            return GetRecommendations(trackingData, context, _homePage)?.Values.FirstOrDefault();
         }
 
         public IEnumerable<Recommendation> GetRecommendationsForCategoryPage(NodeContent node, HttpContextBase context, IContent content)

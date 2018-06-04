@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
+using EPiServer.Core;
+using EPiServer.Personalization.Commerce.Tracking;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Web.Models.Blocks;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -25,24 +28,24 @@ namespace OxxCommerceStarterKit.Web.Controllers
         public override ActionResult Index(RecommendedProductsBlock currentBlock)
         {
            
-            //var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext)?.ToList() ?? new List<Recommendation>();
-          
-            //if (result.Count < 3)
-            //{
-            //    result.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation(0, x)));
-            //}
+            var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext, (IContent)currentBlock)?.ToList() ?? new List<Recommendation>();
 
-          //  var productViewModels = _productService.GetProductListViewModels(result, 3).ToList();
-           
-            //var recommendedResult = new RecommendedResult
-            //{
-            //    Heading = currentBlock.Heading,
-            //    Products = productViewModels
-            //};
+            if (result.Count < 3)
+            {
+                result.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation(0, x)));
+            }
+
+            var productViewModels = _productService.GetProductListViewModels(result, 3).ToList();
+
+            var recommendedResult = new RecommendedResult
+            {
+                Heading = currentBlock.Heading,
+                Products = productViewModels
+            };
 
             //TrackGoogleAnalyticsImpressions(currentBlock, productViewModels);
 
-            return View("_recommendedProductsBlock", null);
+            return View("_recommendedProductsBlock", recommendedResult);
         }
 
 
