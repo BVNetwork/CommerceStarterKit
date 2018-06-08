@@ -43,5 +43,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 
         public List<ProductListViewModel> ProductAlternatives { get; set; }
         public List<ProductListViewModel> ProductCrossSell { get; set; }
+        public string BuyButtonColor { get; set; }
     }
 }

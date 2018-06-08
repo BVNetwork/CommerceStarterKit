@@ -60,6 +60,8 @@
     <Compile Include="Business\Initialization\ApiRouteInitialization.cs" />
     <Compile Include="Business\Recommendations\CustomUserDataService.cs" />
     <Compile Include="Business\Recommendations\MyEventSender.cs" />
+    <Compile Include="EditorDescriptors\SelectionFactories\ButtonColorSelectionFactory.cs" />
+    <Compile Include="EditorDescriptors\SelectionFactories\RecommendationsModeSelectionFactory.cs" />
     <Compile Include="Jobs\CreateCampaignProductsCsvFile.cs" />
     <Compile Include="modules\_protected\Campaign\CampaignController.cs" />
     <Compile Include="modules\_protected\Campaign\CampaignMenuProvider.cs" />

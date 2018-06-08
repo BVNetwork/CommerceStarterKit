@@ -70,6 +70,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
         public GenericProductViewModel CreateGenericProductViewModel(GenericProductContent currentContent, HomePage currentPage)
         {
             var model = new GenericProductViewModel(currentContent);
+            if (!string.IsNullOrWhiteSpace(currentContent.BuyButtonColor))
+            {
+                model.BuyButtonColor = currentContent.BuyButtonColor;
+            }
             InitializeProductViewModel(model);
 
             //// get delivery and returns from the start page

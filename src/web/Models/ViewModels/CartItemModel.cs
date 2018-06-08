@@ -101,7 +101,9 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 		}
 
 		private bool? _canBuyEntry;
-		public bool CanBuyEntry
+	    private string _buyButtonColor;
+
+	    public bool CanBuyEntry
 		{
 			get {
 				return Entry is VariationContent && _canBuyEntry.HasValue && _canBuyEntry.Value;
@@ -119,5 +121,16 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 		public string Description { get; set; }
 		public string ArticleNumber { get; set; }
 		public string Size { get; set; }
+
+	    public string BuyButtonColor
+	    {
+	        get
+	        {
+	            if (string.IsNullOrWhiteSpace(_buyButtonColor))
+	                return "btn-primary";
+	            return _buyButtonColor;
+	        }
+	        set { _buyButtonColor = value; }
+	    }
 	}
 }

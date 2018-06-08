@@ -22,6 +22,10 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
             CatalogVariationContent = currentContent;
             Media = GetMedia(currentContent);
             CartItem = new CartItemModel(CatalogVariationContent){CanBuyEntry = true};
+            if (!string.IsNullOrWhiteSpace(currentContent.BuyButtonColor))
+            {
+                CartItem.BuyButtonColor = currentContent.BuyButtonColor;
+            }
         }
         private List<MediaData> GetMedia(DigitalCameraVariationContent currentContent)
         {

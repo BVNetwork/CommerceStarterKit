@@ -51,6 +51,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
             viewModel.ProductAlternatives = CreateProductListViewModels(result, "productAlternativesWidget", 4);
 
             viewModel.CartItem = new CartItemModel(currentContent) { CanBuyEntry = true };
+            if (!string.IsNullOrWhiteSpace(currentContent.BuyButtonColor))
+            {
+                viewModel.CartItem.BuyButtonColor = currentContent.BuyButtonColor;
+            }
+
             TrackAnalytics(viewModel);
 
             viewModel.IsSellable = IsSellable(currentContent);

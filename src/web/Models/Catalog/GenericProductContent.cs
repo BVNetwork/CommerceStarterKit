@@ -13,11 +13,13 @@ using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
 using EPiServer.ServiceLocation;
+using EPiServer.Shell.ObjectEditing;
 using EPiServer.Web.Routing;
 using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Core.Models;
+using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
 using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.Catalog.Base;
@@ -33,6 +35,12 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
        )]
     public class GenericProductContent : ProductBase, IIndexableContent, IProductListViewModelInitializer, IResourceable
     {
+
+        [Display(Name = "Buy Button Color",
+            GroupName = SystemTabNames.Content,
+            Order = 5)]
+        [SelectOne(SelectionFactoryType = typeof(ButtonColorSelectionFactory))]
+        public virtual string BuyButtonColor { get; set; }
 
          // Same for all languages
          [Display(Name = "Facet Brand",

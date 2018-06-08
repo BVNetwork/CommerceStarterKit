@@ -13,9 +13,11 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using EPiServer.Commerce.Marketing;
+using EPiServer.Shell.ObjectEditing;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.Business.Rendering;
+using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
 using OxxCommerceStarterKit.Web.Extensions;
 
 namespace OxxCommerceStarterKit.Web.Models.Catalog
@@ -27,6 +29,12 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
        )]
     public class DigitalCameraVariationContent : VariationContent, IFacetBrand, IIndexableContent, IProductListViewModelInitializer, IResourceable
     {
+
+        [Display(Name = "BuyButtonColor",
+            GroupName = SystemTabNames.Content,
+            Order = 2)]
+        [SelectOne(SelectionFactoryType = typeof(ButtonColorSelectionFactory))]
+        public virtual string BuyButtonColor { get; set; }
 
         // Multi lang
         [Display(Name = "Color", Order = 5)]

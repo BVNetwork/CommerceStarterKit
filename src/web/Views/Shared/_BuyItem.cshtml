@@ -10,7 +10,7 @@
             <input id="quantity" name="Quantity" ng-model="product.quantity" class="form-control" type="text">
             <a class="incr-btn" href="#">+</a>
         </div>
-        <a class="btn btn-primary btn-sm" id="addItemToCart" href="#" ng-click="addToCart(product)"><i class="icon-shopping-cart"></i>@Html.Translate("/common/product/add_to_cart")</a>
+        <a class="btn @Model.BuyButtonColor btn-sm" id="addItemToCart" href="#" ng-click="addToCart(product)"><i class="icon-shopping-cart"></i>@Html.Translate("/common/product/add_to_cart")</a>
         <a class="btn btn-success btn-sm" href="#" ng-click="addToWishlist(product)"><i class="icon-heart"></i>@Html.Translate("/common/product/add_to_wishlist")</a>
 
         <div class="loader" ng-show="loaderVisible === true"><img src="@Url.Content("~/Content/Images/ajax-loader-lightbg-ts.gif")" /></div>

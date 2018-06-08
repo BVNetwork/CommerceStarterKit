@@ -74,8 +74,14 @@
             <div class="buttons group">
                 @if (Model.GenericVariationViewModel != null)
                 {
+                    var cartItemModel = new CartItemModel(Model.GenericVariationViewModel.CatalogContent) {CanBuyEntry = Model.IsSellable};
+                    if (!string.IsNullOrWhiteSpace(Model.BuyButtonColor))
+                    {
+                        cartItemModel.BuyButtonColor = Model.BuyButtonColor;
+                    }
+
                     <div>
-                        @Html.Partial("_BuyItem", new CartItemModel(Model.GenericVariationViewModel.CatalogContent) { CanBuyEntry = Model.IsSellable })
+                        @Html.Partial("_BuyItem", cartItemModel)
                     </div>
                 }
             </div>
