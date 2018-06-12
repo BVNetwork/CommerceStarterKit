@@ -30,11 +30,11 @@ namespace OxxCommerceStarterKit.Web.Controllers
            
             var result = _recommendationsService.GetRecommendationsForHomePage(HttpContext, (IContent)currentBlock)?.ToList() ?? new List<Recommendation>();
 
-            if (result.Count < 3)
+            if (result.Count < 3 && currentBlock.FallBackProducts != null)
             {
                 result.AddRange(currentBlock.FallBackProducts.Select(x => new Recommendation(0, x)));
             }
-
+            
             var productViewModels = _productService.GetProductListViewModels(result, 3).ToList();
 
             var recommendedResult = new RecommendedResult
