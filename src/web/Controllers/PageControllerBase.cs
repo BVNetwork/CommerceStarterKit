@@ -10,6 +10,7 @@ Copyright (C) 2013-2014 BV Network AS
 
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel.Syndication;
 using System.Web.Mvc;
@@ -20,6 +21,7 @@ using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Mvc;
 using EPiServer.Web.Mvc.Html;
+using EPiServer.Web.Routing;
 using OxxCommerceStarterKit.Web.Business;
 using OxxCommerceStarterKit.Web.Business.Rss;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
@@ -54,10 +56,23 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
 		private void CheckAccess(AuthorizationContext filterContext)
 		{
-			if (CurrentPage.QueryAccess().HasFlag(AccessLevel.Read))
-				return;
+
+		    var contentLink = filterContext.RequestContext.GetContentLink();
+
+		    if (contentLink == null)
+		        return;
+
+		    var content = ContentLoader.Get<IContent>(contentLink, new LoaderOptions {LanguageLoaderOption.Fallback()});
+		    
+		    if (content != null && content.QueryAccess().HasFlag(AccessLevel.Read))
+		    {
+		        return;
+		    }
+
 			ServeAccessDenied(filterContext);
 		}
+
+
 
 		private void ServeAccessDenied(AuthorizationContext filterContext)
 		{
