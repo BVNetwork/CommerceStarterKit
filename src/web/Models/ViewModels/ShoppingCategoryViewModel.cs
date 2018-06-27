@@ -30,5 +30,6 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
 
         public IEnumerable<ShoppingCategoryPage> CategoryPages { get; set; }
         public FeatureProductViewModel MenuFeatureProduct { get; set; }
+        public List<ProductListViewModel> Recommendations { get; set; }
     }
 }

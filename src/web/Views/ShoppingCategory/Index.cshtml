@@ -28,6 +28,21 @@
 
         <div class="col-lg-9 col-md-9 col-sm-8 product-list" ng-cloak>
             <h1 @Html.EditAttributes(x => x.CurrentPage.PageName)>@Model.CurrentPage.PageName</h1>
+            
+            @if (Model.Recommendations.Any())
+            {
+                <h4>Bestsellers</h4>
+
+                <div class="row">
+                    @foreach (var recommendation in Model.Recommendations)
+                    {
+                        <div class="col-md-4 clearfix">
+                            @Html.Partial("../../Shared/ProductPartials/_ProductListView", recommendation)
+                        </div>
+                    }
+                </div>
+            }
+
             @Html.Partial("PagePartials/_PageColumnsControl")
             @Html.PropertyFor(x => x.CurrentPage.PageSubHeader)
             @Html.PropertyFor(x => x.CurrentPage.TopContentArea)

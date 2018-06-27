@@ -21,14 +21,17 @@ using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Framework;
+using EPiServer.Personalization.Commerce.Tracking;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Core.Extensions;
+using OxxCommerceStarterKit.Web.Business.Recommendations;
 using OxxCommerceStarterKit.Web.Business.Rss;
 using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels.Simple;
+using OxxCommerceStarterKit.Web.Services;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -36,10 +39,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
     {
         private const int DefaultNumProductsInList = 9;
         private readonly IContentLoader _contentLoader;
+        private readonly IRecommendationService _recommendationService;
+        private readonly ProductService _productService;
 
-        public ShoppingCategoryController(IContentLoader contentLoader)
+        public ShoppingCategoryController(IContentLoader contentLoader, IRecommendationService recommendationService, ProductService productService)
         {
             _contentLoader = contentLoader;
+            _recommendationService = recommendationService;
+            _productService = productService;
         }
 
         public ActionResult Index(ShoppingCategoryPage currentPage)
@@ -76,9 +83,24 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 model.CommerceRootCategoryName = GetCommerceNodeNames(topNode);
             }
 
+            if (!currentPage.HideRecommendations)
+            {
+                var node = currentPage.CatalogNodes.ToContent<NodeContent>().FirstOrDefault();
+                if (node != null)
+                {
+                    var result = _recommendationService.GetRecommendationsForCategoryPage(node, HttpContext, currentPage);
+                    model.Recommendations = CreateProductListViewModels(result,  3);
+                }
+            }
+
             model.MenuFeatureProduct = new FeatureProductViewModel(currentPage.FeatureProduct);
 
             return View(model);
+        }
+
+        protected List<ProductListViewModel> CreateProductListViewModels( IEnumerable<Recommendation> result, int count)
+        {         
+            return _productService.GetProductListViewModels(result, count).ToList();            
         }
 
         public ActionResult Rss(ShoppingCategoryPage currentContent)

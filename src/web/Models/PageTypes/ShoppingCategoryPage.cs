@@ -48,5 +48,8 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
 
          [Display(Name = "Menu feature product", Description = "", GroupName = SystemTabNames.Content, Order = 40)]
          public virtual FeatureProductBlock FeatureProduct { get; set; }
+
+        [Display(Name = "Hide recommendations", Description = "", GroupName = SystemTabNames.Content, Order = 50)]
+        public virtual bool HideRecommendations { get; set; }
 	}
 }

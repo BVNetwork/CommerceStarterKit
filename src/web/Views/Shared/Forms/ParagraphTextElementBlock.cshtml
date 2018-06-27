@@ -14,14 +14,14 @@
     var originalParagraphText = Model.OriginalParagraphText;
 }
 
-<div class="Form__Element FormParagraphText Form__Element--NonData" data-epiforms-element-name="@formElement.Code">
+<div class="Form__Element FormParagraphText Form__Element--NonData" data-epiforms-element-name="@formElement.ElementName">
     @if (!EPiServer.Editor.PageEditing.PageIsInEditMode)
     {
-        <div name="@formElement.Code" id="@formElement.Guid" @Html.Raw(formElement.AttributesString)>@Html.Raw(Model.EditViewFriendlyTitle)</div>
+        <div name="@formElement.ElementName" id="@formElement.Guid" @Html.Raw(Model.AttributesString)>@Html.Raw(Model.EditViewFriendlyTitle)</div>
     }
     else
     {
-        <div name="@formElement.Code" id="@formElement.Guid" @Html.Raw(formElement.AttributesString)>@Html.Raw(paragraphText)</div>
+        <div name="@formElement.ElementName" id="@formElement.Guid" @Html.Raw(Model.AttributesString)>@Html.Raw(paragraphText)</div>
         <script type="text/javascript">
             if (typeof $$epiforms !== 'undefined') {
                 $$epiforms(document).ready(function () {
