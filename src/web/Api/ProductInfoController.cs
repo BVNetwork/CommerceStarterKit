@@ -38,7 +38,10 @@ namespace OxxCommerceStarterKit.Web.Api
                         Overview = x.Overview.AsCropped(450),
                         Description = x.Description.AsCropped(450),
                         x.DefaultImageUrl,
-                        x.ProductUrl
+                        x.ProductUrl,
+                        x.DiscountedPrice,
+                        x.DefaultPrice,
+                        x.ParentCategoryName
                     }
                 )
                 .GetResult();
@@ -59,13 +62,25 @@ namespace OxxCommerceStarterKit.Web.Api
                 XmlNode elementNode = doc.CreateElement("element");
                 doc.AppendChild(elementNode);
 
-                AddProperty(doc, "id", product.Code, elementNode);               
-                AddProperty(doc, "text1", product.Overview, elementNode);               
-                AddProperty(doc, "text2", product.Description, elementNode);                             
-                AddProperty(doc, "link1Text", product.Name, elementNode);
+                AddProperty(doc, "id", product.Code, elementNode); 
+                AddProperty(doc, "name", product.Name, elementNode);
+                AddProperty(doc, "category", string.Join("#", product.ParentCategoryName), elementNode);
+                AddProperty(doc, "text1", product.Name, elementNode);
+                AddProperty(doc, "text2", product.Description, elementNode);
+                
+                if (string.IsNullOrEmpty(product.DiscountedPrice) == false)
+                {
+                    AddProperty(doc, "text5", product.DiscountedPrice, elementNode);      
+                    AddProperty(doc, "text6", product.DefaultPrice, elementNode);      
+                }
+                else
+                {
+                    AddProperty(doc, "text5", product.DefaultPrice, elementNode);      
+                }
+                               
                 AddProperty(doc, "link1Url", product.ProductUrl, elementNode);
+                AddProperty(doc, "link1Text", "Read more", elementNode);                
                 AddProperty(doc, "image1ImageUrl", product.DefaultImageUrl, elementNode);
-
 
                 var xml = CreateXml(doc);
 
