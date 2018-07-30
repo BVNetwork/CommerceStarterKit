@@ -34,7 +34,6 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
             //We do not want to index catalog content types, since we are creating our own objects below
             ContentIndexer.Instance.Conventions.ForInstancesOf<FashionItemContent>().ShouldIndex(x => false);
             ContentIndexer.Instance.Conventions.ForInstancesOf<FashionProductContent>().ShouldIndex(x => false);
-            ContentIndexer.Instance.Conventions.ForInstancesOf<WineSKUContent>().ShouldIndex(x => false);
             ContentIndexer.Instance.Conventions.ForInstancesOf<DigitalCameraVariationContent>().ShouldIndex(x => false);
             ContentIndexer.Instance.Conventions.ForInstancesOf<GenericProductContent>().ShouldIndex(x => false);
             ContentIndexer.Instance.Conventions.ForInstancesOf<GenericSizeVariationContent>().ShouldIndex(x => false);

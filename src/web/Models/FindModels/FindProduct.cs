@@ -8,18 +8,14 @@ Copyright (C) 2013-2014 BV Network AS
 
 */
 
-using System;
 using System.Collections.Generic;
 using EPiServer.Commerce.Catalog.ContentTypes;
-using EPiServer.Commerce.UI.Controllers;
 using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.ServiceLocation;
 using EPiServer.Web.Routing;
 using OxxCommerceStarterKit.Core.Extensions;
-using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.Business.FacetRegistry;
-using OxxCommerceStarterKit.Web.Models.Catalog;
 
 namespace OxxCommerceStarterKit.Web.Models.FindModels
 {
@@ -50,27 +46,37 @@ namespace OxxCommerceStarterKit.Web.Models.FindModels
             DefaultImageUrl = entryContentBase.GetDefaultImage();
             AverageRating = entryContentBase.GetAverageRating();
             DefaultInventory = entryContentBase.GetStock();
-        }
-
-      
+        }      
 
         [Id]
         public string IndexId { get; set; }
+        
         public int Id { get; set; }
+        
         public string Code { get; set; }
+        
         public string Name { get; set; }
+        
         [StringFilter(DisplayName = "Display Name")]
         public string DisplayName { get; set; }
+        
         [StringFilter]
         public string Language { get; set; }
+        
         public XhtmlString Description { get; set; }
+        
         public XhtmlString Overview { get; set; }
+        
         public List<string> Color { get; set; }
+        
         public List<string> Sizes { get; set; }
+        
         [StringFilter]
         public string SizeUnit { get; set; }
+        
         [StringFilter]
         public string SizeType { get; set; }
+        
         [StringFilter]
         public string Fit { get; set; }
         public List<string> SizesList { get; set; } 
@@ -110,41 +116,33 @@ namespace OxxCommerceStarterKit.Web.Models.FindModels
         public string Brand { get; set; }
 
         [StringFilter]
-        public string Varieties { get; set; }
-        [StringFilter]
-        public string Vintage { get; set; }
-        [StringFilter]
-        public string Taste { get; set; }
-        [StringFilter]
-        public string Style { get; set; }
-        [StringFilter]
-        public string Region { get; set; }
-        [StringFilter]
-        public string Maturity { get; set; }
-        [StringFilter]
-        public decimal Alcohol { get; set; }
-        [StringFilter]
-        public string Closure { get; set; }
-        public List<string> GrapeMixList { get; set; }
-        [StringFilter]
         public string Country { get; set; }
+        
         //Photo facets
         [StringFilter]
         public decimal Resolution { get; set; }
+        
         [StringFilter(DisplayName = "Lens Mount")]
         public string LensMount { get; set; }
+        
         [StringFilter(DisplayName = "Camera Format")]
         public string CameraFormat { get; set; }
+        
         [StringFilter(DisplayName = "File Format")]
         public string FileFormat { get; set; }
+        
         [StringFilter]
         public string Connectivity { get; set; }
+        
         [StringFilter]
         public string Battery { get; set; }
+        
         [StringFilter(DisplayName = "Memory Card Type")]
         public string MemoryCardType { get; set; }
+        
         [NumericFilter]
         public double Weight { get; set; }
+        
         [NumericFilter(DisplayName = "Average Rating")]
         public double AverageRating { get; set; }
 

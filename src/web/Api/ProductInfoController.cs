@@ -4,44 +4,54 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Web.Http;
-using System.Web.Mvc;
 using System.Xml;
-using System.Xml.Serialization;
+using EPiServer;
+using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Framework;
-using EPiServer.Security;
-using EPiServer.Shell.Services.Rest;
-using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.FindModels;
+using OxxCommerceStarterKit.Web.Models.PageTypes;
 
 namespace OxxCommerceStarterKit.Web.Api
 {
     public class ProductInfoController : ApiController
     {
-        [System.Web.Http.HttpGet]
+        private readonly IContentLoader _contentLoader;
+
+        public ProductInfoController(IContentLoader contentLoader)
+        {
+            _contentLoader = contentLoader;
+        }
+
+        [HttpGet]
         public HttpResponseMessage Get(string id)
         {
+            if(string.IsNullOrWhiteSpace(id))
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+
+            if (id.Contains(':'))
+            {
+                id = GetCampaignProductId(id);
+            }
 
             var result = SearchClient.Instance.Search<FindProduct>()
                 .Filter(x => x.Language.Match("en"))
                 .Filter(x => x.Code.MatchCaseInsensitive(id))
-                .Select(x => new
+                .Select(x => new ProjectedProduct
                     {
-                        x.Code,
-                        x.Name,
+                        Code = x.Code,
+                        Name = x.Name,
                         Overview = x.Overview.AsCropped(450),
                         Description = x.Description.AsCropped(450),
-                        x.DefaultImageUrl,
-                        x.ProductUrl,
-                        x.DiscountedPrice,
-                        x.DefaultPrice,
-                        x.ParentCategoryName
+                        DefaultImageUrl = x.DefaultImageUrl,
+                        ProductUrl = x.ProductUrl,
+                        DiscountedPrice = x.DiscountedPrice,
+                        DefaultPrice = x.DefaultPrice,
+                        ParentCategoryName = x.ParentCategoryName
                     }
                 )
                 .GetResult();
@@ -49,51 +59,85 @@ namespace OxxCommerceStarterKit.Web.Api
             if (result.Any())
             {
 
-
                 var product = result.FirstOrDefault();
 
-
-
-                XmlDocument doc = new XmlDocument();
-
-                XmlNode docNode = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
-                doc.AppendChild(docNode);
-
-                XmlNode elementNode = doc.CreateElement("element");
-                doc.AppendChild(elementNode);
-
-                AddProperty(doc, "id", product.Code, elementNode); 
-                AddProperty(doc, "name", product.Name, elementNode);
-                AddProperty(doc, "category", string.Join("#", product.ParentCategoryName), elementNode);
-                AddProperty(doc, "text1", product.Name, elementNode);
-                AddProperty(doc, "text2", product.Description, elementNode);
-                
-                if (string.IsNullOrEmpty(product.DiscountedPrice) == false)
+                if (product != null)
                 {
-                    AddProperty(doc, "text5", product.DiscountedPrice, elementNode);      
-                    AddProperty(doc, "text6", product.DefaultPrice, elementNode);      
+                    var xml = CreateXml(product);
+
+                    return new HttpResponseMessage()
+                    {
+                        Content = new StringContent(xml, Encoding.UTF8, "application/xml")
+                    };
                 }
-                else
-                {
-                    AddProperty(doc, "text5", product.DefaultPrice, elementNode);      
-                }
-                               
-                AddProperty(doc, "link1Url", product.ProductUrl, elementNode);
-                AddProperty(doc, "link1Text", "Read more", elementNode);                
-                AddProperty(doc, "image1ImageUrl", product.DefaultImageUrl, elementNode);
-
-                var xml = CreateXml(doc);
-
-                return new HttpResponseMessage()
-                {
-                    Content = new StringContent(xml, Encoding.UTF8, "application/xml")
-                };
             }
 
             return new HttpResponseMessage(HttpStatusCode.NotFound);           
         }
 
-  
+        private class ProjectedProduct
+        {
+            public string Code { get; set; }
+            public string Name { get; set; }
+            public string Overview { get; set; }
+            public string Description { get; set; }
+            public string DefaultImageUrl { get; set; }
+            public string ProductUrl { get; set; }
+            public string DiscountedPrice { get; set; }
+            public string DefaultPrice { get; set; }
+            public List<string> ParentCategoryName { get; set; }
+        }
+
+        private static string CreateXml(ProjectedProduct product)
+        {
+            XmlDocument doc = new XmlDocument();
+
+            XmlNode docNode = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
+            doc.AppendChild(docNode);
+
+            XmlNode elementNode = doc.CreateElement("element");
+            doc.AppendChild(elementNode);
+
+            AddProperty(doc, "id", product.Code, elementNode);
+            AddProperty(doc, "name", product.Name, elementNode);
+            AddProperty(doc, "category", String.Join("#", product.ParentCategoryName), elementNode);
+            AddProperty(doc, "text1", product.Name, elementNode);
+            AddProperty(doc, "text2", product.Description, elementNode);
+
+            if (string.IsNullOrEmpty(product.DiscountedPrice) == false)
+            {
+                AddProperty(doc, "text5", product.DiscountedPrice, elementNode);
+                AddProperty(doc, "text6", product.DefaultPrice, elementNode);
+            }
+            else
+            {
+                AddProperty(doc, "text5", product.DefaultPrice, elementNode);
+            }
+
+            AddProperty(doc, "link1Url", product.ProductUrl, elementNode);
+            AddProperty(doc, "link1Text", "Read more", elementNode);
+            AddProperty(doc, "image1ImageUrl", product.DefaultImageUrl, elementNode);
+
+            return XmlToString(doc);
+        }
+
+        private string GetCampaignProductId(string id)
+        {
+            var index = int.Parse(id.Substring(id.LastIndexOf(":") + 1));
+
+            var startPage = _contentLoader.Get<HomePage>(ContentReference.StartPage);
+
+            var children = _contentLoader.GetChildren<EntryContentBase>(startPage.CampaginCategory);
+
+            if (children != null && children.Any())
+            {
+                return children.Skip(index - 1).FirstOrDefault().Code;
+            }
+
+            return null;
+        }
+
+
         private static void AddProperty(XmlDocument doc, string name, string value, XmlNode elementNode)
         {
             XmlNode productNode = doc.CreateElement("property");
@@ -104,7 +148,7 @@ namespace OxxCommerceStarterKit.Web.Api
             elementNode.AppendChild(productNode);
         }
 
-        private static string CreateXml(XmlDocument doc)
+        private static string XmlToString(XmlDocument doc)
         {
             var xml = string.Empty;
             using (var stringWriter = new StringWriter())

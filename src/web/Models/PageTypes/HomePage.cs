@@ -110,5 +110,9 @@ namespace OxxCommerceStarterKit.Web.Models.PageTypes
             GroupName = SystemTabNames.Settings,
             Order = 100)]
         public virtual SettingsBlock Settings { get; set; }
+
+
+        [UIHint(EPiServer.Commerce.UIHint.AllContent)]
+        public virtual ContentReference CampaginCategory { get; set; }
     }
 }

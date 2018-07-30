@@ -46,9 +46,15 @@ namespace OxxCommerceStarterKit.Web.Api
 
                         .Search<FindProduct, AutoCompleteObject>(findLanguage, x => x
                             .For(term)
-                            .InFields(a => a.Name, a => a.MainCategoryName, a => string.Join(",", a.Color),
-                                a => a.DisplayName, a => a.Brand, a => a.Country, a => string.Join(",", a.GrapeMixList),
-                                a => a.Fit, a => a.Description.ToString(), a => string.Join(",", a.ParentCategoryName))
+                            .InFields(a => a.Name, 
+                                a => a.MainCategoryName, 
+                                a => string.Join(",", a.Color),
+                                a => a.DisplayName, 
+                                a => a.Brand, 
+                                a => a.Country,
+                                a => a.Fit, 
+                                a => a.Description.ToString(), 
+                                a => string.Join(",", a.ParentCategoryName))
                             .InAllField()
                             .Filter(a => a.Language.Match(language))
                             .Filter(z => !z.DefaultImageUrl.Match(WebGlobal.NoImageUrl))

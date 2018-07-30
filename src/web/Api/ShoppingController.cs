@@ -667,12 +667,6 @@ namespace OxxCommerceStarterKit.Web.Api
             var filter = SearchClient.Instance.BuildFilter<FindProduct>();
             return fitList.Aggregate(filter, (current, fit) => current.Or(x => x.Fit.Match(fit)));
         }
-        private FilterBuilder<FindProduct> GetGrapeFilter(List<string> grapeList)
-        {
-            var filter = SearchClient.Instance.BuildFilter<FindProduct>();
-            return grapeList.Aggregate(filter, (current, grape) => current.Or(x => x.GrapeMixList.Match(grape)));
-        }
-
     }
 
     public class FacetValues
