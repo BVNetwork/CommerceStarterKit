@@ -100,8 +100,8 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
 
         public IEnumerable<ProductVariation> GetProductByVariant(ContentReference variation)
         {
-            var linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
-            var allRelations = linksRepository.GetRelationsByTarget(variation);
+            var relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
+            var allRelations = relationRepository.GetRelationsByTarget(variation);
 
             // Relations to Product is ProductVariation
             return allRelations.OfType<ProductVariation>().ToList();

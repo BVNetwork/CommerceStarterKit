@@ -80,7 +80,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         IEnumerable<IVariationViewModel<VariationContent>> CreateRelatedVariationViewModelCollection(CatalogContentBase catalogContent, string associationType)
         {
-            IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
+            IEnumerable<Association> associations = AssociationRepository.GetAssociations(catalogContent.ContentLink);
 
             var productViewModels = associations
                 .Where(p => p.Group.Name.Equals(associationType) && IsVariation<VariationContent>(p.Target))

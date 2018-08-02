@@ -19,11 +19,7 @@ using EPiServer.DataAccess;
 using EPiServer.Logging;
 using EPiServer.Security;
 using EPiServer.ServiceLocation;
-using Mediachase.Commerce.Catalog;
-using Mediachase.Commerce.Core;
-using Mediachase.Commerce.Inventory;
 using Mediachase.Commerce.InventoryService;
-using Mediachase.Commerce.Orders;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
@@ -38,7 +34,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         protected static void ExpireProductsWithNoInventory(HashSet<ProductContent> expirationCandidates, IContentRepository contentRepository)
         {
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
-            var linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
+            var relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
             var languageSelector = ServiceLocator.Current.GetInstance<LanguageSelector>();
             var warehouseInventoryService = ServiceLocator.Current.GetInstance<IInventoryService>();
 
@@ -50,7 +46,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
                     var variants =
                         contentLoader.GetChildren<VariationContent>(p.ContentLink)
                             .Concat(
-                                contentLoader.GetItems(p.GetVariantRelations(linksRepository).Select(x => x.Target),
+                                contentLoader.GetItems(p.GetVariantRelations(relationRepository).Select(x => x.Target),
                                     languageSelector).OfType<VariationContent>());
 
                     // If no variants for a product has inventory, expire the product

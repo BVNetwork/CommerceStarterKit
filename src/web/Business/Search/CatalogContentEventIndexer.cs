@@ -207,10 +207,10 @@ namespace OxxCommerceStarterKit.Web.Business.Search
         private EntryContentBase GetParent(CatalogContentBase content)
         {
 
-            ILinksRepository linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
+            var relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
             IContentLoader contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
 
-            IEnumerable<Relation> parentRelations = linksRepository.GetRelationsByTarget(content.ContentLink);
+            IEnumerable<Relation> parentRelations = relationRepository.GetRelationsByTarget(content.ContentLink);
             if (parentRelations.Any())
             {
                 Relation firstRelation = parentRelations.FirstOrDefault();

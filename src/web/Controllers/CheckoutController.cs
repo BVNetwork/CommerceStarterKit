@@ -524,7 +524,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
             if (shipment != null)
             {
-                ShippingRate rate = provider.GetRate(row.ShippingMethodId, shipment, ref outputMessage);
+                ShippingRate rate = provider.GetRate(_currentMarket.GetCurrentMarket(), row.ShippingMethodId, shipment, ref outputMessage);
                 nameAndRate = string.Format("{0} : {1}", row.Name, rate.Money.Amount.ToString("C"));
                 returnRate = new ShippingMethodAndRate(row.Name, nameAndRate, rate.Money.Amount, row.ShippingMethodId);
             }

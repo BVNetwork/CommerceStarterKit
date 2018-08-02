@@ -43,7 +43,8 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private static Injected<InventoryLoader> _inventoryLoaderService;
         private static Injected<ReadOnlyPricingLoader> _readonlyPricingLoaderService;
         private static Injected<ICurrentMarket> _icurrentMarketService;
-        private static Injected<ILinksRepository> _linksRepositoryService;
+        private static Injected<IRelationRepository> _relationRepositoryService;
+        private static Injected<IAssociationRepository> _associationRepositoryService;
         private static Injected<IDefaultInventoryService> _inventoryService;
         private static Injected<ProductService> _productService;
 
@@ -67,9 +68,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
             get { return _icurrentMarketService.Service; }
         }
 
-        protected ILinksRepository LinksRepository
+        protected IRelationRepository RelationRepository
         {
-            get { return _linksRepositoryService.Service; }
+            get { return _relationRepositoryService.Service; }
+        }
+
+        protected IAssociationRepository AssociationRepository
+        {
+            get { return _associationRepositoryService.Service; }
         }
 
         protected IDefaultInventoryService InventoryService
@@ -155,7 +161,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         public ContentArea CreateRelatedProductsContentArea(EntryContentBase catalogContent, string associationType)
         {
-            IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
+            IEnumerable<Association> associations = AssociationRepository.GetAssociations(catalogContent.ContentLink);
 
             var relatedEntires = associations.Where(p => p.Group.Name.Equals(associationType))
                     .Where(x => x.Target != null && x.Target != ContentReference.EmptyReference)
@@ -200,7 +206,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
         private IEnumerable<TEntryContent> GetRelatedEntries<TEntryContent>(IVariantContainer content)
             where TEntryContent : EntryContentBase
         {
-            var relatedItems = content.GetVariantRelations(LinksRepository).Select(x => x.Target);
+            var relatedItems = content.GetVariantRelations(RelationRepository).Select(x => x.Target);
             return ContentLoader.GetItems(relatedItems, LanguageSelector.AutoDetect()).OfType<TEntryContent>();
         }
 

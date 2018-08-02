@@ -14,10 +14,7 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using EPiServer;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
-using EPiServer.Find;
-using EPiServer.Find.Framework;
 using EPiServer.Framework.Localization;
 using EPiServer.Logging;
 using EPiServer.PlugIn;
@@ -26,7 +23,6 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Catalog.Dto;
 using Mediachase.Commerce.Markets;
-using Mediachase.Commerce.Pricing;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using CsvHelper;
@@ -90,12 +86,9 @@ namespace OxxCommerceStarterKit.Web.Jobs
 			Stopwatch tmr = Stopwatch.StartNew();
 
             
-			var language = LanguageSelector.MasterLanguage();
 			var localizationService = ServiceLocator.Current.GetInstance<LocalizationService>();
 			var marketService = ServiceLocator.Current.GetInstance<IMarketService>();
 			var allMarkets = marketService.GetAllMarkets();
-			var priceService = ServiceLocator.Current.GetInstance<IPriceService>();
-			var linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
 
 
             // TODO: Add support for multiple catalogs. This will pick the first one.
@@ -110,9 +103,7 @@ namespace OxxCommerceStarterKit.Web.Jobs
                 if (market == null || string.Compare(market.DefaultLanguage.TwoLetterISOLanguageName, "en", StringComparison.InvariantCultureIgnoreCase) != 0)
 				{
 					continue;
-				}
-				string language2 = availableLocalization.Name.ToLower();
-				
+				}				
 
 				int allContentsCount = contentLinks.Count();
 				for (var i = 0; i < allContentsCount; i += bulkSize)

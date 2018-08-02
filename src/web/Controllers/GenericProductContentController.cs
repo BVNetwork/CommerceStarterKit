@@ -108,7 +108,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
         private IEnumerable<IProductViewModel<ProductContent>> CreateRelatedProductContentViewModels(CatalogContentBase catalogContent, string associationType)
         {
-            IEnumerable<Association> associations = LinksRepository.GetAssociations(catalogContent.ContentLink);
+            IEnumerable<Association> associations = AssociationRepository.GetAssociations(catalogContent.ContentLink);
 
             IEnumerable<IProductViewModel<ProductContent>> productViewModels =
                 Enumerable.Where(associations, p => p.Group.Name.Equals(associationType) && IsProduct<ProductContent>(p.Target))

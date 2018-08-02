@@ -14,7 +14,6 @@ using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using EPiServer;
-using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Framework;
@@ -26,7 +25,6 @@ using EPiServer.ServiceLocation;
 using Mediachase.Commerce.Catalog;
 using Mediachase.Commerce.Catalog.Dto;
 using Mediachase.Commerce.Markets;
-using Mediachase.Commerce.Pricing;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 
@@ -94,12 +92,9 @@ namespace OxxCommerceStarterKit.Web.Jobs
 			client.Delete<FindProduct>(x => x.MatchType(typeof(FindProduct)));
             
             
-			var language = LanguageSelector.MasterLanguage();
 			var localizationService = ServiceLocator.Current.GetInstance<LocalizationService>();
 			var marketService = ServiceLocator.Current.GetInstance<IMarketService>();
 			var allMarkets = marketService.GetAllMarkets();
-			var priceService = ServiceLocator.Current.GetInstance<IPriceService>();
-			var linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
 
 
             // TODO: Add support for multiple catalogs. This will pick the first one.

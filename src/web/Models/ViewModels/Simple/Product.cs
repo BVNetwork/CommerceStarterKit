@@ -82,7 +82,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels.Simple
 
                     _variants = contentLoader.GetChildren<VariationContent>(_product.ContentLink).
                         Concat(contentLoader.GetItems(
-                            _product.GetVariantRelations(ServiceLocator.Current.GetInstance<ILinksRepository>()).Select(x => x.Target),
+                            _product.GetVariantRelations(ServiceLocator.Current.GetInstance<IRelationRepository>()).Select(x => x.Target),
                             ServiceLocator.Current.GetInstance<LanguageSelector>()).OfType<VariationContent>()).
                         Where(e => e.IsAvailableInCurrentMarket(ServiceLocator.Current.GetInstance<ICurrentMarket>())).
                         Select(v => new ProductVariantViewModel(v));

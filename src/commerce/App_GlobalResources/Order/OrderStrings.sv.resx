@@ -1218,8 +1218,11 @@
   <data name="Items" xml:space="preserve">
     <value>Artiklar</value>
   </data>
-  <data name="Total_Before_Tax_And_Shipping" xml:space="preserve">
-    <value>Totalsumma före moms och leverans</value>
+  <data name="Total_Excluding_Shipping_Includes_Tax" xml:space="preserve">
+    <value>Summa utan frakt (inklusive moms)</value>
+  </data>
+  <data name="Total_Excluding_Shipping_And_Tax" xml:space="preserve">
+    <value>Summa utan frakt och moms</value>
   </data>
   <data name="Inventory_Not_Check" xml:space="preserve">
     <value>Inte tillgänglig</value>
@@ -1281,10 +1284,31 @@
   <data name="LineItem_RemovedDueToUnavailableItem" xml:space="preserve">
     <value>Artikel {0} är inte tillgänglig i butik och har därför tagits bort från din varukorg.</value>
   </data>
+  <data name="LineItem_RemovedDueToInvalidMaxQuantitySetting" xml:space="preserve">
+    <value>Artikel {0} har ingen giltig maximal kvantitet och har därför tagits bort från din varukorg.</value>
+  </data>
   <data name="Shipment_Id" xml:space="preserve">
     <value>Leverans-ID</value>
   </data>
   <data name="GiftItem_RemovedDueToInsufficientQuantityInInventory" xml:space="preserve">
     <value>Gåvan {0} är slutsåld och har därför tagits bort från din varukorg.</value>
+  </data>
+    <data name="Awaiting_exchange" xml:space="preserve">
+    <value>Väntar på utbyte.</value>
+  </data>
+  <data name="Inventory_Insuffient" xml:space="preserve">
+    <value>En eller flera varor har otillräckligt lagersaldo.</value>
+  </data>
+  <data name="Order_Not_Fully_Paid" xml:space="preserve">
+    <value>Beställningen är inte fullt betald.</value>
+  </data>
+  <data name="Shipment_Cannot_Be_Released" xml:space="preserve">
+    <value>Beställningen kan inte släppas för leverans.</value>
+  </data>
+  <data name="Shipping_Address_Not_Set" xml:space="preserve">
+    <value>Leveransadress är inte angiven.</value>
+  </data>
+  <data name="Shipping_Method_Not_Set" xml:space="preserve">
+    <value>Leveransmetod är inte angiven.</value>
   </data>
 </root>

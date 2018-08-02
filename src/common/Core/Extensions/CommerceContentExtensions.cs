@@ -33,7 +33,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
     {
         private static ILogger Log = LogManager.GetLogger();
 
-        public static Injected<ILinksRepository> LinksRepository { get; set; }
+        public static Injected<IRelationRepository> RelationRepository { get; set; }
         public static Injected<IContentLoader> ContentLoader { get; set; }
         public static Injected<ReferenceConverter> ReferenceConverter { get; set; }
 
@@ -48,7 +48,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
         {
             if (content != null)
             {
-                IEnumerable<Relation> parentRelations = LinksRepository.Service.GetRelationsByTarget(content.ContentLink);
+                IEnumerable<Relation> parentRelations = RelationRepository.Service.GetRelationsByTarget(content.ContentLink);
                 if (parentRelations.Any())
                 {
                     Relation firstRelation = parentRelations.FirstOrDefault();
@@ -76,7 +76,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
 
         public static VariationContent GetFirstVariation(this ProductContent product)
         {
-            var variationRelations = LinksRepository.Service.GetRelationsBySource<ProductVariation>(product.ContentLink).FirstOrDefault();
+            var variationRelations = RelationRepository.Service.GetRelationsBySource<ProductVariation>(product.ContentLink).FirstOrDefault();
 
             if (variationRelations != null)
             {
@@ -89,11 +89,11 @@ namespace OxxCommerceStarterKit.Core.Extensions
 
         public static IEnumerable<VariationContent> GetVaritions(this ProductContent product)
         {
-            var linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
+            var relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
             CultureInfo cultureInfo = product.Language;
 
-            IEnumerable<Relation> relationsBySource = linksRepository.GetRelationsBySource(product.ContentLink).OfType<ProductVariation>();
+            IEnumerable<Relation> relationsBySource = relationRepository.GetRelationsBySource(product.ContentLink).OfType<ProductVariation>();
             IEnumerable<VariationContent> productVariants = relationsBySource.Select(x => contentLoader.Get<VariationContent>(x.Target, new LanguageSelector(cultureInfo.Name)));
             return productVariants;
         }
@@ -202,7 +202,7 @@ namespace OxxCommerceStarterKit.Core.Extensions
         public static List<CatalogContentBase> GetProductCategories(this CatalogContentBase productContent, string language)
         {
 
-            var allRelations = LinksRepository.Service.GetRelationsBySource(productContent.ContentLink);
+            var allRelations = RelationRepository.Service.GetRelationsBySource(productContent.ContentLink);
             var categories = allRelations.OfType<NodeRelation>().ToList();
             List<CatalogContentBase> parentCategories = new List<CatalogContentBase>();
             try

@@ -119,11 +119,11 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
 
         public List<VariationContent> GetVariants(ProductContent product)
         {
-            var linksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
+            var relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
             var contentLoader = ServiceLocator.Current.GetInstance<IContentLoader>();
             CultureInfo cultureInfo = product.Language;
 
-            IEnumerable<Relation> relationsBySource = linksRepository.GetRelationsBySource(product.ContentLink).OfType<ProductVariation>();
+            IEnumerable<Relation> relationsBySource = relationRepository.GetRelationsBySource(product.ContentLink).OfType<ProductVariation>();
             List<VariationContent> productVariants = relationsBySource.Select(x => contentLoader.Get<VariationContent>(x.Target, new LanguageSelector(cultureInfo.Name))).ToList();
             return productVariants;
         }
