@@ -85,7 +85,7 @@ namespace OxxCommerceStarterKit.Web.Services
         public async Task<string> SubscribeOrRemove(string email, object values)
         {
 
-            var subscribe = PropertyHasValue("interests", values);
+            var subscribe = PropertyHasValue("marketingchannel", values);
 
             if (IsRecipientExisting(_recipientListId, email) && !subscribe)
             {
@@ -155,7 +155,7 @@ namespace OxxCommerceStarterKit.Web.Services
  
             if (exists)
             {
-                    var getAttributesRequest = new getAttributesRequest(sessionId, _recipientListId, email, new[] { "interests" });
+                    var getAttributesRequest = new getAttributesRequest(sessionId, _recipientListId, email, new[] { "marketingchannel" });
                     
                     var recipient = client.getAttributes(getAttributesRequest);
  
