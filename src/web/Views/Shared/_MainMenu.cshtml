@@ -132,9 +132,9 @@
     }
     else
     {
-        var LinksRepository = ServiceLocator.Current.GetInstance<ILinksRepository>();
+        var relationRepository = ServiceLocator.Current.GetInstance<IRelationRepository>();
 
-        var relationsBySource = LinksRepository.GetRelationsBySource(entry.ContentLink)
+        var relationsBySource = relationRepository.GetRelationsBySource(entry.ContentLink)
             .OfType<ProductVariation>();
 
         variation = contentLoader.GetItems(
