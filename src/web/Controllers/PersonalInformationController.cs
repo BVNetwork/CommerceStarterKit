@@ -62,7 +62,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
             var options = GetSelectedNewsletterOptions(personalSettingsForm);
             var values = new 
             {
-                interests = options,
+                marketingchannel = options,
                 firstname = personalSettingsForm.ContactInformation.FirstName, 
                 lastname = personalSettingsForm.ContactInformation.LastName, 
                 street = personalSettingsForm.BillingAddress.StreetAddress, 

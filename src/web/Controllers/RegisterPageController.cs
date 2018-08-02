@@ -218,7 +218,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 
 	            var values = new 
 	            {
-	                interests = options,
+	                marketingchannel = options,
 	                firstname = registerForm.FirstName, 
 	                lastname = registerForm.LastName,
 	                mobile = "0047" + registerForm.Phone
