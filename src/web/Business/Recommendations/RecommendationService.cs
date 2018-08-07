@@ -10,7 +10,6 @@ using EPiServer.ServiceLocation;
 using EPiServer.Tracking.Commerce;
 using EPiServer.Tracking.Commerce.Data;
 using EPiServer.Tracking.Core;
-using Mediachase.Commerce.Catalog;
 using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.EditorDescriptors;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
@@ -22,16 +21,14 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
     {
         private readonly TrackingDataFactory _trackingDataFactory;
         private readonly ITrackingService _trackingService;
-        private readonly ReferenceConverter _referenceConverter;
 
         private readonly HomePage _homePage;
         private readonly RecommendationsMode _mode;
 
-        public RecommendationService(TrackingDataFactory trackingDataFactory, ITrackingService trackingService, ReferenceConverter referenceConverter, IContentLoader contentLoader)
+        public RecommendationService(TrackingDataFactory trackingDataFactory, ITrackingService trackingService, IContentLoader contentLoader)
         {
             _trackingDataFactory = trackingDataFactory;
             _trackingService = trackingService;
-            _referenceConverter = referenceConverter;
 
             _homePage = contentLoader.Get<HomePage>(ContentReference.StartPage);
             _mode = _homePage.Settings.RecommendationsMode.ToEnum(RecommendationsMode.Disabled);
@@ -89,9 +86,9 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
 
             if (result.SmartRecs != null)
             {
-                foreach (var recommendation in result.SmartRecs)
+                foreach (var recommendation in result.GetRecommendationGroups())
                 {
-                    returnValue.Add(recommendation.Widget, recommendation.Recs.Select(x => new Recommendation(x.Id, _referenceConverter.GetContentLink(x.RefCode))));
+                    returnValue.Add(recommendation.Area, recommendation.Recommendations);
                 }
             }
 
