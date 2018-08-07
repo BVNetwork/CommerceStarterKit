@@ -523,7 +523,6 @@
     <Content Include="modules\_protected\EPiServer.ConnectForCampaign\EPiServer.ConnectForCampaign.zip" />
     <Content Include="modules\_protected\EPiServer.ConnectForCampaign\Campaign.config" />
     <Content Include="modules\_protected\SiteAttentionModule\module.config" />
-    <Content Include="modules\_protected\EPiServer.Insight.UI\module.config" />
     <Content Include="modules\_protected\EPiServer.Commerce.Shell\EPiServer.Commerce.Shell.zip" />
     <Content Include="modules\_protected\Commerce\Commerce.zip" />
     <Content Include="modules\_protected\EPiServer.Commerce.UI.CustomerService\EPiServer.Commerce.UI.CustomerService.zip" />
@@ -547,6 +546,7 @@
     <Content Include="modules\_protected\EPiServer.XForms\web.config" />
     <Content Include="modules\_protected\EPiServer.XForms\EPiServer.XForms.zip" />
     <Content Include="modules\_protected\BVNetwork.404Handler\BVNetwork.404Handler.zip" />
+    <Content Include="modules\_protected\EPiServer.Insight.UI\module.config" />
     <None Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.js" />
     <Content Include="Plugins\CommerceTools\static\scripts\jquery-1.9.0.min.js" />
@@ -1146,8 +1146,8 @@
     <Reference Include="EPiServer.Insight.Cms, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Insight.Cms.1.5.0\lib\net461\EPiServer.Insight.Cms.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Insight.UI, Version=1.1.1.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Insight.UI.1.4.0\lib\net461\EPiServer.Insight.UI.dll</HintPath>
+    <Reference Include="EPiServer.Insight.UI, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Insight.UI.1.5.0\lib\net461\EPiServer.Insight.UI.dll</HintPath>
     </Reference>
     <Reference Include="Episerver.Labs.Cognitive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Episerver.Labs.Cognitive.0.12.0\lib\Episerver.Labs.Cognitive.dll</HintPath>
@@ -1203,8 +1203,8 @@
     <Reference Include="EPiServer.Personalization.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Personalization.Common.1.1.0\lib\net461\EPiServer.Personalization.Common.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Profiles.Client, Version=1.4.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Profiles.Client.1.4.0\lib\net461\EPiServer.Profiles.Client.dll</HintPath>
+    <Reference Include="EPiServer.Profiles.Client, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Profiles.Client.1.5.0\lib\net461\EPiServer.Profiles.Client.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Profiles.Client.Common, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Profiles.Client.Common.1.5.0\lib\net461\EPiServer.Profiles.Client.Common.dll</HintPath>
@@ -1235,6 +1235,9 @@
     </Reference>
     <Reference Include="EPiServer.Tracking.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Tracking.Core.1.5.0\lib\net461\EPiServer.Tracking.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EPiServer.Tracking.PageView, Version=1.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Tracking.PageView.1.1.0\lib\EPiServer.Tracking.PageView.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.UI, Version=11.5.4.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.UI.Core.11.5.4\lib\net461\EPiServer.UI.dll</HintPath>
