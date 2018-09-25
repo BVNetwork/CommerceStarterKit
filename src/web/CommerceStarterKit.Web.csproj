@@ -57,9 +57,11 @@
   <ItemGroup>
     <Compile Include="Api\CampaignController.cs" />
     <Compile Include="Api\ProductInfoController.cs" />
+    <Compile Include="Business\Initialization\FormsEventsInitialization.cs" />
     <Compile Include="Business\Initialization\ApiRouteInitialization.cs" />
+    <Compile Include="Business\CustomKpi\Kpi.cs" />
     <Compile Include="Business\Recommendations\CustomUserDataService.cs" />
-    <Compile Include="Business\Recommendations\MyEventSender.cs" />
+    <Compile Include="Business\CustomTracking\MyEventTracker.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\ButtonColorSelectionFactory.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\RecommendationsModeSelectionFactory.cs" />
     <Compile Include="Jobs\CreateCampaignProductsCsvFile.cs" />

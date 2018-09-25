@@ -24,7 +24,6 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class HomePageController : PageControllerBase<HomePage>
     {
 
-        [PageViewTracking]
         public ViewResult Index(HomePage currentPage)
         {
             var virtualPath = String.Format("~/Views/{0}/Index.cshtml", currentPage.GetOriginalType().Name);
