@@ -9,6 +9,7 @@ Copyright (C) 2013-2014 BV Network AS
 */
 
 using System.Web.Mvc;
+using EPiServer.Tracking.PageView;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -17,6 +18,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 {
     public class SearchPageController : PageController<SearchPage>
     {
+        [PageViewTracking]
         public ActionResult Index(SearchPage currentPage, string q)
         {
             var model = new SearchPageViewModel(currentPage);

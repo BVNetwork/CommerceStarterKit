@@ -13,7 +13,7 @@ using EPiServer;
 using EPiServer.Core;
 using EPiServer.Filters;
 using EPiServer.Framework.DataAnnotations;
-using OxxCommerceStarterKit.Web.Business.Recommendations;
+using EPiServer.Tracking.PageView;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 
@@ -24,18 +24,14 @@ namespace OxxCommerceStarterKit.Web.Controllers
     {
 		private readonly IContentLoader _contentLoader;
 
-        private readonly MyEventSender _myEventSender;
-
-        public DefaultPageController(IContentLoader contentLoader, MyEventSender myEventSender )
+        public DefaultPageController(IContentLoader contentLoader)
         {            
 			_contentLoader = contentLoader;
-            _myEventSender = myEventSender;
         }
 
+        [PageViewTracking]
         public ViewResult Index(PageData currentPage)
         {
-            _myEventSender.Track();
-
             var viewPath = GetViewForPageType(currentPage);
 
             var model = CreatePageViewModel(currentPage);

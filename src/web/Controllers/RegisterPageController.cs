@@ -19,6 +19,7 @@ using EPiServer.Core;
 using EPiServer.Editor;
 using EPiServer.Framework.Localization;
 using EPiServer.ServiceLocation;
+using EPiServer.Tracking.PageView;
 using EPiServer.Web.Routing;
 using Mediachase.BusinessFoundation.Data;
 using Mediachase.Commerce.Core;
@@ -50,6 +51,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 		    _recipientService = recipientService;
 		}
 
+	    [PageViewTracking]
 		public ActionResult Index(RegisterPage currentPage)
 		{
 			RegisterPageViewModel model = new RegisterPageViewModel(currentPage);

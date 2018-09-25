@@ -17,6 +17,7 @@ using EPiServer.Filters;
 using EPiServer.Framework.DataAnnotations;
 using EPiServer.GoogleAnalytics.Helpers;
 using EPiServer.Security;
+using EPiServer.Tracking.PageView;
 using EPiServer.Web.Mvc;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Web.Business.Analytics;
@@ -35,6 +36,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 			_contentLoader = contentLoader;		    
         }
 
+        [PageViewTracking]
         public ViewResult Index(PageData currentPage)
         {
             var viewPath = GetViewForPageType(currentPage);

@@ -12,6 +12,7 @@ using System;
 using System.Web.Mvc;
 using EPiServer;
 using EPiServer.Framework.DataAnnotations;
+using EPiServer.Tracking.PageView;
 using EPiServer.Web.Mvc;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
@@ -23,6 +24,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
     public class HomePageController : PageControllerBase<HomePage>
     {
 
+        [PageViewTracking]
         public ViewResult Index(HomePage currentPage)
         {
             var virtualPath = String.Format("~/Views/{0}/Index.cshtml", currentPage.GetOriginalType().Name);

@@ -9,10 +9,12 @@ using System.Web.Http;
 using System.Xml;
 using EPiServer;
 using EPiServer.Commerce.Catalog.ContentTypes;
+using EPiServer.Configuration;
 using EPiServer.Core;
 using EPiServer.Find;
 using EPiServer.Find.Cms;
 using EPiServer.Find.Framework;
+using EPiServer.Web;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.PageTypes;
 
@@ -90,6 +92,13 @@ namespace OxxCommerceStarterKit.Web.Api
 
         private static string CreateXml(ProjectedProduct product)
         {
+            var siteUrl = SiteDefinition.Current.SiteUrl.ToString();
+
+            if(siteUrl.EndsWith("/"))
+            {
+                siteUrl = siteUrl.Substring(0, siteUrl.Length - 2);
+            }
+
             XmlDocument doc = new XmlDocument();
 
             XmlNode docNode = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
@@ -114,9 +123,11 @@ namespace OxxCommerceStarterKit.Web.Api
                 AddProperty(doc, "text5", product.DefaultPrice, elementNode);
             }
 
-            AddProperty(doc, "link1Url", product.ProductUrl, elementNode);
+            AddProperty(doc, "link1Url", siteUrl + product.ProductUrl, elementNode);
             AddProperty(doc, "link1Text", "Read more", elementNode);
-            AddProperty(doc, "image1ImageUrl", product.DefaultImageUrl, elementNode);
+            AddProperty(doc, "image1ImageUrl", siteUrl + product.DefaultImageUrl, elementNode);
+            AddProperty(doc, "image1Link", siteUrl + product.ProductUrl, elementNode);
+            AddProperty(doc, "image1AltText", product.Name, elementNode);
 
             return XmlToString(doc);
         }

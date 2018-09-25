@@ -9,6 +9,7 @@ Copyright (C) 2013-2014 BV Network AS
 */
 
 using System.Web.Mvc;
+using EPiServer.Tracking.PageView;
 using OxxCommerceStarterKit.Core.Objects;
 using OxxCommerceStarterKit.Core.Repositories;
 using OxxCommerceStarterKit.Web.Business;
@@ -29,6 +30,7 @@ namespace OxxCommerceStarterKit.Web.Controllers
 	    } 
 
 		[RequireSSL]
+		[PageViewTracking]
 		public ActionResult Index(PersonalInformationPage currentPage)
 		{
 			PersonalInformationViewModel model = new PersonalInformationViewModel(currentPage);
