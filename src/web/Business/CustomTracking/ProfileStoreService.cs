@@ -71,19 +71,19 @@ namespace OxxCommerceStarterKit.Web.Business.CustomTracking
         private static void UpdateOriginalPayload(IEnumerable<string> categories, ref Dictionary<string, object> originalPayload)
         {
 
-            if (originalPayload.ContainsKey("ProductsCategories"))
+            if (originalPayload.ContainsKey("ProductCategories"))
             {
-                var list = JsonConvert.DeserializeObject<List<string>>(originalPayload["ProductsCategories"].ToString());
+                var list = JsonConvert.DeserializeObject<List<string>>(originalPayload["ProductCategories"].ToString());
 
                 if (list != null)
                 {
                     list.AddRange(categories);
-                    originalPayload["ProductsCategories"] = list.Distinct();
+                    originalPayload["ProductCategories"] = list.Distinct();
                 }
             }
             else
             {
-                originalPayload["ProductsCategories"] = categories.Distinct();
+                originalPayload["ProductCategories"] = categories.Distinct();
             }
 
 
