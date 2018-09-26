@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
   <Import Project="..\..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\..\packages\Microsoft.Net.Compilers.2.4.0\build\Microsoft.Net.Compilers.props')" />
@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Api\CampaignController.cs" />
     <Compile Include="Api\ProductInfoController.cs" />
+    <Compile Include="Business\CustomTracking\ProfileStoreService.cs" />
     <Compile Include="Business\Initialization\FormsEventsInitialization.cs" />
     <Compile Include="Business\Initialization\ApiRouteInitialization.cs" />
     <Compile Include="Business\Recommendations\CustomUserDataService.cs" />
