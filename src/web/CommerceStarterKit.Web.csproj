@@ -1145,11 +1145,11 @@
     <Reference Include="EPiServer.ImageLibrary, Version=11.9.2.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.CMS.AspNet.11.9.2\lib\net461\EPiServer.ImageLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Insight.Cms, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Insight.Cms.1.5.0\lib\net461\EPiServer.Insight.Cms.dll</HintPath>
+    <Reference Include="EPiServer.Insight.Cms, Version=1.6.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Insight.Cms.1.6.0\lib\net461\EPiServer.Insight.Cms.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Insight.UI, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Insight.UI.1.5.0\lib\net461\EPiServer.Insight.UI.dll</HintPath>
+    <Reference Include="EPiServer.Insight.UI, Version=1.6.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Insight.UI.1.6.0\lib\net461\EPiServer.Insight.UI.dll</HintPath>
     </Reference>
     <Reference Include="Episerver.Labs.Cognitive, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Episerver.Labs.Cognitive.0.12.0\lib\Episerver.Labs.Cognitive.dll</HintPath>
@@ -1205,11 +1205,11 @@
     <Reference Include="EPiServer.Personalization.Common, Version=1.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Personalization.Common.1.1.0\lib\net461\EPiServer.Personalization.Common.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Profiles.Client, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Profiles.Client.1.5.0\lib\net461\EPiServer.Profiles.Client.dll</HintPath>
+    <Reference Include="EPiServer.Profiles.Client, Version=1.6.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Profiles.Client.1.6.0\lib\net461\EPiServer.Profiles.Client.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Profiles.Client.Common, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Profiles.Client.Common.1.5.0\lib\net461\EPiServer.Profiles.Client.Common.dll</HintPath>
+    <Reference Include="EPiServer.Profiles.Client.Common, Version=1.6.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Profiles.Client.Common.1.6.0\lib\net461\EPiServer.Profiles.Client.Common.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.ServiceLocation.StructureMap, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.ServiceLocation.StructureMap.2.0.1\lib\net461\EPiServer.ServiceLocation.StructureMap.dll</HintPath>
@@ -1235,8 +1235,8 @@
     <Reference Include="EPiServer.Tracking.Commerce, Version=1.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Tracking.Commerce.1.1.0\lib\net461\EPiServer.Tracking.Commerce.dll</HintPath>
     </Reference>
-    <Reference Include="EPiServer.Tracking.Core, Version=1.5.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\EPiServer.Tracking.Core.1.5.0\lib\net461\EPiServer.Tracking.Core.dll</HintPath>
+    <Reference Include="EPiServer.Tracking.Core, Version=1.6.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\EPiServer.Tracking.Core.1.6.0\lib\net461\EPiServer.Tracking.Core.dll</HintPath>
     </Reference>
     <Reference Include="EPiServer.Tracking.PageView, Version=1.1.0.0, Culture=neutral, PublicKeyToken=8fe83dea738b45b7, processorArchitecture=MSIL">
       <HintPath>..\..\packages\EPiServer.Tracking.PageView.1.1.0\lib\EPiServer.Tracking.PageView.dll</HintPath>
@@ -1265,6 +1265,9 @@
     </Reference>
     <Reference Include="ImageResizer.Plugins.TinyCache, Version=4.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ImageResizer.Plugins.TinyCache.4.2.0\lib\net45\ImageResizer.Plugins.TinyCache.dll</HintPath>
+    </Reference>
+    <Reference Include="InsightFormFieldMapper, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\InsightFormFieldMapper.1.1.0\lib\net45\InsightFormFieldMapper.dll</HintPath>
     </Reference>
     <Reference Include="JOS.ContentSerializer, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\JOS.ContentSerializer.3.0.0\lib\net461\JOS.ContentSerializer.dll</HintPath>
@@ -1372,9 +1375,8 @@
     <Reference Include="protobuf-net, Version=2.3.4.0, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\..\packages\protobuf-net.2.3.4\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\RestSharp.105.2.3\lib\net46\RestSharp.dll</HintPath>
-      <Private>True</Private>
+    <Reference Include="RestSharp, Version=106.2.2.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\RestSharp.106.2.2\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SiteAttentionModule, Version=3.2.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SiteAttentionModule.3.2.1.0\lib\net461\SiteAttentionModule.dll</HintPath>

@@ -21,8 +21,8 @@ namespace OxxCommerceStarterKit.Web.Business.CustomTracking
     {
         private readonly HttpClient _client = new HttpClient();
 
-        private readonly string _apiBaseUrl =  ConfigurationManager.AppSettings["ProfileStore.Url"];
-        private readonly string _subscriptionKey = ConfigurationManager.AppSettings["ProfileStore.SubscriptionKey"];
+        private readonly string _apiBaseUrl =  ConfigurationManager.AppSettings["profileStore.RootApiUrl"];
+        private readonly string _subscriptionKey = ConfigurationManager.AppSettings["profileStore.SubscriptionKey"];
         private readonly string getProfilesUrl = "api/v1.0/Profiles";
 
 
