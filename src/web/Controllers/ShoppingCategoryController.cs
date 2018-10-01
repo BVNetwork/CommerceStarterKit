@@ -89,7 +89,10 @@ namespace OxxCommerceStarterKit.Web.Controllers
                 if (node != null)
                 {
                     var result = _recommendationService.GetRecommendationsForCategoryPage(node, HttpContext, currentPage);
-                    model.Recommendations = CreateProductListViewModels(result,  3);
+                    if (result != null)
+                    {
+                      model.Recommendations = CreateProductListViewModels(result,  3);  
+                    }
                 }
             }
 

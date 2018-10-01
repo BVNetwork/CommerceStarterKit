@@ -19,7 +19,7 @@ namespace OxxCommerceStarterKit.Web.Models.ViewModels
         public ShoppingCategoryViewModel(ShoppingCategoryPage currentPage)
             : base(currentPage)
         {
-            
+            Recommendations = new List<ProductListViewModel>();
         }
         public string CommerceRootCategoryName { get; set; }
         public string CommerceCategoryIds { get; set; }
