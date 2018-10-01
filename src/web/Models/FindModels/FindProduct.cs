@@ -147,5 +147,7 @@ namespace OxxCommerceStarterKit.Web.Models.FindModels
         public double AverageRating { get; set; }
 
         public double Score { get; set; }
+
+        public string DescriptionString { get; set; }
     }
 }

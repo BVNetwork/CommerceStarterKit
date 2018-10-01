@@ -1,22 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using EPiServer.Commerce.Catalog.ContentTypes;
 using EPiServer.Commerce.Catalog.DataAnnotations;
 using EPiServer.Commerce.Catalog.Linking;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
+using EPiServer.Security;
 using EPiServer.ServiceLocation;
 using EPiServer.Shell.ObjectEditing;
-using EPiServer.Web.Routing;
-using Mediachase.Commerce;
 using Mediachase.Commerce.Customers;
-using OxxCommerceStarterKit.Core.Extensions;
-using OxxCommerceStarterKit.Core.Models;
 using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
 using OxxCommerceStarterKit.Web.Extensions;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
@@ -78,6 +73,8 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
             var findProduct = new FindProduct(this,language);
             findProduct.Color = Color != null ? new List<string>() { Color } : new List<string>();
             findProduct.Description = Description;
+            if(Description != null)
+                findProduct.DescriptionString = Description.ToHtmlString(PrincipalInfo.AnonymousPrincipal);
             findProduct.Overview = Overview;
 
             findProduct.SetPriceData(this, market);

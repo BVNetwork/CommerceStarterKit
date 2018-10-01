@@ -3,20 +3,14 @@ using EPiServer.Commerce.Catalog.DataAnnotations;
 using EPiServer.Core;
 using EPiServer.DataAbstraction;
 using EPiServer.DataAnnotations;
-using EPiServer.ServiceLocation;
-using EPiServer.Web.Routing;
-using OxxCommerceStarterKit.Core.Extensions;
 using OxxCommerceStarterKit.Web.Models.Blocks.Contracts;
 using OxxCommerceStarterKit.Web.Models.FindModels;
 using OxxCommerceStarterKit.Web.Models.ViewModels;
 using System;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using EPiServer.Commerce.Marketing;
+using EPiServer.Security;
 using EPiServer.Shell.ObjectEditing;
 using Mediachase.Commerce.Customers;
-using OxxCommerceStarterKit.Core.Models;
-using OxxCommerceStarterKit.Web.Business.Rendering;
 using OxxCommerceStarterKit.Web.EditorDescriptors.SelectionFactories;
 using OxxCommerceStarterKit.Web.Extensions;
 
@@ -112,6 +106,8 @@ namespace OxxCommerceStarterKit.Web.Models.Catalog
             var findProduct = new FindProduct(this, language);
 
             findProduct.Description = Description;
+            if(Description != null)
+                findProduct.DescriptionString = Description.ToHtmlString(PrincipalInfo.AnonymousPrincipal);
             findProduct.Overview = Overview;
 
             findProduct.SetPriceData(this, market);
