@@ -5,9 +5,9 @@
     <episerver>
       <forms>
         <externalsystems>
-          <episerver.marketing.automation.forms.implementation.mappings.masystemdatabases>
+          <episerver.marketing.connector.forms.marketingconnectormapping>
             <displayname>MA System Database</displayname>
-          </episerver.marketing.automation.forms.implementation.mappings.masystemdatabases>
+          </episerver.marketing.connector.forms.marketingconnectormapping>
         </externalsystems>
       </forms>
     </episerver>

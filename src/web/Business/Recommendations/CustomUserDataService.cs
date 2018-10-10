@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
-using EPiServer.ConnectForCampaign.Core.Implementation;
+using EPiServer.Forms.Core.Internal.VisitorIdentify;
 using EPiServer.Framework;
 using EPiServer.Tracking.Commerce;
 using Mediachase.Commerce.Customers;
