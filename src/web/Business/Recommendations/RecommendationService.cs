@@ -87,16 +87,19 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
                 var product = GetProduct(item.RefCode);
                 if (product != null)
                 {
-                    newItem.Categories = new List<string>();
+                    //newItem.Variant = new CustomItemVariant();
+                    //newItem.Variant.Attributes = new CustomAttributes();
+                    //newItem.Variant.Attributes.Colour = "blue";
+                    //newItem.Variant.Attributes.Size = "onesize";
+                    //newItem.Variant.Attributes.Segments = "";
                     foreach (var category in product.ParentCategoryName)
                     {
                         var name = category.Replace(" ", "");
                         var brand = product.Brand?.Replace(" ", "");
-                        newItem.Categories.Add(name);
-                        newItem.Categories.Add(name + "&amp;" + brand);
-                    }
-
-                    categories.AddRange(newItem.Categories);
+                      //  newItem.Variant.Attributes.Segments += name + "|" + name + "&amp;" + brand + "|";
+                        categories.Add(name);
+                        categories.Add(name + "&amp;" + brand);
+                    }                       
                 }
 
                 items.Add(newItem);                
@@ -166,11 +169,25 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
 
     public class CustomCartItemData : CartItemData
     {
-        public List<string> Categories { get; set; }
+        public CustomItemVariant Variant { get; set; }
 
         public CustomCartItemData(string refCode, string variantCode, int quantity, Decimal price) : base(refCode,
             variantCode, quantity, price)
         {
         }
+    }
+
+    public class CustomItemVariant
+    {
+        public CustomAttributes Attributes { get; set; }
+    }
+
+    public class CustomAttributes
+    {
+        public string Colour { get; set; }
+
+        public string Size { get; set; }
+
+        public string Segments { get; set; }
     }
 }
