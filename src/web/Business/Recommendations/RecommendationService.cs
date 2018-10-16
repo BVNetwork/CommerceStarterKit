@@ -138,7 +138,7 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
             if (_mode == RecommendationsMode.Disabled || DoNotTrack(context))
                 return returnValue;
 
-            var result = _trackingService.Track(trackingData, context, content, "scope1");
+            var result = _trackingService.Track(trackingData, context, content);
 
             if (result == null ||
                 _mode == RecommendationsMode.TrackingOnly && context.Request.QueryString["showrecs"] == null)
