@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Api\CampaignController.cs" />
     <Compile Include="Api\ProductInfoController.cs" />
+    <Compile Include="Business\CustomOptinProcessServive.cs" />
     <Compile Include="Business\CustomTracking\ProfileStoreService.cs" />
     <Compile Include="Business\Initialization\FormsEventsInitialization.cs" />
     <Compile Include="Business\Initialization\ApiRouteInitialization.cs" />

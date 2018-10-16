@@ -10,6 +10,7 @@ Copyright (C) 2013-2014 BV Network AS
 
 using System.Web.Mvc;
 using EPiServer.Cms.Shell;
+using EPiServer.ConnectForCampaign.Services.Implementation;
 using EPiServer.Framework;
 using EPiServer.Framework.Initialization;
 using EPiServer.ServiceLocation;
@@ -47,6 +48,7 @@ namespace OxxCommerceStarterKit.Web.Business.Initialization
             container.For<IRecommendationContext>().Use<RecommendationContext>();
             container.For<IUserDataService>().Use<CustomUserDataService>();
             container.For<IEspService>().Use<CampaignEspService>();
+            container.For<IOptinProcessService>().Use<CustomOptinProcessServive>();
         }
 
         public void Initialize(InitializationEngine context)
