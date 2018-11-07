@@ -1,14 +1,11 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
 using Episerver.Marketing.Common.Helpers;
 using Episerver.Marketing.Connector.Framework;
-using EPiServer.Forms.Core.Internal.VisitorIdentify;
 using EPiServer.Framework;
-using EPiServer.ServiceLocation;
 using EPiServer.Tracking.Commerce;
 using Mediachase.Commerce.Customers;
 using OxxCommerceStarterKit.Web.Helpers;
