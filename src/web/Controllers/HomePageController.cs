@@ -19,7 +19,7 @@ using OxxCommerceStarterKit.Web.Models.ViewModels;
 
 namespace OxxCommerceStarterKit.Web.Controllers
 {
-    [SessionState(System.Web.SessionState.SessionStateBehavior.Disabled)]
+
     [TemplateDescriptor]
     public class HomePageController : PageControllerBase<HomePage>
     {
