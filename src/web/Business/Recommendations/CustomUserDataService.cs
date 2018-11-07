@@ -1,22 +1,27 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
+using Episerver.Marketing.Common.Helpers;
+using Episerver.Marketing.Connector.Framework;
 using EPiServer.Forms.Core.Internal.VisitorIdentify;
 using EPiServer.Framework;
+using EPiServer.ServiceLocation;
 using EPiServer.Tracking.Commerce;
 using Mediachase.Commerce.Customers;
+using OxxCommerceStarterKit.Web.Helpers;
 
 namespace OxxCommerceStarterKit.Web.Business.Recommendations
 {
     public class CustomUserDataService : IUserDataService
     {
-        private readonly IVisitorIdentifyProvider _visitorIdentifyProvider;
+        private readonly IMarketingConnectorManager _marketingConnectorManager;
 
-        public CustomUserDataService(IVisitorIdentifyProvider visitorIdentifyProvider)
+        public CustomUserDataService(IMarketingConnectorManager marketingConnectorManager)
         {
-            _visitorIdentifyProvider = visitorIdentifyProvider;
+            _marketingConnectorManager = marketingConnectorManager;
         }
 
         private static string EnsureEmailAddress(string userNameOrEmail, string hostName)
@@ -152,11 +157,51 @@ namespace OxxCommerceStarterKit.Web.Business.Recommendations
                 }
                 str = EnsureEmailAddress(name, host);
             }
-            
-            if(string.IsNullOrWhiteSpace(str))
-                str = _visitorIdentifyProvider.GetVisitorIdentifier();
+
+            if (string.IsNullOrWhiteSpace(str))
+            {                    
+                var cookieHelper = new CookieHelper();
+
+                foreach (var connector in Caching.GetObjectFromCache("ConnectorDataSources", 5, () => GetConnectorDataSources().ToList()))
+                {
+                    var trackingCookie = cookieHelper.GetTrackingCookie(connector.ConnectorId, connector.ConnectorInstanceId);
+                    
+                    var data = trackingCookie.FirstOrDefault(cd => cd.DatasourceId == connector.DataSourceId);
+                    if (data != null)
+                    {
+                        return data.EntityId;
+                    }
+                }                
+            }
 
             return str;
+        }
+
+        class ConnectorDataSource
+        {
+            public string ConnectorId { get; set; }
+            public string ConnectorInstanceId { get; set; }
+            public string DataSourceId { get; set; }
+        }
+
+        private IEnumerable<ConnectorDataSource> GetConnectorDataSources()
+        {
+
+            foreach (var connector in _marketingConnectorManager.GetActiveConnectors())
+            {
+                if (connector.Name == "EPiServer Campaign")
+                {
+                    foreach (var dataSource in connector.GetDataSources())
+                    {
+                        yield return new ConnectorDataSource
+                        {
+                            ConnectorId = connector.Id.ToString(),
+                            ConnectorInstanceId = connector.InstanceId.ToString(),
+                            DataSourceId = dataSource.Id.ToString()
+                        };
+                    }
+                }
+            }
         }
 
         /// <summary>

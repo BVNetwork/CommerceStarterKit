@@ -65,6 +65,7 @@
     <Compile Include="Business\CustomTracking\MyEventTracker.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\ButtonColorSelectionFactory.cs" />
     <Compile Include="EditorDescriptors\SelectionFactories\RecommendationsModeSelectionFactory.cs" />
+    <Compile Include="Helpers\Caching.cs" />
     <Compile Include="Jobs\CreateCampaignProductsCsvFile.cs" />
     <Compile Include="Services\CampaignEspService.cs" />
     <Compile Include="Business\ClientResources\ZopimChatClientResourceRegister.cs" />
